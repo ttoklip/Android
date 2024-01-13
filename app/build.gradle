@@ -33,11 +33,11 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
-    dataBinding{
+    dataBinding {
         enabled = true
     }
-    viewBinding{
-        enabled =true
+    viewBinding {
+        enabled = true
     }
 }
 
@@ -88,6 +88,8 @@ dependencies {
     implementation "com.google.dagger:hilt-android:2.47"
     kapt "com.google.dagger:hilt-compiler:2.47"
 
+    // circleimageview
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }
 kapt {
     correctErrorTypes true
