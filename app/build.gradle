@@ -33,11 +33,11 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
-    dataBinding{
+    dataBinding {
         enabled = true
     }
-    viewBinding{
-        enabled =true
+    viewBinding {
+        enabled = true
     }
 }
 
@@ -90,6 +90,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:2.47"
     kapt "com.google.dagger:hilt-compiler:2.47"
 
+
     //indicator : https://github.com/tommybuonomo/dotsindicator?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=7127
     implementation "com.tbuonomo:dotsindicator:5.0"
 
@@ -97,8 +98,8 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
 
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.5'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.7.5'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.6'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.7.6'
 }
 kapt {
     correctErrorTypes true
