@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace 'com.umc.ttoklip'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.umc.ttoklip"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -88,6 +88,15 @@ dependencies {
     implementation "com.google.dagger:hilt-android:2.47"
     kapt "com.google.dagger:hilt-compiler:2.47"
 
+    //indicator : https://github.com/tommybuonomo/dotsindicator?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=7127
+    implementation "com.tbuonomo:dotsindicator:5.0"
+
+    //circleViwe: https://github.com/hdodenhof/CircleImageView
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.5'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.7.5'
 }
 kapt {
     correctErrorTypes true
