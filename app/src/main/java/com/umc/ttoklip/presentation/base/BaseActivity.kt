@@ -6,9 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 
-abstract class BaseActivity<V: ViewDataBinding>(@LayoutRes val layoutResource :Int): AppCompatActivity() {
+abstract class BaseActivity<V : ViewDataBinding>(@LayoutRes val layoutResource: Int) :
+    AppCompatActivity() {
 
     private var _binding: V? = null
+    abstract fun initView()
+    protected abstract fun initObserver()
     protected val binding: V get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,6 +19,8 @@ abstract class BaseActivity<V: ViewDataBinding>(@LayoutRes val layoutResource :I
         _binding = DataBindingUtil.setContentView(this, layoutResource)
         binding.lifecycleOwner = this
         setContentView(binding.root)
+        initView()
+        initObserver()
     }
 
 }
