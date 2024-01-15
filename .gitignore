@@ -14,4 +14,4 @@ captures
 .cxx
 local.properties
 .idea
-strings.xml
+constant.xml
