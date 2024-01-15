@@ -11,12 +11,12 @@
     </style>
 
     <style name="TextAppearance.App.10sp_500" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">8sp</item>
+        <item name="android:textSize">10sp</item>
         <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
     <style name="TextAppearance.App.12sp_500" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">8sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
@@ -46,7 +46,7 @@
     </style>
 
     <style name="TextAppearance.App.18sp_700" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="fontFamily">@font/pretendard_bold</item>
     </style>
 
