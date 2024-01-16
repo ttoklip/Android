@@ -10,6 +10,11 @@
         <item name="fontFamily">@font/pretendard_regular</item>
     </style>
 
+    <style name="TextAppearance.App.12sp_400" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+    </style>
+
     <style name="TextAppearance.App.10sp_500" parent="TextAppearance.AppCompat">
         <item name="android:textSize">10sp</item>
         <item name="fontFamily">@font/pretendard_medium</item>

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="vm"
             type="com.umc.ttoklip.presentation.news.detail.NewsDetailViewModel" />
@@ -110,9 +111,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:text="00"
-                    android:textAppearance="@style/TextAppearance.App.8sp_400"
+                    android:textAppearance="@style/TextAppearance.App.12sp_400"
                     android:textColor="@color/black"
-                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
                     app:layout_constraintStart_toEndOf="@id/bookmarkImg"
                     app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
@@ -133,9 +133,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:text="00"
-                    android:textAppearance="@style/TextAppearance.App.8sp_400"
+                    android:textAppearance="@style/TextAppearance.App.12sp_400"
                     android:textColor="@color/black"
-                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
                     app:layout_constraintStart_toEndOf="@id/likeImg"
                     app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
@@ -156,9 +155,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:text="00"
-                    android:textAppearance="@style/TextAppearance.App.8sp_400"
+                    android:textAppearance="@style/TextAppearance.App.12sp_400"
                     android:textColor="@color/black"
-                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
                     app:layout_constraintStart_toEndOf="@id/commitImg"
                     app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
@@ -280,8 +278,8 @@
                     android:layout_height="144dp"
                     android:layout_marginStart="18dp"
                     android:layout_marginTop="16dp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/linkImg" />
@@ -299,15 +297,15 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv2"
-                    android:overScrollMode="never"
-                    android:nestedScrollingEnabled="false"
-                    app:layout_constraintStart_toStartOf="@id/line3"
-                    app:layout_constraintEnd_toEndOf="@id/line3"
-                    app:layout_constraintTop_toBottomOf="@id/line3"
-                    android:layout_marginTop="12dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/line3"
+                    app:layout_constraintStart_toStartOf="@id/line3"
+                    app:layout_constraintTop_toBottomOf="@id/line3" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

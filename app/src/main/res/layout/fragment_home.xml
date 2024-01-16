@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollV"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/bellBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="24dp"
+                    android:src="@drawable/ic_bell_off_24"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/searchBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_search_24"
+                    app:layout_constraintEnd_toStartOf="@id/bellBtn"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="200dp"
+                    android:layout_height="38dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="11dp"
+                    android:background="@drawable/rectangle_corner_16"
+                    android:backgroundTint="@color/gray20"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/weatherImg"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="10dp"
+                        android:src="@drawable/sun_img"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tempT"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="-9º"
+                        android:textAppearance="@style/TextAppearance.App.12sp_400"
+                        app:layout_constraintBottom_toBottomOf="@id/weatherImg"
+                        app:layout_constraintStart_toEndOf="@id/weatherImg"
+                        app:layout_constraintTop_toTopOf="@id/weatherImg" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="지금은 맑아요"
+                        android:textAppearance="@style/TextAppearance.App.12sp_400"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tempT"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:paddingVertical="24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/bellBtn">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/whatTodayDo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="24dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/whatDoT"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:text="오늘은 무엇을 할까?"
+                            android:textAppearance="@style/TextAppearance.App.18sp_700"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="24dp"
+                            android:layout_marginTop="12dp"
+                            android:background="@drawable/rectangle_corner_10_strok_1"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/whatDoT">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/delayBtn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="8dp"
+                                android:layout_marginEnd="14dp"
+                                android:background="@drawable/rectangle_corner_10_strok_1_black"
+                                android:paddingHorizontal="15dp"
+                                android:paddingVertical="7dp"
+                                android:text="미루기"
+                                android:textAppearance="@style/TextAppearance.App.12sp_500"
+                                android:textColor="@color/gray80"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/checkBox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:src="@drawable/ic_check_off_20"
+                                app:layout_constraintBottom_toBottomOf="@id/delayBtn"
+                                app:layout_constraintEnd_toStartOf="@id/delayBtn"
+                                app:layout_constraintTop_toTopOf="@id/delayBtn" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/whatDoTodayT"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="오늘은 화장실 청소하는 날!"
+                                android:textAppearance="@style/TextAppearance.App.12sp_400"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@id/checkBox"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/tipImg"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="24dp"
+                        android:src="@drawable/idea_img"
+                        app:layout_constraintEnd_toStartOf="@id/chatImg"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/whatTodayDo" />
+
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/chatImg"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/chat_img"
+                        app:layout_constraintEnd_toStartOf="@id/newsImg"
+                        app:layout_constraintStart_toEndOf="@id/tipImg"
+                        app:layout_constraintTop_toTopOf="@id/tipImg" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/newsImg"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/news_img"
+                        app:layout_constraintEnd_toStartOf="@id/questImg"
+                        app:layout_constraintStart_toEndOf="@id/chatImg"
+                        app:layout_constraintTop_toBottomOf="@+id/whatTodayDo" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/questImg"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/help_img"
+                        app:layout_constraintEnd_toStartOf="@id/groupButImg"
+                        app:layout_constraintStart_toEndOf="@id/newsImg"
+                        app:layout_constraintTop_toBottomOf="@+id/whatTodayDo" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/groupButImg"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="24dp"
+                        android:src="@drawable/group_buy_img"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/questImg"
+                        app:layout_constraintTop_toBottomOf="@+id/whatTodayDo" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="공유"
+                        android:textAppearance="@style/TextAppearance.App.12sp_400"
+                        app:layout_constraintEnd_toEndOf="@id/tipImg"
+                        app:layout_constraintStart_toStartOf="@id/tipImg"
+                        app:layout_constraintTop_toBottomOf="@id/tipImg" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="소통"
+                        android:textAppearance="@style/TextAppearance.App.12sp_400"
+                        app:layout_constraintEnd_toEndOf="@id/chatImg"
+                        app:layout_constraintStart_toStartOf="@id/chatImg"
+                        app:layout_constraintTop_toBottomOf="@id/chatImg" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="뉴스"
+                        android:textAppearance="@style/TextAppearance.App.12sp_400"
+                        app:layout_constraintEnd_toEndOf="@id/newsImg"
+                        app:layout_constraintStart_toStartOf="@id/newsImg"
+                        app:layout_constraintTop_toBottomOf="@id/newsImg" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="질문"
+                        android:textAppearance="@style/TextAppearance.App.12sp_400"
+                        app:layout_constraintEnd_toEndOf="@id/questImg"
+                        app:layout_constraintStart_toStartOf="@id/questImg"
+                        app:layout_constraintTop_toBottomOf="@id/questImg" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="공구"
+                        android:textAppearance="@style/TextAppearance.App.12sp_400"
+                        app:layout_constraintEnd_toEndOf="@id/groupButImg"
+                        app:layout_constraintStart_toStartOf="@id/groupButImg"
+                        app:layout_constraintTop_toBottomOf="@id/groupButImg" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tipTitleT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:text="(닉네임)님을 위한 꿀팁"
+                    android:textAppearance="@style/TextAppearance.App.18sp_700"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tipMoreBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:drawableEnd="@drawable/ic_front_arrow_16"
+                    android:gravity="center"
+                    android:text="더보기"
+                    android:textAppearance="@style/TextAppearance.App.12sp_400"
+                    android:textColor="@color/gray60"
+                    app:layout_constraintBottom_toBottomOf="@id/tipTitleT"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tipRV"
+                    android:layout_width="0dp"
+                    android:overScrollMode="never"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="18dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tipTitleT" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/newsTitleT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="18dp"
+                    android:text="(닉네임)님! 속보에요"
+                    android:textAppearance="@style/TextAppearance.App.18sp_700"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tipRV" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/newsMoreBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:drawableEnd="@drawable/ic_front_arrow_16"
+                    android:gravity="center"
+                    android:text="더보기"
+                    android:textAppearance="@style/TextAppearance.App.12sp_400"
+                    android:textColor="@color/gray60"
+                    app:layout_constraintBottom_toBottomOf="@id/newsTitleT"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    tools:itemCount="3"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="18dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/newsTitleT"
+                    tools:listitem="@layout/item_news" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
