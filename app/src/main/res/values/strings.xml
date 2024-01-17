@@ -16,4 +16,10 @@
     <string name="notice_setting_text">알림설정</string>
     <string name="terms_polices_text">약관 및 정책</string>
     <string name="logout_text">로그아웃</string>
+    <string name="manage_my_info_title">내 정보 관리</string>
+    <string name="nickname_text">닉네임</string>
+    <string name="my_independent_career_text">나의 독립 경력</string>
+    <string name="my_address_text">주소</string>
+    <string name="set_my_town_range_text">우리동네 범위설정</string>
+    <string name="main_interest_text">주요 관심사</string>
 </resources>

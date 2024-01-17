@@ -19,6 +19,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.mypage.ManageMyInfoActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.news.detail.NewsDetailActivity"
             android:exported="false" />
         <activity
