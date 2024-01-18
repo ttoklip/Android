@@ -10,7 +10,7 @@ abstract class BaseActivity<V : ViewDataBinding>(@LayoutRes val layoutResource: 
     AppCompatActivity() {
 
     private var _binding: V? = null
-    private val binding: V get() = _binding!!
+    protected val binding: V get() = _binding!!
     abstract fun initView()
     protected abstract fun initObserver()
     override fun onCreate(savedInstanceState: Bundle?) {
