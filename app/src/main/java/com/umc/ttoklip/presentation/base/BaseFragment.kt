@@ -9,10 +9,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 
-abstract class BaseFragment<V: ViewDataBinding>(@LayoutRes val layoutResource :Int): Fragment() {
+abstract class BaseFragment<V : ViewDataBinding>(@LayoutRes val layoutResource: Int) : Fragment() {
 
     private var _binding: V? = null
-    protected val binding : V get() = _binding!!
+    protected val binding: V get() = _binding!!
+    abstract fun initObserver()
+    abstract fun initView()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,7 +27,18 @@ abstract class BaseFragment<V: ViewDataBinding>(@LayoutRes val layoutResource :I
             null,
             false
         )
-        binding.lifecycleOwner =this
+        binding.lifecycleOwner = this
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initObserver()
+        initView()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
