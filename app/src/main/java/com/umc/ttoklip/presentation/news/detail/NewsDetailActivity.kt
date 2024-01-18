@@ -1,24 +1,29 @@
 package com.umc.ttoklip.presentation.news.detail
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import androidx.databinding.DataBindingUtil.setContentView
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.umc.ttoklip.R
+import com.umc.ttoklip.databinding.ActivityMainBinding
 import com.umc.ttoklip.databinding.ActivityNewsDetailBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
+import com.umc.ttoklip.presentation.search.SearchActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NewsDetailActivity : BaseActivity<ActivityNewsDetailBinding>(R.layout.activity_news_detail) {
-    override fun initView() {
-        TODO("Not yet implemented")
-    }
+class NewsDetailActivity : AppCompatActivity() {
 
-    override fun initObserver() {
-        TODO("Not yet implemented")
-    }
-
+    lateinit var binding: ActivityNewsDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityNewsDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+    }
+
+    companion object{
+        const val NEWS_DETAIL_ACTIVITY = "new_detail"
+        fun newIntent(context: Context) = Intent(context, NewsDetailActivity::class.java)
     }
 }
