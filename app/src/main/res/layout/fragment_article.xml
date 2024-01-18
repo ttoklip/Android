@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="com.umc.ttoklip.presentation.news.detail.NewsDetailViewModel" />
+            type="com.umc.ttoklip.presentation.news.detail.ArticleViewModel" />
 
     </data>
 

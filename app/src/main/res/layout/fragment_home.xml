@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
 
+        <variable
+            name="vm"
+            type="com.umc.ttoklip.presentation.home.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,6 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
                     android:layout_marginEnd="24dp"
+                    android:onClick="@{()-> vm.clickAlarm()}"
                     android:src="@drawable/ic_bell_off_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -42,6 +47,7 @@
                     android:layout_marginTop="18dp"
                     android:layout_marginEnd="12dp"
                     android:src="@drawable/ic_search_24"
+                    android:onClick="@{()-> vm.clickSearch()}"
                     app:layout_constraintEnd_toStartOf="@id/bellBtn"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -103,6 +109,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:paddingBottom="24dp"
+                        android:visibility="@{vm.haveWork ? View.VISIBLE : View.GONE}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -137,6 +144,7 @@
                                 android:paddingHorizontal="15dp"
                                 android:paddingVertical="7dp"
                                 android:text="미루기"
+                                android:onClick="@{()-> vm.clickDelayWork()}"
                                 android:textAppearance="@style/TextAppearance.App.12sp_500"
                                 android:textColor="@color/gray80"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -148,7 +156,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="8dp"
-                                android:src="@drawable/ic_check_off_20"
+                                tools:src="@drawable/ic_check_off_20"
+                                android:onClick="@{()-> vm.clickDoneWork()}"
+                                android:src="@{vm.doneWork ? @drawable/ic_check_on_20 : @drawable/ic_check_off_20 }"
                                 app:layout_constraintBottom_toBottomOf="@id/delayBtn"
                                 app:layout_constraintEnd_toStartOf="@id/delayBtn"
                                 app:layout_constraintTop_toTopOf="@id/delayBtn" />
@@ -287,6 +297,7 @@
                     android:drawableEnd="@drawable/ic_front_arrow_16"
                     android:gravity="center"
                     android:text="더보기"
+                    android:onClick="@{()-> vm.clickMoreTip()}"
                     android:textAppearance="@style/TextAppearance.App.12sp_400"
                     android:textColor="@color/gray60"
                     app:layout_constraintBottom_toBottomOf="@id/tipTitleT"
@@ -324,6 +335,7 @@
                     android:drawableEnd="@drawable/ic_front_arrow_16"
                     android:gravity="center"
                     android:text="더보기"
+                    android:onClick="@{()-> vm.clickMoreNews()}"
                     android:textAppearance="@style/TextAppearance.App.12sp_400"
                     android:textColor="@color/gray60"
                     app:layout_constraintBottom_toBottomOf="@id/newsTitleT"
