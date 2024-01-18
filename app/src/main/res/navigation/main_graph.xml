@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.umc.ttoklip.presentation.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="com.umc.ttoklip.presentation.news.NewsFragment"
+        android:label="NewsFragment"
+        tools:layout="@layout/fragment_news" />
+    <fragment
+        android:id="@+id/tipFragment"
+        android:name="com.umc.ttoklip.presentation.TipFragment"
+        android:label="TipFragment"
+        tools:layout="@layout/fragment_tip" />
+    <fragment
+        android:id="@+id/townFragment"
+        android:name="com.umc.ttoklip.presentation.TownFragment"
+        android:label="TownFragment"
+        tools:layout="@layout/fragment_town" />
+
+    <fragment
+        android:id="@+id/myFragment"
+        android:name="com.umc.ttoklip.presentation.MyFragment"
+        android:label="MyFragment"
+        tools:layout="@layout/fragment_my" />
+
+</navigation>

@@ -64,4 +64,8 @@
         <item name="android:textSize">20sp</item>
         <item name="fontFamily">@font/pretendard_semi_medium</item>
     </style>
+
+    <style name="Widget.MyApp.BottomNavigationView.Material2" parent="Widget.MaterialComponents.BottomNavigationView">
+    </style>
+
 </resources>
