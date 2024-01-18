@@ -5,8 +5,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class NewsDetailViewModelImpl @Inject constructor(
+class ArticleListViewModelImpl @Inject constructor(
 
-): ViewModel(), NewsDetailViewModel {
+): ViewModel(), ArticleListViewModel {
 
 }
