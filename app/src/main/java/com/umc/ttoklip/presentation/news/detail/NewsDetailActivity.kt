@@ -20,6 +20,11 @@ class NewsDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityNewsDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.backBtn.setOnClickListener {
+            finish()
+        }
+
     }
 
     companion object{

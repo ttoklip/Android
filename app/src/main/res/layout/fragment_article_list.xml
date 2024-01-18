@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.umc.ttoklip.R" />
+
+        <variable
+            name="filter"
+            type="com.umc.ttoklip.presentation.news.detail.ArticleListViewModel.NewsFilter" />
+
         <variable
             name="vm"
             type="com.umc.ttoklip.presentation.news.detail.ArticleListViewModel" />
@@ -20,59 +30,68 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/rectangle_corner_10_strok_1_black"
+            android:background="@{vm.filter == filter.HOUSE_WORK ? @drawable/rectangle_corner_10_main : @drawable/rectangle_corner_10_strok_1_black}"
+            android:onClick="@{()->vm.selectHouseWork()}"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
             android:text="집안일"
             android:textAppearance="@style/TextAppearance.App.12sp_500"
             app:layout_constraintEnd_toStartOf="@id/recipeBtn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            bind:setBold='@{vm.filter == filter.HOUSE_WORK ? true : false}'
+            tools:backgroundTint="@color/yellow" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/recipeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/rectangle_corner_10_strok_1_black"
+            android:layout_marginStart="12dp"
+            android:background="@{vm.filter == filter.RECIPE ? @drawable/rectangle_corner_10_main : @drawable/rectangle_corner_10_strok_1_black}"
+            android:onClick="@{()->vm.selectRecipe()}"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
             android:text="레시피"
-            android:layout_marginStart="12dp"
             android:textAppearance="@style/TextAppearance.App.12sp_500"
+            app:layout_constraintBottom_toBottomOf="@id/houseworkBtn"
             app:layout_constraintEnd_toStartOf="@id/safeLifeBtn"
             app:layout_constraintStart_toEndOf="@id/houseworkBtn"
             app:layout_constraintTop_toTopOf="@id/houseworkBtn"
-            app:layout_constraintBottom_toBottomOf="@id/houseworkBtn" />
+            bind:setBold='@{vm.filter == filter.RECIPE ? true : false}' />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/safeLifeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/rectangle_corner_10_strok_1_black"
-            android:paddingHorizontal="16dp"
             android:layout_marginStart="12dp"
+            android:background="@{vm.filter == filter.SAFE_LIFE ? @drawable/rectangle_corner_10_main : @drawable/rectangle_corner_10_strok_1_black}"
+            android:onClick="@{()->vm.selectSafeLife()}"
+            android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
             android:text="안전한 생활"
             android:textAppearance="@style/TextAppearance.App.12sp_500"
+            app:layout_constraintBottom_toBottomOf="@id/houseworkBtn"
             app:layout_constraintEnd_toStartOf="@id/welfareBtn"
             app:layout_constraintStart_toEndOf="@id/recipeBtn"
             app:layout_constraintTop_toTopOf="@id/houseworkBtn"
-            app:layout_constraintBottom_toBottomOf="@id/houseworkBtn" />
+            bind:setBold='@{vm.filter == filter.SAFE_LIFE ? true : false}' />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/welfareBtn"
             android:layout_width="wrap_content"
-            android:layout_marginStart="12dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
-            android:background="@drawable/rectangle_corner_10_strok_1_black"
+            android:background="@{vm.filter == filter.WELFARE ? @drawable/rectangle_corner_10_main : @drawable/rectangle_corner_10_strok_1_black}"
+            android:onClick="@{()->vm.selectWelfare()}"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
             android:text="복지 • 정책"
             android:textAppearance="@style/TextAppearance.App.12sp_500"
+            app:layout_constraintBottom_toBottomOf="@id/houseworkBtn"
             app:layout_constraintStart_toEndOf="@id/safeLifeBtn"
             app:layout_constraintTop_toTopOf="@id/houseworkBtn"
-            app:layout_constraintBottom_toBottomOf="@id/houseworkBtn" />
+            bind:setBold='@{vm.filter == filter.WELFARE ? true : false}' />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv"
