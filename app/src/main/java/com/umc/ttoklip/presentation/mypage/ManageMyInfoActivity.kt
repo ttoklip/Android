@@ -23,6 +23,11 @@ class ManageMyInfoActivity :
                 getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
         }
+
+        binding.inputIndependentCareerEt.setOnClickListener {
+            val bottomSheet = InputIndependentCareerFragment()
+            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+        }
     }
 
     override fun initObserver() = Unit

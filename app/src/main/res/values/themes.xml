@@ -5,6 +5,15 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+    </style>
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/dialog_radius</item>
     </style>
 
     <style name="Theme.Ttoklip" parent="Base.Theme.Ttoklip" />
