@@ -3,7 +3,9 @@ package com.umc.ttoklip.presentation.news.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,6 +18,7 @@ class ArticleListViewModelImpl @Inject constructor(
     private val _filter = MutableStateFlow<ArticleListViewModel.NewsFilter>(ArticleListViewModel.NewsFilter.HOUSE_WORK)
     override val filter: StateFlow<ArticleListViewModel.NewsFilter>
         get() = _filter
+
 
     override fun selectHouseWork() {
         viewModelScope.launch {
@@ -40,5 +43,6 @@ class ArticleListViewModelImpl @Inject constructor(
             _filter.emit(ArticleListViewModel.NewsFilter.WELFARE)
         }
     }
+
 
 }

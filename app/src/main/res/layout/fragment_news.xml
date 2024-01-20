@@ -105,9 +105,8 @@
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/vp"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    app:layout_constraintDimensionRatio="W,7:9"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/titleT" />
@@ -137,12 +136,18 @@
                     android:background="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/indicator" />
+                    app:layout_constraintTop_toBottomOf="@id/indicator"
+                    app:tabIndicatorColor="@color/black"
+                    app:tabIndicatorFullWidth="true"
+                    app:tabRippleColor="@android:color/white"
+                    app:tabSelectedTextColor="@color/black"
+                    app:tabTextAppearance="@style/TextAppearance.App.16sp_500"
+                    app:tabTextColor="@color/gray80" />
 
                 <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/vp2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="18dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

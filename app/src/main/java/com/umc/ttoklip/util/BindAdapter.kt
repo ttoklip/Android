@@ -5,6 +5,11 @@ import android.widget.TextView
 import androidx.annotation.StyleRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.databinding.BindingAdapter
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModel
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
+import com.umc.ttoklip.presentation.news.NewsViewModel
 
 
 @BindingAdapter("bindTextViewStyle")
