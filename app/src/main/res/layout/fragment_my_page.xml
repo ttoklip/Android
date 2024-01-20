@@ -252,12 +252,51 @@
             app:layout_constraintTop_toBottomOf="@+id/separate_line">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/announcement_frame"
+                android:id="@+id/manage_account_frame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="16dp"
                 app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/manage_account_img"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_management_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:text="@string/manage_account_text"
+                    android:textAppearance="@style/TextAppearance.App.16sp_600"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toEndOf="@id/manage_account_img"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/manage_account_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_arrow_black_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/announcement_frame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="16dp"
+                app:layout_constraintTop_toBottomOf="@id/manage_account_frame">
 
                 <ImageView
                     android:id="@+id/announce_img"
@@ -380,7 +419,7 @@
                     android:id="@+id/notice_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_breakdown_24"
+                    android:src="@drawable/ic_bell_off_24"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

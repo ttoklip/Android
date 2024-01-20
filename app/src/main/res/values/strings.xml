@@ -10,6 +10,7 @@
     <string name="scrap_btn_text">스크랩</string>
     <string name="my_writing_btn_text">내가 작성한 글</string>
     <string name="transcation_history_btn_text">거래내역</string>
+    <string name="manage_account_text">계정 관리</string>
     <string name="announcement_text">공지사항</string>
     <string name="usage_manage_text">이용 관리</string>
     <string name="customer_service_center_text">고객센터</string>
@@ -20,6 +21,9 @@
     <string name="nickname_text">닉네임</string>
     <string name="check_duplicate_btn_text">중복확인</string>
     <string name="my_independent_career_text">나의 독립 경력</string>
+    <string name="my_independent_career_base_format">"%d년 %d개월"</string>
+    <string name="my_independent_career_year_format">"%d년"</string>
+    <string name="my_independent_career_month_format">"%d개월"</string>
     <string name="my_address_text">주소</string>
     <string name="set_my_town_range_text">우리동네 범위설정</string>
     <string name="main_interest_text">주요 관심사</string>
@@ -27,4 +31,5 @@
     <string name="select_year_text">년</string>
     <string name="select_month_text">월</string>
     <string name="finish_select_text">선택완료</string>
+    <string name="main_interest_title">주요 관심사 종류</string>
 </resources>

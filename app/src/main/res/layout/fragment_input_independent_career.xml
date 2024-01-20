@@ -95,11 +95,11 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/scrap_btn"
+            android:id="@+id/choose_btn"
             android:layout_width="312dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="24dp"
             android:background="@drawable/yellow_btn_background"
             android:text="@string/finish_select_text"
             android:textAppearance="@style/TextAppearance.App.16sp_700"
