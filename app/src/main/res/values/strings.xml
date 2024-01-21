@@ -32,4 +32,10 @@
     <string name="select_month_text">월</string>
     <string name="finish_select_text">선택완료</string>
     <string name="main_interest_title">주요 관심사 종류</string>
+    <string name="housework_text">집안일</string>
+    <string name="cooking_text">요리</string>
+    <string name="safe_life_text">안전한 생활</string>
+    <string name="fraud_text">사기</string>
+    <string name="welfare_policy_text">복지 · 정책</string>
+    <string name="road_address_fromat">"%s %s"</string>
 </resources>

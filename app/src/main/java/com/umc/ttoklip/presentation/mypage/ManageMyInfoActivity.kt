@@ -45,6 +45,15 @@ class ManageMyInfoActivity :
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
 
+        binding.findAddressBtn.setOnClickListener {
+            val dialog = SearchAddressDialogFragment {
+                if (it.isNotEmpty()) {
+                    binding.inputAddressTv.text = it
+                }
+            }
+            dialog.show(supportFragmentManager, dialog.tag)
+        }
+
         binding.mainInterestGroup.setOnClickListener {
             val bottomSheet = ChooseMainInterestDialogFragment { interests ->
                 binding.mainInterestGroup.removeAllViews()

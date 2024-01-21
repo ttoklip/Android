@@ -3,12 +3,12 @@ package com.umc.ttoklip.presentation.mypage
 import android.widget.NumberPicker
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentInputIndependentCareerBinding
-import com.umc.ttoklip.presentation.base.BaseDialogFragment
+import com.umc.ttoklip.presentation.base.BaseBottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class InputIndependentCareerDialogFragment(private val btnClickListener: (Int, Int) -> Unit) :
-    BaseDialogFragment<FragmentInputIndependentCareerBinding>(R.layout.fragment_input_independent_career) {
+    BaseBottomSheetDialogFragment<FragmentInputIndependentCareerBinding>(R.layout.fragment_input_independent_career) {
     override fun initObserver() = Unit
 
     override fun initView() {
