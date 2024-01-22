@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="24dp">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabIndicatorHeight="0dp"
+            app:tabMode="scrollable"
+            app:tabPaddingTop="10dp"
+            app:tabPaddingBottom="10dp"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/white"
+            app:tabBackground="@drawable/tab_selector"
+            app:tabTextColor="@color/tab_text_color_selector"
+            app:tabTextAppearance="@style/TextAppearance.App.12sp_500"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/title_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@null"
+            android:hint="제목 입력"
+            android:textAppearance="@style/TextAppearance.App.20sp_500"
+            android:textColorHint="@color/gray80"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/gray20"
+            app:layout_constraintTop_toBottomOf="@id/title_et" />
+
+        <EditText
+            android:id="@+id/body_et"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="24dp"
+            android:background="@null"
+            android:gravity="top"
+            android:hint="똑리비들에게 당신의 독립 꿀팁을 공유해주세요.\n(최대 1000자)"
+            android:textAppearance="@style/TextAppearance.App.12sp_400"
+            android:textColorHint="@color/gray80"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/line2"
+            app:layout_constraintTop_toBottomOf="@id/line" />
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/gray20"
+            app:layout_goneMarginBottom="60dp"
+            android:layout_marginBottom="12dp"
+            app:layout_constraintBottom_toTopOf="@id/add_link_btn" />
+
+        <LinearLayout
+            android:id="@+id/add_link_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle_corner_10"
+            android:backgroundTint="@color/gray20"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toTopOf="@id/add_image_btn"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/add_link_iv"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_link_24"
+                app:tint="@color/gray80" />
+
+            <TextView
+                android:id="@+id/add_link_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="URL 추가하기"
+                android:textAppearance="@style/TextAppearance.App.14sp_700"
+                android:textColor="@color/gray80" />
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/input_url_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="5dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_add_url_btn"
+            app:layout_constraintBottom_toTopOf="@id/add_link_btn"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/add_link_iv2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_link_24"
+                app:tint="@color/gray80"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <EditText
+                android:id="@+id/input_url_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/add_link_iv2"
+                app:layout_constraintBottom_toBottomOf="@id/add_link_iv2"
+                app:layout_constraintStart_toEndOf="@id/add_link_iv2"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@null"
+                android:layout_marginStart="6dp"
+                android:textColor="@color/gray80"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                android:textIsSelectable="true"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/image_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_image"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@id/line2"/>
+
+        <LinearLayout
+            android:id="@+id/add_image_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle_corner_10"
+            android:backgroundTint="@color/gray20"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/add_image_iv"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_add_image_24"
+                app:tint="@color/gray80" />
+
+            <TextView
+                android:id="@+id/add_image_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="사진 추가하기"
+                android:textAppearance="@style/TextAppearance.App.14sp_700"
+                android:textColor="@color/gray80" />
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
