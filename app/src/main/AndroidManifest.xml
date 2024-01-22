@@ -25,6 +25,9 @@
             android:name=".presentation.news.detail.NewsDetailActivity"
             android:exported="false" />
         <activity
+            android:name=".presentation.mypage.SetAnnouncementActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.MainActivity"
             android:exported="true">
             <intent-filter>
