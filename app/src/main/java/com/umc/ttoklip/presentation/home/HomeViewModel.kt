@@ -12,6 +12,7 @@ interface HomeViewModel {
     fun clickDoneWork()
     fun clickMoreNews()
     fun clickMoreTip()
+    fun clickMoreGroupBuy()
     fun clickAlarm()
     fun clickSearch()
 
@@ -19,6 +20,7 @@ interface HomeViewModel {
         SEARCH,
         NEWS_DETAIL,
         TIP_DETAIL,
-        ALARM
+        ALARM,
+        GROUP_BUY_DETAIL
     }
 }

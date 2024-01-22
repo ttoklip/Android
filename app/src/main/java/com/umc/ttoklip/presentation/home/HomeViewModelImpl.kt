@@ -58,6 +58,12 @@ class HomeViewModelImpl @Inject constructor(
         }
     }
 
+    override fun clickMoreGroupBuy() {
+        viewModelScope.launch {
+            _activityBus.emit(HomeViewModel.ActivityEventBus.GROUP_BUY_DETAIL)
+        }
+    }
+
     override fun clickAlarm() {
         viewModelScope.launch {
             _activityBus.emit(HomeViewModel.ActivityEventBus.ALARM)
