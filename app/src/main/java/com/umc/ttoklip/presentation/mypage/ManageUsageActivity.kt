@@ -9,7 +9,9 @@ import com.umc.ttoklip.presentation.mypage.adapter.BlockUser
 import com.umc.ttoklip.presentation.mypage.adapter.BlockUserAdapter
 import com.umc.ttoklip.presentation.mypage.adapter.Suspension
 import com.umc.ttoklip.presentation.mypage.adapter.SuspensionAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ManageUsageActivity :
     BaseActivity<ActivityManageUsageBinding>(R.layout.activity_manage_usage) {
     private val suspensionAdapter by lazy {

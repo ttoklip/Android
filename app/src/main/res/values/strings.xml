@@ -42,4 +42,15 @@
     <string name="suspension_title_text">이용 제한 내역</string>
     <string name="block_user_management">차단 사용자 관리</string>
     <string name="unblock_user">해제</string>
+    <string name="my_hometown_address_title">우리동네 주소</string>
+    <string name="current_address_title">현 주소</string>
+    <string name="current_location_base_setting">현재 위치 기준 설정</string>
+    <string name="direct_input">직접 입력</string>
+    <string name="range_setting_title">범위설정</string>
+    <string name="range_500m">500m</string>
+    <string name="range_1km">1km</string>
+    <string name="range_1_5km">1.5km</string>
+    <string name="range_setting_format">우리집 %s 주변으로 동네를 설정합니다.</string>
+    <string name="finish_setting">설정완료</string>
+
 </resources>

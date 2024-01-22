@@ -1,5 +1,6 @@
 package com.umc.ttoklip.presentation.mypage
 
+import android.content.Intent
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
@@ -46,12 +47,8 @@ class ManageMyInfoActivity :
         }
 
         binding.findAddressBtn.setOnClickListener {
-            val dialog = SearchAddressDialogFragment {
-                if (it.isNotEmpty()) {
-                    binding.inputAddressTv.text = it
-                }
-            }
-            dialog.show(supportFragmentManager, dialog.tag)
+            val intent = Intent(this, MyHometownAddressActivity::class.java)
+            startActivity(intent)
         }
 
         binding.mainInterestGroup.setOnClickListener {
