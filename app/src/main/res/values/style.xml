@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="TextAppearance.App.8sp_400" parent="TextAppearance.AppCompat">
         <item name="android:textSize">8sp</item>
         <item name="fontFamily">@font/pretendard_regular</item>
@@ -70,7 +71,9 @@
         <item name="fontFamily">@font/pretendard_semi_medium</item>
     </style>
 
-    <style name="Widget.MyApp.BottomNavigationView.Material2" parent="Widget.MaterialComponents.BottomNavigationView">
-    </style>
+    <style name="Widget.MyApp.BottomNavigationView.Material2" parent="Widget.MaterialComponents.BottomNavigationView"></style>
 
+    <style name="Widget.MyApp.FloatingActionButton.Material2" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="android:elevation">0dp</item>
+    </style>
 </resources>
