@@ -38,4 +38,7 @@
     <string name="fraud_text">사기</string>
     <string name="welfare_policy_text">복지 · 정책</string>
     <string name="road_address_fromat">"%s %s"</string>
+    <string name="suspension_title_text">이용 제한 내역</string>
+    <string name="block_user_management">차단 사용자 관리</string>
+    <string name="unblock_user">해제</string>
 </resources>

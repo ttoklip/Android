@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ItemAnnouncementsBinding
 
 class AnnouncementAdapter :
@@ -24,8 +25,10 @@ class AnnouncementAdapter :
             binding.announcementVisibilityBtn.setOnClickListener {
                 if (data.visibility) {
                     binding.announcementContentFrame.visibility = View.GONE
+                    binding.announcementVisibilityBtn.setImageResource(R.drawable.ic_arrow_down_24)
                 } else {
                     binding.announcementContentFrame.visibility = View.VISIBLE
+                    binding.announcementVisibilityBtn.setImageResource(R.drawable.ic_arrow_up_24)
                 }
                 data.visibility = data.visibility.not()
             }

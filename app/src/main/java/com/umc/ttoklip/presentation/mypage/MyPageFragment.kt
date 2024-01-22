@@ -21,6 +21,11 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             val intent = Intent(requireContext(), SetAnnouncementActivity::class.java)
             startActivity(intent)
         }
+
+        binding.usageManageBtn.setOnClickListener {
+            val intent = Intent(requireContext(), ManageUsageActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 }

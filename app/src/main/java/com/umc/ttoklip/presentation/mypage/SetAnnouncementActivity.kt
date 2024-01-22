@@ -9,7 +9,9 @@ import com.umc.ttoklip.presentation.mypage.adapter.Announcement
 import com.umc.ttoklip.presentation.mypage.adapter.AnnouncementAdapter
 import com.umc.ttoklip.presentation.mypage.adapter.AnnouncementContent
 import com.umc.ttoklip.presentation.mypage.adapter.AnnouncementContentDetail
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SetAnnouncementActivity :
     BaseActivity<ActivitySetAnnouncementBinding>(R.layout.activity_set_announcement) {
     override fun initObserver() = Unit
@@ -35,7 +37,7 @@ class SetAnnouncementActivity :
         binding.announcementsRv.adapter = adapter
         binding.announcementsRv.layoutManager = LinearLayoutManager(this)
         adapter.submitList(dummy)
-        binding.manageMyInfoBackBtn.setOnClickListener {
+        binding.setAnnouncementBackBtn.setOnClickListener {
             this.onBackPressedDispatcher.onBackPressed()
         }
     }
