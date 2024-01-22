@@ -32,6 +32,18 @@
             app:layout_constraintTop_toBottomOf="@id/main_interest_title_text">
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/no_interest_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="NO"
+                android:text="@string/no_interest"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                app:chipBackgroundColor="@color/white"
+                app:chipStrokeColor="@color/gray40"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.chip.Chip
                 android:id="@+id/housework_chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -99,9 +111,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="24dp"
-            android:background="@drawable/yellow_btn_background"
+            android:background="@drawable/rectangle_corner_10_strok_1_black"
             android:text="@string/finish_select_text"
-            android:textAppearance="@style/TextAppearance.App.16sp_700"
+            android:textAppearance="@style/TextAppearance.App.16sp_500"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

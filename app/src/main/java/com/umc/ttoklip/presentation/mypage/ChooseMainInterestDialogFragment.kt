@@ -15,22 +15,23 @@ class ChooseMainInterestDialogFragment(private val btnClickListener: (List<Strin
 
     override fun initView() {
         with(binding) {
-            with(binding) {
-                houseworkChip.setOnClickListener {
-                    changeChip(houseworkChip)
-                }
-                cookingChip.setOnClickListener {
-                    changeChip(cookingChip)
-                }
-                safeLifeChip.setOnClickListener {
-                    changeChip(safeLifeChip)
-                }
-                fraudChip.setOnClickListener {
-                    changeChip(fraudChip)
-                }
-                welfarePolicyChip.setOnClickListener {
-                    changeChip(welfarePolicyChip)
-                }
+            noInterestChip.setOnClickListener {
+                removeAllInterest()
+            }
+            houseworkChip.setOnClickListener {
+                changeInterest(houseworkChip)
+            }
+            cookingChip.setOnClickListener {
+                changeInterest(cookingChip)
+            }
+            safeLifeChip.setOnClickListener {
+                changeInterest(safeLifeChip)
+            }
+            fraudChip.setOnClickListener {
+                changeInterest(fraudChip)
+            }
+            welfarePolicyChip.setOnClickListener {
+                changeInterest(welfarePolicyChip)
             }
             chooseBtn.setOnClickListener {
                 if (interest.isNotEmpty()) {
@@ -41,19 +42,60 @@ class ChooseMainInterestDialogFragment(private val btnClickListener: (List<Strin
         }
     }
 
-    private fun changeChip(chip: Chip) {
+    private fun changeInterest(chip: Chip) {
         Log.d("chip", chip.text.toString())
-        if (chip.tag == NOT_INTERESTING) {
-            chip.tag = YES_INTERESTING
-            chip.setChipBackgroundColorResource(R.color.yellow)
-            chip.setChipStrokeColorResource(R.color.yellow)
-            interest.add(chip.text.toString())
-        } else {
-            chip.tag = NOT_INTERESTING
-            chip.setChipBackgroundColorResource(R.color.white)
-            chip.setChipStrokeColorResource(R.color.gray40)
-            interest.remove(chip.text.toString())
+        if (binding.noInterestChip.tag == YES_INTERESTING) {
+            removeInterest(binding.noInterestChip)
         }
+        if (chip.tag == NOT_INTERESTING) {
+            addInterest(chip)
+        } else {
+            removeInterest(chip)
+        }
+        checkInterest()
+    }
+
+    private fun removeAllInterest() {
+        with(binding) {
+            if (noInterestChip.tag == NOT_INTERESTING) {
+                removeInterest(houseworkChip)
+                removeInterest(cookingChip)
+                removeInterest(safeLifeChip)
+                removeInterest(fraudChip)
+                removeInterest(welfarePolicyChip)
+                addInterest(noInterestChip)
+            } else {
+                removeInterest(noInterestChip)
+            }
+        }
+        checkInterest()
+    }
+
+    private fun addInterest(chip: Chip) {
+        chip.tag = YES_INTERESTING
+        chip.setChipBackgroundColorResource(R.color.yellow)
+        chip.setChipStrokeColorResource(R.color.yellow)
+        interest.add(chip.text.toString())
+    }
+
+    private fun removeInterest(chip: Chip) {
+        chip.tag = NOT_INTERESTING
+        chip.setChipBackgroundColorResource(R.color.white)
+        chip.setChipStrokeColorResource(R.color.gray40)
+        interest.remove(chip.text.toString())
+    }
+
+    private fun checkInterest() {
+        with(binding.chooseBtn) {
+            if (interest.isNotEmpty()) {
+                setBackgroundResource(R.drawable.yellow_btn_background)
+                setTextAppearance(R.style.TextAppearance_App_16sp_700)
+            } else {
+                setBackgroundResource(R.drawable.rectangle_corner_10_strok_1_black)
+                setTextAppearance(R.style.TextAppearance_App_16sp_500)
+            }
+        }
+
     }
 
     companion object {
