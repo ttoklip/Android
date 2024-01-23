@@ -40,6 +40,131 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
                 }
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.filterSort.collect {
+                    when (it) {
+                        1 -> {
+                            binding.sortfilterT.text = "최신순"
+                        }
+
+                        2 -> {
+                            binding.sortfilterT.text = "인기순"
+                        }
+
+                        3 -> {
+                            binding.sortfilterT.text = "댓글많은순"
+                        }
+
+                        else -> {}
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.filterSort.collect {
+                    when (it) {
+                        1 -> {
+                            binding.sortfilterT.text = "최신순"
+                        }
+
+                        2 -> {
+                            binding.sortfilterT.text = "인기순"
+                        }
+
+                        3 -> {
+                            binding.sortfilterT.text = "댓글많은순"
+                        }
+
+                        else -> {}
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.filterBoard.collect {
+                    when (it) {
+                        1 -> {
+                            binding.boardFilterT.text = "뉴스레터"
+                        }
+
+                        2 -> {
+                            binding.boardFilterT.text = "질문해요"
+                        }
+
+                        3 -> {
+                            binding.boardFilterT.text = "꿀팁 공유해요"
+                        }
+
+                        4 -> {
+                            binding.boardFilterT.text = "함께해요"
+                        }
+
+                        5 -> {
+                            binding.boardFilterT.text = "소통해요"
+                        }
+
+                        else -> {}
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.filterCategory.collect {
+                    when (it) {
+                        1 -> {
+                            if (viewModel.filterBoard.value == 1) {
+                                binding.categoryFilterT.text = "집안일"
+                            } else {
+                                binding.categoryFilterT.text = "집안일"
+                            }
+
+                        }
+
+                        2 -> {
+                            if (viewModel.filterBoard.value == 1) {
+                                binding.categoryFilterT.text = "레시피"
+                            } else {
+                                binding.categoryFilterT.text = "요리"
+                            }
+                        }
+
+                        3 -> {
+                            if (viewModel.filterBoard.value == 1) {
+                                binding.categoryFilterT.text = "안전한 생활"
+                            } else {
+                                binding.categoryFilterT.text = "안전한 생활"
+                            }
+                        }
+
+                        4 -> {
+                            if (viewModel.filterBoard.value == 1) {
+                                binding.categoryFilterT.text = "복지•정책"
+                            } else {
+                                binding.categoryFilterT.text = "사기"
+                            }
+                        }
+
+                        5 -> {
+                            if (viewModel.filterBoard.value == 1) {
+                                binding.categoryFilterT.text = "복지•정책"
+                            } else {
+                                binding.categoryFilterT.text = "복지•정책"
+                            }
+                        }
+
+                        else -> {}
+                    }
+                }
+            }
+        }
     }
 
     companion object {

@@ -139,7 +139,7 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
                 R.id.board5 -> 5
                 else -> {0}
             }
-            val category = when (boardChipG.checkedChipId ){
+            val category = when (categoryChipG.checkedChipId ){
                 R.id.category1 -> 1
                 R.id.category2 -> 2
                 R.id.category3 -> 3
