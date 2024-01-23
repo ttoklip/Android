@@ -10,7 +10,12 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+<<<<<<< Updated upstream
 
+=======
+        maven { url "https://jitpack.io" }
+        maven {url"https://naver.jfrog.io/artifactory/maven/"}
+>>>>>>> Stashed changes
     }
 }
 rootProject.name = "ttoklip"

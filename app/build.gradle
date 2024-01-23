@@ -88,6 +88,22 @@ dependencies {
     implementation "com.google.dagger:hilt-android:2.47"
     kapt "com.google.dagger:hilt-compiler:2.47"
 
+<<<<<<< Updated upstream
+=======
+
+    //indicator : https://github.com/tommybuonomo/dotsindicator?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=7127
+    implementation "com.tbuonomo:dotsindicator:5.0"
+
+    //circleViwe: https://github.com/hdodenhof/CircleImageView
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.6'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.7.6'
+
+    //naver map
+    implementation "com.naver.maps:map-sdk:3.16.2"
+>>>>>>> Stashed changes
 }
 kapt {
     correctErrorTypes true
