@@ -104,7 +104,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.7.6'
 
     //naver map
-    implementation "com.naver.maps:map-sdk:3.16.2"
+    //implementation "com.naver.maps:map-sdk:3.16.2"
 }
 kapt {
     correctErrorTypes true

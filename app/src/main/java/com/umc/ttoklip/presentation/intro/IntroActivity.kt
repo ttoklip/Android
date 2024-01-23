@@ -8,7 +8,7 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivitySplashBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 
-class IntroActivity:BaseActivity<ActivitySplashBinding>(R.layout.activity_splash){
+class IntroActivity:BaseActivity<ActivitySplashBinding>(R.layout.activity_intro){
     override fun initView() {
         val handler= Handler(Looper.getMainLooper())
         handler.postDelayed({
