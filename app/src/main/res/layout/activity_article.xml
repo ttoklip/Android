@@ -3,15 +3,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="vm"
-            type="com.umc.ttoklip.presentation.news.detail.NewsDetailViewModel" />
+            type="com.umc.ttoklip.presentation.news.detail.ArticleViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="match_parent">
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_arrow_back_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/appBarTitleT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="뉴스레터"
+            android:textAppearance="@style/TextAppearance.App.16sp_600"
+            app:layout_constraintBottom_toBottomOf="@id/backBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/backBtn" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/dotBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:src="@drawable/ic_dots_vertical_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollV"
@@ -19,8 +53,9 @@
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="28dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/backBtn">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -110,9 +145,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:text="00"
-                    android:textAppearance="@style/TextAppearance.App.8sp_400"
+                    android:textAppearance="@style/TextAppearance.App.12sp_400"
                     android:textColor="@color/black"
-                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
                     app:layout_constraintStart_toEndOf="@id/bookmarkImg"
                     app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
@@ -133,9 +167,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:text="00"
-                    android:textAppearance="@style/TextAppearance.App.8sp_400"
+                    android:textAppearance="@style/TextAppearance.App.12sp_400"
                     android:textColor="@color/black"
-                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
                     app:layout_constraintStart_toEndOf="@id/likeImg"
                     app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
@@ -156,9 +189,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:text="00"
-                    android:textAppearance="@style/TextAppearance.App.8sp_400"
+                    android:textAppearance="@style/TextAppearance.App.12sp_400"
                     android:textColor="@color/black"
-                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
                     app:layout_constraintStart_toEndOf="@id/commitImg"
                     app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
@@ -280,8 +312,8 @@
                     android:layout_height="144dp"
                     android:layout_marginStart="18dp"
                     android:layout_marginTop="16dp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/linkImg" />
@@ -299,15 +331,15 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv2"
-                    android:overScrollMode="never"
-                    android:nestedScrollingEnabled="false"
-                    app:layout_constraintStart_toStartOf="@id/line3"
-                    app:layout_constraintEnd_toEndOf="@id/line3"
-                    app:layout_constraintTop_toBottomOf="@id/line3"
-                    android:layout_marginTop="12dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/line3"
+                    app:layout_constraintStart_toStartOf="@id/line3"
+                    app:layout_constraintTop_toBottomOf="@id/line3" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

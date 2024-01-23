@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="TextAppearance.App.8sp_400" parent="TextAppearance.AppCompat">
         <item name="android:textSize">8sp</item>
         <item name="fontFamily">@font/pretendard_regular</item>
@@ -7,6 +8,11 @@
 
     <style name="TextAppearance.App.10sp_400" parent="TextAppearance.AppCompat">
         <item name="android:textSize">10sp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+    </style>
+
+    <style name="TextAppearance.App.12sp_400" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
         <item name="fontFamily">@font/pretendard_regular</item>
     </style>
 
@@ -18,6 +24,11 @@
     <style name="TextAppearance.App.12sp_500" parent="TextAppearance.AppCompat">
         <item name="android:textSize">12sp</item>
         <item name="fontFamily">@font/pretendard_medium</item>
+    </style>
+
+    <style name="TextAppearance.App.12sp_700" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/pretendard_bold</item>
     </style>
 
     <style name="TextAppearance.App.14sp_500" parent="TextAppearance.AppCompat">
@@ -58,5 +69,21 @@
     <style name="TextAppearance.App.20sp_600" parent="TextAppearance.AppCompat">
         <item name="android:textSize">20sp</item>
         <item name="fontFamily">@font/pretendard_semi_medium</item>
+    </style>
+
+    <style name="Widget.MyApp.BottomNavigationView.Material2" parent="Widget.MaterialComponents.BottomNavigationView"></style>
+
+    <style name="Widget.MyApp.FloatingActionButton.Material2" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="android:elevation">0dp</item>
+    </style>
+
+
+    <!-- bottomSheet 배경 투명하게 style -->
+    <style name="TransparentBottomSheetDialogFragment" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/TransparentBottomSheetDialogFragmentChild</item>
+    </style>
+
+    <style name="TransparentBottomSheetDialogFragmentChild" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">#00000000</item>
     </style>
 </resources>

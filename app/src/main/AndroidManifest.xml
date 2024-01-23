@@ -19,7 +19,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.news.detail.NewsDetailActivity"
+            android:name=".presentation.alarm.AlarmActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.news.detail.ArticleActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.MainActivity"
@@ -30,6 +33,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".presentation.search.SearchActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
