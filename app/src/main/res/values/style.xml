@@ -41,11 +41,6 @@
         <item name="fontFamily">@font/pretendard_semi_medium</item>
     </style>
 
-    <style name="TextAppearance.App.12sp_700" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">12sp</item>
-        <item name="fontFamily">@font/pretendard_bold</item>
-    </style>
-
     <style name="TextAppearance.App.14sp_700" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
         <item name="fontFamily">@font/pretendard_bold</item>
@@ -81,4 +76,39 @@
         <item name="android:textSize">20sp</item>
         <item name="fontFamily">@font/pretendard_semi_medium</item>
     </style>
+
+    <style name="TextAppearance.App.24sp_600" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/pretendard_bold</item>
+    </style>
+
+
+    <style name="ShapeAppearanceOverlayExtended" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">30dp</item>
+    </style>
+
+
+    <style name="Widget.MyApp.BottomNavigationView.Material2" parent="Widget.MaterialComponents.BottomNavigationView"></style>
+
+    <style name="Widget.MyApp.FloatingActionButton.Material2" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="android:elevation">0dp</item>
+    </style>
+
+
+    <!-- bottomSheet 배경 투명하게 style -->
+    <style name="TransparentBottomSheetDialogFragment" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/TransparentBottomSheetDialogFragmentChild</item>
+    </style>
+
+    <style name="TransparentBottomSheetDialogFragmentChild" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">#00000000</item>
+    </style>
+
+    <style name="NumberPickerTextAppearance">
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/pretendard_semi_medium</item>
+        <item name="android:editTextColor">@color/black</item>
+    </style>
+
 </resources>

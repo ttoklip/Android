@@ -19,12 +19,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ttoklip"
         tools:targetApi="31">
+
         <activity
-            android:name=".presentation.honeytip.read.ReadActivity"
             android:name=".presentation.mypage.ManageMyInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.news.detail.NewsDetailActivity"
+            android:name=".presentation.honeytip.read.ReadActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.honeytip.write.WriteHoneyTipActivity"
