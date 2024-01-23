@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.umc.ttoklip.presentation.news.NewsViewModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_collapseMode="parallax">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/bellBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginEnd="24dp"
+                        android:src="@drawable/ic_bell_off_24"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/searchBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/ic_search_24"
+                        app:layout_constraintEnd_toStartOf="@id/bellBtn"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:text="뉴스레터"
+                        android:textAppearance="@style/TextAppearance.App.18sp_700"
+                        android:textSize="24sp"
+                        app:layout_constraintBottom_toBottomOf="@id/searchBtn"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/searchBtn" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="30dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/bellBtn">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/banner"
+                            android:layout_marginHorizontal="24dp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:background="@drawable/rectangle_corner_10_strok_1"
+                            app:layout_constraintTop_toTopOf="parent" >
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/logoImg"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                android:layout_margin="20dp"
+                                android:src="@drawable/ic_logo_big"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"/>
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                app:layout_constraintTop_toTopOf="@id/logoImg"
+                                app:layout_constraintBottom_toBottomOf="@id/logoImg"
+                                app:layout_constraintStart_toEndOf="@id/logoImg"
+                                android:layout_marginStart="32dp"
+                                android:textColor="#FF333333"
+                                android:textAppearance="@style/TextAppearance.App.14sp_700"
+                                android:text="똑립에서 오늘 하루도 \n즐겁고 활기찬 하루되세요~"
+                                android:layout_height="wrap_content"/>
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/titleT"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="32dp"
+                            android:layout_marginTop="24dp"
+                            android:text="오늘의 추천"
+                            android:textAppearance="@style/TextAppearance.App.20sp_600"
+                            android:textColor="@color/blue"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/banner" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/title2T"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:text=" News"
+                            android:textAppearance="@style/TextAppearance.App.20sp_600"
+                            android:textColor="@color/black"
+                            app:layout_constraintStart_toEndOf="@id/titleT"
+                            app:layout_constraintTop_toBottomOf="@id/banner" />
+
+                        <androidx.viewpager2.widget.ViewPager2
+                            android:id="@+id/vp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/titleT" />
+
+                        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                            android:id="@+id/indicator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            app:dotsColor="@color/gray40"
+                            app:dotsCornerRadius="2dp"
+                            app:dotsSize="4dp"
+                            app:dotsSpacing="4dp"
+                            app:dotsWidthFactor="2.5"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/vp"
+                            app:progressMode="true"
+                            app:selectedDotColor="@color/yellow" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/expandTitleT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="뉴스레터"
+                android:textAppearance="@style/TextAppearance.App.16sp_600"
+                android:visibility="@{vm.isExpanded ? View.GONE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="@id/expandSearchBtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/expandSearchBtn" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/expandSearchBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:src="@drawable/ic_search_24"
+                android:visibility="@{vm.isExpanded ? View.GONE : View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_goneMarginTop="0dp" />
+
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/expandSearchBtn"
+                app:tabIndicatorColor="@color/black"
+                app:tabIndicatorFullWidth="true"
+                app:tabIndicatorHeight="1dp"
+                app:tabRippleColor="@android:color/white"
+                app:tabSelectedTextColor="@color/black"
+                app:tabTextAppearance="@style/TextAppearance.App.16sp_500"
+                app:tabTextColor="@color/gray80" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vp2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tabLayout"
+                tools:layout_height="300dp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                style="@style/Widget.MyApp.FloatingActionButton.Material2"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_margin="24dp"
+                android:foreground="@drawable/ic_up_arrow_32"
+                android:foregroundGravity="center"
+                android:visibility="@{vm.isExpanded ? View.GONE : View.VISIBLE}"
+                app:backgroundTint="@color/yellow"
+                app:elevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

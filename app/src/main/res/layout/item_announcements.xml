@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp">
+
+        <TextView
+            android:id="@+id/announcement_date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12/20"
+            android:textAppearance="@style/TextAppearance.App.10sp_400"
+            android:textColor="@color/gray60"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/announcement_title_tv"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="똑리비들을 위한 새로운 버전 업데이트 1.0.1 "
+            android:textAppearance="@style/TextAppearance.App.14sp_500"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/announcement_date_tv" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/announcement_visibility_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_arrow_down_24"
+            app:layout_constraintBottom_toBottomOf="@id/announcement_title_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/announcement_title_tv" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/announcement_content_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:visibility="gone"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/announcement_title_tv">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/announcement_content_rv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/item_announcement_content" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

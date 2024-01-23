@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="com.umc.ttoklip.presentation.news.adapter.Dummy" />
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="24dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="0dp"
+        app:strokeColor="@color/line"
+        app:strokeWidth="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/news1Img"
+                android:layout_width="0dp"
+                android:layout_height="142dp"
+                android:src="@color/blue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/newsTitleT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:text="레시피"
+                android:textAppearance="@style/TextAppearance.App.14sp_500"
+                android:textColor="@color/orange"
+                app:layout_constraintBottom_toTopOf="@id/newsTitle1T"
+                app:layout_constraintStart_toStartOf="@id/newsTitle1T" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/newsTitle1T"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="20dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="맛있는 감자뇨끼 만들기!! 맛있는 감자뇨끼 만들기!! 맛있는 감자뇨끼 만들기!!"
+                android:textAppearance="@style/TextAppearance.App.18sp_700"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@id/news1Img"
+                app:layout_constraintEnd_toEndOf="@+id/news1Img"
+                app:layout_constraintStart_toStartOf="@id/news1Img" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/newsTitle2T"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="12dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:paddingVertical="8dp"
+                android:text="간단한 재료로 맛깔나게 쪽파김치 만들기"
+                android:textAppearance="@style/TextAppearance.App.14sp_500"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/news1Img" />
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="4dp"
+                android:background="#EFEFEF"
+                app:layout_constraintEnd_toEndOf="@id/newsTitle2T"
+                app:layout_constraintStart_toStartOf="@id/newsTitle2T"
+                app:layout_constraintTop_toBottomOf="@id/newsTitle2T" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/newsTitle3T"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:paddingVertical="8dp"
+                android:text="간단한 재료로 맛깔나게 쪽파김치 만들기"
+                android:textAppearance="@style/TextAppearance.App.14sp_500"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/line1" />
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/line"
+                app:layout_constraintEnd_toEndOf="@id/newsTitle3T"
+                app:layout_constraintStart_toStartOf="@id/newsTitle3T"
+                app:layout_constraintTop_toBottomOf="@id/newsTitle3T" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/newsTitle4T"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:paddingVertical="8dp"
+                android:text="간단한 재료로 맛깔나게 쪽파김치 만들기"
+                android:textAppearance="@style/TextAppearance.App.14sp_500"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/line2" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

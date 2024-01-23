@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ttoklip</string>
+
+
+    <!-- 마이페이지 strings !-->
+    <string name="mypage_title">마이페이지</string>
+    <string name="my_level_tv">나의 레벨</string>
+    <string name="next_level_tv">다음 레벨까지</string>
+    <string name="scrap_btn_text">스크랩</string>
+    <string name="my_writing_btn_text">내가 작성한 글</string>
+    <string name="transcation_history_btn_text">거래내역</string>
+    <string name="manage_account_text">계정 관리</string>
+    <string name="announcement_text">공지사항</string>
+    <string name="usage_manage_text">이용 관리</string>
+    <string name="customer_service_center_text">고객센터</string>
+    <string name="notice_setting_text">알림설정</string>
+    <string name="terms_polices_text">약관 및 정책</string>
+    <string name="logout_text">로그아웃</string>
+    <string name="manage_my_info_title">내 프로필 관리</string>
+    <string name="nickname_text">닉네임</string>
+    <string name="check_duplicate_btn_text">중복확인</string>
+    <string name="my_independent_career_text">나의 독립 경력</string>
+    <string name="my_independent_career_base_format">"%d년 %d개월"</string>
+    <string name="my_independent_career_year_format">"%d년"</string>
+    <string name="my_independent_career_month_format">"%d개월"</string>
+    <string name="my_address_text">주소</string>
+    <string name="set_my_town_range_text">우리동네 범위설정</string>
+    <string name="main_interest_text">주요 관심사</string>
+    <string name="independent_career_text">독립 경력 기간</string>
+    <string name="select_year_text">년</string>
+    <string name="select_month_text">월</string>
+    <string name="finish_select_text">선택완료</string>
+    <string name="main_interest_title">주요 관심사 종류</string>
+    <string name="no_interest">없음</string>
+    <string name="housework_text">집안일</string>
+    <string name="cooking_text">요리</string>
+    <string name="safe_life_text">안전한 생활</string>
+    <string name="fraud_text">사기</string>
+    <string name="welfare_policy_text">복지 · 정책</string>
+    <string name="road_address_fromat">"%s %s"</string>
+    <string name="suspension_title_text">이용 제한 내역</string>
+    <string name="block_user_management">차단 사용자 관리</string>
+    <string name="unblock_user">해제</string>
+    <string name="my_hometown_address_title">우리동네 주소</string>
+    <string name="current_address_title">현 주소</string>
+    <string name="current_location_base_setting">현재 위치 기준 설정</string>
+    <string name="direct_input">직접 입력</string>
+    <string name="range_setting_title">범위설정</string>
+    <string name="range_500m">500m</string>
+    <string name="range_1km">1km</string>
+    <string name="range_1_5km">1.5km</string>
+    <string name="range_setting_format">우리집 %s 주변으로 동네를 설정합니다.</string>
+    <string name="finish_setting">설정완료</string>
+    <string name="manage_account_info_title">계정 정보 관리</string>
+    <string name="update_account_info">수정완료</string>
+    <string name="name_title">이름</string>
+    <string name="birthdate_title">생년월일</string>
+    <string name="check_email_title">이메일</string>
+    <string name="send_certification_number">인증번호 발송</string>
+    <string name="certification_number_sent">인증번호가 발송되었습니다.</string>
+    <string name="input_certification_number_hint">인증번호 입력</string>
+    <string name="certification_number_inconsistency">인증번호가 일치하지 않습니다.</string>
+    <string name="input_verified">인증되었습니다.</string>
+    <string name="input_current_password_title">현재 비밀번호 확인</string>
+    <string name="input_current_password_hint">현재 비밀번호를 입력해주세요</string>
+    <string name="current_password_inconsistency">인증되었습니다.</string>
+    <string name="new_password_title">새 비밀번호</string>
+    <string name="input_new_password_hint">새로운 비밀번호를 입력해주세요</string>
+    <string name="check_new_password_title">새 비밀번호 확인</string>
+    <string name="input_check_new_password_hint">새로운 비밀번호를 한번 더 입력해주세요</string>
+    <string name="contain_english">영문</string>
+    <string name="contain_number">숫자</string>
+    <string name="contain_special_character">특수문자</string>
+
+</resources>

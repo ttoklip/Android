@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rectangle_corner_10"
+    android:backgroundTint="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="28dp"
+        android:text="본인이 작성한 글은 추천할 수 없습니다."
+        android:textAppearance="@style/TextAppearance.App.16sp_500"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/body"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="확인"
+        android:layout_marginTop="28dp"
+        android:padding="10dp"
+        android:textAppearance="@style/TextAppearance.App.16sp_600"
+        android:background="@drawable/rectangle_corner_bottom_10"
+        android:backgroundTint="@color/yellow"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

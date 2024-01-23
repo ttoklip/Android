@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_marginVertical="12dp"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardV"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            app:cardCornerRadius="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/gray20">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/alarmImg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:scaleType="center"
+                android:src="@drawable/ic_message_24" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/titleT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:lines="1"
+            android:ellipsize="end"
+            android:text="바퀴벌레 잡는 법(글 제목)"
+            android:textAppearance="@style/TextAppearance.App.14sp_600"
+            android:textSize="10dp"
+            app:layout_constraintStart_toEndOf="@id/cardV"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/contentT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:text="글을 누군가 스크랩했어요"
+            android:textAppearance="@style/TextAppearance.App.10sp_400"
+            app:layout_constraintStart_toEndOf="@id/cardV"
+            app:layout_constraintTop_toBottomOf="@id/titleT" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/dateT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:text="01/16"
+            android:textAppearance="@style/TextAppearance.App.8sp_400"
+            android:textColor="@color/gray60"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cardV"
+            app:layout_constraintTop_toBottomOf="@id/contentT" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/timeT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="4dp"
+            android:text="12:15"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textAppearance="@style/TextAppearance.App.8sp_400"
+            android:textColor="@color/gray60"
+            app:layout_constraintStart_toEndOf="@id/dateT"
+            app:layout_constraintTop_toBottomOf="@id/contentT" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
