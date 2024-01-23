@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="TextAppearance.App.8sp_400" parent="TextAppearance.AppCompat">
         <item name="android:textSize">8sp</item>
         <item name="fontFamily">@font/pretendard_regular</item>
@@ -55,6 +56,12 @@
         <item name="fontFamily">@font/pretendard_semi_medium</item>
     </style>
 
+    <style name="TextAppearance.App.16sp_700" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/pretendard_bold</item>
+    </style>
+
+
     <style name="TextAppearance.App.18sp_700" parent="TextAppearance.AppCompat">
         <item name="android:textSize">18sp</item>
         <item name="fontFamily">@font/pretendard_bold</item>
@@ -74,6 +81,7 @@
         <item name="android:textSize">24sp</item>
         <item name="fontFamily">@font/pretendard_bold</item>
     </style>
+
 
     <style name="ShapeAppearanceOverlayExtended" parent="">
         <item name="cornerFamily">rounded</item>
@@ -96,4 +104,11 @@
     <style name="TransparentBottomSheetDialogFragmentChild" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">#00000000</item>
     </style>
+
+    <style name="NumberPickerTextAppearance">
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/pretendard_semi_medium</item>
+        <item name="android:editTextColor">@color/black</item>
+    </style>
+
 </resources>
