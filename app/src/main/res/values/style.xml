@@ -76,4 +76,14 @@
     <style name="Widget.MyApp.FloatingActionButton.Material2" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="android:elevation">0dp</item>
     </style>
+
+
+    <!-- bottomSheet 배경 투명하게 style -->
+    <style name="TransparentBottomSheetDialogFragment" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/TransparentBottomSheetDialogFragmentChild</item>
+    </style>
+
+    <style name="TransparentBottomSheetDialogFragmentChild" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">#00000000</item>
+    </style>
 </resources>
