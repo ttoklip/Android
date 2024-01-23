@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:id="@+id/independent_career_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@string/independent_career_text"
+            android:textAppearance="@style/TextAppearance.App.14sp_700"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/input_independent_career_frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/independent_career_title_text">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/select_year_frame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/select_month_frame"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <NumberPicker
+                    android:id="@+id/year_selector"
+                    android:layout_width="wrap_content"
+                    android:layout_height="112dp"
+                    android:theme="@style/NumberPickerTextAppearance"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/year_select_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:showDividers="none"
+                    android:text="@string/select_year_text"
+                    android:textAppearance="@style/TextAppearance.App.20sp_600"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@id/year_selector"
+                    app:layout_constraintStart_toEndOf="@id/year_selector"
+                    app:layout_constraintTop_toTopOf="@id/year_selector" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/select_month_frame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/select_year_frame"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <NumberPicker
+                    android:id="@+id/month_selector"
+                    android:layout_width="wrap_content"
+                    android:layout_height="112dp"
+                    android:switchTextAppearance="@style/TextAppearance.App.20sp_600"
+                    android:theme="@style/NumberPickerTextAppearance"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/month_select_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_month_text"
+                    android:textAppearance="@style/TextAppearance.App.20sp_600"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@id/month_selector"
+                    app:layout_constraintStart_toEndOf="@id/month_selector"
+                    app:layout_constraintTop_toTopOf="@id/month_selector" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/choose_btn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/yellow_btn_background"
+            android:text="@string/finish_select_text"
+            android:textAppearance="@style/TextAppearance.App.16sp_700"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/input_independent_career_frame" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -9,6 +10,7 @@
     <application
         android:name=".TtoklipApplication"
         android:allowBackup="true"
+        android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -16,10 +18,35 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ttoklip"
-        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
         <activity
-            android:name=".presentation.news.detail.NewsDetailActivity"
+            android:name=".presentation.mypage.ManageMyInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.honeytip.read.ReadActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.honeytip.write.WriteHoneyTipActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".presentation.alarm.AlarmActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.news.detail.ArticleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.mypage.SetAnnouncementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.mypage.ManageUsageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.mypage.MyHometownAddressActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.mypage.ManageAccountActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.MainActivity"
@@ -30,6 +57,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name="com.google.android.gms.metadata.ModuleDependencies"
+            android:enabled="false"
+            android:exported="false"
+            tools:ignore="MissingClass">
+            <intent-filter>
+                <action android:name="com.google.android.gms.metadata.MODULE_DEPENDENCIES" />
+            </intent-filter>
+
+            <meta-data
+                android:name="photopicker_activity:0:required"
+                android:value="" />
+        </service>
+        <activity
+            android:name=".presentation.search.SearchActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

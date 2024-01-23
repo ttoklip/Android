@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/rectangle_top_corner_30"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/sortT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:text="정렬기준"
+            android:textColor="@color/black"
+            android:textAppearance="@style/TextAppearance.App.16sp_600"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/sortChipG"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="12dp"
+            app:chipSpacingHorizontal="24dp"
+            app:singleSelection="true"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            app:layout_constraintTop_toBottomOf="@id/sortT">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/sort1"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="최신순"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                android:textColor="@color/text_chip"
+                app:chipBackgroundColor="@color/bg_chip"
+                app:chipCornerRadius="10dp"
+                app:chipEndPadding="12dp"
+                app:chipStartPadding="12dp"
+                app:chipStrokeColor="@color/stroke_chip"
+                app:chipStrokeWidth="1dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/sort2"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="인기순"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                android:textColor="@color/text_chip"
+                app:chipBackgroundColor="@color/bg_chip"
+                app:chipCornerRadius="10dp"
+                app:chipEndPadding="12dp"
+                app:chipStartPadding="12dp"
+                app:chipStrokeColor="@color/stroke_chip"
+                app:chipStrokeWidth="1dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/sort3"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="댓글많은순"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                android:textColor="@color/text_chip"
+                app:chipBackgroundColor="@color/bg_chip"
+                app:chipCornerRadius="10dp"
+                app:chipEndPadding="12dp"
+                app:chipStartPadding="12dp"
+                app:chipStrokeColor="@color/stroke_chip"
+                app:chipStrokeWidth="1dp" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:id="@+id/boardT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="28dp"
+            android:text="게시판종류"
+            android:textColor="@color/black"
+            android:textAppearance="@style/TextAppearance.App.16sp_600"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sortChipG" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/boardChipG"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="12dp"
+            app:chipSpacingHorizontal="24dp"
+            app:chipSpacingVertical="0dp"
+            app:layout_constraintTop_toBottomOf="@id/boardT"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/board1"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="뉴스레터"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                android:textColor="@color/text_chip"
+                app:chipBackgroundColor="@color/bg_chip"
+                app:chipCornerRadius="10dp"
+                app:chipEndPadding="12dp"
+                app:chipStartPadding="12dp"
+                app:chipStrokeColor="@color/stroke_chip"
+                app:chipStrokeWidth="1dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/board2"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="질문해요"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                android:textColor="@color/text_chip"
+                app:chipBackgroundColor="@color/bg_chip"
+                app:chipCornerRadius="10dp"
+                app:chipEndPadding="12dp"
+                app:chipStartPadding="12dp"
+                app:chipStrokeColor="@color/stroke_chip"
+                app:chipStrokeWidth="1dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/board3"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="꿀팁 공유해요"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                android:textColor="@color/text_chip"
+                app:chipBackgroundColor="@color/bg_chip"
+                app:chipCornerRadius="10dp"
+                app:chipEndPadding="12dp"
+                app:chipStartPadding="12dp"
+                app:chipStrokeColor="@color/stroke_chip"
+                app:chipStrokeWidth="1dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/board4"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="함께해요"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                android:textColor="@color/text_chip"
+                app:chipBackgroundColor="@color/bg_chip"
+                app:chipCornerRadius="10dp"
+                app:chipEndPadding="12dp"
+                app:chipStartPadding="12dp"
+                app:chipStrokeColor="@color/stroke_chip"
+                app:chipStrokeWidth="1dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/board5"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="소통해요"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                android:textColor="@color/text_chip"
+                app:chipBackgroundColor="@color/bg_chip"
+                app:chipCornerRadius="10dp"
+                app:chipEndPadding="12dp"
+                app:chipStartPadding="12dp"
+                app:chipStrokeColor="@color/stroke_chip"
+                app:chipStrokeWidth="1dp" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:id="@+id/categoryT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="28dp"
+            android:text="카테고리"
+            android:textColor="@color/black"
+            android:textAppearance="@style/TextAppearance.App.16sp_600"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/boardChipG"
+            app:layout_goneMarginTop="0dp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/categoryChipG"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="12dp"
+            app:chipSpacingHorizontal="24dp"
+            app:chipSpacingVertical="0dp"
+            app:layout_constraintTop_toBottomOf="@id/categoryT"
+            app:layout_goneMarginTop="0dp"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/category1"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="집안일"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                android:textColor="@color/text_chip"
+                app:chipBackgroundColor="@color/bg_chip"
+                app:chipCornerRadius="10dp"
+                app:chipEndPadding="12dp"
+                app:chipStartPadding="12dp"
+                app:chipStrokeColor="@color/stroke_chip"
+                app:chipStrokeWidth="1dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/category2"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="요리"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                android:textColor="@color/text_chip"
+                app:chipBackgroundColor="@color/bg_chip"
+                app:chipCornerRadius="10dp"
+                app:chipEndPadding="12dp"
+                app:chipStartPadding="12dp"
+                app:chipStrokeColor="@color/stroke_chip"
+                app:chipStrokeWidth="1dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/category3"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="안전한 생활"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                android:textColor="@color/text_chip"
+                app:chipBackgroundColor="@color/bg_chip"
+                app:chipCornerRadius="10dp"
+                app:chipEndPadding="12dp"
+                app:chipStartPadding="12dp"
+                app:chipStrokeColor="@color/stroke_chip"
+                app:chipStrokeWidth="1dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/category4"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="복지"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                android:textColor="@color/text_chip"
+                app:chipBackgroundColor="@color/bg_chip"
+                app:chipCornerRadius="10dp"
+                app:chipEndPadding="12dp"
+                app:chipStartPadding="12dp"
+                app:chipStrokeColor="@color/stroke_chip"
+                app:chipStrokeWidth="1dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/category5"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="소통해요"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                android:textColor="@color/text_chip"
+                app:chipBackgroundColor="@color/bg_chip"
+                app:chipCornerRadius="10dp"
+                app:chipEndPadding="12dp"
+                app:chipStartPadding="12dp"
+                app:chipStrokeColor="@color/stroke_chip"
+                app:chipStrokeWidth="1dp" />
+
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/resetBtn"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/rectangle_corner_10_strok_1_black"
+            android:gravity="center"
+            android:text="초기화"
+            android:textAppearance="@style/TextAppearance.App.16sp_600"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/completeBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/categoryChipG" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/completeBtn"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/rectangle_corner_10_strok_1_black"
+            android:backgroundTint="@color/yellow"
+            android:gravity="center"
+            android:text="선택완료"
+            android:textAppearance="@style/TextAppearance.App.16sp_600"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/resetBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/resetBtn"
+            app:layout_constraintTop_toTopOf="@id/resetBtn" />
+
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/categoryG"
+            android:visibility="gone"
+            tools:visibility ="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="categoryT, categoryChipG"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

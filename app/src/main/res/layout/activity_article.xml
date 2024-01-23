@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.umc.ttoklip.presentation.news.detail.ArticleViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="match_parent">
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_arrow_back_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/appBarTitleT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="뉴스레터"
+            android:textAppearance="@style/TextAppearance.App.16sp_600"
+            app:layout_constraintBottom_toBottomOf="@id/backBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/backBtn" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/dotBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:src="@drawable/ic_dots_vertical_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollV"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="28dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/backBtn">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profileImg"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="12dp"
+                    android:src="@color/yellow"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/writerT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="똑립 뉴스"
+                    android:textAppearance="@style/TextAppearance.App.14sp_700"
+                    app:layout_constraintBottom_toBottomOf="@id/profileImg"
+                    app:layout_constraintStart_toEndOf="@id/profileImg"
+                    app:layout_constraintTop_toTopOf="@id/profileImg" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/certificationImg"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="2dp"
+                    android:src="@drawable/ic_certification_mark_16"
+                    app:layout_constraintBottom_toBottomOf="@id/writerT"
+                    app:layout_constraintStart_toEndOf="@id/writerT"
+                    app:layout_constraintTop_toTopOf="@id/writerT" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/titleT"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:text="뉴스제목"
+                    android:textAppearance="@style/TextAppearance.App.20sp_500"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/profileImg"
+                    app:layout_constraintTop_toBottomOf="@id/profileImg" />
+
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/gray20"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/titleT" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/contentT"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:lineSpacingExtra="4dp"
+                    android:text="화장실은 곰팡이가 번식하기 좋은 환경을 제공합니다. 습기, 따뜻함, 열악한 환기의 세 가지 요소는 곰팡이 포자의 안식처를 만듭니다. 샤워나 목욕에서 나오는 증기가 공기 중에 남아 있으면 표면에 침전되어 곰팡이가 자라게 됩니다."
+                    android:textAppearance="@style/TextAppearance.App.10sp_400"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@id/line"
+                    app:layout_constraintStart_toStartOf="@id/line"
+                    app:layout_constraintTop_toBottomOf="@id/line" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/bookmarkImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:src="@drawable/ic_bookmark_off_20"
+                    app:layout_constraintStart_toStartOf="@id/contentT"
+                    app:layout_constraintTop_toBottomOf="@id/contentT" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/bookmarkT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:text="00"
+                    android:textAppearance="@style/TextAppearance.App.12sp_400"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
+                    app:layout_constraintStart_toEndOf="@id/bookmarkImg"
+                    app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/likeImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:src="@drawable/ic_heart_off_20"
+                    app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
+                    app:layout_constraintStart_toEndOf="@id/bookmarkT"
+                    app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/likeT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:text="00"
+                    android:textAppearance="@style/TextAppearance.App.12sp_400"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
+                    app:layout_constraintStart_toEndOf="@id/likeImg"
+                    app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/commitImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:src="@drawable/ic_message_24"
+                    app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
+                    app:layout_constraintStart_toEndOf="@id/likeT"
+                    app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/commitT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:text="00"
+                    android:textAppearance="@style/TextAppearance.App.12sp_400"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
+                    app:layout_constraintStart_toEndOf="@id/commitImg"
+                    app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/scrapBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/rectangle_corner_4"
+                    android:backgroundTint="@color/gray20"
+                    app:layout_constraintStart_toStartOf="@id/bookmarkImg"
+                    app:layout_constraintTop_toBottomOf="@id/bookmarkImg">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/scrapBtnImg"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_margin="4dp"
+                        android:src="@drawable/ic_bookmark_off_20"
+                        android:tint="@color/gray60"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/scrapBtnT"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:paddingEnd="6dp"
+                        android:text="스크랩"
+                        android:textAppearance="@style/TextAppearance.App.10sp_500"
+                        android:textColor="@color/gray60"
+                        app:layout_constraintBottom_toBottomOf="@id/scrapBtnImg"
+                        app:layout_constraintStart_toEndOf="@id/scrapBtnImg"
+                        app:layout_constraintTop_toTopOf="@id/scrapBtnImg" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/likeBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/rectangle_corner_4"
+                    android:backgroundTint="@color/gray20"
+                    app:layout_constraintStart_toEndOf="@id/scrapBtn"
+                    app:layout_constraintTop_toBottomOf="@id/bookmarkImg">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/likeBtnImg"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_margin="4dp"
+                        android:src="@drawable/ic_heart_off_20"
+                        android:tint="@color/gray60"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/likeBtnT"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:paddingEnd="6dp"
+                        android:text="좋아요"
+                        android:textAppearance="@style/TextAppearance.App.10sp_500"
+                        android:textColor="@color/gray60"
+                        app:layout_constraintBottom_toBottomOf="@id/likeBtnImg"
+                        app:layout_constraintStart_toEndOf="@id/likeBtnImg"
+                        app:layout_constraintTop_toTopOf="@id/likeBtnImg" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <View
+                    android:id="@+id/line2"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/gray20"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/scrapBtn" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/linkImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/ic_link_24"
+                    android:tint="@color/blue"
+                    app:layout_constraintStart_toStartOf="@id/line2"
+                    app:layout_constraintTop_toBottomOf="@id/line2" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/linkT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="https://www.bing.com/?FORM=Z9FD1"
+                    android:textAppearance="@style/TextAppearance.App.18sp_700"
+                    android:textColor="@color/blue"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/linkImg"
+                    app:layout_constraintStart_toEndOf="@id/linkImg"
+                    app:layout_constraintTop_toTopOf="@id/linkImg" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv1"
+                    android:layout_width="0dp"
+                    android:layout_height="144dp"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/linkImg" />
+
+                <View
+                    android:id="@+id/line3"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/gray20"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rv1" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/line3"
+                    app:layout_constraintStart_toStartOf="@id/line3"
+                    app:layout_constraintTop_toBottomOf="@id/line3" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
