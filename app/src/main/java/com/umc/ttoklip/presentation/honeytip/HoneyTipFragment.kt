@@ -20,6 +20,14 @@ import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 
 class HoneyTipFragment: BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment_honey_tip) {
     private var board = 0
+    override fun initObserver() {
+
+    }
+
+    override fun initView() {
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initTabLayout()
@@ -42,15 +50,15 @@ class HoneyTipFragment: BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment_
         }.attach()
         binding.boardTablayout.addOnTabSelectedListener(object : OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                TODO("Not yet implemented")
+
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-                TODO("Not yet implemented")
+
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                TODO("Not yet implemented")
+
             }
 
         })

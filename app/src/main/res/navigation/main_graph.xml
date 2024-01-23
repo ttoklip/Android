@@ -17,11 +17,6 @@
         android:label="NewsFragment"
         tools:layout="@layout/fragment_news" />
     <fragment
-        android:id="@+id/tipFragment"
-        android:name="com.umc.ttoklip.presentation.TipFragment"
-        android:label="TipFragment"
-        tools:layout="@layout/fragment_tip" />
-    <fragment
         android:id="@+id/townFragment"
         android:name="com.umc.ttoklip.presentation.TownFragment"
         android:label="TownFragment"
@@ -32,5 +27,9 @@
         android:name="com.umc.ttoklip.presentation.MyFragment"
         android:label="MyFragment"
         tools:layout="@layout/fragment_my" />
+    <fragment
+        android:id="@+id/honeyTipFragment"
+        android:name="com.umc.ttoklip.presentation.honeytip.HoneyTipFragment"
+        android:label="HoneyTipFragment" />
 
 </navigation>

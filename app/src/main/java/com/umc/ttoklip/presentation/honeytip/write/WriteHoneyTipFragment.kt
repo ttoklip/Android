@@ -44,6 +44,13 @@ class WriteHoneyTipFragment : BaseFragment<FragmentWriteHoneyTipBinding>(R.layou
     }
     private lateinit var viewModel: WriteHoneyTipViewModel
     private lateinit var imageAdapter: ImageRVA
+    override fun initObserver() {
+
+    }
+
+    override fun initView() {
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
