@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil.setContentView
 import androidx.databinding.ViewDataBinding
 
 abstract class BaseActivity<V : ViewDataBinding>(@LayoutRes val layoutResource: Int) :

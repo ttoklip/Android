@@ -16,7 +16,6 @@
         <item name="fontFamily">@font/pretendard_regular</item>
     </style>
 
-
     <style name="TextAppearance.App.10sp_500" parent="TextAppearance.AppCompat">
         <item name="android:textSize">10sp</item>
         <item name="fontFamily">@font/pretendard_medium</item>
@@ -25,6 +24,11 @@
     <style name="TextAppearance.App.12sp_500" parent="TextAppearance.AppCompat">
         <item name="android:textSize">12sp</item>
         <item name="fontFamily">@font/pretendard_medium</item>
+    </style>
+
+    <style name="TextAppearance.App.12sp_700" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/pretendard_bold</item>
     </style>
 
     <style name="TextAppearance.App.14sp_500" parent="TextAppearance.AppCompat">
@@ -77,11 +81,4 @@
         <item name="android:textSize">20sp</item>
         <item name="fontFamily">@font/pretendard_semi_medium</item>
     </style>
-
-    <style name="NumberPickerTextAppearance">
-        <item name="android:textSize">20sp</item>
-        <item name="fontFamily">@font/pretendard_semi_medium</item>
-        <item name="android:editTextColor">@color/black</item>
-    </style>
-
 </resources>

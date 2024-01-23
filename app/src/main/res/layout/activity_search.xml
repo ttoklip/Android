@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View"/>
+        <variable
+            name="vm"
+            type="com.umc.ttoklip.presentation.search.SearchViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_arrow_back_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/appBarTitleT"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:background="@null"
+            android:ellipsize="end"
+            android:lines="1"
+            android:switchTextAppearance="@style/TextAppearance.App.12sp_400"
+            android:hint="무슨 도움이 필요한가요?"
+            android:textAppearance="@style/TextAppearance.App.16sp_600"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/backBtn"
+            app:layout_constraintEnd_toStartOf="@id/searchBtn"
+            app:layout_constraintStart_toEndOf="@id/backBtn"
+            app:layout_constraintTop_toTopOf="@id/backBtn" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/searchBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:src="@drawable/ic_search_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/settingBtn"
+            app:layout_constraintTop_toBottomOf="@id/backBtn"
+            android:layout_marginTop="28dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:cardCornerRadius="16dp"
+            app:strokeColor="@color/gray20"
+            android:layout_marginStart="24dp"
+            android:layout_width="36dp"
+            android:layout_height="32dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/filterBtn"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:background="@color/white"
+                android:src="@drawable/ic_set_24"
+                android:tint="@color/gray80"
+                android:onClick="@{()->vm.clickFilter()}"
+                android:scaleType="center"
+                android:layout_height="match_parent"/>
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/sortfilterT"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="@id/settingBtn"
+            app:layout_constraintBottom_toBottomOf="@id/settingBtn"
+            app:layout_constraintStart_toEndOf="@id/settingBtn"
+            android:layout_marginStart="12dp"
+            android:text="최신순"
+            android:textAppearance="@style/TextAppearance.App.12sp_700"
+            android:textColor="@color/black"
+            android:background="@drawable/rectangle_corner_10"
+            android:backgroundTint="@color/yellow"
+            android:paddingHorizontal="15dp"
+            android:layout_width="wrap_content"
+            android:visibility="@{vm.filterSort ==0 ? View.GONE : View.VISIBLE }"
+            android:layout_height="32dp"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/boardFilterT"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="@id/settingBtn"
+            app:layout_constraintBottom_toBottomOf="@id/settingBtn"
+            app:layout_constraintStart_toEndOf="@id/sortfilterT"
+            android:layout_marginStart="12dp"
+            android:text="뉴스레터"
+            android:textAppearance="@style/TextAppearance.App.12sp_700"
+            android:textColor="@color/black"
+            android:background="@drawable/rectangle_corner_10"
+            android:backgroundTint="@color/yellow"
+            android:paddingHorizontal="15dp"
+            android:visibility="@{vm.filterBoard ==0 ? View.GONE : View.VISIBLE }"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/categoryFilterT"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="@id/settingBtn"
+            app:layout_constraintBottom_toBottomOf="@id/settingBtn"
+            app:layout_constraintStart_toEndOf="@id/boardFilterT"
+            android:layout_marginStart="12dp"
+            android:text="레시피"
+            android:textAppearance="@style/TextAppearance.App.12sp_700"
+            android:textColor="@color/black"
+            android:background="@drawable/rectangle_corner_10"
+            android:backgroundTint="@color/yellow"
+            android:visibility="@{vm.filterCategory ==0 ? View.GONE : View.VISIBLE }"
+            android:paddingHorizontal="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
