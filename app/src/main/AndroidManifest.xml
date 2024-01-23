@@ -34,6 +34,9 @@
             android:name=".presentation.mypage.MyHometownAddressActivity"
             android:exported="false" />
         <activity
+            android:name=".presentation.mypage.ManageAccountActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.MainActivity"
             android:exported="true">
             <intent-filter>

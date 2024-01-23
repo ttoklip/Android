@@ -52,5 +52,25 @@
     <string name="range_1_5km">1.5km</string>
     <string name="range_setting_format">우리집 %s 주변으로 동네를 설정합니다.</string>
     <string name="finish_setting">설정완료</string>
+    <string name="manage_account_info_title">계정 정보 관리</string>
+    <string name="update_account_info">수정완료</string>
+    <string name="name_title">이름</string>
+    <string name="birthdate_title">생년월일</string>
+    <string name="check_email_title">이메일</string>
+    <string name="send_certification_number">인증번호 발송</string>
+    <string name="certification_number_sent">인증번호가 발송되었습니다.</string>
+    <string name="input_certification_number_hint">인증번호 입력</string>
+    <string name="certification_number_inconsistency">인증번호가 일치하지 않습니다.</string>
+    <string name="input_verified">인증되었습니다.</string>
+    <string name="input_current_password_title">현재 비밀번호 확인</string>
+    <string name="input_current_password_hint">현재 비밀번호를 입력해주세요</string>
+    <string name="current_password_inconsistency">인증되었습니다.</string>
+    <string name="new_password_title">새 비밀번호</string>
+    <string name="input_new_password_hint">새로운 비밀번호를 입력해주세요</string>
+    <string name="check_new_password_title">새 비밀번호 확인</string>
+    <string name="input_check_new_password_hint">새로운 비밀번호를 한번 더 입력해주세요</string>
+    <string name="contain_english">영문</string>
+    <string name="contain_number">숫자</string>
+    <string name="contain_special_character">특수문자</string>
 
 </resources>
