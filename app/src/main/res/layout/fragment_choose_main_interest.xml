@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:id="@+id/main_interest_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/main_interest_title"
+            android:textAppearance="@style/TextAppearance.App.14sp_700"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/main_interest_items_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="48dp"
+            app:chipSpacingHorizontal="24dp"
+            app:layout_constraintTop_toBottomOf="@id/main_interest_title_text">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/no_interest_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="NO"
+                android:text="@string/no_interest"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                app:chipBackgroundColor="@color/white"
+                app:chipStrokeColor="@color/gray40"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/housework_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="NO"
+                android:text="@string/housework_text"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                app:chipBackgroundColor="@color/white"
+                app:chipStrokeColor="@color/gray40"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/cooking_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="NO"
+                android:text="@string/cooking_text"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                app:chipBackgroundColor="@color/white"
+                app:chipStrokeColor="@color/gray40"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/safe_life_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="NO"
+                android:text="@string/safe_life_text"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                app:chipBackgroundColor="@color/white"
+                app:chipStrokeColor="@color/gray40"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/fraud_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="NO"
+                android:text="@string/fraud_text"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                app:chipBackgroundColor="@color/white"
+                app:chipStrokeColor="@color/gray40"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/welfare_policy_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="NO"
+                android:text="@string/welfare_policy_text"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                app:chipBackgroundColor="@color/white"
+                app:chipStrokeColor="@color/gray40"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/choose_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/rectangle_corner_10_strok_1_black"
+            android:text="@string/finish_select_text"
+            android:textAppearance="@style/TextAppearance.App.16sp_500"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_interest_items_group" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

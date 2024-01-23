@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/block_user_profile_img"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="48dp"
+            android:layout_height="48dp" />
+
+        <TextView
+            android:id="@+id/blocked_user_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@id/block_user_profile_img"
+            android:textAppearance="@style/TextAppearance.App.14sp_700"
+            app:layout_constraintTop_toTopOf="@id/block_user_profile_img"
+            app:layout_constraintBottom_toBottomOf="@id/block_user_profile_img" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="45dp"
+            android:layout_height="30dp"
+            android:textAppearance="@style/TextAppearance.App.12sp_400"
+            android:id="@+id/unblock_btn"
+            android:text="@string/unblock_user"
+            android:background="@drawable/unblock_btn_background"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
