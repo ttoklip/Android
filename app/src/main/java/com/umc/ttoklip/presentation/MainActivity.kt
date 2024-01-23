@@ -1,25 +1,31 @@
 package com.umc.ttoklip.presentation
 
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentTransaction
+import android.os.Bundle
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityMainBinding
-import com.umc.ttoklip.presentation.honeytip.HoneyTipFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+
+    lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val fragmentTransaction: FragmentTransaction =
-            supportFragmentManager.beginTransaction()
-        // add를 통해 container에 Fragment 추가
-        fragmentTransaction.add(R.id.container, HoneyTipFragment())
-        fragmentTransaction.setReorderingAllowed(true)
-        // commit을 통해 transaction 등록
-        fragmentTransaction.commit()
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        binding.bottomNav.setupWithNavController(navController)
+    }
+
+    fun goNews() {
+        binding.bottomNav.selectedItemId = R.id.newsFragment
     }
 }

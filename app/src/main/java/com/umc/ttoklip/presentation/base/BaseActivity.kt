@@ -7,7 +7,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.databinding.ViewDataBinding
 
-abstract class BaseActivity<V: ViewDataBinding>(@LayoutRes val layoutResource :Int): AppCompatActivity() {
+abstract class BaseActivity<V : ViewDataBinding>(@LayoutRes val layoutResource: Int) :
+    AppCompatActivity() {
 
     private var _binding: V? = null
     protected val binding: V get() = _binding!!

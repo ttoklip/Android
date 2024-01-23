@@ -10,14 +10,14 @@
         <item name="fontFamily">@font/pretendard_regular</item>
     </style>
 
-    <style name="TextAppearance.App.10sp_500" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">8sp</item>
-        <item name="fontFamily">@font/pretendard_medium</item>
-    </style>
-
     <style name="TextAppearance.App.12sp_400" parent="TextAppearance.AppCompat">
         <item name="android:textSize">12sp</item>
         <item name="fontFamily">@font/pretendard_regular</item>
+    </style>
+
+    <style name="TextAppearance.App.10sp_500" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">10sp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
     <style name="TextAppearance.App.12sp_500" parent="TextAppearance.AppCompat">
@@ -56,7 +56,7 @@
     </style>
 
     <style name="TextAppearance.App.18sp_700" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="fontFamily">@font/pretendard_bold</item>
     </style>
 
@@ -80,4 +80,20 @@
         <item name="cornerSize">30dp</item>
     </style>
 
+
+    <style name="Widget.MyApp.BottomNavigationView.Material2" parent="Widget.MaterialComponents.BottomNavigationView"></style>
+
+    <style name="Widget.MyApp.FloatingActionButton.Material2" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="android:elevation">0dp</item>
+    </style>
+
+
+    <!-- bottomSheet 배경 투명하게 style -->
+    <style name="TransparentBottomSheetDialogFragment" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/TransparentBottomSheetDialogFragmentChild</item>
+    </style>
+
+    <style name="TransparentBottomSheetDialogFragmentChild" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">#00000000</item>
+    </style>
 </resources>

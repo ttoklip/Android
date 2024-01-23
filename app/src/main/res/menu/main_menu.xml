@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_home_off_48"
+        android:title="홈" />
+
+    <item
+        android:id="@+id/townFragment"
+        android:icon="@drawable/ic_town_off_48"
+        android:title="동내" />
+
+    <item
+        android:id="@+id/newsFragment"
+        android:icon="@drawable/ic_news_off_48"
+        android:title="뉴스"/>
+
+    <item
+        android:id="@+id/tipFragment"
+        android:icon="@drawable/ic_tips_off_48"
+        android:title="팁" />
+
+    <item
+        android:id="@+id/myFragment"
+        android:icon="@drawable/ic_my_off_48"
+        android:title="My" />
+
+</menu>
