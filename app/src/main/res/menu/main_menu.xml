@@ -17,7 +17,7 @@
         android:title="뉴스"/>
 
     <item
-        android:id="@+id/tipFragment"
+        android:id="@+id/honeyTipFragment"
         android:icon="@drawable/ic_tips_off_48"
         android:title="팁" />
 

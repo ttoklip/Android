@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="TextAppearance.App.8sp_400" parent="TextAppearance.AppCompat">
         <item name="android:textSize">8sp</item>
         <item name="fontFamily">@font/pretendard_regular</item>
@@ -70,6 +69,17 @@
         <item name="android:textSize">20sp</item>
         <item name="fontFamily">@font/pretendard_semi_medium</item>
     </style>
+
+    <style name="TextAppearance.App.24sp_600" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/pretendard_bold</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlayExtended" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">30dp</item>
+    </style>
+
 
     <style name="Widget.MyApp.BottomNavigationView.Material2" parent="Widget.MaterialComponents.BottomNavigationView"></style>
 

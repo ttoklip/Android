@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_daily_popular_honey_tip_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/item_daily_popular_honey_tip_external_background"
+    android:paddingHorizontal="24dp"
+    android:paddingVertical="28dp"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:cardCornerRadius="50dp"
+        app:cardElevation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/profile_picture_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:src="@drawable/ic_logo_24" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/writer_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textAppearance="@style/TextAppearance.App.14sp_500"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/cardView"
+        app:layout_constraintStart_toEndOf="@id/cardView"
+        app:layout_constraintTop_toTopOf="@id/cardView"
+        tools:text="똑리비" />
+
+    <TextView
+        android:id="@+id/honey_tip_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/TextAppearance.App.16sp_600"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/cardView"
+        app:layout_constraintTop_toBottomOf="@id/cardView"
+        tools:text="빨래 후, 냄새가 난다면?" />
+
+    <TextView
+        android:id="@+id/honey_tip_body_content_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/TextAppearance.App.12sp_400"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/cardView"
+        app:layout_constraintTop_toBottomOf="@id/honey_tip_title_tv"
+        tools:text="빨래를 돌렸는데 냄새가 나는 것 같거나 옷이 오히려 더러워진 것 같으시면 세탁기 청소 상태 문제일 수도 있어요. 세탁기 내부에 있는 먼지 거름망을 확인.." />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/honey_tip_body_content_tv">
+
+        <ImageView
+            android:id="@+id/star_iv"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_bookmark_off_20" />
+
+        <TextView
+            android:id="@+id/star_count_tv"
+            style="@style/TextAppearance.App.10sp_400"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="8dp"
+            tools:text="00" />
+
+        <ImageView
+            android:id="@+id/like_iv"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_heart_off_20" />
+
+        <TextView
+            android:id="@+id/like_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="8dp"
+            android:textAppearance="@style/TextAppearance.App.10sp_400"
+            tools:text="00" />
+
+        <ImageView
+            android:id="@+id/comment_iv"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_message_24" />
+
+        <TextView
+            android:id="@+id/comment_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:textAppearance="@style/TextAppearance.App.10sp_400"
+            tools:text="00" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
