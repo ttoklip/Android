@@ -9,7 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.databinding.FragmentHoneyTipListBinding
-import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
+import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipListRVA
+import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTips
+import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
+import com.umc.ttoklip.presentation.honeytip.read.ReadActivity
 
 class HoneyTipListFragment: Fragment(), OnItemClickListener {
     private lateinit var binding: FragmentHoneyTipListBinding
@@ -57,7 +60,7 @@ class HoneyTipListFragment: Fragment(), OnItemClickListener {
     }
 
     override fun onClick(honeyTips: HoneyTips) {
-        val intent = Intent(activity, WriteHoneyTipActivity::class.java)
+        val intent = Intent(activity, ReadActivity::class.java)
         intent.putExtra("caller", "honeyTipList")
         startActivity(intent)
     }

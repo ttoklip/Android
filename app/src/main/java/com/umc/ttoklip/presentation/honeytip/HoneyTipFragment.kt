@@ -2,30 +2,28 @@ package com.umc.ttoklip.presentation.honeytip
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
+import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentHoneyTipBinding
+import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipAndQuestionVPA
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 
 
-class HoneyTipFragment: Fragment() {
-    private lateinit var binding: FragmentHoneyTipBinding
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentHoneyTipBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
+class HoneyTipFragment: BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment_honey_tip) {
+    private var board = 0
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initTabLayout()
+        view
         binding.writeFab.setOnClickListener {
             val intent = Intent(activity, WriteHoneyTipActivity::class.java)
             intent.putExtra("caller", "writeFab")
@@ -33,7 +31,7 @@ class HoneyTipFragment: Fragment() {
         }
     }
     private fun initTabLayout(){
-        val tabTitles = listOf("꿀팁 공유", "애스크")
+        val tabTitles = listOf("꿀팁 공유", "질문해요")
         binding.boardVp.adapter = HoneyTipAndQuestionVPA(this)
         binding.boardVp.isUserInputEnabled = false
 
@@ -42,5 +40,23 @@ class HoneyTipFragment: Fragment() {
                 tab.text = tabTitles[position]
             }
         }.attach()
+        binding.boardTablayout.addOnTabSelectedListener(object : OnTabSelectedListener{
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+    fun updateBoard(){
+        board = binding.boardTablayout.selectedTabPosition
+        Log.d("board", board.toString())
     }
 }

@@ -1,59 +1,85 @@
 package com.umc.ttoklip.presentation.honeytip.write
 
-import android.content.pm.PackageManager
+
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentWriteHoneyTipBinding
+import com.umc.ttoklip.presentation.base.BaseFragment
+import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialog
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
+import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
 
 
-class WriteHoneyTipFragment : Fragment() {
-    private val imageLoadLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()){
-
+class WriteHoneyTipFragment : BaseFragment<FragmentWriteHoneyTipBinding>(R.layout.fragment_write_honey_tip) {
+    /*private val imageLoadLauncher = registerForActivityResult(
+        ActivityResultContracts.GetMultipleContents()
+    ) { uriList ->
+        updateImages(uriList)
+    }*/
+    private val pickMultipleMedia = registerForActivityResult(
+        ActivityResultContracts.PickMultipleVisualMedia(
+            100
+        )
+    ) { uris ->
+        if (uris.isNotEmpty()) {
+            updateImages(uris)
+        } else {
+            Log.d("PhotoPicker", "No media selected")
+        }
     }
-    private lateinit var binding: FragmentWriteHoneyTipBinding
+    private lateinit var viewModel: WriteHoneyTipViewModel
     private lateinit var imageAdapter: ImageRVA
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentWriteHoneyTipBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initTabLayout()
         initImageRVA()
         addLink()
         addImage()
+        viewModel = ViewModelProvider(this).get(WriteHoneyTipViewModel::class.java)
+        binding.viewModel = viewModel
+
+        viewModel.titleLiveData.observe(viewLifecycleOwner) {
+            val isTitleEmpty = !binding.titleEt.text.isNullOrEmpty()
+        }
+
+        viewModel.bodyLiveData.observe(viewLifecycleOwner) {
+            val isBodyEmpty = !binding.bodyEt.text.isNullOrEmpty()
+        }
+
+        binding.bodyEt.setOnTouchListener { v, event ->
+            if (v.id == com.umc.ttoklip.R.id.body_et) {
+                v.parent.requestDisallowInterceptTouchEvent(true)
+                when (event.action and MotionEvent.ACTION_MASK) {
+                    MotionEvent.ACTION_UP -> v.parent.requestDisallowInterceptTouchEvent(false)
+                }
+            }
+            false
+        }
     }
 
-    private fun initImageRVA(){
+    private fun initImageRVA() {
         imageAdapter = ImageRVA()
         binding.imageRv.adapter = imageAdapter
     }
 
-    private fun initTabLayout(){
+    private fun initTabLayout() {
         val tabTitles = listOf("집안일", "요리", "안전한 생활", "사기", "복지 \u00b7 정책")
         for (i in tabTitles.indices) {
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(tabTitles[i]))
@@ -70,21 +96,25 @@ class WriteHoneyTipFragment : Fragment() {
                 val tab = tabs.getChildAt(i)
                 val lp = tab.layoutParams as LinearLayout.LayoutParams
                 lp.marginEnd = marginEnd
+                // -1: wrap_content, -2: match_parent
                 lp.height = -2
-                Log.d("size", lp.height.toString() + lp.width.toString())
                 tab.layoutParams = lp
                 tabLayout.requestLayout()
             }
         }
     }
 
-    private fun setSelectedTabTextStyleBold(){
-        binding.tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener{
+    private fun setSelectedTabTextStyleBold() {
+        binding.tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 val tabLayout =
                     (binding.tabLayout.getChildAt(0) as ViewGroup).getChildAt(tab!!.position) as LinearLayout
                 val tabTextView = tabLayout.getChildAt(1) as TextView
-                val typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendard_bold)
+                val typeface =
+                    ResourcesCompat.getFont(
+                        requireContext(),
+                        com.umc.ttoklip.R.font.pretendard_bold
+                    )
                 tabTextView.setTypeface(typeface, Typeface.NORMAL)
             }
 
@@ -92,7 +122,11 @@ class WriteHoneyTipFragment : Fragment() {
                 val tabLayout =
                     (binding.tabLayout.getChildAt(0) as ViewGroup).getChildAt(tab!!.position) as LinearLayout
                 val tabTextView = tabLayout.getChildAt(1) as TextView
-                val typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendard_medium)
+                val typeface =
+                    ResourcesCompat.getFont(
+                        requireContext(),
+                        com.umc.ttoklip.R.font.pretendard_medium
+                    )
                 tabTextView.setTypeface(typeface, Typeface.NORMAL)
             }
 
@@ -101,21 +135,44 @@ class WriteHoneyTipFragment : Fragment() {
         })
     }
 
-    private fun addLink(){
+    private fun addLink() {
         binding.addLinkBtn.setOnClickListener {
             binding.addLinkBtn.visibility = View.GONE
             binding.inputUrlBtn.visibility = View.VISIBLE
         }
     }
 
-    private fun addImage(){
+    private fun addImage() {
         binding.addImageBtn.setOnClickListener {
-            Log.d("됨?", "됨?")
-            binding.imageRv.visibility = View.VISIBLE
-            checkPermission()
+            /*val imageDialog = ImageDialog(requireContext())
+            imageDialog.setDialogClickListener(object : ImageDialog.DialogClickListener {
+                override fun onClick() {
+                    binding.imageRv.visibility = View.VISIBLE
+                    pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                }
+            })
+            imageDialog.show()*/
+
+            val imageDialog = ImageDialogFragment()
+            imageDialog.setDialogClickListener(object : ImageDialogFragment.DialogClickListener{
+                override fun onClick() {
+                    binding.imageRv.visibility = View.VISIBLE
+                    pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                }
+            })
+            imageDialog.show(parentFragmentManager, imageDialog.toString())
         }
     }
 
+    private fun updateImages(uriList: List<Uri>) {
+        val images = uriList.map { Image(it) }
+        val updatedImages = imageAdapter.currentList.toMutableList().apply { addAll(images) }
+        imageAdapter.submitList(updatedImages)
+    }
+}
+
+
+    /*
     private fun checkPermission() {
         when {
             ContextCompat.checkSelfPermission(
@@ -124,21 +181,17 @@ class WriteHoneyTipFragment : Fragment() {
             ) == PackageManager.PERMISSION_GRANTED -> {
                 loadImage()
             }
+
             ActivityCompat.shouldShowRequestPermissionRationale(
-                requireActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE) ->
-            {
+                requireActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ) -> {
                 showPermissionInfoDialog()
             }
+
             else -> {
-                imageLoadLauncher.launch(
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE
-                )
+                requestReadExternalStorage()
             }
         }
-    }
-
-    private fun loadImage() {
-        imageLoadLauncher.launch("image/*")
     }
 
     private fun showPermissionInfoDialog() {
@@ -152,7 +205,6 @@ class WriteHoneyTipFragment : Fragment() {
     }
 
     private fun requestReadExternalStorage() {
-        Log.d("됨?", "됨3?")
         ActivityCompat.requestPermissions(
             requireActivity(),
             arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
@@ -160,14 +212,10 @@ class WriteHoneyTipFragment : Fragment() {
         )
     }
 
-    private fun updateImages(uriList: List<Uri>){
-        val images = uriList.map { Image(it) }
-        val updatedImages = imageAdapter.currentList.apply { addAll(images) }
-        Log.d("ui", "$updatedImages")
-        imageAdapter.submitList(updatedImages)
+    private fun loadImage() {
+        imageLoadLauncher.launch("image/*")
     }
 
     companion object {
         const val REQUEST_READ_EXTERNAL_STORAGE = 100
-    }
-}
+    }*/
