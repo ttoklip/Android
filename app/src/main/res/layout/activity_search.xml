@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -125,6 +126,19 @@
             android:paddingHorizontal="15dp"
             android:layout_width="wrap_content"
             android:layout_height="32dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchRV"
+            app:layout_constraintTop_toBottomOf="@id/settingBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="12dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_search"
+            android:paddingHorizontal="24dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

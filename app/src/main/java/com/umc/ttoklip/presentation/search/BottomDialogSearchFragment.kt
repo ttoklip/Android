@@ -54,6 +54,7 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
 
                 R.id.board2 -> {
                     binding.categoryG.isGone = true
+                    binding.categoryChipG.clearCheck()
                 }
 
                 R.id.board3 -> {
@@ -62,10 +63,12 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
 
                 R.id.board4 -> {
                     binding.categoryG.isGone = true
+                    binding.categoryChipG.clearCheck()
                 }
 
                 R.id.board5 -> {
                     binding.categoryG.isGone = true
+                    binding.categoryChipG.clearCheck()
                 }
 
                 else -> {
