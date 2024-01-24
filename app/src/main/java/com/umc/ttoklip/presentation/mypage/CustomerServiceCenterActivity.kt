@@ -4,6 +4,7 @@ import androidx.core.view.isGone
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityCustomerServiceCenterBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
+import com.umc.ttoklip.presentation.mypage.dialog.OneOnOneInquiriesDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,6 +29,10 @@ class CustomerServiceCenterActivity :
                 binding.faqSub2Btn.setImageResource(R.drawable.ic_arrow_down_24)
             }
             binding.faqSub2Content.isGone = binding.faqSub2Content.isGone.not()
+        }
+        binding.oneOnOneInquriesBtn.setOnClickListener {
+            val dialog = OneOnOneInquiriesDialog()
+            dialog.show(supportFragmentManager, dialog.tag)
         }
     }
 

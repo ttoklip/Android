@@ -186,5 +186,16 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/one_on_one_inquries_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="32dp"
+            android:text="@string/one_on_one_inquiries"
+            android:textAppearance="@style/TextAppearance.App.16sp_700"
+            android:background="@drawable/yellow_btn_background"
+            android:layout_marginHorizontal="24dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

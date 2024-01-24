@@ -4,6 +4,7 @@ import android.content.Intent
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentMyPageBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
+import com.umc.ttoklip.presentation.mypage.dialog.LogoutDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -12,39 +13,45 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     override fun initObserver() = Unit
 
     override fun initView() {
+        binding.userExpBar.isEnabled = false
         binding.updateProfileBtn.setOnClickListener {
             val intent = Intent(requireContext(), ManageMyInfoActivity::class.java)
             startActivity(intent)
         }
 
-        binding.announcementBtn.setOnClickListener {
+        binding.announcementFrame.setOnClickListener {
             val intent = Intent(requireContext(), SetAnnouncementActivity::class.java)
             startActivity(intent)
         }
 
-        binding.usageManageBtn.setOnClickListener {
+        binding.usageManageFrame.setOnClickListener {
             val intent = Intent(requireContext(), ManageUsageActivity::class.java)
             startActivity(intent)
         }
 
-        binding.manageAccountBtn.setOnClickListener {
+        binding.manageAccountFrame.setOnClickListener {
             val intent = Intent(requireContext(), ManageAccountActivity::class.java)
             startActivity(intent)
         }
 
-        binding.noticeBtn.setOnClickListener {
+        binding.noticeFrame.setOnClickListener {
             val intent = Intent(requireContext(), NoticeSettingActivity::class.java)
             startActivity(intent)
         }
 
-        binding.customerServiceCenterBtn.setOnClickListener {
+        binding.customerServiceCenterFrame.setOnClickListener {
             val intent = Intent(requireContext(), CustomerServiceCenterActivity::class.java)
             startActivity(intent)
         }
 
-        binding.termsPolicesBtn.setOnClickListener {
+        binding.termsPolicesFrame.setOnClickListener {
             val intent = Intent(requireContext(), TermsPolicesActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.logoutFrame.setOnClickListener {
+            val dialog = LogoutDialog()
+            dialog.show(parentFragmentManager, dialog.tag)
         }
     }
 
