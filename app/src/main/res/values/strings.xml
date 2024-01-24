@@ -75,5 +75,7 @@
     <string name="sympathy_notice_title">공감 알림</string>
     <string name="comment_notice_title">댓글 알림</string>
     <string name="scrap_notice_title">스크랩 알림</string>
+    <string name="faq_title">자주찾는 질문</string>
+
 
 </resources>

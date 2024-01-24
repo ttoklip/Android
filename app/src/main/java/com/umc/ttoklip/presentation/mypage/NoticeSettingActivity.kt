@@ -7,7 +7,9 @@ import com.umc.ttoklip.presentation.base.BaseActivity
 class NoticeSettingActivity :
     BaseActivity<ActivityNoticeSettingBinding>(R.layout.activity_notice_setting) {
     override fun initView() {
-
+        binding.noticeSettingBackBtn.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     override fun initObserver() = Unit
