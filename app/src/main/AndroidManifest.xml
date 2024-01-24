@@ -55,6 +55,9 @@
             android:name=".presentation.mypage.CustomerServiceCenterActivity"
             android:exported="false" />
         <activity
+            android:name=".presentation.mypage.TermsPolicesActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.MainActivity"
             android:exported="true">
             <intent-filter>

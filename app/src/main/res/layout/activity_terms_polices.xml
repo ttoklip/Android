@@ -12,16 +12,16 @@
         android:background="@color/white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginHorizontal="24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
             android:layout_marginTop="24dp"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/customer_service_center_text"
+                android:text="@string/terms_polices_text"
                 android:textAppearance="@style/TextAppearance.App.16sp_600"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -29,7 +29,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/customer_service_center_back_btn"
+                android:id="@+id/terms_polices_back_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -54,47 +54,36 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/faq_title_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/faq_title"
-                    android:textAppearance="@style/TextAppearance.App.16sp_600"
-                    android:textColor="@color/black"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/faq_sub1_frame"
+                    android:id="@+id/terms_polices1_frame"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
                     android:paddingVertical="9dp"
-                    app:layout_constraintTop_toBottomOf="@id/faq_title_tv">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:id="@+id/faq_sub1_tv"
+                        android:id="@+id/terms_polices1_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
-                        android:text="주제 하나"
+                        android:text="약관 하나"
                         android:textAppearance="@style/TextAppearance.App.14sp_600"
                         android:textColor="@color/black"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageButton
-                        android:id="@+id/faq_sub1_btn"
+                        android:id="@+id/terms_polices1_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_arrow_down_24"
-                        app:layout_constraintBottom_toBottomOf="@id/faq_sub1_tv"
+                        app:layout_constraintBottom_toBottomOf="@id/terms_polices1_tv"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/faq_sub1_tv" />
+                        app:layout_constraintTop_toTopOf="@id/terms_polices1_tv" />
 
                     <ScrollView
-                        android:id="@+id/faq_sub1_content"
+                        android:id="@+id/terms_polices1_content"
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
                         android:layout_marginTop="12dp"
@@ -102,7 +91,7 @@
                         android:visibility="gone"
                         android:fillViewport="true"
                         android:background="@drawable/rectangle_corner_10_strok_1_black"
-                        app:layout_constraintTop_toBottomOf="@id/faq_sub1_btn">
+                        app:layout_constraintTop_toBottomOf="@id/terms_polices1_btn">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -118,42 +107,41 @@
 ※ 이를 위반하여 개인정보를 수집한 자는 개인정보 보호위원회에게 전체 매출액의 100분의 3을 초과하지 않는 범위에서 과징금을 부과 받을 수 있습니다(「개인정보 보호법」 제64조의2제1항제1호).
 
 "
-                            android:textAppearance="@style/TextAppearance.App.12sp_400"
-                            app:layout_constraintTop_toBottomOf="@id/faq_sub1_tv" />
+                            android:textAppearance="@style/TextAppearance.App.12sp_400" />
                     </ScrollView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/faq_sub2_frame"
+                    android:id="@+id/terms_polices2_frame"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:paddingVertical="9dp"
-                    app:layout_constraintTop_toBottomOf="@id/faq_sub1_frame">
+                    app:layout_constraintTop_toBottomOf="@id/terms_polices1_frame">
 
                     <TextView
-                        android:id="@+id/faq_sub2_tv"
+                        android:id="@+id/terms_polices2_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
-                        android:text="주제 하나"
+                        android:text="정책 하나"
                         android:textAppearance="@style/TextAppearance.App.14sp_600"
                         android:textColor="@color/black"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageButton
-                        android:id="@+id/faq_sub2_btn"
+                        android:id="@+id/terms_polices2_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_arrow_down_24"
-                        app:layout_constraintBottom_toBottomOf="@id/faq_sub2_tv"
+                        app:layout_constraintBottom_toBottomOf="@id/terms_polices2_tv"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/faq_sub2_tv" />
+                        app:layout_constraintTop_toTopOf="@id/terms_polices2_tv" />
 
                     <ScrollView
-                        android:id="@+id/faq_sub2_content"
+                        android:id="@+id/terms_polices2_content"
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
                         android:layout_marginTop="12dp"
@@ -161,7 +149,7 @@
                         android:visibility="gone"
                         android:fillViewport="true"
                         android:background="@drawable/rectangle_corner_10_strok_1_black"
-                        app:layout_constraintTop_toBottomOf="@id/faq_sub2_btn">
+                        app:layout_constraintTop_toBottomOf="@id/terms_polices2_btn">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -177,8 +165,7 @@
 ※ 이를 위반하여 개인정보를 수집한 자는 개인정보 보호위원회에게 전체 매출액의 100분의 3을 초과하지 않는 범위에서 과징금을 부과 받을 수 있습니다(「개인정보 보호법」 제64조의2제1항제1호).
 
 "
-                            android:textAppearance="@style/TextAppearance.App.12sp_400"
-                            app:layout_constraintTop_toBottomOf="@id/faq_sub2_tv" />
+                            android:textAppearance="@style/TextAppearance.App.12sp_400" />
                     </ScrollView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -41,6 +41,11 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             val intent = Intent(requireContext(), CustomerServiceCenterActivity::class.java)
             startActivity(intent)
         }
+
+        binding.termsPolicesBtn.setOnClickListener {
+            val intent = Intent(requireContext(), TermsPolicesActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 }
