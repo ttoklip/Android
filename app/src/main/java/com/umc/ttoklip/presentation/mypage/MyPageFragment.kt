@@ -31,6 +31,11 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             val intent = Intent(requireContext(), ManageAccountActivity::class.java)
             startActivity(intent)
         }
+
+        binding.noticeBtn.setOnClickListener {
+            val intent = Intent(requireContext(), NoticeSettingActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 }

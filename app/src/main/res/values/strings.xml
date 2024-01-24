@@ -72,5 +72,8 @@
     <string name="contain_english">영문</string>
     <string name="contain_number">숫자</string>
     <string name="contain_special_character">특수문자</string>
+    <string name="sympathy_notice_title">공감 알림</string>
+    <string name="comment_notice_title">댓글 알림</string>
+    <string name="scrap_notice_title">스크랩 알림</string>
 
 </resources>
