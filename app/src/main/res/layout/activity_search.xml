@@ -5,7 +5,8 @@
 
     <data>
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.umc.ttoklip.presentation.search.SearchViewModel" />
@@ -15,6 +16,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/searchBefore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{vm.searchAfter ? View.GONE : View.VISIBLE}"
+            app:constraint_referenced_ids="historyRV, historyT, deleteBtn" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/searchAfter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{vm.searchAfter ? View.VISIBLE : View.GONE}"
+            app:constraint_referenced_ids="settingBtn, searchRV, sortfilterT " />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/backBtn"
@@ -33,9 +48,11 @@
             android:layout_marginHorizontal="24dp"
             android:background="@null"
             android:ellipsize="end"
-            android:lines="1"
-            android:switchTextAppearance="@style/TextAppearance.App.12sp_400"
+            android:text="@={vm.searchText}"
             android:hint="무슨 도움이 필요한가요?"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:switchTextAppearance="@style/TextAppearance.App.12sp_400"
             android:textAppearance="@style/TextAppearance.App.16sp_600"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@id/backBtn"
@@ -49,96 +66,134 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
-            android:src="@drawable/ic_search_24"
+            android:src="@{vm.searchAfter ? @drawable/ic_close_24 : @drawable/ic_search_24 }"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/settingBtn"
-            app:layout_constraintTop_toBottomOf="@id/backBtn"
-            android:layout_marginTop="28dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:cardCornerRadius="16dp"
-            app:strokeColor="@color/gray20"
-            android:layout_marginStart="24dp"
             android:layout_width="36dp"
-            android:layout_height="32dp">
+            android:layout_height="32dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="28dp"
+            app:cardCornerRadius="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/backBtn"
+            app:strokeColor="@color/gray20">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/filterBtn"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="@color/white"
-                android:src="@drawable/ic_set_24"
-                android:tint="@color/gray80"
                 android:onClick="@{()->vm.clickFilter()}"
                 android:scaleType="center"
-                android:layout_height="match_parent"/>
+                android:src="@drawable/ic_set_24"
+                android:tint="@color/gray80" />
         </com.google.android.material.card.MaterialCardView>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/sortfilterT"
-            android:gravity="center"
-            app:layout_constraintTop_toTopOf="@id/settingBtn"
-            app:layout_constraintBottom_toBottomOf="@id/settingBtn"
-            app:layout_constraintStart_toEndOf="@id/settingBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
             android:layout_marginStart="12dp"
+            android:background="@drawable/rectangle_corner_10"
+            android:backgroundTint="@color/yellow"
+            android:gravity="center"
+            android:paddingHorizontal="15dp"
             android:text="최신순"
             android:textAppearance="@style/TextAppearance.App.12sp_700"
             android:textColor="@color/black"
-            android:background="@drawable/rectangle_corner_10"
-            android:backgroundTint="@color/yellow"
-            android:paddingHorizontal="15dp"
-            android:layout_width="wrap_content"
             android:visibility="@{vm.filterSort ==0 ? View.GONE : View.VISIBLE }"
-            android:layout_height="32dp"/>
+            app:layout_constraintBottom_toBottomOf="@id/settingBtn"
+            app:layout_constraintStart_toEndOf="@id/settingBtn"
+            app:layout_constraintTop_toTopOf="@id/settingBtn" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/boardFilterT"
-            android:gravity="center"
-            app:layout_constraintTop_toTopOf="@id/settingBtn"
-            app:layout_constraintBottom_toBottomOf="@id/settingBtn"
-            app:layout_constraintStart_toEndOf="@id/sortfilterT"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
             android:layout_marginStart="12dp"
+            android:background="@drawable/rectangle_corner_10"
+            android:backgroundTint="@color/yellow"
+            android:gravity="center"
+            android:paddingHorizontal="15dp"
             android:text="뉴스레터"
             android:textAppearance="@style/TextAppearance.App.12sp_700"
             android:textColor="@color/black"
-            android:background="@drawable/rectangle_corner_10"
-            android:backgroundTint="@color/yellow"
-            android:paddingHorizontal="15dp"
             android:visibility="@{vm.filterBoard ==0 ? View.GONE : View.VISIBLE }"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"/>
+            app:layout_constraintBottom_toBottomOf="@id/settingBtn"
+            app:layout_constraintStart_toEndOf="@id/sortfilterT"
+            app:layout_constraintTop_toTopOf="@id/settingBtn" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/categoryFilterT"
-            android:gravity="center"
-            app:layout_constraintTop_toTopOf="@id/settingBtn"
-            app:layout_constraintBottom_toBottomOf="@id/settingBtn"
-            app:layout_constraintStart_toEndOf="@id/boardFilterT"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
             android:layout_marginStart="12dp"
+            android:background="@drawable/rectangle_corner_10"
+            android:backgroundTint="@color/yellow"
+            android:gravity="center"
+            android:paddingHorizontal="15dp"
             android:text="레시피"
             android:textAppearance="@style/TextAppearance.App.12sp_700"
             android:textColor="@color/black"
-            android:background="@drawable/rectangle_corner_10"
-            android:backgroundTint="@color/yellow"
             android:visibility="@{vm.filterCategory ==0 ? View.GONE : View.VISIBLE }"
-            android:paddingHorizontal="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"/>
+            app:layout_constraintBottom_toBottomOf="@id/settingBtn"
+            app:layout_constraintStart_toEndOf="@id/boardFilterT"
+            app:layout_constraintTop_toTopOf="@id/settingBtn" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/searchRV"
-            app:layout_constraintTop_toBottomOf="@id/settingBtn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="12dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_search"
-            android:paddingHorizontal="24dp"
             android:layout_width="0dp"
-            android:layout_height="0dp"/>
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            android:paddingHorizontal="24dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/settingBtn"
+            tools:listitem="@layout/item_search" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/historyT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="40dp"
+            android:text="최근검색어"
+            android:textAppearance="@style/TextAppearance.App.14sp_500"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/backBtn" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/deleteBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="32dp"
+            android:paddingStart="12dp"
+            android:paddingTop="12dp"
+            android:text="@string/searchDelete"
+            android:textAppearance="@style/TextAppearance.App.12sp_400"
+            app:layout_constraintBottom_toBottomOf="@id/historyT"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/historyRV"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="18dp"
+            android:layout_marginTop="18dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/historyT"
+            tools:itemCount="1"
+            tools:listitem="@layout/item_serach_history" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

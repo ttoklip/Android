@@ -73,4 +73,8 @@
     <string name="contain_number">숫자</string>
     <string name="contain_special_character">특수문자</string>
 
+
+
+    <string name="searchDelete"><u>전체삭제</u></string>
+
 </resources>
