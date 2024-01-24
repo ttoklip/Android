@@ -338,6 +338,7 @@
                             android:background="@drawable/round_input_background"
                             android:hint="@string/input_new_password_hint"
                             android:inputType="textPassword"
+                            android:maxLength="15"
                             android:paddingHorizontal="14dp"
                             android:paddingVertical="16dp"
                             android:tag="eye_off_blank"
@@ -397,7 +398,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="2dp"
-                                android:text="@string/contain_english"
+                                android:text="@string/contain_number"
                                 android:textAppearance="@style/TextAppearance.App.10sp_400"
                                 android:textColor="@color/gray40"
                                 app:layout_constraintStart_toEndOf="@id/contain_number_img"
@@ -454,6 +455,7 @@
                             android:background="@drawable/round_input_background"
                             android:hint="@string/input_check_new_password_hint"
                             android:inputType="textPassword"
+                            android:maxLength="15"
                             android:paddingHorizontal="14dp"
                             android:paddingVertical="16dp"
                             android:tag="eye_off_blank"
@@ -482,7 +484,7 @@
                             android:text="@string/input_verified"
                             android:textAppearance="@style/TextAppearance.App.12sp_400"
                             android:textColor="@color/blue"
-                            android:visibility="gone"
+                            android:visibility="invisible"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/input_check_new_password_et" />
 

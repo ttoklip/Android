@@ -3,6 +3,7 @@ package com.umc.ttoklip.presentation.mypage
 import android.content.Intent
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentMyPageBinding
+import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.mypage.dialog.LogoutDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,6 +15,9 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
     override fun initView() {
         binding.userExpBar.isEnabled = false
+        binding.noticeBtn.setOnClickListener {
+            startActivity(AlarmActivity.newIntent(requireContext()))
+        }
         binding.updateProfileBtn.setOnClickListener {
             val intent = Intent(requireContext(), ManageMyInfoActivity::class.java)
             startActivity(intent)
