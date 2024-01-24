@@ -1,4 +1,4 @@
-package com.umc.ttoklip.presentation.search
+package com.umc.ttoklip.presentation.search.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
