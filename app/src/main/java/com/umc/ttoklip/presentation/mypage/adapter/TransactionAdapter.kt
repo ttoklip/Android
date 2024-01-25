@@ -2,6 +2,7 @@ package com.umc.ttoklip.presentation.mypage.adapter
 
 import android.content.Context
 import android.graphics.Paint
+import android.icu.text.DecimalFormat
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
@@ -37,10 +38,13 @@ class TransactionAdapter(private val context: Context) :
                 } else {
                     closureReasonChip.isGone = true
                 }
+
+                val currentAmount = AMOUNT_FORMAT.format(data.currentAmount)
+                val targetAmount = AMOUNT_FORMAT.format(data.targetAmount)
                 val amount =
-                    context.getString(R.string.amount_format, data.currentAmount, data.targetAmount)
+                    context.getString(R.string.amount_format, currentAmount, targetAmount)
                 val spannableAmount = SpannableString(amount)
-                if (data.currentAmount == data.targetAmount) {
+                if (currentAmount == targetAmount) {
                     spannableAmount.setSpan(
                         ForegroundColorSpan(context.getColor(R.color.blue)), 0,
                         data.currentAmount.toString().length,
@@ -56,7 +60,7 @@ class TransactionAdapter(private val context: Context) :
                 amountChip.text = spannableAmount
 
                 val member =
-                    context.getString(R.string.amount_format, data.currentMember, data.targetMember)
+                    context.getString(R.string.member_format, data.currentMember, data.targetMember)
                 val spannableMember = SpannableString(member)
                 if (data.currentMember == data.targetMember) {
                     spannableMember.setSpan(
@@ -99,6 +103,7 @@ class TransactionAdapter(private val context: Context) :
 
     companion object {
         private const val COMMENT_LENGTH_STANDARD = 10
+        private val AMOUNT_FORMAT = DecimalFormat("#,###")
         private val diff = object : DiffUtil.ItemCallback<Transaction>() {
             override fun areItemsTheSame(
                 oldItem: Transaction,

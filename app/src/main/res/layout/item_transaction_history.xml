@@ -69,8 +69,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-
-            android:paddingVertical="4dp"
             app:itemSpacing="6dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/transaction_owner_icon">
@@ -124,7 +122,8 @@
             android:layout_marginEnd="2dp"
             android:src="@drawable/ic_message_24"
             app:layout_constraintEnd_toStartOf="@id/comment_amount_tv"
-            app:layout_constraintTop_toTopOf="@id/transaction_status_frame" />
+            app:layout_constraintTop_toTopOf="@id/transaction_status_frame"
+            app:layout_constraintBottom_toBottomOf="@id/transaction_status_frame" />
 
         <TextView
             android:id="@+id/comment_amount_tv"
@@ -133,7 +132,8 @@
             android:text="00"
             android:textAppearance="@style/TextAppearance.App.10sp_400"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/transaction_status_frame" />
+            app:layout_constraintTop_toTopOf="@id/transaction_status_frame"
+            app:layout_constraintBottom_toBottomOf="@id/transaction_status_frame" />
 
         <View
             android:id="@+id/item_separator"

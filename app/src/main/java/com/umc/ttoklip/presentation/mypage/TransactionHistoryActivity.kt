@@ -19,7 +19,7 @@ class TransactionHistoryActivity :
         val dummy = listOf(
             Transaction(
                 title = "같이 햇반 대량 구매하실 분?",
-                date = "",
+                date = "1일전",
                 ownerId = "똑똑이",
                 address = "서울 어딘가",
                 currentAmount = 13000,
@@ -31,7 +31,7 @@ class TransactionHistoryActivity :
             ),
             Transaction(
                 title = "같이 햇반 대량 구매하실 분?",
-                date = "",
+                date = "1일전",
                 ownerId = "똑똑이",
                 address = "서울 어딘가",
                 currentAmount = 36000,

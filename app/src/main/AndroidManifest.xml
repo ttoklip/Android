@@ -22,6 +22,7 @@
 
         <activity
             android:name=".presentation.mypage.ManageMyInfoActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".presentation.honeytip.read.ReadActivity"
@@ -38,28 +39,36 @@
             android:exported="false" />
         <activity
             android:name=".presentation.mypage.SetAnnouncementActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".presentation.mypage.ManageUsageActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".presentation.mypage.MyHometownAddressActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".presentation.mypage.ManageAccountActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".presentation.mypage.NoticeSettingActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".presentation.mypage.CustomerServiceCenterActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".presentation.mypage.TermsPolicesActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".presentation.mypage.TransactionHistoryActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".presentation.MainActivity"

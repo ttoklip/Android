@@ -83,7 +83,8 @@
     <string name="send_inquiries">전송</string>
     <string name="logout_title">정말 똑립에서 로그아웃하시겠어요?</string>
     <string name="my_transaction_history_title">나의 거래내역</string>
-    <string name="amount_format">"%d/%d"</string>
+    <string name="amount_format">"%s/%s"</string>
     <string name="comment_format">"0%d"</string>
+    <string name="member_format">"%d/%d"</string>
 
 </resources>
