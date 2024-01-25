@@ -59,6 +59,9 @@
             android:name=".presentation.mypage.TermsPolicesActivity"
             android:exported="false" />
         <activity
+            android:name=".presentation.mypage.TransactionHistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.MainActivity"
             android:exported="true">
             <intent-filter>

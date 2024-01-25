@@ -57,6 +57,11 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             val dialog = LogoutDialog()
             dialog.show(parentFragmentManager, dialog.tag)
         }
+
+        binding.transactionHistoryBtn.setOnClickListener {
+            val intent = Intent(requireContext(), TransactionHistoryActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 }

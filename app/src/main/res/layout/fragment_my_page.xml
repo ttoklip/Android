@@ -227,7 +227,7 @@
                 android:background="@drawable/yellow_btn_background"
                 android:drawableStart="@drawable/ic_cost_search_16"
                 android:paddingHorizontal="10dp"
-                android:text="@string/transcation_history_btn_text"
+                android:text="@string/transaction_history_btn_text"
                 android:textAppearance="@style/TextAppearance.App.12sp_500"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
