@@ -15,9 +15,6 @@ class ChooseMainInterestDialogFragment(private val btnClickListener: (List<Strin
 
     override fun initView() {
         with(binding) {
-            noInterestChip.setOnClickListener {
-                removeAllInterest()
-            }
             houseworkChip.setOnClickListener {
                 changeInterest(houseworkChip)
             }
@@ -44,29 +41,10 @@ class ChooseMainInterestDialogFragment(private val btnClickListener: (List<Strin
 
     private fun changeInterest(chip: Chip) {
         Log.d("chip", chip.text.toString())
-        if (binding.noInterestChip.tag == YES_INTERESTING) {
-            removeInterest(binding.noInterestChip)
-        }
         if (chip.tag == NOT_INTERESTING) {
             addInterest(chip)
         } else {
             removeInterest(chip)
-        }
-        checkInterest()
-    }
-
-    private fun removeAllInterest() {
-        with(binding) {
-            if (noInterestChip.tag == NOT_INTERESTING) {
-                removeInterest(houseworkChip)
-                removeInterest(cookingChip)
-                removeInterest(safeLifeChip)
-                removeInterest(fraudChip)
-                removeInterest(welfarePolicyChip)
-                addInterest(noInterestChip)
-            } else {
-                removeInterest(noInterestChip)
-            }
         }
         checkInterest()
     }

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="312dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle_corner_10"
+        android:backgroundTint="@color/white">
+
+        <TextView
+            android:id="@+id/logout_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="58dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/logout_title"
+            android:textAppearance="@style/TextAppearance.App.16sp_500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/logout_cancel_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/rectangle_corner_left_10"
+            android:backgroundTint="@color/gray80"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/dialog_cancel"
+            android:textAppearance="@style/TextAppearance.App.16sp_600"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/logout_accept_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/logout_title_tv" />
+
+        <TextView
+            android:id="@+id/logout_accept_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/orange"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/rectangle_corner_right_10_stroke_1"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/logout_text"
+            android:textAppearance="@style/TextAppearance.App.16sp_600"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/logout_cancel_btn"
+            app:layout_constraintTop_toBottomOf="@id/logout_title_tv" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
