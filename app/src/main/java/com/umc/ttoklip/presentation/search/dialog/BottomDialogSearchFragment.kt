@@ -14,7 +14,6 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
     BottomSheetDialogFragment() {
 
     lateinit var binding: FragmentBottomDialogSearchBinding
-    val resultList = mutableListOf<Int>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,6 +26,7 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //배경 투명하게 (라운드 보이게)
         setStyle( // Background -> Transparent.
             STYLE_NORMAL,
             R.style.TransparentBottomSheetDialogFragment
