@@ -6,6 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".presentation.news.detail.NewsDetailActivity">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -29,7 +30,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/backBtn" />
 
-        <LinearLayout
+        <!--LinearLayout
             android:id="@+id/honey_tip_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -81,41 +82,25 @@
                     android:text="삭제하기"
                     android:textAppearance="@style/TextAppearance.App.12sp_500" />
             </LinearLayout>
-        </LinearLayout>
+        </LinearLayout-->
 
-        <LinearLayout
-            android:id="@+id/ask_menu"
+        <TextView
+            android:id="@+id/report_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:background="@drawable/rectangle_corner_10_strok_1"
-            android:orientation="vertical"
+            android:drawableStart="@drawable/ic_report"
+            android:drawablePadding="8dp"
+            android:gravity="center"
             android:paddingHorizontal="8dp"
             android:paddingVertical="12dp"
+            android:text="신고하기"
             android:visibility="gone"
+            tools:visibility="visible"
+            android:textAppearance="@style/TextAppearance.App.12sp_500"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dotBtn"
-            tools:visibility="visible">
-
-            <LinearLayout
-                android:id="@+id/report_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_edit" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="수정하기"
-                    android:textAppearance="@style/TextAppearance.App.12sp_500" />
-            </LinearLayout>
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@id/dotBtn" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/dotBtn"

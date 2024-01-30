@@ -13,19 +13,21 @@ import android.widget.TextView
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentWriteHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
+import com.umc.ttoklip.presentation.honeytip.HoneyTipViewModel
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialog
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
 
 
-class WriteHoneyTipFragment : BaseFragment<FragmentWriteHoneyTipBinding>(R.layout.fragment_write_honey_tip) {
+class WriteHoneyTipFragment(val board: String) : BaseFragment<FragmentWriteHoneyTipBinding>(R.layout.fragment_write_honey_tip) {
     /*private val imageLoadLauncher = registerForActivityResult(
         ActivityResultContracts.GetMultipleContents()
     ) { uriList ->
@@ -42,45 +44,29 @@ class WriteHoneyTipFragment : BaseFragment<FragmentWriteHoneyTipBinding>(R.layou
             Log.d("PhotoPicker", "No media selected")
         }
     }
-    private lateinit var viewModel: WriteHoneyTipViewModel
+    private lateinit var viewModel: HoneyTipViewModel
     private lateinit var imageAdapter: ImageRVA
     override fun initObserver() {
 
     }
 
     override fun initView() {
-
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         initTabLayout()
         initImageRVA()
         addLink()
         addImage()
-        viewModel = ViewModelProvider(this).get(WriteHoneyTipViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(HoneyTipViewModel::class.java)
         binding.viewModel = viewModel
-
-        viewModel.titleLiveData.observe(viewLifecycleOwner) {
-            val isTitleEmpty = !binding.titleEt.text.isNullOrEmpty()
+        enableEditTextScroll()
+        binding.titleEt.doAfterTextChanged {
+            viewModel.setTitle(it.toString())
         }
 
-        viewModel.bodyLiveData.observe(viewLifecycleOwner) {
-            val isBodyEmpty = !binding.bodyEt.text.isNullOrEmpty()
-        }
-
-        binding.bodyEt.setOnTouchListener { v, event ->
-            if (v.id == com.umc.ttoklip.R.id.body_et) {
-                v.parent.requestDisallowInterceptTouchEvent(true)
-                when (event.action and MotionEvent.ACTION_MASK) {
-                    MotionEvent.ACTION_UP -> v.parent.requestDisallowInterceptTouchEvent(false)
-                }
-            }
-            false
+        binding.bodyEt.doAfterTextChanged {
+            Log.d("WriteFragmentBody", it.toString())
+            viewModel.setBody(it.toString())
         }
     }
-
     private fun initImageRVA() {
         imageAdapter = ImageRVA()
         binding.imageRv.adapter = imageAdapter
@@ -151,15 +137,6 @@ class WriteHoneyTipFragment : BaseFragment<FragmentWriteHoneyTipBinding>(R.layou
 
     private fun addImage() {
         binding.addImageBtn.setOnClickListener {
-            /*val imageDialog = ImageDialog(requireContext())
-            imageDialog.setDialogClickListener(object : ImageDialog.DialogClickListener {
-                override fun onClick() {
-                    binding.imageRv.visibility = View.VISIBLE
-                    pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-                }
-            })
-            imageDialog.show()*/
-
             val imageDialog = ImageDialogFragment()
             imageDialog.setDialogClickListener(object : ImageDialogFragment.DialogClickListener{
                 override fun onClick() {
@@ -175,6 +152,18 @@ class WriteHoneyTipFragment : BaseFragment<FragmentWriteHoneyTipBinding>(R.layou
         val images = uriList.map { Image(it) }
         val updatedImages = imageAdapter.currentList.toMutableList().apply { addAll(images) }
         imageAdapter.submitList(updatedImages)
+    }
+
+    private fun enableEditTextScroll(){
+        binding.bodyEt.setOnTouchListener { v, event ->
+            if (v.id == com.umc.ttoklip.R.id.body_et) {
+                v.parent.requestDisallowInterceptTouchEvent(true)
+                when (event.action and MotionEvent.ACTION_MASK) {
+                    MotionEvent.ACTION_UP -> v.parent.requestDisallowInterceptTouchEvent(false)
+                }
+            }
+            false
+        }
     }
 }
 

@@ -10,4 +10,12 @@ class WriteHoneyTipViewModel: ViewModel() {
 
     val bodyLiveData: LiveData<String> by lazy { _bodyLiveData }
     private val _bodyLiveData by lazy { MutableLiveData<String>() }
+
+    fun setTitle(title: String){
+        _titleLiveData.value = title
+    }
+
+    fun setBody(body: String){
+        _bodyLiveData.value = body
+    }
 }
