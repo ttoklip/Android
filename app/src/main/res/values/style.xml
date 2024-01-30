@@ -111,4 +111,8 @@
         <item name="android:editTextColor">@color/black</item>
     </style>
 
+    <style name="SpinnerTextViewItem" parent="@android:style/Widget.TextView">
+        <item name="android:textAppearance">@style/TextAppearance.App.12sp_500</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

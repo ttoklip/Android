@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="312dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle_corner_10"
+        android:backgroundTint="@color/white">
+
+        <TextView
+            android:id="@+id/inquiries_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="58dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/one_on_one_inquiries_title"
+            android:textAppearance="@style/TextAppearance.App.16sp_500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/inquiries_content_et"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rectangle_corner_10_strok_1"
+            android:gravity="top"
+            android:hint="@string/inquiries_hint"
+            android:padding="10dp"
+            android:textAppearance="@style/TextAppearance.App.12sp_400"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray80"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/inquiries_title_tv" />
+
+        <TextView
+            android:id="@+id/cancel_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rectangle_corner_left_10"
+            android:backgroundTint="@color/gray80"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/dialog_cancel"
+            android:textAppearance="@style/TextAppearance.App.16sp_600"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/accept_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/inquiries_content_et" />
+
+        <TextView
+            android:id="@+id/accept_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rectangle_corner_right_10"
+            android:backgroundTint="@color/yellow"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/send_inquiries"
+            android:textAppearance="@style/TextAppearance.App.16sp_600"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cancel_btn"
+            app:layout_constraintTop_toBottomOf="@id/inquiries_content_et" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
