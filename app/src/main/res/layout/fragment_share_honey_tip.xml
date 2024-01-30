@@ -108,6 +108,7 @@
             app:tabRippleColor="@null"
             app:tabPaddingStart="20dp"
             app:tabPaddingEnd="20dp"
+            app:tabBackground="@color/white"
             app:tabTextAppearance="@style/TextAppearance.App.16sp_500"
             app:tabTextColor="@color/tab_text_color_selector" />
 

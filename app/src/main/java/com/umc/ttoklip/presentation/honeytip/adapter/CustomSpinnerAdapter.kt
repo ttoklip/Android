@@ -10,6 +10,7 @@ import com.umc.ttoklip.databinding.SpinnerOuterViewBinding
 
 class CustomSpinnerAdapter(context: Context, private val list: List<String>?) :
     BaseAdapter() {
+
     private val inflater: LayoutInflater
 
     // 스피너에서 선택된 아이템을 액티비티에서 꺼내오는 메서드
@@ -33,7 +34,7 @@ class CustomSpinnerAdapter(context: Context, private val list: List<String>?) :
     }
 
     // 화면에 들어왔을 때 보여지는 텍스트뷰 설정
-    override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
         val binding = SpinnerOuterViewBinding.inflate(inflater, parent, false)
         if (convertView == null) convertView = binding.root
@@ -45,7 +46,7 @@ class CustomSpinnerAdapter(context: Context, private val list: List<String>?) :
     }
 
     // 클릭 후 나타나는 텍스트뷰 설정
-    override fun getDropDownView(position: Int, convertView: View, parent: ViewGroup): View {
+    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
         val binding = SpinnerInnerViewBinding.inflate(inflater, parent, false)
         if (convertView == null) convertView = binding.root
