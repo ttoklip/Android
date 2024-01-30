@@ -46,15 +46,15 @@ class TransactionAdapter(private val context: Context) :
                 val spannableAmount = SpannableString(amount)
                 if (currentAmount == targetAmount) {
                     spannableAmount.setSpan(
-                        ForegroundColorSpan(context.getColor(R.color.blue)), 0,
-                        data.currentAmount.toString().length,
-                        0
+                        ForegroundColorSpan(context.getColor(R.color.blue)), AMOUNT_STRING_START,
+                        data.currentAmount.toString().length + AMOUNT_STRING_LENGTH,
+                        SPANNABLE_FLAG_ZERO
                     )
                 } else {
                     spannableAmount.setSpan(
-                        ForegroundColorSpan(context.getColor(R.color.orange)), 0,
-                        data.currentAmount.toString().length,
-                        0
+                        ForegroundColorSpan(context.getColor(R.color.orange)), AMOUNT_STRING_START,
+                        data.currentAmount.toString().length + AMOUNT_STRING_LENGTH,
+                        SPANNABLE_FLAG_ZERO
                     )
                 }
                 amountChip.text = spannableAmount
@@ -64,15 +64,15 @@ class TransactionAdapter(private val context: Context) :
                 val spannableMember = SpannableString(member)
                 if (data.currentMember == data.targetMember) {
                     spannableMember.setSpan(
-                        ForegroundColorSpan(context.getColor(R.color.blue)), 0,
+                        ForegroundColorSpan(context.getColor(R.color.blue)), AMOUNT_STRING_START,
                         data.currentMember.toString().length,
-                        0
+                        SPANNABLE_FLAG_ZERO
                     )
                 } else {
                     spannableMember.setSpan(
-                        ForegroundColorSpan(context.getColor(R.color.orange)), 0,
+                        ForegroundColorSpan(context.getColor(R.color.orange)), AMOUNT_STRING_START,
                         data.targetMember.toString().length,
-                        0
+                        SPANNABLE_FLAG_ZERO
                     )
                 }
                 numberOfMembersChip.text = spannableMember
@@ -104,6 +104,9 @@ class TransactionAdapter(private val context: Context) :
     companion object {
         private const val COMMENT_LENGTH_STANDARD = 10
         private val AMOUNT_FORMAT = DecimalFormat("#,###")
+        private const val AMOUNT_STRING_START = 0
+        private const val SPANNABLE_FLAG_ZERO = 0
+        private const val AMOUNT_STRING_LENGTH = 1
         private val diff = object : DiffUtil.ItemCallback<Transaction>() {
             override fun areItemsTheSame(
                 oldItem: Transaction,
