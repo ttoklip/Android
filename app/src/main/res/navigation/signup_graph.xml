@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/signup_graph"
+    app:startDestination="@id/signup1_fragment">
+
+    <fragment
+        android:id="@+id/signup1_fragment"
+        android:name="com.umc.ttoklip.presentation.signup.fragments.Signup1Fragment"
+        android:label="Signup1Fragment"
+        tools:layout="@layout/fragment_signup1">
+        <action
+            android:id="@+id/action_signup1_fragment_to_signup2_fragment"
+            app:destination="@id/signup2_fragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/signup2_fragment"
+        android:name="com.umc.ttoklip.presentation.signup.fragments.Signup2Fragment"
+        android:label="Signup2Fragment"
+        tools:layout="@layout/fragment_signup2">
+        <action
+            android:id="@+id/action_signup2_fragment_to_signup3_fragment"
+            app:destination="@id/signup3_fragment" />
+        <action
+            android:id="@+id/action_signup2_fragment_to_signup1_fragment"
+            app:destination="@id/signup1_fragment"
+            app:popUpTo="@id/signup1_fragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/signup3_fragment"
+        android:name="com.umc.ttoklip.presentation.signup.fragments.Signup3Fragment"
+        android:label="Signup3Fragment"
+        tools:layout="@layout/fragment_signup3">
+        <action
+            android:id="@+id/action_signup3_fragment_to_signup4_fragment"
+            app:destination="@id/signup4_fragment"/>
+        <action
+            android:id="@+id/action_signup3_fragment_to_signup2_fragment"
+            app:destination="@id/signup2_fragment"
+            app:popUpTo="@id/signup2_fragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/signup4_fragment"
+        android:name="com.umc.ttoklip.presentation.signup.fragments.Signup4Fragment"
+        android:label="Signup4Fragment"
+        tools:layout="@layout/fragment_signup4">
+        <action
+            android:id="@+id/action_signup4_fragment_to_signup3_fragment"
+            app:destination="@id/signup3_fragment"
+            app:popUpTo="@id/signup3_fragment"/>
+    </fragment>
+
+</navigation>

@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/signup1_desc_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="개인정보를 입력해주세요!"
-        android:layout_marginTop="20dp"
         android:textAppearance="@style/TextAppearance.App.12sp_500"
         android:textSize="13sp"
         app:layout_constraintTop_toTopOf="parent"
@@ -152,6 +154,22 @@
                 app:layout_constraintTop_toBottomOf="@id/signup1_cert_et"
                 app:layout_constraintEnd_toEndOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </LinearLayout>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/signup1_next_btn"
+        android:layout_width="240dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/rectangle_corner_30"
+        android:backgroundTint="@color/yellow"
+        android:stateListAnimator="@null"
+        android:text="다음"
+        android:textAppearance="@style/TextAppearance.App.16sp_600"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signup1_signupbox_ll" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
