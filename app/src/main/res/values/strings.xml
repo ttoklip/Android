@@ -93,4 +93,8 @@
     <string name="sort_most_scrap">스크랩 많은 순</string>
     <string name="my_honey_tip_title">내가 작성한 꿀팁</string>
 
+
+
+    <string name="searchDelete"><u>전체삭제</u></string>
+
 </resources>
