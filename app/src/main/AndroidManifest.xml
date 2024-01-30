@@ -71,6 +71,14 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
+            android:name=".presentation.mypage.SavedHoneyTipActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.mypage.MyHoneyTipActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
             android:name=".presentation.MainActivity"
             android:exported="true">
             <intent-filter>

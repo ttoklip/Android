@@ -196,13 +196,13 @@
                 android:textAppearance="@style/TextAppearance.App.12sp_500"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/my_writing_btn"
+                app:layout_constraintEnd_toStartOf="@id/my_honey_tip_btn"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/my_writing_btn"
+                android:id="@+id/my_honey_tip_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="38dp"
                 android:layout_marginBottom="4dp"
@@ -232,7 +232,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toEndOf="@id/my_writing_btn"
+                app:layout_constraintStart_toEndOf="@id/my_honey_tip_btn"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

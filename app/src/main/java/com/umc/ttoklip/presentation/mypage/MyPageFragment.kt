@@ -62,6 +62,16 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             val intent = Intent(requireContext(), TransactionHistoryActivity::class.java)
             startActivity(intent)
         }
+
+        binding.scrapBtn.setOnClickListener {
+            val intent = Intent(requireContext(), SavedHoneyTipActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.myHoneyTipBtn.setOnClickListener {
+            val intent = Intent(requireContext(), MyHoneyTipActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 }

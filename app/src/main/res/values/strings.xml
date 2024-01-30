@@ -86,5 +86,11 @@
     <string name="amount_format">"%s/%s"</string>
     <string name="comment_format">"0%d"</string>
     <string name="member_format">"%d/%d"</string>
+    <string name="saved_honey_tip_title">내가 저장한 꿀팁</string>
+    <string name="sort_most_recent">최근 작성순</string>
+    <string name="sort_popularity">인기순</string>
+    <string name="sort_most_comments">댓글 많은 순</string>
+    <string name="sort_most_scrap">스크랩 많은 순</string>
+    <string name="my_honey_tip_title">내가 작성한 꿀팁</string>
 
 </resources>
