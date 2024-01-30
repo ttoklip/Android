@@ -17,6 +17,9 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>(R.layout.activity_a
 
     override fun initView() {
         binding.vm = viewModel
+        binding.backBtn.setOnClickListener {
+            finish()
+        }
     }
 
     companion object {

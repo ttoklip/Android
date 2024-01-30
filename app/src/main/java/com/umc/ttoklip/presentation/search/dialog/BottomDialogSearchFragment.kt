@@ -1,4 +1,4 @@
-package com.umc.ttoklip.presentation.search
+package com.umc.ttoklip.presentation.search.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,7 +14,6 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
     BottomSheetDialogFragment() {
 
     lateinit var binding: FragmentBottomDialogSearchBinding
-    val resultList = mutableListOf<Int>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,6 +26,7 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //배경 투명하게 (라운드 보이게)
         setStyle( // Background -> Transparent.
             STYLE_NORMAL,
             R.style.TransparentBottomSheetDialogFragment
@@ -54,6 +54,7 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
 
                 R.id.board2 -> {
                     binding.categoryG.isGone = true
+                    binding.categoryChipG.clearCheck()
                 }
 
                 R.id.board3 -> {
@@ -62,10 +63,12 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
 
                 R.id.board4 -> {
                     binding.categoryG.isGone = true
+                    binding.categoryChipG.clearCheck()
                 }
 
                 R.id.board5 -> {
                     binding.categoryG.isGone = true
+                    binding.categoryChipG.clearCheck()
                 }
 
                 else -> {
@@ -139,7 +142,7 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
                 R.id.board5 -> 5
                 else -> {0}
             }
-            val category = when (boardChipG.checkedChipId ){
+            val category = when (categoryChipG.checkedChipId ){
                 R.id.category1 -> 1
                 R.id.category2 -> 2
                 R.id.category3 -> 3
