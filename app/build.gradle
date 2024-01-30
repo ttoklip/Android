@@ -103,6 +103,9 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.7.6'
     implementation 'androidx.navigation:navigation-ui-ktx:2.7.6'
 
+    //flexBox(flexLayout)
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
     //naver map
     //implementation "com.naver.maps:map-sdk:3.16.2"
 }
