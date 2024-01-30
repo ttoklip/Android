@@ -2,32 +2,39 @@ package com.umc.ttoklip.presentation.honeytip
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentHoneyTipListBinding
+import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipListRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTips
 import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
 import com.umc.ttoklip.presentation.honeytip.read.ReadActivity
 
-class HoneyTipListFragment: Fragment(), OnItemClickListener {
-    private lateinit var binding: FragmentHoneyTipListBinding
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentHoneyTipListBinding.inflate(inflater, container, false)
-        return binding.root
+class HoneyTipListFragment :
+    BaseFragment<FragmentHoneyTipListBinding>(R.layout.fragment_honey_tip_list),
+    OnItemClickListener {
+    private lateinit var honeyTipViewModel: HoneyTipViewModel
+    private var board = ""
+    override fun initObserver() {
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initView() {
         initRV()
+        honeyTipViewModel = ViewModelProvider(requireActivity())[HoneyTipViewModel::class.java]
+        honeyTipViewModel.boardLiveData.observe(viewLifecycleOwner){
+            board = it
+        }
     }
 
     private fun initRV() {
@@ -61,7 +68,9 @@ class HoneyTipListFragment: Fragment(), OnItemClickListener {
 
     override fun onClick(honeyTips: HoneyTips) {
         val intent = Intent(activity, ReadActivity::class.java)
-        intent.putExtra("caller", "honeyTipList")
+        intent.putExtra(BOARD, board)
+        Log.d("HoneyTipListFragment", board)
         startActivity(intent)
+
     }
 }
