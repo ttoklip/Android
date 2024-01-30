@@ -65,13 +65,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
-                android:thumb="@drawable/switch_thumb"
+                android:background="@null"
+                android:thumb="@drawable/switch_thumb_selector"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:switchMinWidth="32dp"
                 app:thumbTint="@null"
-                app:track="@drawable/switch_track"
+                app:track="@drawable/switch_track_selector"
                 app:trackTint="@null" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -101,13 +102,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
-                android:thumb="@drawable/switch_thumb"
+                android:thumb="@drawable/switch_thumb_selector"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:switchMinWidth="32dp"
                 app:thumbTint="@null"
-                app:track="@drawable/switch_track"
+                app:track="@drawable/switch_track_selector"
                 app:trackTint="@null" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -137,13 +138,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
-                android:thumb="@drawable/switch_thumb"
+                android:thumb="@drawable/switch_thumb_selector"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:switchMinWidth="32dp"
                 app:thumbTint="@null"
-                app:track="@drawable/switch_track"
+                app:track="@drawable/switch_track_selector"
                 app:trackTint="@null" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
