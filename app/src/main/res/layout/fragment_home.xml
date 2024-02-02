@@ -242,6 +242,7 @@
                         android:id="@+id/newsImg"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:onClick="@{()->vm.clickMoreNews()}"
                         android:src="@drawable/news_img"
                         app:layout_constraintEnd_toStartOf="@id/questImg"
                         app:layout_constraintStart_toEndOf="@id/chatImg"
@@ -347,13 +348,15 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="16dp"
                     android:nestedScrollingEnabled="false"
                     android:overScrollMode="never"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tipTitleT" />
+                    app:layout_constraintTop_toBottomOf="@id/tipTitleT"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_home_honey_tip" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/newsTitleT"

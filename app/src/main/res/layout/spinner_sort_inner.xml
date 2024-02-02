@@ -4,5 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
+    android:paddingVertical="4dp"
     android:textAppearance="@style/TextAppearance.App.12sp_500"
     android:textColor="@color/black" />
