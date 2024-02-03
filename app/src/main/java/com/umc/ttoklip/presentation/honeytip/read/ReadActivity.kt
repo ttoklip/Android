@@ -3,6 +3,7 @@ package com.umc.ttoklip.presentation.honeytip.read
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,6 +21,8 @@ import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipFragment
 
 class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read) {
     override fun initView() {
+        binding.view = this
+        binding.reportBtn.bringToFront()
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, DetailHoneyTipFragment())
             .commit()
@@ -30,17 +33,21 @@ class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read) {
         }
 
         binding.dotBtn.setOnClickListener {
-            binding.reportBtn.isVisible = true
+            /*binding.reportBtn.isVisible = true*/
+
+            binding.honeyTipMenu.isVisible = true
         }
 
-        binding.reportBtn.setOnClickListener {
+        //hideMenu()
+
+        /*binding.reportBtn.setOnClickListener {
             val reportDialog = ReportDialogFragment()
             reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener{
                 override fun onClick() {
                 }
             })
             reportDialog.show(supportFragmentManager, reportDialog.tag)
-        }
+        }*/
     }
 
     override fun initObserver() {
@@ -53,5 +60,35 @@ class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read) {
             HONEY_TIP -> "꿀팁 공유하기"
             else -> "질문하기"
         }
+    }
+
+    /*private fun hideMenu(){
+        binding.layout.setOnClickListener {
+            binding.honeyTipMenu.visibility = View.GONE
+        }
+
+        binding.commentEt.setOnClickListener {
+            binding.honeyTipMenu.visibility = View.GONE
+        }
+
+        binding.container.setOnClickListener {
+            binding.honeyTipMenu.visibility = View.GONE
+        }
+    }*/
+
+
+
+    fun showReportDialog(){
+        val reportDialog = ReportDialogFragment()
+        reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener{
+            override fun onClick() {
+            }
+        })
+        reportDialog.show(supportFragmentManager, reportDialog.tag)
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        binding.honeyTipMenu.visibility = View.GONE
+        return super.dispatchTouchEvent(ev)
     }
 }

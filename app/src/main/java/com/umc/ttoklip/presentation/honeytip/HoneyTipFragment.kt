@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import com.google.android.material.tabs.TabLayout
@@ -15,14 +16,16 @@ import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentHoneyTipBinding
+import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipAndQuestionVPA
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
+import com.umc.ttoklip.presentation.search.SearchActivity
 
 
 class HoneyTipFragment: BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment_honey_tip) {
     private var board = "꿀팁 공유"
-    private lateinit var viewModel: HoneyTipViewModel
+    private val viewModel: HoneyTipViewModel by viewModels()
 
     override fun initObserver() {
 
@@ -37,7 +40,14 @@ class HoneyTipFragment: BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment_
             Log.d("GoWriteHoneyTip", board)
             startActivity(intent)
         }
-        viewModel = ViewModelProvider(requireActivity())[HoneyTipViewModel::class.java]
+
+        binding.searchBtn.setOnClickListener {
+            startActivity(SearchActivity.newIntent(requireContext()))
+        }
+
+        binding.alarmBtn.setOnClickListener {
+            startActivity(AlarmActivity.newIntent(requireContext()))
+        }
     }
 
     private fun initTabLayout(){

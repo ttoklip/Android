@@ -3,7 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="view"
+            type="com.umc.ttoklip.presentation.honeytip.read.ReadActivity" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -30,7 +37,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/backBtn" />
 
-        <!--LinearLayout
+        <LinearLayout
             android:id="@+id/honey_tip_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,7 +89,7 @@
                     android:text="삭제하기"
                     android:textAppearance="@style/TextAppearance.App.12sp_500" />
             </LinearLayout>
-        </LinearLayout-->
+        </LinearLayout>
 
         <TextView
             android:id="@+id/report_btn"
@@ -98,6 +105,8 @@
             android:text="신고하기"
             android:visibility="gone"
             tools:visibility="visible"
+            android:clickable="true"
+            android:focusable="true"
             android:textAppearance="@style/TextAppearance.App.12sp_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/dotBtn" />

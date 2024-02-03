@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">ttoklip</string>
 
-
     <!-- 마이페이지 strings !-->
     <string name="mypage_title">마이페이지</string>
     <string name="my_level_tv">나의 레벨</string>

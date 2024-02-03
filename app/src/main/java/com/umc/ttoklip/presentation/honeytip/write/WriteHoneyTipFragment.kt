@@ -8,11 +8,13 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.get
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
@@ -57,7 +59,7 @@ class WriteHoneyTipFragment(val board: String) : BaseFragment<FragmentWriteHoney
         addImage()
         viewModel = ViewModelProvider(requireActivity()).get(HoneyTipViewModel::class.java)
         binding.viewModel = viewModel
-        enableEditTextScroll()
+        //enableEditTextScroll()
         binding.titleEt.doAfterTextChanged {
             viewModel.setTitle(it.toString())
         }
@@ -66,6 +68,18 @@ class WriteHoneyTipFragment(val board: String) : BaseFragment<FragmentWriteHoney
             Log.d("WriteFragmentBody", it.toString())
             viewModel.setBody(it.toString())
         }
+
+        var contentViewHeight = 0
+
+        binding.bodyEt.viewTreeObserver.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+
+                binding.bodyEt.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                contentViewHeight = binding.bodyEt.height
+                Log.d("heigt", contentViewHeight.toString())
+            }
+        })
     }
     private fun initImageRVA() {
         imageAdapter = ImageRVA()
@@ -154,7 +168,7 @@ class WriteHoneyTipFragment(val board: String) : BaseFragment<FragmentWriteHoney
         imageAdapter.submitList(updatedImages)
     }
 
-    private fun enableEditTextScroll(){
+    /*private fun enableEditTextScroll(){
         binding.bodyEt.setOnTouchListener { v, event ->
             if (v.id == com.umc.ttoklip.R.id.body_et) {
                 v.parent.requestDisallowInterceptTouchEvent(true)
@@ -164,7 +178,7 @@ class WriteHoneyTipFragment(val board: String) : BaseFragment<FragmentWriteHoney
             }
             false
         }
-    }
+    }*/
 }
 
 
