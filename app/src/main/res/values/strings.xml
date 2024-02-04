@@ -94,7 +94,12 @@
     <string name="my_honey_tip_title">내가 작성한 꿀팁</string>
 
 
-
     <string name="searchDelete"><u>전체삭제</u></string>
+
+
+    <!-- 우리동네 strings !-->
+    <string name="my_hometown_tab_title">우리동네</string>
+    <string name="together_title">함께해요</string>
+    <string name="see_detail">더보기</string>
 
 </resources>

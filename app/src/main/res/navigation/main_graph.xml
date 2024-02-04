@@ -18,9 +18,9 @@
         tools:layout="@layout/fragment_news" />
     <fragment
         android:id="@+id/townFragment"
-        android:name="com.umc.ttoklip.presentation.TownFragment"
+        android:name="com.umc.ttoklip.presentation.hometown.MyHometownFragment"
         android:label="TownFragment"
-        tools:layout="@layout/fragment_town" />
+        tools:layout="@layout/fragment_my_hometown" />
 
     <fragment
         android:id="@+id/myFragment"
