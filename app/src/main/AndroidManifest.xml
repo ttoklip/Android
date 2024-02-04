@@ -78,12 +78,19 @@
             android:name=".presentation.mypage.MyHoneyTipActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
-        <activity android:name=".presentation.intro.IntroActivity"
-            android:exported="false"/>
-        <activity android:name=".presentation.login.LoginActivity"
-            android:exported="false"/>
-        <activity android:name=".presentation.signup.SignupActivity"
-            android:exported="false"/>
+        <activity
+            android:name=".presentation.intro.IntroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.login.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.signup.SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.hometown.TogetherActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
 
         <activity
             android:name=".presentation.intro.SplashActivity"
@@ -95,16 +102,16 @@
         </activity>
         <activity
             android:name=".presentation.MainActivity"
-            android:exported="false"/>
-<!--        <activity-->
-<!--            android:name=".presentation.MainActivity"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            android:exported="false" />
+        <!--        <activity-->
+        <!--            android:name=".presentation.MainActivity"-->
+        <!--            android:exported="true">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
+        <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+        <!--            </intent-filter>-->
+        <!--        </activity>-->
 
         <service
             android:name="com.google.android.gms.metadata.ModuleDependencies"

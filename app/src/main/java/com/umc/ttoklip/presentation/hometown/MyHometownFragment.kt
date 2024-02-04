@@ -1,5 +1,6 @@
 package com.umc.ttoklip.presentation.hometown
 
+import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentMyHometownBinding
@@ -18,6 +19,11 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
     }
 
     override fun initView() {
+        binding
+        binding.seeDetailTogetherBtn.setOnClickListener {
+            val intent = Intent(requireContext(), TogetherActivity::class.java)
+            startActivity(intent)
+        }
         initDropdownSortFilter()
         initTogetherRv()
         initCommunicationRv()
