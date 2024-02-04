@@ -101,5 +101,8 @@
     <string name="my_hometown_tab_title">우리동네</string>
     <string name="together_title">함께해요</string>
     <string name="see_detail">더보기</string>
+    <string name="write_together">함께해요 글쓰기</string>
+    <string name="communication_title">소통해요</string>
+    <string name="write_communication">소통해요 글쓰기</string>
 
 </resources>
