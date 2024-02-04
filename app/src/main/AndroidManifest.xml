@@ -91,6 +91,10 @@
             android:name=".presentation.hometown.TogetherActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
+        <activity
+            android:name=".presentation.hometown.CommunicationActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
 
         <activity
             android:name=".presentation.intro.SplashActivity"

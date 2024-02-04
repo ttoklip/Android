@@ -24,6 +24,11 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
             val intent = Intent(requireContext(), TogetherActivity::class.java)
             startActivity(intent)
         }
+
+        binding.seeDetailCommunicationBtn.setOnClickListener {
+            val intent = Intent(requireContext(), CommunicationActivity::class.java)
+            startActivity(intent)
+        }
         initDropdownSortFilter()
         initTogetherRv()
         initCommunicationRv()
