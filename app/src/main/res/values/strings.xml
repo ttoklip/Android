@@ -104,5 +104,9 @@
     <string name="write_together">함께해요 글쓰기</string>
     <string name="communication_title">소통해요</string>
     <string name="write_communication">소통해요 글쓰기</string>
+    <string name="sort_filter_title">정렬기준</string>
+    <string name="together_duration_title">유효 범위</string>
+    <string name="required_amount_title">필수 금액</string>
+    <string name="max_member_title">최대 인원 제한</string>
 
 </resources>

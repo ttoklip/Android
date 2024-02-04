@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="vm"
+            type="com.umc.ttoklip.presentation.hometown.TogetherViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -67,6 +70,7 @@
                     android:background="@color/white"
                     android:scaleType="center"
                     android:src="@drawable/ic_set_24"
+                    android:onClick="@{()->vm.onFilterClick()}"
                     android:tint="@color/gray80" />
             </com.google.android.material.card.MaterialCardView>
 

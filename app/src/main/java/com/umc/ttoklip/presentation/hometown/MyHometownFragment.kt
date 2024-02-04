@@ -4,10 +4,12 @@ import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentMyHometownBinding
+import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.hometown.adapter.Together
 import com.umc.ttoklip.presentation.hometown.adapter.TogetherAdapter
 import com.umc.ttoklip.presentation.mypage.SortSpinnerAdapter
+import com.umc.ttoklip.presentation.search.SearchActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,7 +21,6 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
     }
 
     override fun initView() {
-        binding
         binding.seeDetailTogetherBtn.setOnClickListener {
             val intent = Intent(requireContext(), TogetherActivity::class.java)
             startActivity(intent)
@@ -28,6 +29,12 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
         binding.seeDetailCommunicationBtn.setOnClickListener {
             val intent = Intent(requireContext(), CommunicationActivity::class.java)
             startActivity(intent)
+        }
+        binding.bellBtn.setOnClickListener {
+            startActivity(AlarmActivity.newIntent(requireContext()))
+        }
+        binding.searchBtn.setOnClickListener {
+            startActivity(SearchActivity.newIntent(requireContext()))
         }
         initDropdownSortFilter()
         initTogetherRv()
