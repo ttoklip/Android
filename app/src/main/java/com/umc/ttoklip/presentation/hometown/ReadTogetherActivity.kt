@@ -7,6 +7,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityReadTogetherBinding
@@ -18,7 +19,9 @@ import java.util.Random
 @AndroidEntryPoint
 class ReadTogetherActivity :
     BaseActivity<ActivityReadTogetherBinding>(R.layout.activity_read_together) {
+    private val viewModel: ReadTogetherViewModel by viewModels<ReadTogetherViewModelImpl>()
     override fun initView() {
+        binding.vm = viewModel
         binding.backBtn.setOnClickListener {
             finish()
         }
@@ -60,10 +63,27 @@ class ReadTogetherActivity :
 //                TransactionAdapter.SPANNABLE_FLAG_ZERO
 //            )
 //        }
+
     }
 
     override fun initObserver() {
-
+//        with(lifecycleScope) {
+//            launch {
+//                repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                    viewModel.joinState.collect {
+//                        if (it.not()) {
+//                            binding.joinBtn.background =
+//                                getDrawable(R.drawable.rectangle_corner_10_strok_1_gray40)
+////                            binding.joinBtn.text = getString(R.string.cancel_join)
+//                        } else {
+//                            binding.joinBtn.background =
+//                                getDrawable(R.drawable.yellow_btn_background)
+////                            binding.joinBtn.text = getString(R.string.join_together)
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 
     override fun dispatchTouchEvent(event: MotionEvent?): Boolean {

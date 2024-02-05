@@ -112,6 +112,10 @@
     <string name="set_address">주소설정</string>
     <string name="recently_used_place_title">최근 이용 장소</string>
     <string name="join_together">참여하기</string>
+    <string name="cancel_join">참여취소</string>
     <string name="join_stat_format">"%d명/%d명"</string>
+    <string name="deadline_end">마감되었습니다.</string>
+    <string name="set_deadline">마감</string>
+    <string name="check_member">참여자 확인하기</string>
 
 </resources>

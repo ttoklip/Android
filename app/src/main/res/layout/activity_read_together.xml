@@ -3,6 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="vm"
+            type="com.umc.ttoklip.presentation.hometown.ReadTogetherViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -266,37 +275,107 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/image_line">
 
-                    <TextView
-                        android:id="@+id/join_btn"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/join_frame"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/yellow_btn_background"
-                        android:paddingHorizontal="15dp"
-                        android:paddingVertical="7dp"
-                        android:text="@string/join_together"
-                        android:textAppearance="@style/TextAppearance.App.12sp_700"
-                        android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/normal_user_frame"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="@{vm.isOwner ? View.GONE : View.VISIBLE}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:id="@+id/join_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@{vm.joinState ? @drawable/yellow_btn_background : @drawable/rectangle_corner_10_strok_1_gray40}"
+                                android:onClick="@{()->vm.joinBtnClick()}"
+                                android:paddingHorizontal="15dp"
+                                android:paddingVertical="7dp"
+                                android:text="@{vm.joinState ? @string/join_together : @string/cancel_join}"
+                                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                                android:textColor="@color/black"
+                                android:visibility="@{vm.deadlineState ? View.GONE : View.VISIBLE}"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/deadline_end_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                
+                                android:paddingVertical="7dp"
+                                android:text="@string/deadline_end"
+                                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                                android:textColor="@color/black"
+                                android:visibility="@{vm.deadlineState ? View.VISIBLE : View.GONE}"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/owner_join_frame"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="@{vm.isOwner ? View.VISIBLE : View.GONE}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:id="@+id/owner_join_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/rectangle_corner_10_strok_1_black"
+                                android:paddingHorizontal="15dp"
+                                android:paddingVertical="7dp"
+                                android:text="@string/set_deadline"
+                                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                                android:textColor="@color/orange"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/owner_check_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="12dp"
+                                android:background="@drawable/yellow_btn_background"
+                                android:paddingHorizontal="15dp"
+                                android:paddingVertical="7dp"
+                                android:text="@string/check_member"
+                                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                                android:textColor="@color/black"
+                                app:layout_constraintEnd_toStartOf="@id/owner_join_btn"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
                         android:id="@+id/current_join_stat_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
                         android:layout_marginEnd="12dp"
                         android:textAppearance="@style/TextAppearance.App.12sp_700"
                         android:textColor="@color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/join_btn"
+                        app:layout_constraintEnd_toStartOf="@id/join_frame"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/current_join_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="현재 참여 인원"
                         android:layout_marginEnd="4dp"
+                        android:text="현재 참여 인원"
                         android:textAppearance="@style/TextAppearance.App.12sp_700"
                         android:textColor="@color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
