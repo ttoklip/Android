@@ -1,13 +1,19 @@
 package com.umc.ttoklip.presentation.hometown
 
 import android.content.Context
+import android.content.Intent
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.Rect
+import android.icu.text.DecimalFormat
 import android.net.Uri
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import com.umc.ttoklip.R
@@ -21,6 +27,23 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class WriteTogetherActivity :
     BaseActivity<ActivityWriteTogetherBinding>(R.layout.activity_write_together) {
+    private val activityResultLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            val addressIntent = it.data
+            addressIntent?.let { aIntent ->
+                val address = aIntent.getStringExtra("address")
+                val addressDetail = aIntent.getStringExtra("addressDetail")
+                binding.tradingPlaceTv.setTextColor(getColor(R.color.black))
+                binding.tradingPlaceTv.compoundDrawables.forEach { drawable ->
+                    if (drawable != null) {
+                        drawable.colorFilter =
+                            PorterDuffColorFilter(getColor(R.color.black), PorterDuff.Mode.SRC_IN)
+                    }
+                }
+                binding.tradingPlaceTv.text =
+                    StringBuilder().append(address).append(" ").append(addressDetail).toString()
+            }
+        }
     private val imageAdapter by lazy {
         ImageRVA()
     }
@@ -43,6 +66,54 @@ class WriteTogetherActivity :
         addLink()
         binding.backBtn.setOnClickListener {
             finish()
+        }
+
+        binding.totalPriceTv.setOnEditorActionListener { v, actionId, event ->
+            var current = binding.totalPriceTv.text.toString()
+            if (current.contains(",")) {
+                current = current.replace(",", "")
+            }
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                Log.d("price", current)
+                if (current.length > 3) {
+                    val currentAmount = AMOUNT_FORMAT.format(current.toLong())
+                    binding.totalPriceTv.setText(currentAmount)
+                    binding.totalPriceTv.compoundDrawables.forEach { drawable ->
+                        if (drawable != null) {
+                            drawable.colorFilter =
+                                PorterDuffColorFilter(
+                                    getColor(R.color.black),
+                                    PorterDuff.Mode.SRC_IN
+                                )
+                        }
+                    }
+                }
+            }
+            false
+        }
+
+        binding.maxMemberTv.setOnClickListener {
+
+        }
+
+        binding.openChatLinkTv.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                binding.openChatLinkTv.compoundDrawables.forEach { drawable ->
+                    if (drawable != null) {
+                        drawable.colorFilter =
+                            PorterDuffColorFilter(
+                                getColor(R.color.black),
+                                PorterDuff.Mode.SRC_IN
+                            )
+                    }
+                }
+            }
+            false
+        }
+
+        binding.tradingPlaceTv.setOnClickListener {
+            val intent = Intent(this, TradeLocationActivity::class.java)
+            activityResultLauncher.launch(intent)
         }
     }
 
@@ -97,4 +168,7 @@ class WriteTogetherActivity :
         return super.dispatchTouchEvent(event)
     }
 
+    companion object {
+        private val AMOUNT_FORMAT = DecimalFormat("#,###")
+    }
 }

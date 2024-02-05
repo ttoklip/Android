@@ -108,5 +108,10 @@
     <string name="together_duration_title">유효 범위</string>
     <string name="required_amount_title">필수 금액</string>
     <string name="max_member_title">최대 인원 제한</string>
+    <string name="trade_location_title">거래희망 장소 </string>
+    <string name="set_address">주소설정</string>
+    <string name="recently_used_place_title">최근 이용 장소</string>
+    <string name="join_together">참여하기</string>
+    <string name="join_stat_format">"%d명/%d명"</string>
 
 </resources>

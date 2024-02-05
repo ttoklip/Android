@@ -17,8 +17,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class ReadCommunicationActivity :
     BaseActivity<ActivityReadCommunicationBinding>(R.layout.activity_read_communication) {
     override fun initView() {
-        binding.titleT.text = intent.getStringExtra("type")
-
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, DetailHoneyTipFragment())
             .commit()
