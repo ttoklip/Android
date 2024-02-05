@@ -6,6 +6,7 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentMyHometownBinding
 import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
+import com.umc.ttoklip.presentation.hometown.adapter.OnTogetherClickListener
 import com.umc.ttoklip.presentation.hometown.adapter.Together
 import com.umc.ttoklip.presentation.hometown.adapter.TogetherAdapter
 import com.umc.ttoklip.presentation.mypage.MyHometownAddressActivity
@@ -14,9 +15,21 @@ import com.umc.ttoklip.presentation.search.SearchActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.fragment_my_hometown) {
-    private val togetherAdapter by lazy { TogetherAdapter() }
-    private val communicationAdapter by lazy { TogetherAdapter() }
+class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.fragment_my_hometown),
+    OnTogetherClickListener {
+    private val togetherAdapter by lazy {
+        TogetherAdapter(
+            this,
+            getString(R.string.together_title)
+        )
+    }
+    private val communicationAdapter by lazy {
+        TogetherAdapter(
+            this,
+            getString(R.string.communication_title)
+        )
+    }
+
     override fun initObserver() {
 
     }
@@ -101,5 +114,11 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
         binding.myHometownFilterSpinner.adapter =
             SortSpinnerAdapter(requireContext(), sortFilters)
         binding.myHometownFilterSpinner.setSelection(0)
+    }
+
+    override fun onClick(items: Together, type: String) {
+        val intent = Intent(requireContext(), ReadCommunicationActivity::class.java)
+        intent.putExtra("type", type)
+        startActivity(intent)
     }
 }

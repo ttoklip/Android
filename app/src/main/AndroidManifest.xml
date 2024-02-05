@@ -105,6 +105,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             android:exported="false" />
+        <activity
+            android:name=".presentation.hometown.ReadCommunicationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" />
 
         <activity
             android:name=".presentation.intro.SplashActivity"

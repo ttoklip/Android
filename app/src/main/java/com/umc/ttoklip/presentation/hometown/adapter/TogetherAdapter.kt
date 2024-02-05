@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.databinding.ItemTogetherBinding
 
-class TogetherAdapter :
+class TogetherAdapter(private var listener: OnTogetherClickListener, private val type: String) :
     ListAdapter<Together, TogetherAdapter.TogetherViewHolder>(diff) {
     inner class TogetherViewHolder(
         private val binding: ItemTogetherBinding
@@ -19,6 +19,9 @@ class TogetherAdapter :
             binding.togetherAddressTv.text = data.address
             if (pos == itemCount - 1) {
                 binding.divider.isGone = true
+            }
+            binding.root.setOnClickListener {
+                listener.onClick(data, type)
             }
         }
     }
@@ -54,4 +57,8 @@ class TogetherAdapter :
             }
         }
     }
+}
+
+interface OnTogetherClickListener {
+    fun onClick(items: Together, type: String)
 }

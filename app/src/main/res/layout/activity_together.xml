@@ -68,18 +68,18 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:background="@color/white"
+                    android:onClick="@{()->vm.onFilterClick()}"
                     android:scaleType="center"
                     android:src="@drawable/ic_set_24"
-                    android:onClick="@{()->vm.onFilterClick()}"
                     android:tint="@color/gray80" />
             </com.google.android.material.card.MaterialCardView>
 
             <HorizontalScrollView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:scrollbars="none"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:scrollbars="none"
                 app:layout_constraintStart_toEndOf="@id/settingBtn">
 
                 <LinearLayout
@@ -98,7 +98,8 @@
                         android:paddingHorizontal="15dp"
                         android:text="최신순"
                         android:textAppearance="@style/TextAppearance.App.12sp_700"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:visibility="gone" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/duration_filter"
@@ -111,7 +112,8 @@
                         android:paddingHorizontal="15dp"
                         android:text="1일"
                         android:textAppearance="@style/TextAppearance.App.12sp_700"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:visibility="gone" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/required_amount"
@@ -124,7 +126,8 @@
                         android:paddingHorizontal="15dp"
                         android:text="30,000"
                         android:textAppearance="@style/TextAppearance.App.12sp_700"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:visibility="gone" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/max_member_size_tv"
@@ -137,7 +140,8 @@
                         android:paddingHorizontal="15dp"
                         android:text="5~7"
                         android:textAppearance="@style/TextAppearance.App.12sp_700"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:visibility="gone" />
                 </LinearLayout>
             </HorizontalScrollView>
 
@@ -151,8 +155,8 @@
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="12dp"
             android:paddingBottom="12dp"
-            app:layout_constraintTop_toBottomOf="@id/together_top_frame"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/together_top_frame"
             tools:listitem="@layout/item_transaction_history" />
 
 

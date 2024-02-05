@@ -1,6 +1,7 @@
 package com.umc.ttoklip.presentation.hometown
 
 import androidx.activity.viewModels
+import androidx.core.view.isGone
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -154,6 +155,7 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.filterSort.collect {
+                        binding.sortfilterTv.isGone = false
                         when (it) {
                             1 -> {
                                 binding.sortfilterTv.text = "최신순"
@@ -167,7 +169,9 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
                                 binding.sortfilterTv.text = "댓글많은순"
                             }
 
-                            else -> {}
+                            else -> {
+                                binding.sortfilterTv.isGone = true
+                            }
                         }
                     }
                 }
@@ -176,6 +180,7 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.filterDuration.collect {
+                        binding.durationFilter.isGone = false
                         when (it) {
                             1 -> {
                                 binding.durationFilter.text = "1시간"
@@ -205,7 +210,9 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
                                 binding.durationFilter.text = "1주일"
                             }
 
-                            else -> {}
+                            else -> {
+                                binding.durationFilter.isGone = true
+                            }
                         }
                     }
                 }
@@ -214,6 +221,7 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.filterRequiredAmount.collect {
+                        binding.requiredAmount.isGone = false
                         when (it) {
                             1 -> {
                                 binding.requiredAmount.text = "10,000"
@@ -235,7 +243,9 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
                                 binding.requiredAmount.text = "50,000 이상"
                             }
 
-                            else -> {}
+                            else -> {
+                                binding.requiredAmount.isGone = true
+                            }
                         }
                     }
                 }
@@ -244,6 +254,7 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.filterMaxMember.collect {
+                        binding.maxMemberSizeTv.isGone = false
                         when (it) {
                             1 -> {
                                 binding.maxMemberSizeTv.text = "2~4"
@@ -269,7 +280,9 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
                                 binding.maxMemberSizeTv.text = "18~20"
                             }
 
-                            else -> {}
+                            else -> {
+                                binding.maxMemberSizeTv.isGone = true
+                            }
                         }
                     }
                 }
