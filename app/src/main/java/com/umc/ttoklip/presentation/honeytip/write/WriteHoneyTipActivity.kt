@@ -25,10 +25,7 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
         binding.backBtn.setOnClickListener {
             finish()
         }
-        /*honeyTipViewModel.boardLiveData.observe(this){
-            Log.d("WriteActivity", it)
-            binding.titleTv.text = it
-        }*/
+
         setTitle()
         binding.writeDoneBtn.setOnClickListener {
             finish()

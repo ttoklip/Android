@@ -16,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -46,7 +47,7 @@ class WriteHoneyTipFragment(val board: String) : BaseFragment<FragmentWriteHoney
             Log.d("PhotoPicker", "No media selected")
         }
     }
-    private lateinit var viewModel: HoneyTipViewModel
+    private val viewModel: HoneyTipViewModel by activityViewModels()
     private lateinit var imageAdapter: ImageRVA
     override fun initObserver() {
 
@@ -57,7 +58,6 @@ class WriteHoneyTipFragment(val board: String) : BaseFragment<FragmentWriteHoney
         initImageRVA()
         addLink()
         addImage()
-        viewModel = ViewModelProvider(requireActivity()).get(HoneyTipViewModel::class.java)
         binding.viewModel = viewModel
         //enableEditTextScroll()
         binding.titleEt.doAfterTextChanged {
@@ -93,7 +93,20 @@ class WriteHoneyTipFragment(val board: String) : BaseFragment<FragmentWriteHoney
         }
 
         setTabItemMargin(binding.tabLayout, 40)
-        setSelectedTabTextStyleBold()
+        setSelectedTabTextStyleBold(R.font.pretendard_bold, binding.tabLayout.selectedTabPosition)
+
+        binding.tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                setSelectedTabTextStyleBold(R.font.pretendard_bold, binding.tabLayout.selectedTabPosition)
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                setSelectedTabTextStyleBold(R.font.pretendard_medium, tab?.position!!)
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+        })
     }
 
     private fun setTabItemMargin(tabLayout: TabLayout, marginEnd: Int = 20) {
@@ -111,35 +124,16 @@ class WriteHoneyTipFragment(val board: String) : BaseFragment<FragmentWriteHoney
         }
     }
 
-    private fun setSelectedTabTextStyleBold() {
-        binding.tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                val tabLayout =
-                    (binding.tabLayout.getChildAt(0) as ViewGroup).getChildAt(tab!!.position) as LinearLayout
-                val tabTextView = tabLayout.getChildAt(1) as TextView
-                val typeface =
-                    ResourcesCompat.getFont(
-                        requireContext(),
-                        com.umc.ttoklip.R.font.pretendard_bold
-                    )
-                tabTextView.setTypeface(typeface, Typeface.NORMAL)
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                val tabLayout =
-                    (binding.tabLayout.getChildAt(0) as ViewGroup).getChildAt(tab!!.position) as LinearLayout
-                val tabTextView = tabLayout.getChildAt(1) as TextView
-                val typeface =
-                    ResourcesCompat.getFont(
-                        requireContext(),
-                        com.umc.ttoklip.R.font.pretendard_medium
-                    )
-                tabTextView.setTypeface(typeface, Typeface.NORMAL)
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-            }
-        })
+    private fun setSelectedTabTextStyleBold(typeFace: Int, position: Int) {
+        val typeface =
+            ResourcesCompat.getFont(
+                requireContext(),
+                typeFace
+            )
+        val tabLayout =
+            (binding.tabLayout.getChildAt(0) as ViewGroup)
+        val tabTextView = (tabLayout.getChildAt(position) as LinearLayout).getChildAt(1) as TextView
+        tabTextView.setTypeface(typeface, Typeface.NORMAL)
     }
 
     private fun addLink() {

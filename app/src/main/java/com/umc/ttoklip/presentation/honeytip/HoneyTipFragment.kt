@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
@@ -25,7 +26,7 @@ import com.umc.ttoklip.presentation.search.SearchActivity
 
 class HoneyTipFragment: BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment_honey_tip) {
     private var board = "꿀팁 공유"
-    private val viewModel: HoneyTipViewModel by viewModels()
+    private val viewModel: HoneyTipViewModel by activityViewModels()
 
     override fun initObserver() {
 

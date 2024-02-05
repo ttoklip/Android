@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil.setContentView
 import com.umc.ttoklip.R
@@ -15,6 +16,8 @@ import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.BOARD
 import com.umc.ttoklip.presentation.honeytip.DetailHoneyTipFragment
 import com.umc.ttoklip.presentation.honeytip.HONEY_TIP
+import com.umc.ttoklip.presentation.honeytip.HoneyTipViewModel
+import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
 import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipFragment
@@ -35,7 +38,24 @@ class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read) {
         binding.dotBtn.setOnClickListener {
             /*binding.reportBtn.isVisible = true*/
 
-            binding.honeyTipMenu.isVisible = true
+            binding.honeyTipMenu.apply {
+                visibility = View.VISIBLE
+                bringToFront()
+            }
+        }
+
+        binding.editBtn.setOnClickListener {
+
+        }
+
+        binding.deleteBtn.setOnClickListener {
+            val deleteDialog = DeleteDialogFragment()
+            deleteDialog.setDialogClickListener(object : DeleteDialogFragment.DialogClickListener {
+                override fun onClick() {
+
+                }
+            })
+            deleteDialog.show(supportFragmentManager, deleteDialog.tag)
         }
 
         //hideMenu()
@@ -51,7 +71,6 @@ class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read) {
     }
 
     override fun initObserver() {
-
     }
 
     private fun setTitle(){
@@ -87,8 +106,8 @@ class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read) {
         reportDialog.show(supportFragmentManager, reportDialog.tag)
     }
 
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+    /*override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         binding.honeyTipMenu.visibility = View.GONE
         return super.dispatchTouchEvent(ev)
-    }
+    }*/
 }
