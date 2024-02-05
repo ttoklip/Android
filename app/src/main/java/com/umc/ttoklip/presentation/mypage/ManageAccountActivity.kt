@@ -1,11 +1,14 @@
 package com.umc.ttoklip.presentation.mypage
 
+import android.content.Context
+import android.graphics.Rect
 import android.text.Editable
 import android.text.InputType.TYPE_CLASS_TEXT
 import android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
 import android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
 import android.text.TextWatcher
 import android.util.Log
+import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageButton
@@ -22,12 +25,6 @@ class ManageAccountActivity :
     override fun initView() {
         binding.manageAccountInfoBackBtn.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
-        }
-        binding.root.setOnClickListener {
-            removeKeyboard()
-        }
-        binding.manageAccountInfoFrame.setOnClickListener {
-            removeKeyboard()
         }
         setCurrentPasswordIcons(
             binding.inputCurrentPasswordEt,
@@ -199,10 +196,22 @@ class ManageAccountActivity :
         btn.tag = status
     }
 
-    private fun removeKeyboard() {
-        val imm: InputMethodManager =
-            getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+
+    override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
+        if (event?.action == MotionEvent.ACTION_DOWN) {
+            val v = currentFocus
+            if (v is EditText) {
+                val outRect = Rect()
+                v.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    v.clearFocus()
+                    val imm: InputMethodManager =
+                        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
     }
 
     override fun initObserver() = Unit

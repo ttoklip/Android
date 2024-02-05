@@ -8,6 +8,7 @@ import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.hometown.adapter.Together
 import com.umc.ttoklip.presentation.hometown.adapter.TogetherAdapter
+import com.umc.ttoklip.presentation.mypage.MyHometownAddressActivity
 import com.umc.ttoklip.presentation.mypage.SortSpinnerAdapter
 import com.umc.ttoklip.presentation.search.SearchActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,6 +36,27 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
         }
         binding.searchBtn.setOnClickListener {
             startActivity(SearchActivity.newIntent(requireContext()))
+        }
+        binding.myHometownFilterSpinner.setOnLongClickListener {
+            val intent = Intent(requireContext(), MyHometownAddressActivity::class.java)
+            startActivity(intent)
+            true
+        }
+        binding.writeTogetherBtn.setOnClickListener {
+            val intent = Intent(requireContext(), WriteTogetherActivity::class.java)
+            startActivity(intent)
+        }
+        binding.writeTogetherPlus.setOnClickListener {
+            val intent = Intent(requireContext(), WriteTogetherActivity::class.java)
+            startActivity(intent)
+        }
+        binding.writeCommunicationBtn.setOnClickListener {
+            val intent = Intent(requireContext(), WriteCommunicationActivity::class.java)
+            startActivity(intent)
+        }
+        binding.writeCommunicationPlus.setOnClickListener {
+            val intent = Intent(requireContext(), WriteCommunicationActivity::class.java)
+            startActivity(intent)
         }
         initDropdownSortFilter()
         initTogetherRv()

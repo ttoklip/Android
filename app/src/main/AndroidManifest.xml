@@ -95,6 +95,16 @@
             android:name=".presentation.hometown.CommunicationActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
+        <activity
+            android:name=".presentation.hometown.WriteTogetherActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.hometown.WriteCommunicationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" />
 
         <activity
             android:name=".presentation.intro.SplashActivity"
