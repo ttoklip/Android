@@ -3,13 +3,18 @@ package com.umc.ttoklip.di
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.api.HoneyTipApi
+import com.umc.ttoklip.data.api.NewsApi
 import com.umc.ttoklip.data.api.TestApi
+import com.umc.ttoklip.data.repository.news.NewsRepository
+import com.umc.ttoklip.data.repository.news.NewsRepositoryImpl
 import com.umc.ttoklip.module.HttpRequestInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -24,8 +29,13 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOKHttpClient(): OkHttpClient {
+        val interceptor = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+
+
         return OkHttpClient.Builder()
-            .addInterceptor(HttpRequestInterceptor())
+            .addInterceptor(interceptor)
             .retryOnConnectionFailure(false)
             .build()
     }
@@ -50,6 +60,12 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideHoneyTipApi(retrofit: Retrofit): HoneyTipApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNewsApi(retrofit: Retrofit): NewsApi {
         return retrofit.buildService()
     }
 
