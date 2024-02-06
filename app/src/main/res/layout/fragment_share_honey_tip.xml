@@ -11,50 +11,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/banner"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:background="@drawable/rectangle_corner_10_strok_1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/logoImg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_margin="20dp"
-                    android:src="@drawable/ic_logo_big"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:text="똑립에서 오늘 하루도 \n즐겁고 활기찬 하루되세요~"
-                    android:textAppearance="@style/TextAppearance.App.14sp_700"
-                    android:textColor="#FF333333"
-                    app:layout_constraintBottom_toBottomOf="@id/logoImg"
-                    app:layout_constraintStart_toEndOf="@id/logoImg"
-                    app:layout_constraintTop_toTopOf="@id/logoImg" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
             <TextView
                 android:id="@+id/daily_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="24dp"
                 android:text="오늘의 인기"
                 android:textAppearance="@style/TextAppearance.App.20sp_600"
                 android:textColor="@color/blue"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/banner" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/daily_popular_honey_tip_tv"
