@@ -1,20 +1,15 @@
 package com.umc.ttoklip.presentation.search
 
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 
 interface SearchViewModel {
-    val searchText: MutableStateFlow<String>
-    val searchAfter : StateFlow<Boolean>
+
     val filterSort : StateFlow<Int>
     val filterBoard : StateFlow<Int>
     val filterCategory: StateFlow<Int>
     val showDialog : SharedFlow<Boolean>
 
-    fun goSearchAfter()
-    fun goSearchBefore()
-    fun clickSearchAfter()
     fun clickFilter()
     fun filter(sort: Int, board: Int, category:Int)
 }

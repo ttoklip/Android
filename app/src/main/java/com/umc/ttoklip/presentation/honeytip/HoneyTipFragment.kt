@@ -8,54 +8,40 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentHoneyTipBinding
-import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipAndQuestionVPA
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
-import com.umc.ttoklip.presentation.search.SearchActivity
 
 
 class HoneyTipFragment: BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment_honey_tip) {
-    private var board = "꿀팁 공유"
-    private val viewModel: HoneyTipViewModel by activityViewModels()
-
+    private var board = 0
     override fun initObserver() {
 
     }
 
     override fun initView() {
-        initTabLayout()
-        binding.writeFab.setOnClickListener {
-            val intent = Intent(activity, WriteHoneyTipActivity::class.java)
-            board = viewModel.boardLiveData.value ?: ""
-            intent.putExtra(BOARD, board)
-            Log.d("GoWriteHoneyTip", board)
-            startActivity(intent)
-        }
 
-        binding.searchBtn.setOnClickListener {
-            startActivity(SearchActivity.newIntent(requireContext()))
-        }
-
-        binding.alarmBtn.setOnClickListener {
-            startActivity(AlarmActivity.newIntent(requireContext()))
-        }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initTabLayout()
+        view
+        binding.writeFab.setOnClickListener {
+            val intent = Intent(activity, WriteHoneyTipActivity::class.java)
+            intent.putExtra("caller", "writeFab")
+            startActivity(intent)
+        }
+    }
     private fun initTabLayout(){
         val tabTitles = listOf("꿀팁 공유", "질문해요")
         binding.boardVp.adapter = HoneyTipAndQuestionVPA(this)
         binding.boardVp.isUserInputEnabled = false
-        Log.d("position", binding.boardTablayout.selectedTabPosition.toString())
 
         TabLayoutMediator(binding.boardTablayout, binding.boardVp){ tab, position ->
             for (i in tabTitles.indices){
@@ -64,9 +50,7 @@ class HoneyTipFragment: BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment_
         }.attach()
         binding.boardTablayout.addOnTabSelectedListener(object : OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                board = tab?.text.toString()
-                viewModel.setBoardLiveData(board)
-                Log.d("HoneyTipFragment", board)
+
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -78,5 +62,9 @@ class HoneyTipFragment: BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment_
             }
 
         })
+    }
+    fun updateBoard(){
+        board = binding.boardTablayout.selectedTabPosition
+        Log.d("board", board.toString())
     }
 }

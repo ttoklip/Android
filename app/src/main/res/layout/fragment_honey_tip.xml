@@ -11,29 +11,21 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingVertical="24dp">
 
         <ImageView
             android:id="@+id/search_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="24dp"
             android:src="@drawable/ic_search_24"
-            app:layout_constraintEnd_toStartOf="@id/alarm_btn"
-            app:layout_constraintTop_toTopOf="@id/alarm_btn"
-            app:layout_constraintBottom_toBottomOf="@id/alarm_btn" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/board_tablayout"
+            app:layout_constraintBottom_toBottomOf="@id/board_tablayout" />
 
         <ImageView
-            android:id="@+id/alarm_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:layout_marginTop="18dp"
-            android:src="@drawable/ic_bell_off_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!--ImageView
             android:id="@+id/logoImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,22 +33,22 @@
             android:src="@drawable/ic_logo_24"
             app:layout_constraintBottom_toBottomOf="@id/board_tablayout"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/board_tablayout" /-->
+            app:layout_constraintTop_toTopOf="@id/board_tablayout" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/board_tablayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            app:layout_constraintBottom_toBottomOf="@id/alarm_btn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/alarm_btn"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="18dp"
+            app:layout_constraintBottom_toBottomOf="@id/search_btn"
+            app:layout_constraintStart_toEndOf="@id/logoImg"
+            app:layout_constraintTop_toTopOf="@id/search_btn"
             app:tabIndicatorHeight="0dp"
             app:tabMode="fixed"
             app:tabRippleColor="@null"
             app:tabBackground="@drawable/bg_tab"
-            app:tabGravity="start"
-            app:tabPadding="0dp"
+            app:tabGravity="center"
             app:tabTextAppearance="@style/TextAppearance.App.24sp_600"
             app:tabTextColor="@color/tab_text_color_selector" />
 
@@ -64,11 +56,11 @@
             android:id="@+id/board_vp"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/alarm_btn" />
+            app:layout_constraintTop_toBottomOf="@id/board_tablayout" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/write_fab"
@@ -76,7 +68,6 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_write_24"
             android:backgroundTint="@color/yellow"
-            android:elevation="0dp"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlayExtended"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="24dp"

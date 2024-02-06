@@ -1,74 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rectangle_corner_10"
+    android:backgroundTint="@color/white">
 
-    <data>
-
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rectangle_corner_10"
-        android:backgroundTint="@color/white">
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="28dp"
+        android:text="해당 글을 정말 삭제하시겠습니까?"
+        android:textAppearance="@style/TextAppearance.App.16sp_500"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="52dp"
-            android:layout_marginTop="24dp"
-            android:text="해당 글을 정말 삭제하시겠습니까?"
-            android:textAppearance="@style/TextAppearance.App.16sp_500"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:textColor="@color/orange"
+        android:text="\u203b 삭제시, 복구할 수 없습니다."
+        android:textAppearance="@style/TextAppearance.App.12sp_400"
+        app:layout_constraintEnd_toEndOf="@id/title"
+        app:layout_constraintStart_toStartOf="@id/title"
+        app:layout_constraintTop_toBottomOf="@id/title" />
 
-        <TextView
-            android:id="@+id/body"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:textColor="@color/orange"
-            android:text="\u203b 삭제시, 복구할 수 없습니다."
-            android:textAppearance="@style/TextAppearance.App.12sp_400"
-            app:layout_constraintEnd_toEndOf="@id/title"
-            app:layout_constraintStart_toStartOf="@id/title"
-            app:layout_constraintTop_toBottomOf="@id/title" />
+    <TextView
+        android:id="@+id/cancel_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/rectangle_corner_left_10"
+        android:backgroundTint="@color/gray80"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="취소"
+        android:textAppearance="@style/TextAppearance.App.16sp_600"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/accept_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/body" />
 
-        <TextView
-            android:id="@+id/cancel_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:background="@drawable/rectangle_corner_left_10"
-            android:backgroundTint="@color/gray80"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="취소"
-            android:textAppearance="@style/TextAppearance.App.16sp_600"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/accept_btn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/body" />
-
-        <TextView
-            android:id="@+id/accept_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:background="@drawable/rectangle_corner_right_10"
-            android:backgroundTint="@color/yellow"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="삭제"
-            android:textAppearance="@style/TextAppearance.App.16sp_600"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cancel_btn"
-            app:layout_constraintTop_toBottomOf="@id/body" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+    <TextView
+        android:id="@+id/accept_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/rectangle_corner_right_10"
+        android:backgroundTint="@color/yellow"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="삭제"
+        android:textAppearance="@style/TextAppearance.App.16sp_600"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/cancel_btn"
+        app:layout_constraintTop_toBottomOf="@id/body" />
+</androidx.constraintlayout.widget.ConstraintLayout>

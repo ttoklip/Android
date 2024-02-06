@@ -1,33 +1,33 @@
 package com.umc.ttoklip.presentation.honeytip
 
 import android.content.Intent
-import android.util.Log
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentHoneyTipListBinding
-import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipListRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTips
 import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
 import com.umc.ttoklip.presentation.honeytip.read.ReadActivity
 
-class HoneyTipListFragment :
-    BaseFragment<FragmentHoneyTipListBinding>(R.layout.fragment_honey_tip_list),
-    OnItemClickListener {
-    private val viewModel: HoneyTipViewModel by activityViewModels()
-    private var board = ""
-    override fun initObserver() {
+class HoneyTipListFragment: Fragment(), OnItemClickListener {
+    private lateinit var binding: FragmentHoneyTipListBinding
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentHoneyTipListBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun initView() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initRV()
-        viewModel.boardLiveData.observe(this){
-            board = it
-            Log.d("HoneyTipListFragment change board", it)
-        }
     }
 
     private fun initRV() {
@@ -61,8 +61,7 @@ class HoneyTipListFragment :
 
     override fun onClick(honeyTips: HoneyTips) {
         val intent = Intent(activity, ReadActivity::class.java)
-        intent.putExtra(BOARD, board)
-        Log.d("HoneyTipListFragment", board)
+        intent.putExtra("caller", "honeyTipList")
         startActivity(intent)
     }
 }

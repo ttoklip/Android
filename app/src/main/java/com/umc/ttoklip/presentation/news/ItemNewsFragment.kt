@@ -15,6 +15,7 @@ class ItemNewsFragment : BaseFragment<FragmentItemNewsBinding>(R.layout.fragment
     }
 
     override fun initObserver() {
+
     }
 
     override fun initView() {

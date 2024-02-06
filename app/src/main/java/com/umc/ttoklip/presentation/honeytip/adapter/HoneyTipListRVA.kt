@@ -49,9 +49,9 @@ interface OnItemClickListener {
 }
 
 data class HoneyTips(
-    var writer: String,
-    var title: String,
-    var body: String,
-    var date: String,
-    var chatCnt: Int = 0,
+    val writer: String,
+    val title: String,
+    val body: String,
+    val date: String,
+    val chatCnt: Int = 0,
 )

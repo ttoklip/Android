@@ -1,296 +1,239 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/signup2_desc_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="아이디와 비밀번호를 설정해주세요!"
+        android:layout_marginTop="20dp"
+        android:textAppearance="@style/TextAppearance.App.12sp_500"
+        android:textSize="13sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-        <LinearLayout
-            android:id="@+id/signup2_signupbox_ll"
+    <LinearLayout
+        android:id="@+id/signup2_signupbox_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/signup2_desc_tv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/signup2_id_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:text="아이디"
+            android:textAppearance="@style/TextAppearance.App.14sp_700"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+            <EditText
+                android:id="@+id/signup2_id_et"
+                android:layout_width="309dp"
+                android:layout_height="40dp"
+                android:background="@drawable/rectangle_corner_10"
+                android:backgroundTint="@color/gray20"
+                android:hint="영문, 숫자 5 - 11자"
+                android:textAppearance="@style/TextAppearance.App.14sp_500"
+                android:textSize="11sp"
+                android:textColorHint="@color/gray60"
+                android:paddingLeft="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/signup2_idcheck_button"
+                android:layout_width="90dp"
+                android:layout_height="28dp"
+                android:background="@drawable/rectangle_corner_30"
+                android:backgroundTint="@color/gray40"
+                android:text="중복 확인"
+                android:textAppearance="@style/TextAppearance.App.12sp_500"
+                android:textSize="11sp"
+                android:textColor="@color/gray80"
+                app:layout_constraintTop_toTopOf="@id/signup2_id_et"
+                app:layout_constraintBottom_toBottomOf="@id/signup2_id_et"
+                app:layout_constraintEnd_toEndOf="@id/signup2_id_et"
+                android:layout_marginEnd="10dp"
+                android:stateListAnimator="@null"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/signup2_idok_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="사용이 가능한 아이디예요 :)"
+            android:textColor="@color/blue"
+            android:textAppearance="@style/TextAppearance.App.12sp_500"
+            android:textSize="11sp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"/>
+        <TextView
+            android:id="@+id/signup2_certnotok_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="중복된 아이디예요 ㅠㅠ"
+            android:textColor="@color/orange"
+            android:textAppearance="@style/TextAppearance.App.12sp_500"
+            android:textSize="11sp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/signup1_desc1_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="똑립에서 사용할"
-                    android:textAppearance="@style/TextAppearance.App.22sp_400"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
-                <TextView
-                    android:id="@+id/signup1_desc2_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="계정정보"
-                    android:textAppearance="@style/TextAppearance.App.22sp_600"
-                    app:layout_constraintTop_toBottomOf="@id/signup1_desc1_tv"
-                    app:layout_constraintStart_toStartOf="@id/signup1_desc1_tv"/>
-                <TextView
-                    android:id="@+id/signup_desc3_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="를 입력해주세요"
-                    android:textAppearance="@style/TextAppearance.App.22sp_400"
-                    app:layout_constraintTop_toTopOf="@id/signup1_desc2_tv"
-                    app:layout_constraintStart_toEndOf="@id/signup1_desc2_tv"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <TextView
-                android:id="@+id/signup2_id_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="아이디"
-                android:textAppearance="@style/TextAppearance.App.14sp_700" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <EditText
-                    android:id="@+id/signup2_id_et"
-                    android:layout_width="200dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/rectangle_corner_10"
-                    android:backgroundTint="@color/gray20"
-                    android:hint="영문, 숫자 5 - 11자"
-                    android:paddingLeft="10dp"
-                    android:textAppearance="@style/TextAppearance.App.12sp_400"
-                    android:textColorHint="@color/gray60"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/signup2_idcheck_button"
-                    android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/rectangle_corner_10_strok_1_black"
-                    android:stateListAnimator="@null"
-                    android:text="중복 확인"
-                    android:textAppearance="@style/TextAppearance.App.14sp_500"
-                    android:textColor="@color/black"
-                    android:layout_marginStart="10dp"
-                    app:layout_constraintStart_toEndOf="@id/signup2_id_et"
-                    app:layout_constraintTop_toTopOf="@id/signup2_id_et"
-                    app:layout_constraintBottom_toBottomOf="@id/signup2_id_et"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <TextView
-                android:id="@+id/signup2_idok_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+        <TextView
+            android:id="@+id/signup2_birth_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="비밀번호"
+            android:textAppearance="@style/TextAppearance.App.14sp_700"
+            android:layout_marginTop="15dp"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+            <EditText
+                android:id="@+id/signup2_birth_et"
+                android:layout_width="309dp"
+                android:layout_height="40dp"
+                android:background="@drawable/rectangle_corner_10"
+                android:backgroundTint="@color/gray20"
+                android:hint="영문, 숫자, 특수문자 조합 최소 8자"
+                android:textSize="11sp"
+                android:textAppearance="@style/TextAppearance.App.14sp_500"
+                android:textColorHint="@color/gray60"
+                android:paddingStart="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+            <ImageView
+                android:id="@+id/signup2_pwvisible_iv"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:src="@drawable/ic_eye_on_24"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintTop_toTopOf="@id/signup2_birth_et"
+                app:layout_constraintBottom_toBottomOf="@id/signup2_birth_et"
+                app:layout_constraintEnd_toEndOf="@id/signup2_birth_et"/>
+            <ImageView
+                android:id="@+id/signup2_pweng_iv"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:src="@drawable/ic_checkpre_off_16"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:text="사용가능한 아이디입니다."
-                android:textAppearance="@style/TextAppearance.App.12sp_500"
-                android:textColor="@color/blue"
-                android:textSize="11sp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent" />
-
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/signup2_birth_et"/>
             <TextView
-                android:id="@+id/signup2_idnotok_tv"
+                android:id="@+id/signup2_pweng_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="영문"
+                android:textSize="10sp"
+                android:textColor="@color/gray60"
+                android:layout_marginStart="5dp"
+                app:layout_constraintStart_toEndOf="@id/signup2_pweng_iv"
+                app:layout_constraintTop_toTopOf="@id/signup2_pweng_iv"
+                app:layout_constraintBottom_toBottomOf="@id/signup2_pweng_iv"/>
+            <ImageView
+                android:id="@+id/signup2_pwnum_iv"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:src="@drawable/ic_checkpre_off_16"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:text="중복된 아이디입니다."
-                android:textAppearance="@style/TextAppearance.App.12sp_500"
-                android:textColor="@color/orange"
+                app:layout_constraintStart_toEndOf="@id/signup2_pweng_tv"
+                app:layout_constraintTop_toTopOf="@id/signup2_pweng_iv"
+                app:layout_constraintBottom_toBottomOf="@id/signup2_pweng_iv"/>
+            <TextView
+                android:id="@+id/signup2_pwnum_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="숫자"
+                android:textSize="10sp"
+                android:textColor="@color/gray60"
+                android:layout_marginStart="5dp"
+                app:layout_constraintStart_toEndOf="@id/signup2_pwnum_iv"
+                app:layout_constraintTop_toTopOf="@id/signup2_pweng_iv"
+                app:layout_constraintBottom_toBottomOf="@id/signup2_pweng_iv"/>
+            <ImageView
+                android:id="@+id/signup2_pwspe_iv"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:src="@drawable/ic_checkpre_off_16"
+                android:layout_marginStart="10dp"
+                app:layout_constraintStart_toEndOf="@id/signup2_pwnum_tv"
+                app:layout_constraintTop_toTopOf="@id/signup2_pweng_iv"
+                app:layout_constraintBottom_toBottomOf="@id/signup2_pweng_iv"/>
+            <TextView
+                android:id="@+id/signup2_pwspe_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="특수문자"
+                android:textSize="10sp"
+                android:textColor="@color/gray60"
+                android:layout_marginStart="5dp"
+                app:layout_constraintStart_toEndOf="@id/signup2_pwspe_iv"
+                app:layout_constraintTop_toTopOf="@id/signup2_pweng_iv"
+                app:layout_constraintBottom_toBottomOf="@id/signup2_pweng_iv"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/signup2_pwcheck_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="비밀번호 확인"
+            android:textAppearance="@style/TextAppearance.App.14sp_700"
+            android:layout_marginTop="15dp"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+            <EditText
+                android:id="@+id/signup2_pwcheck_et"
+                android:layout_width="309dp"
+                android:layout_height="40dp"
+                android:background="@drawable/rectangle_corner_10"
+                android:backgroundTint="@color/gray20"
+                android:hint="영문, 숫자, 특수문자 조합 최소 8자"
                 android:textSize="11sp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:textAppearance="@style/TextAppearance.App.14sp_500"
+                android:textColorHint="@color/gray60"
+                android:paddingLeft="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+            <ImageView
+                android:id="@+id/signup2_pwcheckvisible_iv"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:src="@drawable/ic_eye_on_24"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintTop_toTopOf="@id/signup2_pwcheck_et"
+                app:layout_constraintBottom_toBottomOf="@id/signup2_pwcheck_et"
+                app:layout_constraintEnd_toEndOf="@id/signup2_pwcheck_et"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/signup2_birth_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="비밀번호"
-                android:textAppearance="@style/TextAppearance.App.14sp_700" />
+        <TextView
+            android:id="@+id/signup_pwnotok_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="비밀번호가 일치하지 않아요 ㅠㅠ"
+            android:textColor="@color/orange"
+            android:textAppearance="@style/TextAppearance.App.12sp_500"
+            android:textSize="11sp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/signup2_pwcheck_et"
+            app:layout_constraintEnd_toEndOf="parent"/>
+</LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/signup2_pw_tl"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="@color/gray60"
-                    app:hintEnabled="false"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:passwordToggleEnabled="true">
-
-                    <EditText
-                        android:id="@+id/signup2_pw_et"
-                        android:layout_width="312dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/rectangle_corner_10"
-                        android:backgroundTint="@color/gray20"
-                        android:hint="영문, 숫자, 특수문자 조합 최소 8자"
-                        android:paddingStart="10dp"
-                        android:inputType="textPassword"
-                        android:textAppearance="@style/TextAppearance.App.12sp_400"
-                        android:textColorHint="@color/gray60"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <ImageView
-                    android:id="@+id/signup2_pweng_iv"
-                    android:layout_width="13dp"
-                    android:layout_height="13dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/item_pwcheck_off"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/signup2_pw_tl" />
-
-                <TextView
-                    android:id="@+id/signup2_pweng_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="영문"
-                    android:textAppearance="@style/TextAppearance.App.10sp_400"
-                    android:textColor="@color/gray60"
-                    android:textSize="10sp"
-                    app:layout_constraintBottom_toBottomOf="@id/signup2_pweng_iv"
-                    app:layout_constraintStart_toEndOf="@id/signup2_pweng_iv"
-                    app:layout_constraintTop_toTopOf="@id/signup2_pweng_iv" />
-
-                <ImageView
-                    android:id="@+id/signup2_pwnum_iv"
-                    android:layout_width="13dp"
-                    android:layout_height="13dp"
-                    android:layout_marginStart="10dp"
-                    android:src="@drawable/item_pwcheck_off"
-                    app:layout_constraintBottom_toBottomOf="@id/signup2_pweng_iv"
-                    app:layout_constraintStart_toEndOf="@id/signup2_pweng_tv"
-                    app:layout_constraintTop_toTopOf="@id/signup2_pweng_iv" />
-
-                <TextView
-                    android:id="@+id/signup2_pwnum_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="숫자"
-                    android:textAppearance="@style/TextAppearance.App.10sp_400"
-                    android:textColor="@color/gray60"
-                    android:textSize="10sp"
-                    app:layout_constraintBottom_toBottomOf="@id/signup2_pweng_iv"
-                    app:layout_constraintStart_toEndOf="@id/signup2_pwnum_iv"
-                    app:layout_constraintTop_toTopOf="@id/signup2_pweng_iv" />
-
-                <ImageView
-                    android:id="@+id/signup2_pwspe_iv"
-                    android:layout_width="13dp"
-                    android:layout_height="13dp"
-                    android:layout_marginStart="10dp"
-                    android:src="@drawable/item_pwcheck_off"
-                    app:layout_constraintBottom_toBottomOf="@id/signup2_pweng_iv"
-                    app:layout_constraintStart_toEndOf="@id/signup2_pwnum_tv"
-                    app:layout_constraintTop_toTopOf="@id/signup2_pweng_iv" />
-
-                <TextView
-                    android:id="@+id/signup2_pwspe_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="특수문자"
-                    android:textAppearance="@style/TextAppearance.App.10sp_400"
-                    android:textColor="@color/gray60"
-                    android:textSize="10sp"
-                    app:layout_constraintBottom_toBottomOf="@id/signup2_pweng_iv"
-                    app:layout_constraintStart_toEndOf="@id/signup2_pwspe_iv"
-                    app:layout_constraintTop_toTopOf="@id/signup2_pweng_iv" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <TextView
-                android:id="@+id/signup2_pwcheck_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="비밀번호 확인"
-                android:textAppearance="@style/TextAppearance.App.14sp_700" />
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/signup2_pwcheck_tl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColorHint="@color/gray60"
-        app:hintEnabled="false"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:passwordToggleEnabled="true">
-        <EditText
-            android:id="@+id/signup2_pwcheck_et"
-            android:layout_width="312dp"
-            android:layout_height="50dp"
-            android:background="@drawable/rectangle_corner_10"
-            android:backgroundTint="@color/gray20"
-            android:hint="비밀번호를 한번 더 입력해주세요"
-            android:paddingStart="10dp"
-            android:inputType="textPassword"
-            android:textAppearance="@style/TextAppearance.App.12sp_400"
-            android:textColorHint="@color/gray60"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/signup_pwnotok_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:text="비밀번호가 일치하지 않습니다."
-        android:textAppearance="@style/TextAppearance.App.12sp_400"
-        android:textColor="@color/orange"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/signup2_pwcheck_tl" />
-    <TextView
-        android:id="@+id/signup_pwok_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:text="비밀번호가 일치합니다."
-        android:textAppearance="@style/TextAppearance.App.12sp_400"
-        android:textColor="@color/blue"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/signup2_pwcheck_tl" />
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </LinearLayout>
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/signup2_next_btn"
-            android:layout_width="312dp"
-            android:layout_height="50dp"
-            android:background="@drawable/rectangle_corner_10_strok_1_black"
-            android:stateListAnimator="@null"
-            android:text="다음"
-            android:textAppearance="@style/TextAppearance.App.16sp_600"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>

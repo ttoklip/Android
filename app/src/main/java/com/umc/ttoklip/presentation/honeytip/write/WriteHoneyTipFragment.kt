@@ -8,28 +8,24 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.get
-import androidx.core.widget.doAfterTextChanged
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.umc.ttoklip.R
+import com.umc.ttoklip.databinding.FragmentWriteHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
-import com.umc.ttoklip.presentation.honeytip.HoneyTipViewModel
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialog
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
 
 
-/*class WriteHoneyTipFragment(val board: String) : BaseFragment<FragmentWriteHoneyTipBinding>(R.layout.fragment_write_honey_tip) {
+class WriteHoneyTipFragment : BaseFragment<FragmentWriteHoneyTipBinding>(R.layout.fragment_write_honey_tip) {
     /*private val imageLoadLauncher = registerForActivityResult(
         ActivityResultContracts.GetMultipleContents()
     ) { uriList ->
@@ -46,40 +42,45 @@ import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
             Log.d("PhotoPicker", "No media selected")
         }
     }
-    private val viewModel: HoneyTipViewModel by activityViewModels()
+    private lateinit var viewModel: WriteHoneyTipViewModel
     private lateinit var imageAdapter: ImageRVA
     override fun initObserver() {
 
     }
 
     override fun initView() {
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         initTabLayout()
         initImageRVA()
         addLink()
         addImage()
+        viewModel = ViewModelProvider(this).get(WriteHoneyTipViewModel::class.java)
         binding.viewModel = viewModel
-        //enableEditTextScroll()
-        binding.titleEt.doAfterTextChanged {
-            viewModel.setTitle(it.toString())
+
+        viewModel.titleLiveData.observe(viewLifecycleOwner) {
+            val isTitleEmpty = !binding.titleEt.text.isNullOrEmpty()
         }
 
-        binding.bodyEt.doAfterTextChanged {
-            Log.d("WriteFragmentBody", it.toString())
-            viewModel.setBody(it.toString())
+        viewModel.bodyLiveData.observe(viewLifecycleOwner) {
+            val isBodyEmpty = !binding.bodyEt.text.isNullOrEmpty()
         }
 
-        var contentViewHeight = 0
-
-        binding.bodyEt.viewTreeObserver.addOnGlobalLayoutListener(object :
-            ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-
-                binding.bodyEt.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                contentViewHeight = binding.bodyEt.height
-                Log.d("heigt", contentViewHeight.toString())
+        binding.bodyEt.setOnTouchListener { v, event ->
+            if (v.id == com.umc.ttoklip.R.id.body_et) {
+                v.parent.requestDisallowInterceptTouchEvent(true)
+                when (event.action and MotionEvent.ACTION_MASK) {
+                    MotionEvent.ACTION_UP -> v.parent.requestDisallowInterceptTouchEvent(false)
+                }
             }
-        })
+            false
+        }
     }
+
     private fun initImageRVA() {
         imageAdapter = ImageRVA()
         binding.imageRv.adapter = imageAdapter
@@ -92,20 +93,7 @@ import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
         }
 
         setTabItemMargin(binding.tabLayout, 40)
-        setSelectedTabTextStyleBold(R.font.pretendard_bold, binding.tabLayout.selectedTabPosition)
-
-        binding.tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                setSelectedTabTextStyleBold(R.font.pretendard_bold, binding.tabLayout.selectedTabPosition)
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                setSelectedTabTextStyleBold(R.font.pretendard_medium, tab?.position!!)
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-            }
-        })
+        setSelectedTabTextStyleBold()
     }
 
     private fun setTabItemMargin(tabLayout: TabLayout, marginEnd: Int = 20) {
@@ -123,16 +111,35 @@ import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
         }
     }
 
-    private fun setSelectedTabTextStyleBold(typeFace: Int, position: Int) {
-        val typeface =
-            ResourcesCompat.getFont(
-                requireContext(),
-                typeFace
-            )
-        val tabLayout =
-            (binding.tabLayout.getChildAt(0) as ViewGroup)
-        val tabTextView = (tabLayout.getChildAt(position) as LinearLayout).getChildAt(1) as TextView
-        tabTextView.setTypeface(typeface, Typeface.NORMAL)
+    private fun setSelectedTabTextStyleBold() {
+        binding.tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                val tabLayout =
+                    (binding.tabLayout.getChildAt(0) as ViewGroup).getChildAt(tab!!.position) as LinearLayout
+                val tabTextView = tabLayout.getChildAt(1) as TextView
+                val typeface =
+                    ResourcesCompat.getFont(
+                        requireContext(),
+                        com.umc.ttoklip.R.font.pretendard_bold
+                    )
+                tabTextView.setTypeface(typeface, Typeface.NORMAL)
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                val tabLayout =
+                    (binding.tabLayout.getChildAt(0) as ViewGroup).getChildAt(tab!!.position) as LinearLayout
+                val tabTextView = tabLayout.getChildAt(1) as TextView
+                val typeface =
+                    ResourcesCompat.getFont(
+                        requireContext(),
+                        com.umc.ttoklip.R.font.pretendard_medium
+                    )
+                tabTextView.setTypeface(typeface, Typeface.NORMAL)
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+        })
     }
 
     private fun addLink() {
@@ -144,6 +151,15 @@ import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
 
     private fun addImage() {
         binding.addImageBtn.setOnClickListener {
+            /*val imageDialog = ImageDialog(requireContext())
+            imageDialog.setDialogClickListener(object : ImageDialog.DialogClickListener {
+                override fun onClick() {
+                    binding.imageRv.visibility = View.VISIBLE
+                    pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                }
+            })
+            imageDialog.show()*/
+
             val imageDialog = ImageDialogFragment()
             imageDialog.setDialogClickListener(object : ImageDialogFragment.DialogClickListener{
                 override fun onClick() {
@@ -160,18 +176,6 @@ import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
         val updatedImages = imageAdapter.currentList.toMutableList().apply { addAll(images) }
         imageAdapter.submitList(updatedImages)
     }
-
-    /*private fun enableEditTextScroll(){
-        binding.bodyEt.setOnTouchListener { v, event ->
-            if (v.id == com.umc.ttoklip.R.id.body_et) {
-                v.parent.requestDisallowInterceptTouchEvent(true)
-                when (event.action and MotionEvent.ACTION_MASK) {
-                    MotionEvent.ACTION_UP -> v.parent.requestDisallowInterceptTouchEvent(false)
-                }
-            }
-            false
-        }
-    }*/
 }
 
 
@@ -222,4 +226,3 @@ import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
     companion object {
         const val REQUEST_READ_EXTERNAL_STORAGE = 100
     }*/
-    */

@@ -8,12 +8,10 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentNewsBinding
 import com.umc.ttoklip.presentation.MainActivity
-import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.news.adapter.Dummy
 import com.umc.ttoklip.presentation.news.adapter.NewsCardRVA
 import com.umc.ttoklip.presentation.news.adapter.NewsTabAdapter
-import com.umc.ttoklip.presentation.search.SearchActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -58,16 +56,6 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(R.layout.fragment_news) {
                 (requireActivity() as MainActivity).binding.bottomNav.isVisible = true
             }
         })
-
-        binding.searchBtn.setOnClickListener {
-            startActivity(SearchActivity.newIntent(requireContext()))
-        }
-        binding.expandSearchBtn.setOnClickListener {
-            startActivity(SearchActivity.newIntent(requireContext()))
-        }
-        binding.bellBtn.setOnClickListener {
-            startActivity(AlarmActivity.newIntent(requireContext()))
-        }
 
         binding.fab.setOnClickListener {
             binding.appBar.setExpanded(true)

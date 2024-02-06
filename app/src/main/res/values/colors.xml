@@ -7,12 +7,9 @@
     <color name="gray40">#FFCACACA</color>
     <color name="gray60">#FFAEAEAE</color>
     <color name="gray80">#FF7A7A7A</color>
-    <color name="gray1000">#030303</color>
     <color name="yellow">#FFFFE600</color>
     <color name="yellow_light">#FFFFF8B4</color>
     <color name="blue">#FF0075FF</color>
     <color name="orange">#FFFE5E00</color>
     <color name="line">#EFEFEF</color>
-    <color name="naver">#03C75A</color>
-    <color name="kakao">#FEE500</color>
 </resources>
