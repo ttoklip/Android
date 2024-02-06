@@ -34,7 +34,7 @@ class InputMaxMemberDialogFragment(private val btnClickListener: (Int) -> Unit) 
 
     companion object {
         private const val MIN_MEMBER = 2
-        private const val MAX_MEMBER = 15
+        private const val MAX_MEMBER = 20
         private const val DIVIDER_HEIGHT_ZERO = 0
     }
 }

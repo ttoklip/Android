@@ -13,36 +13,6 @@ class TogetherBottomSheetDialogFragment(private val completeClick: (List<Int>) -
     }
 
     override fun initView() {
-        binding.sortChipG.isSelectionRequired = true
-        binding.sortChipG.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.sort1 -> {}
-                R.id.sort2 -> {}
-                R.id.sort3 -> {}
-                else -> {}
-            }
-        }
-
-        binding.durationChipG.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.board1 -> {}
-
-                R.id.board2 -> {}
-
-                R.id.board3 -> {}
-
-                R.id.board4 -> {}
-
-                R.id.board5 -> {}
-
-                R.id.board6 -> {}
-
-                R.id.board7 -> {}
-
-                else -> {}
-            }
-        }
-
         binding.requiredAmountyChipG.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.amount1 -> {}
@@ -67,8 +37,6 @@ class TogetherBottomSheetDialogFragment(private val completeClick: (List<Int>) -
         }
 
         binding.resetBtn.setOnClickListener {
-            binding.sortChipG.clearCheck()
-            binding.durationChipG.clearCheck()
             binding.requiredAmountyChipG.clearCheck()
             binding.maxMemberChipG.clearCheck()
         }
@@ -81,26 +49,6 @@ class TogetherBottomSheetDialogFragment(private val completeClick: (List<Int>) -
 
     private fun getResult(): List<Int> {
         with(binding) {
-            val sort = when (sortChipG.checkedChipId) {
-                R.id.sort1 -> 1
-                R.id.sort2 -> 2
-                R.id.sort3 -> 3
-                else -> {
-                    0
-                }
-            }
-            val duration = when (durationChipG.checkedChipId) {
-                R.id.board1 -> 1
-                R.id.board2 -> 2
-                R.id.board3 -> 3
-                R.id.board4 -> 4
-                R.id.board5 -> 5
-                R.id.board5 -> 6
-                R.id.board5 -> 7
-                else -> {
-                    0
-                }
-            }
             val requiredAmount = when (requiredAmountyChipG.checkedChipId) {
                 R.id.amount1 -> 1
                 R.id.amount2 -> 2
@@ -124,7 +72,7 @@ class TogetherBottomSheetDialogFragment(private val completeClick: (List<Int>) -
                 }
             }
 
-            return listOf(sort, duration, requiredAmount, maxMember)
+            return listOf(requiredAmount, maxMember)
         }
     }
 }

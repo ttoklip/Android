@@ -13,14 +13,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TogetherViewModelImpl @Inject constructor() : ViewModel(), TogetherViewModel {
-    private val _filterSort = MutableStateFlow(0)
-    override val filterSort: StateFlow<Int>
-        get() = _filterSort
-
-    private val _filterDuration = MutableStateFlow(0)
-    override val filterDuration: StateFlow<Int>
-        get() = _filterDuration
-
     private val _filterRequiredAmount = MutableStateFlow(0)
     override val filterRequiredAmount: StateFlow<Int>
         get() = _filterRequiredAmount
@@ -39,10 +31,8 @@ class TogetherViewModelImpl @Inject constructor() : ViewModel(), TogetherViewMod
         }
     }
 
-    override fun getFilters(sort: Int, duration: Int, requiredAmount: Int, maxMember: Int) {
+    override fun getFilters(requiredAmount: Int, maxMember: Int) {
         viewModelScope.launch {
-            _filterSort.value = sort
-            _filterDuration.value = duration
             _filterRequiredAmount.value = requiredAmount
             _filterMaxMember.value = maxMember
         }
