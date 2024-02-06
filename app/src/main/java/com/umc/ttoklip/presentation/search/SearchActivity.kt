@@ -17,8 +17,10 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivitySearchBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
+import com.umc.ttoklip.presentation.news.adapter.Dummy
 import com.umc.ttoklip.presentation.search.adapter.HistoryModel
 import com.umc.ttoklip.presentation.search.adapter.HistoryRVA
+import com.umc.ttoklip.presentation.search.adapter.SearchRVA
 import com.umc.ttoklip.presentation.search.dialog.BottomDialogSearchFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -30,6 +32,10 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
 
     private val historyRVA by lazy {
         HistoryRVA()
+    }
+
+    private val searchRVA by lazy {
+        SearchRVA({})
     }
 
     override fun initView() {
@@ -73,6 +79,10 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
                 binding.appBarTitleT.setText("")
             }
         }
+        binding.searchRV.adapter = searchRVA
+        searchRVA.submitList(
+            listOf(Dummy(""), Dummy(""), Dummy(""))
+        )
 
         historyRVA.submitList(
             listOf(
