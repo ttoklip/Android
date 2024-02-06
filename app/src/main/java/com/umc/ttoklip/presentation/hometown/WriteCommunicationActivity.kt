@@ -22,9 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class WriteCommunicationActivity :
     BaseActivity<ActivityWriteCommunicationBinding>(R.layout.activity_write_communication) {
     private val imageAdapter by lazy {
-        ImageRVA {
-
-        }
+        ImageRVA({})
     }
 
     private val pickMultipleMedia = registerForActivityResult(
