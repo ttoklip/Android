@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">ttoklip</string>
 
+
     <!-- 마이페이지 strings !-->
     <string name="mypage_title">마이페이지</string>
     <string name="my_level_tv">나의 레벨</string>
@@ -95,5 +96,13 @@
 
 
     <string name="searchDelete"><u>전체삭제</u></string>
+
+    <!--sign up-->
+    <string name="service_term">서비스 이용약관</string>
+    <string name="service_term_detail">서비스 이용약관 상세 내용</string>
+    <string name="privacy_term">개인정보 수집 • 이용 동의</string>
+    <string name="privacy_term_detail">개인정보 수집 및 이용 동의 상세 내용</string>
+    <string name="location_term">위치서비스 이용약관</string>
+    <string name="location_term_detail">위치서비스 이용약관 상세 내용</string>
 
 </resources>
