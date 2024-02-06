@@ -15,6 +15,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.tabs.TabLayout
 import com.umc.ttoklip.R
+import com.umc.ttoklip.data.model.CreateHoneyTipRequest
 import com.umc.ttoklip.databinding.ActivityHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.BOARD
@@ -25,7 +26,9 @@ import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.OnImageClickListener
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.activity_honey_tip), OnImageClickListener {
     private val viewModel: HoneyTipViewModel by viewModels()
     private lateinit var imageAdapter: ImageRVA
@@ -89,7 +92,12 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
         }
 
         binding.writeDoneBtn.setOnClickListener {
-            finish()
+            val images = imageAdapter.currentList.filterIsInstance<Image>().map{it.uri.toString()}.toList()
+
+            val honeyTip = CreateHoneyTipRequest(binding.titleEt.text.toString(), binding.bodyEt.text.toString(),
+                images, listOf( binding.inputUrlEt.text.toString()))
+            viewModel.createHoneyTip(honeyTip)
+            //finish()
         }
 
     }
