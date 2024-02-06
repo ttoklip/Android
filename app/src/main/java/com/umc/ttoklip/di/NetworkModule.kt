@@ -2,6 +2,7 @@ package com.umc.ttoklip.di
 
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
+import com.umc.ttoklip.data.api.HoneyTipApi
 import com.umc.ttoklip.data.api.TestApi
 import com.umc.ttoklip.module.HttpRequestInterceptor
 import dagger.Module
@@ -34,7 +35,7 @@ object NetworkModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
-            .baseUrl("")
+            .baseUrl(TtoklipApplication.getString(R.string.base_url))
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -43,6 +44,12 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideTestApi(retrofit: Retrofit): TestApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideHoneyTipApi(retrofit: Retrofit): HoneyTipApi {
         return retrofit.buildService()
     }
 

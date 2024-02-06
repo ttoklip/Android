@@ -1,31 +1,6 @@
 package com.umc.ttoklip.presentation.honeytip.write
 
 
-import android.graphics.Typeface
-import android.net.Uri
-import android.os.Bundle
-import android.util.Log
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewTreeObserver
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.get
-import androidx.core.widget.doAfterTextChanged
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
-import com.umc.ttoklip.R
-import com.umc.ttoklip.presentation.base.BaseFragment
-import com.umc.ttoklip.presentation.honeytip.HoneyTipViewModel
-import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialog
-import com.umc.ttoklip.presentation.honeytip.adapter.Image
-import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
 
 
