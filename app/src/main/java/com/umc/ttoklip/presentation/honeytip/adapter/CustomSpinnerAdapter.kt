@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import com.umc.ttoklip.databinding.SpinnerInnerFirstBinding
 import com.umc.ttoklip.databinding.SpinnerInnerViewBinding
 import com.umc.ttoklip.databinding.SpinnerOuterViewBinding
 
@@ -47,6 +48,13 @@ class CustomSpinnerAdapter(context: Context, private val list: List<String>?) :
 
     // 클릭 후 나타나는 텍스트뷰 설정
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+        if(position == 0){
+            var convertView = convertView
+            val binding = SpinnerInnerFirstBinding.inflate(inflater, parent, false)
+            if (convertView == null) convertView = binding.root
+            binding.spinnerInnerTv.text = "신고사유"
+            return convertView
+        }
         var convertView = convertView
         val binding = SpinnerInnerViewBinding.inflate(inflater, parent, false)
         if (convertView == null) convertView = binding.root

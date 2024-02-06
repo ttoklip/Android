@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/signup5_signupbox_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/signup5_desc1_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="똑립 이용을 위해"
+                    android:textAppearance="@style/TextAppearance.App.22sp_400"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/signup5_desc2_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="우리동네"
+                    android:textAppearance="@style/TextAppearance.App.22sp_600"
+                    app:layout_constraintStart_toStartOf="@id/signup5_desc1_tv"
+                    app:layout_constraintTop_toBottomOf="@id/signup5_desc1_tv" />
+
+                <TextView
+                    android:id="@+id/signup_desc3_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="를 설정해주세요"
+                    android:textAppearance="@style/TextAppearance.App.22sp_400"
+                    app:layout_constraintStart_toEndOf="@id/signup5_desc2_tv"
+                    app:layout_constraintTop_toTopOf="@id/signup5_desc2_tv" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/signup5_location_cl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp">
+
+                <ImageView
+                    android:id="@+id/signup5_location_iv"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:src="@drawable/ic_gps_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/signup5_location_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="현재 위치 기준 설정"
+                    android:textAppearance="@style/TextAppearance.App.16sp_600"
+                    app:layout_constraintBottom_toBottomOf="@id/signup5_location_iv"
+                    app:layout_constraintStart_toEndOf="@id/signup5_location_iv"
+                    app:layout_constraintTop_toTopOf="@id/signup5_location_iv" />
+
+                <ImageView
+                    android:id="@+id/signup5_location_btn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_black_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/signup5_locationDirect_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="직접 입력"
+                android:textAppearance="@style/TextAppearance.App.14sp_700" />
+
+            <TextView
+                android:id="@+id/signup5_locationDirect_et"
+                android:layout_width="312dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rectangle_corner_10"
+                android:backgroundTint="@color/gray20"
+                android:text="주소를 입력해주세요"
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                android:textAppearance="@style/TextAppearance.App.12sp_400"
+                android:textColor="@color/gray80"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/signup5_independence_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="범위설정"
+                android:textAppearance="@style/TextAppearance.App.14sp_700" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/direct_input_address_frame">
+
+                <SeekBar
+                    android:id="@+id/range_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="-16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="-16dp"
+                    android:background="@null"
+                    android:backgroundTint="@color/white"
+                    android:max="100"
+                    android:progress="33"
+                    android:progressDrawable="@drawable/level_bar_background"
+                    android:thumb="@null"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/range_500m_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/range_500m"
+                    android:textAppearance="@style/TextAppearance.App.14sp_700"
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toStartOf="@id/range_1km_tv"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/range_bar" />
+
+                <TextView
+                    android:id="@+id/range_1km_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="50dp"
+                    android:text="@string/range_1km"
+                    android:textAppearance="@style/TextAppearance.App.14sp_700"
+                    android:textColor="@color/gray40"
+                    app:layout_constraintEnd_toStartOf="@id/range_1.5km_tv"
+                    app:layout_constraintStart_toEndOf="@id/range_500m_tv"
+                    app:layout_constraintTop_toBottomOf="@id/range_bar" />
+
+                <TextView
+                    android:id="@+id/range_1.5km_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/range_1_5km"
+                    android:textAppearance="@style/TextAppearance.App.14sp_700"
+                    android:textColor="@color/gray40"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/range_1km_tv"
+                    app:layout_constraintTop_toBottomOf="@id/range_bar" />
+
+                <TextView
+                    android:id="@+id/range_setting_explain_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:textAppearance="@style/TextAppearance.App.12sp_400"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/range_500m_tv" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/signup5_next_btn"
+            android:layout_width="312dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rectangle_corner_10_strok_1_black"
+            android:stateListAnimator="@null"
+            android:text="가입 완료"
+            android:textAppearance="@style/TextAppearance.App.16sp_600"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
