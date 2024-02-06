@@ -107,7 +107,8 @@ dependencies {
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
     //naver map
-    //implementation "com.naver.maps:map-sdk:3.16.2"
+    implementation "com.naver.maps:map-sdk:3.17.0"
+    implementation "com.google.android.gms:play-services-location:21.1.0"
 }
 kapt {
     correctErrorTypes true
