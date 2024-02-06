@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.databinding.ItemListHoneyTipBinding
 import java.io.Serializable
+import kotlin.String
 
 class HoneyTipListRVA(private var listener: OnItemClickListener): ListAdapter<HoneyTips, HoneyTipListRVA.HoneyTipListViewHolder>(object: DiffUtil.ItemCallback<HoneyTips>(){
     override fun areItemsTheSame(oldItem: HoneyTips, newItem: HoneyTips): Boolean {
