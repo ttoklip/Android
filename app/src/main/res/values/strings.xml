@@ -9,7 +9,7 @@
     <string name="next_level_tv">다음 레벨까지</string>
     <string name="scrap_btn_text">스크랩</string>
     <string name="my_writing_btn_text">내가 작성한 글</string>
-    <string name="transcation_history_btn_text">거래내역</string>
+    <string name="transaction_history_btn_text">거래내역</string>
     <string name="manage_account_text">계정 관리</string>
     <string name="announcement_text">공지사항</string>
     <string name="usage_manage_text">이용 관리</string>
@@ -72,5 +72,37 @@
     <string name="contain_english">영문</string>
     <string name="contain_number">숫자</string>
     <string name="contain_special_character">특수문자</string>
+    <string name="sympathy_notice_title">공감 알림</string>
+    <string name="comment_notice_title">댓글 알림</string>
+    <string name="scrap_notice_title">스크랩 알림</string>
+    <string name="faq_title">자주찾는 질문</string>
+    <string name="one_on_one_inquiries">1:1 문의하기</string>
+    <string name="one_on_one_inquiries_title">문의하려는 내용을 입력해주세요</string>
+    <string name="inquiries_hint">"궁금하거나 문제되는 일에 대해 자세히 알려주세요.\n입력하신 내용은 고객센터에서 직접 처리하여 고객님의 메일로 답변드립니다.(2~3일 소요)"</string>
+    <string name="send_inquiries">전송</string>
+    <string name="dialog_cancel">취소</string>
+    <string name="logout_title">정말 똑립에서 로그아웃하시겠어요?</string>
+    <string name="amount_format">"%s/%s"</string>
+    <string name="my_transaction_history_title">나의 거래내역</string>
+    <string name="comment_format">"0%d"</string>
+    <string name="member_format">"%d/%d"</string>
+    <string name="saved_honey_tip_title">내가 저장한 꿀팁</string>
+    <string name="sort_most_recent">최근 작성순</string>
+    <string name="sort_popularity">인기순</string>
+    <string name="sort_most_comments">댓글 많은 순</string>
+    <string name="sort_most_scrap">스크랩 많은 순</string>
+    <string name="my_honey_tip_title">내가 작성한 꿀팁</string>
+
+
+
+    <string name="searchDelete"><u>전체삭제</u></string>
+
+    <!--sign up-->
+    <string name="service_term">서비스 이용약관</string>
+    <string name="service_term_detail">서비스 이용약관 상세 내용</string>
+    <string name="privacy_term">개인정보 수집 • 이용 동의</string>
+    <string name="privacy_term_detail">개인정보 수집 및 이용 동의 상세 내용</string>
+    <string name="location_term">위치서비스 이용약관</string>
+    <string name="location_term_detail">위치서비스 이용약관 상세 내용</string>
 
 </resources>

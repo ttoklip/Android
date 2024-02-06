@@ -31,6 +31,11 @@
         <item name="fontFamily">@font/pretendard_bold</item>
     </style>
 
+    <style name="TextAppearance.App.14sp_400" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+    </style>
+
     <style name="TextAppearance.App.14sp_500" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
         <item name="fontFamily">@font/pretendard_medium</item>
@@ -77,6 +82,21 @@
         <item name="fontFamily">@font/pretendard_semi_medium</item>
     </style>
 
+    <style name="TextAppearance.App.22sp_400" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">22sp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+    </style>
+
+    <style name="TextAppearance.App.22sp_600" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">22sp</item>
+        <item name="fontFamily">@font/pretendard_semi_medium</item>
+    </style>
+
+    <style name="TextAppearance.App.24sp_400" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+    </style>
+
     <style name="TextAppearance.App.24sp_600" parent="TextAppearance.AppCompat">
         <item name="android:textSize">24sp</item>
         <item name="fontFamily">@font/pretendard_bold</item>
@@ -111,4 +131,8 @@
         <item name="android:editTextColor">@color/black</item>
     </style>
 
+    <style name="SpinnerTextViewItem" parent="@android:style/Widget.TextView">
+        <item name="android:textAppearance">@style/TextAppearance.App.12sp_500</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

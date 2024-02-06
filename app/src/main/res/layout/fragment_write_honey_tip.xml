@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.google.android.material.tabs.TabLayout.Tab"/>
         <variable
             name="viewModel"
-            type="com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipViewModel" />
+            type="com.umc.ttoklip.presentation.honeytip.HoneyTipViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -44,7 +45,6 @@
                 android:background="@null"
                 android:hint="제목 입력"
                 android:inputType="text"
-                android:text="@{viewModel.titleLiveData}"
                 android:textAppearance="@style/TextAppearance.App.20sp_500"
                 android:textColorHint="@color/gray80"
                 app:layout_constraintStart_toStartOf="parent"
@@ -61,19 +61,19 @@
             <EditText
                 android:id="@+id/body_et"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:background="@null"
                 android:gravity="top"
-                android:text="@{viewModel.bodyLiveData}"
                 android:hint="똑리비들에게 당신의 독립 꿀팁을 공유해주세요.\n(최대 1000자)"
+                android:inputType="textMultiLine"
+                android:maxHeight="1000dp"
                 android:maxLength="1000"
                 android:maxLines="100"
-                android:orientation="vertical"
                 android:nestedScrollingEnabled="true"
+                android:orientation="vertical"
                 android:textAppearance="@style/TextAppearance.App.12sp_400"
                 android:textColorHint="@color/gray80"
-                app:layout_constraintBottom_toTopOf="@id/line2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/line" />
@@ -85,6 +85,8 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp"
                 android:background="@color/gray20"
+                app:layout_constraintVertical_bias="0.98"
+                app:layout_constraintTop_toBottomOf="@id/body_et"
                 app:layout_constraintBottom_toTopOf="@id/image_rv" />
 
             <LinearLayout

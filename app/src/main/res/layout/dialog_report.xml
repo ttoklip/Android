@@ -1,81 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/rectangle_corner_10"
-    android:backgroundTint="@color/white">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="28dp"
-        android:text="해당 글의 신고사유를 선택해주세요"
-        android:textAppearance="@style/TextAppearance.App.16sp_500"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@drawable/rectangle_corner_10"
+        android:backgroundTint="@color/white">
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="@id/title"
-        app:layout_constraintStart_toStartOf="@id/title"
-        app:layout_constraintTop_toBottomOf="@id/title"
-        android:paddingHorizontal="14dp"
-        android:paddingVertical="20dp"
-        android:background="@drawable/rectangle_corner_10_strok_1"/>
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="49dp"
+            android:layout_marginTop="28dp"
+            android:text="해당 글의 신고사유를 선택해주세요"
+            android:textAppearance="@style/TextAppearance.App.16sp_500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="264dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@id/title"
+            app:layout_constraintStart_toStartOf="@id/title"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="20dp"
+            android:spinnerMode="dropdown"
+            android:background="@drawable/rectangle_corner_10_strok_1"
+            android:dropDownWidth="match_parent"
+            android:popupBackground="@drawable/sort_spinner_dropdown"
+            />
+
+        <!--com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            app:endIconMode="dropdown_menu"
+            app:endIconDrawable="@drawable/ic_arrow_down"
+            app:boxStrokeColor="@color/gray20"
+            android:background="@drawable/rectangle_corner_10"
+            >
+
+            <AutoCompleteTextView
+                android:id="@+id/auto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="신고사유"
+                android:inputType="none"
+                android:backgroundTint="@color/white"
+                android:textAppearance="@style/TextAppearance.App.14sp_700"
+                android:background="@drawable/rectangle_corner_10"/>
+        </com.google.android.material.textfield.TextInputLayout-->
 
 
-    <EditText
-        android:id="@+id/reason_et"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/rectangle_corner_10_strok_1"
-        android:hint="(선택사항, 최대 300자)\n신고 사유에 대해 자세히 알려주세요."
-        android:padding="10dp"
-        android:textAppearance="@style/TextAppearance.App.12sp_400"
-        android:textColorHint="@color/gray80"
-        app:layout_constraintEnd_toEndOf="@id/title"
-        app:layout_constraintStart_toStartOf="@id/title"
-        app:layout_constraintTop_toBottomOf="@id/spinner" />
+        <EditText
+            android:id="@+id/reason_et"
+            android:layout_width="264dp"
+            android:layout_height="wrap_content"
+            android:maxHeight="216dp"
+            android:minHeight="108dp"
+            android:inputType="textMultiLine"
+            android:layout_marginHorizontal="49dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rectangle_corner_10_strok_1"
+            android:hint="(선택사항, 최대 300자)\n신고 사유에 대해 자세히 알려주세요."
+            android:padding="10dp"
+            android:textAppearance="@style/TextAppearance.App.12sp_400"
+            android:textColorHint="@color/gray80"
+            app:layout_constraintEnd_toEndOf="@id/spinner"
+            app:layout_constraintStart_toStartOf="@id/spinner"
+            app:layout_constraintTop_toBottomOf="@id/spinner"
+            android:gravity="top"/>
 
-    <TextView
-        android:id="@+id/cancel_btn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/rectangle_corner_left_10"
-        android:backgroundTint="@color/gray80"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="취소"
-        android:textAppearance="@style/TextAppearance.App.16sp_600"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/accept_btn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/reason_et" />
+        <TextView
+            android:id="@+id/cancel_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/rectangle_corner_left_10"
+            android:backgroundTint="@color/gray80"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="취소"
+            android:textAppearance="@style/TextAppearance.App.16sp_600"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/accept_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/reason_et" />
 
-    <TextView
-        android:id="@+id/accept_btn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/rectangle_corner_right_10"
-        android:backgroundTint="@color/yellow"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="신고"
-        android:textAppearance="@style/TextAppearance.App.16sp_600"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/cancel_btn"
-        app:layout_constraintTop_toBottomOf="@id/reason_et" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/accept_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/rectangle_corner_right_10"
+            android:backgroundTint="@color/yellow"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="신고"
+            android:textAppearance="@style/TextAppearance.App.16sp_600"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cancel_btn"
+            app:layout_constraintTop_toBottomOf="@id/reason_et" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -32,13 +32,13 @@
                     android:id="@+id/splash_logo1_iv"
                     android:layout_width="90dp"
                     android:layout_height="90dp"
-                    android:src="@drawable/ic_ttoklip1_81"/>
+                    android:src="@drawable/ic_ttoklip1_78"/>
                 <ImageView
                     android:id="@+id/splash_logo2_iv"
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/ic_ttoklip2_64"/>
+                    android:src="@drawable/ic_ttoklip2_63"/>
             </LinearLayout>
             <TextView
                 android:id="@+id/splash_subtitle_tv"
