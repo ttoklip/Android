@@ -23,9 +23,10 @@ import com.umc.ttoklip.presentation.honeytip.HoneyTipViewModel
 import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
+import com.umc.ttoklip.presentation.honeytip.adapter.OnImageClickListener
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
 
-class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.activity_honey_tip) {
+class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.activity_honey_tip), OnImageClickListener {
     private val viewModel: HoneyTipViewModel by viewModels()
     private lateinit var imageAdapter: ImageRVA
 
@@ -94,9 +95,12 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
     }
 
     private fun initImageRVA() {
-        imageAdapter = ImageRVA{
-            startActivity(Intent(this, ImageViewActivity::class.java))
-        }
+        imageAdapter = ImageRVA(this)
+            /*val images = imageAdapter.currentList.filterIsInstance<Image>().map{it.uri.toString()}.toTypedArray()
+            val intent = Intent(this, ImageViewActivity::class.java)
+            intent.putExtra("images", images)
+            startActivity(intent)*/
+
         binding.imageRv.adapter = imageAdapter
     }
 
@@ -174,5 +178,13 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
         val images = uriList.map { Image(it) }
         val updatedImages = imageAdapter.currentList.toMutableList().apply { addAll(images) }
         imageAdapter.submitList(updatedImages)
+    }
+
+    override fun onClick(image: Image) {
+        val images = imageAdapter.currentList.filterIsInstance<Image>().map{it.uri.toString()}.toTypedArray()
+        Log.d("images", images.toString())
+        val intent = Intent(this, ImageViewActivity::class.java)
+        intent.putExtra("images", images)
+        startActivity(intent)
     }
 }

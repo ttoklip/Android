@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.databinding.ItemImageBinding
 
-class ImageRVA(val onClick: () -> Unit): ListAdapter<Image, ImageRVA.ImageViewHolder>(object : DiffUtil.ItemCallback<Image>(){
+class ImageRVA(private var listener: OnImageClickListener?): ListAdapter<Image, ImageRVA.ImageViewHolder>(object : DiffUtil.ItemCallback<Image>(){
     override fun areItemsTheSame(oldItem: Image, newItem: Image): Boolean {
         return oldItem === newItem
     }
@@ -21,6 +21,9 @@ class ImageRVA(val onClick: () -> Unit): ListAdapter<Image, ImageRVA.ImageViewHo
     inner class ImageViewHolder(private val binding: ItemImageBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(image: Image){
             binding.iv.setImageURI(image.uri)
+            binding.iv.setOnClickListener {
+                listener?.onClick(image)
+            }
         }
     }
 
@@ -35,6 +38,10 @@ class ImageRVA(val onClick: () -> Unit): ListAdapter<Image, ImageRVA.ImageViewHo
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         holder.bind(currentList[position])
     }
+}
+
+interface OnImageClickListener {
+    fun onClick(image: Image)
 }
 
 data class Image(
