@@ -1,6 +1,7 @@
 package com.umc.ttoklip.presentation.mypage
 
 import android.content.Intent
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityMyHoneyTipBinding
@@ -41,6 +42,12 @@ class MyHoneyTipActivity : BaseActivity<ActivityMyHoneyTipBinding>(R.layout.acti
         val adapter = HoneyTipListRVA(this)
         binding.myHoneyTipRv.layoutManager = LinearLayoutManager(this)
         binding.myHoneyTipRv.adapter = adapter
+        binding.myHoneyTipRv.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                DividerItemDecoration.VERTICAL
+            )
+        )
         adapter.submitList(honeyTipList)
 
         binding.myHoneyTipBackBtn.setOnClickListener {

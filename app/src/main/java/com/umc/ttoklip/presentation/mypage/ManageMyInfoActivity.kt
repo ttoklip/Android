@@ -1,7 +1,11 @@
 package com.umc.ttoklip.presentation.mypage
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
+import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import com.umc.ttoklip.R
@@ -21,11 +25,6 @@ class ManageMyInfoActivity :
             this@ManageMyInfoActivity.onBackPressedDispatcher.onBackPressed()
         }
 
-        binding.root.setOnClickListener {
-            val imm: InputMethodManager =
-                getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
-        }
 
         binding.inputIndependentCareerEt.setOnClickListener {
             val bottomSheet = InputIndependentCareerDialogFragment { year, month ->
@@ -74,4 +73,20 @@ class ManageMyInfoActivity :
         private const val ZERO_CAREER = 0
     }
 
+    override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
+        if (event?.action == MotionEvent.ACTION_DOWN) {
+            val v = currentFocus
+            if (v is EditText) {
+                val outRect = Rect()
+                v.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    v.clearFocus()
+                    val imm: InputMethodManager =
+                        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
+    }
 }
