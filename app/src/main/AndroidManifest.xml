@@ -31,16 +31,20 @@
             android:exported="false" />
         <activity
             android:name=".presentation.honeytip.read.ReadActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".presentation.honeytip.write.WriteHoneyTipActivity"
+            android:screenOrientation="portrait"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".presentation.alarm.AlarmActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.news.detail.ArticleActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".presentation.mypage.SetAnnouncementActivity"
@@ -125,19 +129,16 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             android:exported="false" />
-        <activity android:name=".presentation.intro.IntroActivity"
-            android:exported="false"/>
-        <activity android:name=".presentation.login.LoginActivity"
-            android:exported="false"/>
-        <activity android:name=".presentation.signup.SignupActivity"
-            android:exported="false"/>
         <activity android:name=".presentation.signup.LocationActivity"
+            android:screenOrientation="portrait"
             android:exported="false"/>
         <activity android:name=".presentation.signup.DirectLocationActivity"
+            android:screenOrientation="portrait"
             android:exported="false"/>
 
         <activity
             android:name=".presentation.intro.SplashActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -145,6 +146,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".presentation.MainActivity"
             android:exported="false"/>
 <!--        <activity-->
@@ -172,6 +174,7 @@
         </service>
         <activity
             android:name=".presentation.search.SearchActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
     </application>
 

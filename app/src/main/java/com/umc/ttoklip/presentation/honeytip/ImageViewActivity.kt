@@ -7,7 +7,7 @@ import com.umc.ttoklip.presentation.base.BaseActivity
 
 class ImageViewActivity: BaseActivity<ActivityImageViewBinding>(R.layout.activity_image_view) {
     override fun initView() {
-        setSupportActionBar()
+        //setSupportActionBar()
         binding.root.setOnClickListener {
             if(supportActionBar?.isShowing == true){
                 supportActionBar?.hide()
