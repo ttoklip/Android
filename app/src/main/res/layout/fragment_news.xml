@@ -80,23 +80,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="32dp"
-                            android:layout_marginTop="24dp"
                             android:text="오늘의 추천"
                             android:textAppearance="@style/TextAppearance.App.20sp_600"
                             android:textColor="@color/blue"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/banner" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/title2T"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="24dp"
                             android:text=" News"
                             android:textAppearance="@style/TextAppearance.App.20sp_600"
                             android:textColor="@color/black"
                             app:layout_constraintStart_toEndOf="@id/titleT"
-                            app:layout_constraintTop_toBottomOf="@id/banner" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.viewpager2.widget.ViewPager2
                             android:id="@+id/vp"
