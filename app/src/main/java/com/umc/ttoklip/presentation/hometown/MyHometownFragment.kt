@@ -10,7 +10,6 @@ import com.umc.ttoklip.presentation.hometown.adapter.OnTogetherClickListener
 import com.umc.ttoklip.presentation.hometown.adapter.Together
 import com.umc.ttoklip.presentation.hometown.adapter.TogetherAdapter
 import com.umc.ttoklip.presentation.mypage.MyHometownAddressActivity
-import com.umc.ttoklip.presentation.mypage.SortSpinnerAdapter
 import com.umc.ttoklip.presentation.search.SearchActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -50,7 +49,7 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
         binding.searchBtn.setOnClickListener {
             startActivity(SearchActivity.newIntent(requireContext()))
         }
-        binding.myHometownFilterSpinner.setOnLongClickListener {
+        binding.myHometownFilterTv.setOnClickListener {
             val intent = Intent(requireContext(), MyHometownAddressActivity::class.java)
             startActivity(intent)
             true
@@ -71,7 +70,6 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
             val intent = Intent(requireContext(), WriteCommunicationActivity::class.java)
             startActivity(intent)
         }
-        initDropdownSortFilter()
         initTogetherRv()
         initCommunicationRv()
     }
@@ -102,18 +100,6 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
             layoutManager = LinearLayoutManager(requireContext())
         }
         togetherAdapter.submitList(togethers)
-    }
-
-    private fun initDropdownSortFilter() {
-        val sortFilters = listOf(
-            getString(R.string.sort_most_recent),
-            getString(R.string.sort_popularity),
-            getString(R.string.sort_most_comments),
-            getString(R.string.sort_most_scrap)
-        )
-        binding.myHometownFilterSpinner.adapter =
-            SortSpinnerAdapter(requireContext(), sortFilters)
-        binding.myHometownFilterSpinner.setSelection(0)
     }
 
     override fun onClick(items: Together, type: String) {
