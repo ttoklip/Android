@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.umc.ttoklip.presentation.hometown.ReadTogetherViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".presentation.news.detail.NewsDetailActivity">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_arrow_back_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/read_together_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/together_title"
+            android:textAppearance="@style/TextAppearance.App.16sp_600"
+            app:layout_constraintBottom_toBottomOf="@id/backBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/backBtn" />
+
+
+        <TextView
+            android:id="@+id/report_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/rectangle_corner_10_strok_1"
+            android:drawableStart="@drawable/ic_report"
+            android:drawablePadding="8dp"
+            android:gravity="center"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="12dp"
+            android:text="신고하기"
+            android:textAppearance="@style/TextAppearance.App.12sp_500"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dotBtn"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/dotBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:src="@drawable/ic_dots_vertical_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollV"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toTopOf="@id/comment_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/backBtn">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profileImg"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="12dp"
+                    android:src="@color/yellow"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/writer_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="똑똑이"
+                    android:textAppearance="@style/TextAppearance.App.14sp_700"
+                    app:layout_constraintBottom_toBottomOf="@id/profileImg"
+                    app:layout_constraintStart_toEndOf="@id/profileImg"
+                    app:layout_constraintTop_toTopOf="@id/profileImg" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/level_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="LV.새싹이"
+                    android:textAppearance="@style/TextAppearance.App.10sp_400"
+                    android:textColor="@color/gray40"
+                    app:layout_constraintBottom_toBottomOf="@id/profileImg"
+                    app:layout_constraintStart_toEndOf="@id/writer_tv"
+                    app:layout_constraintTop_toTopOf="@id/profileImg" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/titleT"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:text="뉴스제목"
+                    android:textAppearance="@style/TextAppearance.App.20sp_500"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/profileImg"
+                    app:layout_constraintTop_toBottomOf="@id/profileImg" />
+
+                <View
+                    android:id="@+id/title_line"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/gray20"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/titleT" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/required_parameter_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintTop_toBottomOf="@id/title_line">
+
+                    <TextView
+                        android:id="@+id/total_price_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rectangle_corner_10_strok_1"
+                        android:drawablePadding="6dp"
+                        android:inputType="number"
+                        android:paddingHorizontal="15dp"
+                        android:paddingVertical="7dp"
+                        android:text="30,000"
+                        android:textAppearance="@style/TextAppearance.App.12sp_500"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray80"
+                        app:drawableStartCompat="@drawable/ic_price_on_18"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/max_member_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/rectangle_corner_10_strok_1"
+                        android:drawablePadding="6dp"
+                        android:paddingHorizontal="15dp"
+                        android:paddingVertical="7dp"
+                        android:text="5명"
+                        android:textAppearance="@style/TextAppearance.App.12sp_500"
+                        android:textColor="@color/black"
+                        app:drawableStartCompat="@drawable/ic_face_on_18"
+                        app:layout_constraintStart_toEndOf="@id/total_price_tv"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/trading_place_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/rectangle_corner_10_strok_1"
+                        android:drawablePadding="6dp"
+                        android:paddingHorizontal="15dp"
+                        android:paddingVertical="7dp"
+                        android:text="거래 희망 장소"
+                        android:textAppearance="@style/TextAppearance.App.12sp_500"
+                        android:textColor="@color/black"
+                        app:drawableStartCompat="@drawable/ic_gps_on_18"
+                        app:layout_constraintStart_toStartOf="@id/total_price_tv"
+                        app:layout_constraintTop_toBottomOf="@id/total_price_tv" />
+
+                    <TextView
+                        android:id="@+id/open_chat_link_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/rectangle_corner_10_strok_1"
+                        android:drawablePadding="6dp"
+                        android:inputType="text"
+                        android:paddingHorizontal="15dp"
+                        android:paddingVertical="7dp"
+                        android:text="www.어딘가"
+                        android:textAppearance="@style/TextAppearance.App.12sp_500"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray80"
+                        app:drawableStartCompat="@drawable/ic_link_on_18"
+                        app:layout_constraintStart_toStartOf="@id/total_price_tv"
+                        app:layout_constraintTop_toBottomOf="@id/trading_place_tv" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:id="@+id/filter_line"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/gray20"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/required_parameter_frame" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/contentT"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:lineSpacingExtra="4dp"
+                    android:text="화장실은 곰팡이가 번식하기 좋은 환경을 제공합니다. 습기, 따뜻함, 열악한 환기의 세 가지 요소는 곰팡이 포자의 안식처를 만듭니다. 샤워나 목욕에서 나오는 증기가 공기 중에 남아 있으면 표면에 침전되어 곰팡이가 자라게 됩니다."
+                    android:textAppearance="@style/TextAppearance.App.10sp_400"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@id/filter_line"
+                    app:layout_constraintStart_toStartOf="@id/filter_line"
+                    app:layout_constraintTop_toBottomOf="@id/filter_line" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/image_rv"
+                    android:layout_width="0dp"
+                    android:layout_height="144dp"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="28dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/contentT"
+                    tools:listitem="@layout/item_image" />
+
+                <View
+                    android:id="@+id/image_line"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/gray20"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/image_rv" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/current_member_stat_frame"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/image_line">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/join_frame"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/normal_user_frame"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="@{vm.isOwner ? View.GONE : View.VISIBLE}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:id="@+id/join_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@{vm.joinState ? @drawable/yellow_btn_background : @drawable/rectangle_corner_10_strok_1_gray40}"
+                                android:onClick="@{()->vm.joinBtnClick()}"
+                                android:paddingHorizontal="15dp"
+                                android:paddingVertical="7dp"
+                                android:text="@{vm.joinState ? @string/join_together : @string/cancel_join}"
+                                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                                android:textColor="@color/black"
+                                android:visibility="@{vm.deadlineState ? View.GONE : View.VISIBLE}"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/deadline_end_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                
+                                android:paddingVertical="7dp"
+                                android:text="@string/deadline_end"
+                                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                                android:textColor="@color/black"
+                                android:visibility="@{vm.deadlineState ? View.VISIBLE : View.GONE}"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/owner_join_frame"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="@{vm.isOwner ? View.VISIBLE : View.GONE}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:id="@+id/owner_join_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/rectangle_corner_10_strok_1_black"
+                                android:paddingHorizontal="15dp"
+                                android:paddingVertical="7dp"
+                                android:text="@string/set_deadline"
+                                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                                android:textColor="@color/orange"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/owner_check_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="12dp"
+                                android:background="@drawable/yellow_btn_background"
+                                android:paddingHorizontal="15dp"
+                                android:paddingVertical="7dp"
+                                android:text="@string/check_member"
+                                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                                android:textColor="@color/black"
+                                app:layout_constraintEnd_toStartOf="@id/owner_join_btn"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/current_join_stat_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:textAppearance="@style/TextAppearance.App.12sp_700"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/join_frame"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/current_join_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
+                        android:text="현재 참여 인원"
+                        android:textAppearance="@style/TextAppearance.App.12sp_700"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/current_join_stat_tv"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/comment_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/rectangle_corner_10"
+            android:backgroundTint="@color/gray20"
+            android:padding="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/scrollV">
+
+            <EditText
+                android:id="@+id/comment_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@null"
+                android:hint="댓글을 입력해주세요."
+                android:textAppearance="@style/TextAppearance.App.12sp_400"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/cardView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:backgroundTint="@color/yellow"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/comment_et"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/send_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_send" />
+
+            </androidx.cardview.widget.CardView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

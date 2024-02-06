@@ -87,6 +87,48 @@
             android:name=".presentation.mypage.MyHoneyTipActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
+        <activity
+            android:name=".presentation.intro.IntroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.login.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.signup.SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.hometown.TogetherActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.hometown.CommunicationActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.hometown.WriteTogetherActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.hometown.WriteCommunicationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.hometown.ReadCommunicationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.hometown.TradeLocationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.hometown.ReadTogetherActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" />
         <activity android:name=".presentation.intro.IntroActivity"
             android:screenOrientation="portrait"
             android:exported="false"/>
@@ -116,6 +158,15 @@
             android:screenOrientation="portrait"
             android:name=".presentation.MainActivity"
             android:exported="false"/>
+<!--        <activity-->
+<!--            android:name=".presentation.MainActivity"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
 
         <service
             android:name="com.google.android.gms.metadata.ModuleDependencies"
