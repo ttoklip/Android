@@ -7,7 +7,9 @@ import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.news.adapter.Dummy
 import com.umc.ttoklip.presentation.news.adapter.NewsRVA
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ItemNewsFragment : BaseFragment<FragmentItemNewsBinding>(R.layout.fragment_item_news) {
     private val viewModel: NewsViewModel by viewModels<NewsViewModelImpl>()
     private val newsRVA by lazy {

@@ -9,6 +9,8 @@ interface NewsViewModel {
     fun expandedAppBar()
     fun collapsedAppBar()
 
+    fun getMainNews()
+
     enum class NewsFilter{
         HOUSE_WORK,
         RECIPE,
