@@ -28,4 +28,10 @@ class MainActivity : AppCompatActivity() {
     fun goNews() {
         binding.bottomNav.selectedItemId = R.id.newsFragment
     }
+    fun goTip() {
+        binding.bottomNav.selectedItemId = R.id.honeyTipFragment
+    }
+    fun goTown() {
+        binding.bottomNav.selectedItemId = R.id.townFragment
+    }
 }
