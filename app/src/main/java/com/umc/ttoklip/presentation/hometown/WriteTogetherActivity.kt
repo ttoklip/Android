@@ -19,6 +19,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityWriteTogetherBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
+import com.umc.ttoklip.presentation.hometown.dialog.InputMaxMemberDialogFragment
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
@@ -93,7 +94,20 @@ class WriteTogetherActivity :
         }
 
         binding.maxMemberTv.setOnClickListener {
-
+            val bottomSheet = InputMaxMemberDialogFragment { member ->
+                binding.maxMemberTv.text = getString(R.string.max_member_format, member)
+                binding.maxMemberTv.compoundDrawables.forEach { drawable ->
+                    if (drawable != null) {
+                        drawable.colorFilter =
+                            PorterDuffColorFilter(
+                                getColor(R.color.black),
+                                PorterDuff.Mode.SRC_IN
+                            )
+                    }
+                }
+                binding.maxMemberTv.hint = ""
+            }
+            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
 
         binding.openChatLinkTv.setOnEditorActionListener { v, actionId, event ->

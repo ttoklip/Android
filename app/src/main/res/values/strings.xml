@@ -117,5 +117,7 @@
     <string name="deadline_end">마감되었습니다.</string>
     <string name="set_deadline">마감</string>
     <string name="check_member">참여자 확인하기</string>
+    <string name="select_max_member_text">명</string>
+    <string name="max_member_format">"%d명"</string>
 
 </resources>
