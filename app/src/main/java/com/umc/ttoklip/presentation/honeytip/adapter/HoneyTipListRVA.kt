@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.databinding.ItemListHoneyTipBinding
+import java.io.Serializable
 
 class HoneyTipListRVA(private var listener: OnItemClickListener): ListAdapter<HoneyTips, HoneyTipListRVA.HoneyTipListViewHolder>(object: DiffUtil.ItemCallback<HoneyTips>(){
     override fun areItemsTheSame(oldItem: HoneyTips, newItem: HoneyTips): Boolean {
@@ -54,4 +55,4 @@ data class HoneyTips(
     var body: String,
     var date: String,
     var chatCnt: Int = 0,
-)
+): Serializable
