@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">ttoklip</string>
 
+
     <!-- 마이페이지 strings !-->
     <string name="mypage_title">마이페이지</string>
     <string name="my_level_tv">나의 레벨</string>
@@ -93,7 +94,38 @@
     <string name="my_honey_tip_title">내가 작성한 꿀팁</string>
 
 
-
     <string name="searchDelete"><u>전체삭제</u></string>
+
+    <!--sign up-->
+    <string name="service_term">서비스 이용약관</string>
+    <string name="service_term_detail">서비스 이용약관 상세 내용</string>
+    <string name="privacy_term">개인정보 수집 • 이용 동의</string>
+    <string name="privacy_term_detail">개인정보 수집 및 이용 동의 상세 내용</string>
+    <string name="location_term">위치서비스 이용약관</string>
+    <string name="location_term_detail">위치서비스 이용약관 상세 내용</string>
+
+
+    <!-- 우리동네 strings !-->
+    <string name="my_hometown_tab_title">우리동네</string>
+    <string name="together_title">함께해요</string>
+    <string name="see_detail">더보기</string>
+    <string name="write_together">함께해요 글쓰기</string>
+    <string name="communication_title">소통해요</string>
+    <string name="write_communication">소통해요 글쓰기</string>
+    <string name="sort_filter_title">정렬기준</string>
+    <string name="together_duration_title">유효 범위</string>
+    <string name="required_amount_title">필수 금액</string>
+    <string name="max_member_title">최대 인원 제한</string>
+    <string name="trade_location_title">거래희망 장소 </string>
+    <string name="set_address">주소설정</string>
+    <string name="recently_used_place_title">최근 이용 장소</string>
+    <string name="join_together">참여하기</string>
+    <string name="cancel_join">참여취소</string>
+    <string name="join_stat_format">"%d명/%d명"</string>
+    <string name="deadline_end">마감되었습니다.</string>
+    <string name="set_deadline">마감</string>
+    <string name="check_member">참여자 확인하기</string>
+    <string name="select_max_member_text">명</string>
+    <string name="max_member_format">"%d명"</string>
 
 </resources>

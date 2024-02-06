@@ -11,15 +11,15 @@ class IntroActivity:BaseActivity<ActivityIntroBinding>(R.layout.activity_intro){
     override fun initView() {
         binding.introIntroVp.apply {
             adapter=IntroVPAdapter(this@IntroActivity,3)
-            registerOnPageChangeCallback(object:ViewPager2.OnPageChangeCallback(){
-                override fun onPageSelected(position: Int) {
-                    super.onPageSelected(position)
-                    when(position){
-                        2->binding.introNextBtn.text="똑립 시작하기"
-                        else->binding.introNextBtn.text="다음"
-                    }
-                }
-            })
+//            registerOnPageChangeCallback(object:ViewPager2.OnPageChangeCallback(){
+//                override fun onPageSelected(position: Int) {
+//                    super.onPageSelected(position)
+//                    when(position){
+//                        2->binding.introNextBtn.text="똑립 시작하기"
+//                        else->binding.introNextBtn.text="다음"
+//                    }
+//                }
+//            })
         }
         binding.introIndicator.attachTo(binding.introIntroVp)
 

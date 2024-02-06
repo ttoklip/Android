@@ -15,7 +15,7 @@ class MyHometownAddressActivity :
         binding.rangeSettingExplainTv.text =
             getString(R.string.range_setting_format, range)
         binding.myHometownAddressBackBtn.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
+            finish()
         }
 
         binding.range500mTv.setOnClickListener {

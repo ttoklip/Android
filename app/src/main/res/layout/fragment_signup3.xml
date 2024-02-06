@@ -6,39 +6,57 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/signup3_desc_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="약관에 동의해주세요!"
-            android:textAppearance="@style/TextAppearance.App.12sp_500"
-            android:textSize="13sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <LinearLayout
             android:id="@+id/signup3_terms_ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/signup3_desc_tv">
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/signup1_desc1_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="똑립 이용을 위해"
+                    android:textAppearance="@style/TextAppearance.App.22sp_400"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+                <TextView
+                    android:id="@+id/signup1_desc2_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="가입약관"
+                    android:textAppearance="@style/TextAppearance.App.22sp_600"
+                    app:layout_constraintTop_toBottomOf="@id/signup1_desc1_tv"
+                    app:layout_constraintStart_toStartOf="@id/signup1_desc1_tv"/>
+                <TextView
+                    android:id="@+id/signup_desc3_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="을 확인해주세요"
+                    android:textAppearance="@style/TextAppearance.App.22sp_400"
+                    app:layout_constraintTop_toTopOf="@id/signup1_desc2_tv"
+                    app:layout_constraintStart_toEndOf="@id/signup1_desc2_tv"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="20dp">
 
                 <ImageView
                     android:id="@+id/signup3_agreeAll_iv"
                     android:layout_width="17dp"
                     android:layout_height="17dp"
-                    android:src="@drawable/oval_fill_strok_1"
+                    android:src="@drawable/oval_stroke_1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <TextView
                     android:id="@+id/signup3_agreeAll_tv"
@@ -46,19 +64,28 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="전체 약관 동의"
-                    android:textAppearance="@style/TextAppearance.App.14sp_600"
-                    android:textSize="13dp"
-                    app:layout_constraintBottom_toBottomOf="@id/signup3_agreeAll_iv"
+                    android:textAppearance="@style/TextAppearance.App.14sp_400"
+                    app:layout_constraintBottom_toTopOf="@id/signup3_agreeAllDesc_tv"
                     app:layout_constraintStart_toEndOf="@id/signup3_agreeAll_iv"
-                    app:layout_constraintTop_toTopOf="@id/signup3_agreeAll_iv" />
+                    app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/signup3_agreeAllDesc_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(선택) 광고 수신을 포함하여 동의합니다"
+                    android:textAppearance="@style/TextAppearance.App.12sp_400"
+                    android:textColor="@color/gray40"
+                    app:layout_constraintTop_toBottomOf="@id/signup3_agreeAll_tv"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/signup3_agreeAll_tv"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:id="@+id/signup3_horizontalLine_view"
                 android:layout_width="306dp"
                 android:layout_height="1dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/gray40" />
+                android:layout_marginTop="20dp"
+                android:background="@color/gray20" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -70,7 +97,7 @@
                     android:id="@+id/signup3_agreeService_iv"
                     android:layout_width="17dp"
                     android:layout_height="17dp"
-                    android:src="@drawable/oval_fill_strok_1"
+                    android:src="@drawable/oval_stroke_1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,48 +106,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="서비스 이용약관 동의 (필수)"
-                    android:textAppearance="@style/TextAppearance.App.14sp_600"
-                    android:textSize="13dp"
+                    android:text="서비스 이용약관 (필수)"
+                    android:textAppearance="@style/TextAppearance.App.14sp_400"
                     app:layout_constraintBottom_toBottomOf="@id/signup3_agreeService_iv"
                     app:layout_constraintStart_toEndOf="@id/signup3_agreeService_iv"
                     app:layout_constraintTop_toTopOf="@id/signup3_agreeService_iv" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
-                    android:text="이용약관 보기"
-                    android:textAppearance="@style/TextAppearance.App.10sp_500"
-                    android:textColor="@color/gray60"
-                    app:layout_constraintBottom_toBottomOf="@id/signup3_agreeService_tv"
+                <ImageView
+                    android:id="@+id/signup3_agreeService_btn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_black_24"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/signup3_agreeService_tv" />
-
-                <ScrollView
-                    android:id="@+id/signup3_serviceDetail_sv"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:layout_marginStart="27dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:background="@drawable/rectangle_corner_4"
-                    android:visibility="visible"
-                    app:layout_constraintStart_toStartOf="@id/signup3_agreeService_tv"
-                    app:layout_constraintTop_toBottomOf="@id/signup3_agreeService_tv">
-
-                    <TextView
-                        android:id="@+id/signup3_serviceDetail_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="5dp"
-                        android:text="이용약관 내용"
-                        android:textAppearance="@style/TextAppearance.App.12sp_500"
-                        android:textColor="@color/gray60" />
-                </ScrollView>
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -133,7 +131,7 @@
                     android:id="@+id/signup3_agreePrivacy_iv"
                     android:layout_width="17dp"
                     android:layout_height="17dp"
-                    android:src="@drawable/oval_fill_strok_1"
+                    android:src="@drawable/oval_stroke_1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -142,23 +140,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="개인정보 처리 방침 (필수)"
-                    android:textAppearance="@style/TextAppearance.App.14sp_600"
-                    android:textSize="13dp"
+                    android:text="개인정보 처리방침 (필수)"
+                    android:textAppearance="@style/TextAppearance.App.14sp_400"
                     app:layout_constraintBottom_toBottomOf="@id/signup3_agreePrivacy_iv"
                     app:layout_constraintStart_toEndOf="@id/signup3_agreePrivacy_iv"
                     app:layout_constraintTop_toTopOf="@id/signup3_agreePrivacy_iv" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
-                    android:text="이용약관 보기"
-                    android:textAppearance="@style/TextAppearance.App.10sp_500"
-                    android:textColor="@color/gray60"
-                    app:layout_constraintBottom_toBottomOf="@id/signup3_agreePrivacy_tv"
+                <ImageView
+                    android:id="@+id/signup3_agreePrivacy_btn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_black_24"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/signup3_agreePrivacy_tv" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -170,7 +164,7 @@
                     android:id="@+id/signup3_agreeLocation_iv"
                     android:layout_width="17dp"
                     android:layout_height="17dp"
-                    android:src="@drawable/oval_fill_strok_1"
+                    android:src="@drawable/oval_stroke_1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -179,28 +173,33 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="위치서비스 이용 동의 (선택)"
-                    android:textAppearance="@style/TextAppearance.App.14sp_600"
-                    android:textSize="13dp"
+                    android:text="위치서비스 이용약관 (선택)"
+                    android:textAppearance="@style/TextAppearance.App.14sp_400"
                     app:layout_constraintBottom_toBottomOf="@id/signup3_agreeLocation_iv"
                     app:layout_constraintStart_toEndOf="@id/signup3_agreeLocation_iv"
                     app:layout_constraintTop_toTopOf="@id/signup3_agreeLocation_iv" />
+                <ImageView
+                    android:id="@+id/signup3_agreeLocation_btn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_black_24"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/signup3_next_btn"
-            android:layout_width="240dp"
+            android:layout_width="312dp"
             android:layout_height="50dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/rectangle_corner_30"
-            android:backgroundTint="@color/yellow"
+            android:background="@drawable/rectangle_corner_10_strok_1_black"
             android:stateListAnimator="@null"
             android:text="다음"
             android:textAppearance="@style/TextAppearance.App.16sp_600"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/signup3_terms_ll" />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

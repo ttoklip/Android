@@ -18,6 +18,7 @@ class ItemNewsFragment : BaseFragment<FragmentItemNewsBinding>(R.layout.fragment
     }
 
     override fun initView() {
+        binding.vm = viewModel
         binding.rv.adapter = newsRVA
         newsRVA.submitList(listOf(
             Dummy("1"), Dummy("2"), Dummy("3"), Dummy("4"),Dummy("1"), Dummy("2"), Dummy("3"), Dummy("4"),Dummy("1"), Dummy("2"), Dummy("3"), Dummy("4")
