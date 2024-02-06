@@ -21,8 +21,8 @@ class InputMaxMemberDialogFragment(private val btnClickListener: (Int) -> Unit) 
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
         with(binding.memberSelector) {
-            minValue = PERIOD_START
-            maxValue = YEAR_END
+            minValue = MIN_MEMBER
+            maxValue = MAX_MEMBER
             descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
             selectionDividerHeight = DIVIDER_HEIGHT_ZERO
         }
@@ -33,8 +33,8 @@ class InputMaxMemberDialogFragment(private val btnClickListener: (Int) -> Unit) 
     }
 
     companion object {
-        private const val PERIOD_START = 1
-        private const val YEAR_END = 20
+        private const val MIN_MEMBER = 2
+        private const val MAX_MEMBER = 15
         private const val DIVIDER_HEIGHT_ZERO = 0
     }
 }
