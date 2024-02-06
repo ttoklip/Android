@@ -1,6 +1,10 @@
 package com.umc.ttoklip.presentation.intro
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,13 +21,16 @@ class IntroFragment(val position:Int): Fragment() {
         binding=FragmentIntroBinding.inflate(inflater,container,false)
 
         when (position){
-            0->{binding.itemIntroTitleTv.text="우리, 꿀팁 공유해요!"
-                binding.itemIntroDescTv.text="독립생활을 하는데 어려운 점을 공유하고\n도움을 주며 해결해봐요"
+            0->{val spannable=SpannableStringBuilder("어려움과 도움을 함께\n독립생활의 꿀팁공유")
+                spannable.setSpan(StyleSpan(Typeface.BOLD),11,22, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+                binding.itemIntroTitleTv.text=spannable
                 /**인앱화면 연결 필요**/}
-            1->{binding.itemIntroTitleTv.text="오늘은 또 어떤 정보가?"
-                binding.itemIntroDescTv.text="독립생활을 하는데 필요한 유용한\n정보들을 받아봐요"}
-            else->{binding.itemIntroTitleTv.text="우리 동네 안에서 서로서로"
-                binding.itemIntroDescTv.text="우리 동네 똑립이들과 친해지고, 공구하고,\n음식 배달비도 아껴봐요"}
+            1->{val spannable=SpannableStringBuilder("자취에 도움되는\n최신뉴스를 한눈에")
+                spannable.setSpan(StyleSpan(Typeface.BOLD),8,13, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+                binding.itemIntroTitleTv.text=spannable}
+            else->{val spannable=SpannableStringBuilder("혼자서는 비싸,\n동네친구들과 함께")
+                spannable.setSpan(StyleSpan(Typeface.BOLD),15,18, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+                binding.itemIntroTitleTv.text=spannable}
         }
 
         return binding.root
