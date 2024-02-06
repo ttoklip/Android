@@ -6,6 +6,7 @@ import android.content.Context
 import android.graphics.Point
 import android.os.Build
 import android.view.WindowManager
+import android.widget.ArrayAdapter
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.DialogReportBinding
 import com.umc.ttoklip.presentation.base.BaseDialogFragment
@@ -19,6 +20,7 @@ class ReportDialogFragment: BaseDialogFragment<DialogReportBinding>(R.layout.dia
     override fun initView() {
         //resize(dialog!!, 0.6f, )
         val list = arrayListOf(
+            "신고사유",
             "낚시 / 중복 / 도배성 게시물",
             "상업적 광고 / 홍보 글",
             "선정적 / 불쾌함이 느껴지는 부적절한 글",
@@ -29,6 +31,9 @@ class ReportDialogFragment: BaseDialogFragment<DialogReportBinding>(R.layout.dia
         )
         val adapter = CustomSpinnerAdapter(requireContext(), list)
         binding.spinner.adapter = adapter
+        /*val strings = resources.getStringArray(R.array.report_list)
+        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.spinner_inner_view, strings)
+        binding.auto.setAdapter(arrayAdapter)*/
         binding.cancelBtn.setOnClickListener {
             dismiss()
         }

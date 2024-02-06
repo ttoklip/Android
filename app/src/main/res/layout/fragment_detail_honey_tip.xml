@@ -250,6 +250,7 @@
                     android:layout_marginStart="8dp"
                     android:ellipsize="end"
                     android:lines="1"
+                    android:autoLink="web"
                     android:text="https://www.bing.com/?FORM=Z9FD1"
                     android:textAppearance="@style/TextAppearance.App.18sp_700"
                     android:textColor="@color/blue"
