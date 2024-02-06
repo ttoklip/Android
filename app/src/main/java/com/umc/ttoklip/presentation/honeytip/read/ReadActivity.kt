@@ -20,15 +20,19 @@ import com.umc.ttoklip.presentation.honeytip.HoneyTipViewModel
 import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
 import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
-import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipFragment
+import com.umc.ttoklip.presentation.news.adapter.Comment
+import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 
 class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read) {
+    private val commentRVA by lazy {
+        CommentRVA()
+    }
     override fun initView() {
         binding.view = this
         binding.reportBtn.bringToFront()
-        supportFragmentManager.beginTransaction()
+        /*supportFragmentManager.beginTransaction()
             .replace(R.id.container, DetailHoneyTipFragment())
-            .commit()
+            .commit()*/
         setTitle()
 
         binding.backBtn.setOnClickListener {
@@ -58,6 +62,13 @@ class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read) {
             deleteDialog.show(supportFragmentManager, deleteDialog.tag)
         }
 
+        binding.commentRv.adapter = commentRVA
+        commentRVA.submitList(listOf(
+            Comment(1,1,"ㅎㅇ","ㅎ"),
+            Comment(2,2,"ㅎㅇ","ㅎ"),
+            Comment(3,1,"ㅎㅇ","ㅎ")
+        ))
+
         //hideMenu()
 
         /*binding.reportBtn.setOnClickListener {
@@ -75,7 +86,7 @@ class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read) {
 
     private fun setTitle(){
         Log.d("ReadActivity", intent.getStringExtra(BOARD)!!)
-        binding.titleT.text = when(intent.getStringExtra(BOARD)){
+        binding.boardTitleTv.text = when(intent.getStringExtra(BOARD)){
             HONEY_TIP -> "꿀팁 공유하기"
             else -> "질문하기"
         }

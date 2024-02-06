@@ -21,7 +21,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.umc.ttoklip.R
-import com.umc.ttoklip.databinding.FragmentWriteHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.honeytip.HoneyTipViewModel
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialog
@@ -30,7 +29,7 @@ import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
 
 
-class WriteHoneyTipFragment(val board: String) : BaseFragment<FragmentWriteHoneyTipBinding>(R.layout.fragment_write_honey_tip) {
+/*class WriteHoneyTipFragment(val board: String) : BaseFragment<FragmentWriteHoneyTipBinding>(R.layout.fragment_write_honey_tip) {
     /*private val imageLoadLauncher = registerForActivityResult(
         ActivityResultContracts.GetMultipleContents()
     ) { uriList ->
@@ -223,3 +222,4 @@ class WriteHoneyTipFragment(val board: String) : BaseFragment<FragmentWriteHoney
     companion object {
         const val REQUEST_READ_EXTERNAL_STORAGE = 100
     }*/
+    */

@@ -15,11 +15,11 @@ class HoneyTipViewModel: ViewModel() {
         Log.d("viewModel", board)
     }
 
-    val titleLiveData: LiveData<String> by lazy { _titleLiveData }
-    private val _titleLiveData by lazy { MutableLiveData<String>() }
+    val isTitleNull: LiveData<Boolean> by lazy { _isTitleNull }
+    private val _isTitleNull by lazy { MutableLiveData<Boolean>(true) }
 
-    val bodyLiveData: LiveData<String> by lazy { _bodyLiveData }
-    private val _bodyLiveData by lazy { MutableLiveData<String>() }
+    val isBodyNull: LiveData<Boolean> by lazy { _isBodyNull }
+    private val _isBodyNull by lazy { MutableLiveData<Boolean>(true) }
 
     val honeyTipLiveData: LiveData<HoneyTips> by lazy { _honeyTipLiveData }
     private val _honeyTipLiveData by lazy { MutableLiveData<HoneyTips>() }
@@ -31,11 +31,11 @@ class HoneyTipViewModel: ViewModel() {
         _honeyTipLiveData.value?.date = "2일전"
         _honeyTipLiveData.value?.chatCnt = 2
     }
-    fun setTitle(title: String){
-        _titleLiveData.value = title
+    fun setTitle(boolean: Boolean){
+        _isTitleNull.value = boolean
     }
 
-    fun setBody(body: String){
-        _bodyLiveData.value = body
+    fun setBody(boolean: Boolean){
+        _isBodyNull.value = boolean
     }
 }
