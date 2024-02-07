@@ -1,6 +1,6 @@
 package com.umc.ttoklip.data.model.news
 
 data class MainNewsResponse(
-    val categoryResponse: CategoryResponse,
-    val topFiveQuestions: List<TopFiveQuestion>
+    val categoryResponses: CategoryResponses,
+    val randomNews: List<Any>
 )

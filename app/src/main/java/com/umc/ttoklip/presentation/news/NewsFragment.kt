@@ -27,9 +27,8 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(R.layout.fragment_news) {
     }
 
     private val vpFA by lazy {
-        NewsTabAdapter(this)
+        NewsTabAdapter(childFragmentManager, lifecycle)
     }
-    lateinit var bindingV  : FragmentNewsBinding
 
     override fun initObserver() {
     }
@@ -37,7 +36,6 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(R.layout.fragment_news) {
     override fun initView() {
         binding.vm = viewModel
         viewModel.getMainNews()
-        bindingV =binding
         binding.vp.adapter = vpRVA
         binding.indicator.attachTo(binding.vp)
         vpRVA.submitList(
@@ -49,6 +47,10 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(R.layout.fragment_news) {
         TabLayoutMediator(binding.tabLayout, binding.vp2) { tab, position ->
             tab.text = tabTitleArray[position]
         }.attach()
+
+        binding.titleT.setOnClickListener {
+            viewModel.test.value = !viewModel.test.value
+        }
 
         binding.appBar.addOnOffsetChangedListener(OnOffsetChangedListener { appBarLayout, verticalOffset ->
             if (Math.abs(verticalOffset) - appBarLayout.totalScrollRange == 0) {

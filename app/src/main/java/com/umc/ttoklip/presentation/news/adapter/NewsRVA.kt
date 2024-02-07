@@ -5,15 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.ttoklip.data.model.news.News
 import com.umc.ttoklip.databinding.ItemNewsBinding
 
-class NewsRVA(val onClick: () -> Unit) : ListAdapter<Dummy, NewsRVA.ItemViewHolder>(differ) {
+class NewsRVA(val onClick: () -> Unit) : ListAdapter<News, NewsRVA.ItemViewHolder>(differ) {
 
     inner class ItemViewHolder(
         private val binding: ItemNewsBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: Dummy) {
+        fun bind(data: News) {
             binding.item = data
             binding.itemV.setOnClickListener {
                 onClick()
@@ -39,12 +40,12 @@ class NewsRVA(val onClick: () -> Unit) : ListAdapter<Dummy, NewsRVA.ItemViewHold
     }
 
     companion object {
-        val differ = object : DiffUtil.ItemCallback<Dummy>() {
-            override fun areItemsTheSame(oldItem: Dummy, newItem: Dummy): Boolean {
-                return oldItem.name == newItem.name
+        val differ = object : DiffUtil.ItemCallback<News>() {
+            override fun areItemsTheSame(oldItem: News, newItem: News): Boolean {
+                return oldItem.newsletterId == newItem.newsletterId
             }
 
-            override fun areContentsTheSame(oldItem: Dummy, newItem: Dummy): Boolean {
+            override fun areContentsTheSame(oldItem: News, newItem: News): Boolean {
                 return oldItem == newItem
             }
         }

@@ -98,11 +98,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             )
         )
         binding.newsRV.adapter = newsRVA
-        newsRVA.submitList(
-            listOf(
-                Dummy("1"), Dummy("2"), Dummy("3")
-            )
-        )
         binding.groupBuyRV.adapter = townRVA
         townRVA.submitList(
             listOf(
