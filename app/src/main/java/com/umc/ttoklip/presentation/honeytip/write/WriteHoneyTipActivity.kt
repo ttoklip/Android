@@ -1,8 +1,11 @@
 package com.umc.ttoklip.presentation.honeytip.write
 
+import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Typeface
 import android.net.Uri
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -27,11 +30,19 @@ import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.OnImageClickListener
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
+
 
 @AndroidEntryPoint
 class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.activity_honey_tip), OnImageClickListener {
     private val viewModel: HoneyTipViewModel by viewModels()
     private lateinit var imageAdapter: ImageRVA
+    private var category: Category = Category.HOUSEWORK
 
     private val pickMultipleMedia = registerForActivityResult(
         ActivityResultContracts.PickMultipleVisualMedia(
@@ -92,14 +103,42 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
         }
 
         binding.writeDoneBtn.setOnClickListener {
-            val images = imageAdapter.currentList.filterIsInstance<Image>().map{it.uri.toString()}.toList()
-
+            val images = imageAdapter.currentList.filterIsInstance<Image>().map{it.uri}.toList()
+            val imageParts: MutableList<MultipartBody.Part>? = mutableListOf()
+            for(i in images.indices){
+                val imagePart: MultipartBody.Part? = if(images[i] != null){
+                    //val imagePath = (images[i])
+                    val imageFile = File(absolutelyPath(images[i], this))
+                    val imageRequestBody = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
+                    MultipartBody.Part.createFormData("image", imageFile.name, imageRequestBody)
+                }
+                else{
+                    null
+                }
+                Log.d("imagePart", imagePart.toString())
+                if (imagePart != null) {
+                    imageParts?.add(imagePart)
+                }
+            }
             val honeyTip = CreateHoneyTipRequest(binding.titleEt.text.toString(), binding.bodyEt.text.toString(),
-                images, listOf( binding.inputUrlEt.text.toString()))
-            viewModel.createHoneyTip(honeyTip)
+                category.toString(), listOf( binding.inputUrlEt.text.toString()))
+            Log.d("createHoneytip", honeyTip.toString())
+            Log.d("imageParts", imageParts?.toString()?:"")
+            viewModel.createHoneyTip(honeyTip, imageParts?.toList())
             //finish()
         }
 
+    }
+
+    fun absolutelyPath(path: Uri?, context : Context): String {
+        var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+        var c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
+        var index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        c?.moveToFirst()
+
+        var result = c?.getString(index!!)
+
+        return result!!
     }
 
     private fun initImageRVA() {
@@ -187,12 +226,18 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
         val updatedImages = imageAdapter.currentList.toMutableList().apply { addAll(images) }
         imageAdapter.submitList(updatedImages)
     }
-
     override fun onClick(image: Image) {
         val images = imageAdapter.currentList.filterIsInstance<Image>().map{it.uri.toString()}.toTypedArray()
         Log.d("images", images.toString())
         val intent = Intent(this, ImageViewActivity::class.java)
         intent.putExtra("images", images)
         startActivity(intent)
+    }
+
+    enum class Category{
+        HOUSEWORK,
+        COOKING,
+        SAFE_LIVING,
+        WELFARE_POLICY
     }
 }

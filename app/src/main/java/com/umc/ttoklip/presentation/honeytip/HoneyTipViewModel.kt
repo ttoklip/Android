@@ -6,14 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.data.model.CreateHoneyTipRequest
-import com.umc.ttoklip.data.repository.HoneyTipRepository
-import com.umc.ttoklip.data.repository.HoneyTipRepositoryImpl
-import com.umc.ttoklip.module.handleApi
+import com.umc.ttoklip.data.repository.honeytip.HoneyTipRepositoryImpl
 import com.umc.ttoklip.module.onSuccess
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTips
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -55,9 +54,9 @@ class HoneyTipViewModel @Inject constructor(
         _isBodyNull.value = boolean
     }
 
-    fun createHoneyTip(request: CreateHoneyTipRequest){
+    fun createHoneyTip(request: CreateHoneyTipRequest, uri: List<MultipartBody.Part>?){
         viewModelScope.launch(Dispatchers.IO) {
-            repository.createHoneyTip(request).onSuccess {
+            repository.createHoneyTip(request, uri).onSuccess {
                 _createHoneyTipMessage.value = it.message
                 Log.d("honey tip api test", it.message)
             }
