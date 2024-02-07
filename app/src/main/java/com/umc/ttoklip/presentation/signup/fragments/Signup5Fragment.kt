@@ -63,6 +63,7 @@ class Signup5Fragment: BaseFragment<FragmentSignup5Binding>(R.layout.fragment_si
         }
         binding.signup5NextBtn.setOnClickListener {
             startActivity(Intent(activity, MainActivity::class.java))
+            activity.finish()
         }
     }
 
