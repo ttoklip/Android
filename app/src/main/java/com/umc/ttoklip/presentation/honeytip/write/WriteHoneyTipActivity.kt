@@ -17,6 +17,7 @@ import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.tabs.TabLayout
+import com.google.gson.Gson
 import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.CreateHoneyTipRequest
 import com.umc.ttoklip.databinding.ActivityHoneyTipBinding
@@ -35,7 +36,10 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 
 
 @AndroidEntryPoint
@@ -107,10 +111,17 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
             val imageParts: MutableList<MultipartBody.Part>? = mutableListOf()
             for(i in images.indices){
                 val imagePart: MultipartBody.Part? = if(images[i] != null){
-                    //val imagePath = (images[i])
-                    val imageFile = File(absolutelyPath(images[i], this))
-                    val imageRequestBody = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
-                    MultipartBody.Part.createFormData("image", imageFile.name, imageRequestBody)
+                    val imagePath = images[i]
+                    val imageFile = convertUriToJpegFile(this, imagePath,"${imagePath.port+i}")
+                    if (imageFile == null){
+                        null
+                    }else {
+                        //val imageFile = File(absolutelyPath(images[i], this))
+                        val imageRequestBody =
+                            imageFile.asRequestBody("image/*".toMediaTypeOrNull())
+                        Log.d("imagePart", imageRequestBody.toString())
+                        MultipartBody.Part.createFormData("image", imageFile.name, imageRequestBody)
+                    }
                 }
                 else{
                     null
@@ -124,10 +135,34 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
                 category.toString(), listOf( binding.inputUrlEt.text.toString()))
             Log.d("createHoneytip", honeyTip.toString())
             Log.d("imageParts", imageParts?.toString()?:"")
-            viewModel.createHoneyTip(honeyTip, imageParts?.toList())
+
+            val gson = Gson()
+            val tipJson = gson.toJson(honeyTip)
+            val tipRequestBody = tipJson.toRequestBody("application/json".toMediaTypeOrNull())
+
+            viewModel.createHoneyTip(tipRequestBody, imageParts?.toList())
             //finish()
         }
 
+    }
+
+    fun convertUriToJpegFile(context: Context, uri: Uri, targetFilename: String): File? {
+        val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
+        val outputFile = File(context.cacheDir, "$targetFilename.jpeg")
+
+        inputStream?.use { input ->
+            FileOutputStream(outputFile).use { output ->
+                val buffer = ByteArray(4 * 1024) // 4KB buffer size
+                while (true) {
+                    val byteCount = input.read(buffer)
+                    if (byteCount < 0) break
+                    output.write(buffer, 0, byteCount)
+                }
+                output.flush()
+            }
+        }
+
+        return if (outputFile.exists()) outputFile else null
     }
 
     fun absolutelyPath(path: Uri?, context : Context): String {

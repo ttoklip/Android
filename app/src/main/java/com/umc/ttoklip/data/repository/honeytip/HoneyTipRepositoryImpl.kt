@@ -8,6 +8,7 @@ import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.module.NetworkResult
 import com.umc.ttoklip.module.handleApi
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 class HoneyTipRepositoryImpl @Inject constructor(
@@ -17,8 +18,8 @@ class HoneyTipRepositoryImpl @Inject constructor(
         return handleApi({api.postNewHoneyTip(request)}) {response: ResponseBody<CreateHoneyTipResponse> -> response.result}
     }*/
     override suspend fun createHoneyTip(
-        request: CreateHoneyTipRequest,
-        uri: List<MultipartBody.Part>?
+        request: RequestBody,
+        uri: List<MultipartBody.Part>
     ): NetworkResult<CreateHoneyTipResponse> {
         return handleApi({api.postNewHoneyTip(request, uri)}) {response: ResponseBody<CreateHoneyTipResponse> -> response.result}
     }

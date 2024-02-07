@@ -13,6 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -54,9 +55,9 @@ class HoneyTipViewModel @Inject constructor(
         _isBodyNull.value = boolean
     }
 
-    fun createHoneyTip(request: CreateHoneyTipRequest, uri: List<MultipartBody.Part>?){
+    fun createHoneyTip(request: RequestBody, uri: List<MultipartBody.Part>?){
         viewModelScope.launch(Dispatchers.IO) {
-            repository.createHoneyTip(request, uri).onSuccess {
+            repository.createHoneyTip(request, uri ?: listOf()).onSuccess {
                 _createHoneyTipMessage.value = it.message
                 Log.d("honey tip api test", it.message)
             }
