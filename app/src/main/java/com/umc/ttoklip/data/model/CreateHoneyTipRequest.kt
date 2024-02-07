@@ -9,6 +9,6 @@ data class CreateHoneyTipRequest(
     val content: String,
     @SerializedName("category")
     val category: String,
-    @SerializedName("url")
-    val url: List<String>
+    //@SerializedName("url")
+    //val url: List<String>
 )

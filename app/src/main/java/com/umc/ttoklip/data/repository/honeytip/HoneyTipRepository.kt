@@ -7,5 +7,5 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 interface HoneyTipRepository {
-    suspend fun createHoneyTip(request: RequestBody, uri: List<MultipartBody.Part>): NetworkResult<CreateHoneyTipResponse>
+    suspend fun createHoneyTip(title: RequestBody, content: RequestBody, category: RequestBody, uri: Array<MultipartBody.Part>): NetworkResult<CreateHoneyTipResponse>
 }

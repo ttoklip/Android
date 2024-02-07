@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.tabs.TabLayout
@@ -32,6 +33,7 @@ import com.umc.ttoklip.presentation.honeytip.adapter.OnImageClickListener
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.parse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -40,6 +42,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
+import java.util.Collections.addAll
 
 
 @AndroidEntryPoint
@@ -108,8 +111,8 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
 
         binding.writeDoneBtn.setOnClickListener {
             val images = imageAdapter.currentList.filterIsInstance<Image>().map{it.uri}.toList()
-            val imageParts: MutableList<MultipartBody.Part>? = mutableListOf()
-            for(i in images.indices){
+            val imageParts: MutableList<MultipartBody.Part> = mutableListOf()
+            for(i in images.indices) {
                 val imagePart: MultipartBody.Part? = if(images[i] != null){
                     val imagePath = images[i]
                     val imageFile = convertUriToJpegFile(this, imagePath,"${imagePath.port+i}")
@@ -120,27 +123,29 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
                         val imageRequestBody =
                             imageFile.asRequestBody("image/*".toMediaTypeOrNull())
                         Log.d("imagePart", imageRequestBody.toString())
-                        MultipartBody.Part.createFormData("image", imageFile.name, imageRequestBody)
+                        MultipartBody.Part.createFormData("images", imageFile.name, imageRequestBody)
                     }
                 }
                 else{
                     null
                 }
-                Log.d("imagePart", imagePart.toString())
                 if (imagePart != null) {
                     imageParts?.add(imagePart)
                 }
             }
+
             val honeyTip = CreateHoneyTipRequest(binding.titleEt.text.toString(), binding.bodyEt.text.toString(),
-                category.toString(), listOf( binding.inputUrlEt.text.toString()))
+                category.toString()) //,listOf( binding.inputUrlEt.text.toString()))
             Log.d("createHoneytip", honeyTip.toString())
             Log.d("imageParts", imageParts?.toString()?:"")
 
             val gson = Gson()
             val tipJson = gson.toJson(honeyTip)
             val tipRequestBody = tipJson.toRequestBody("application/json".toMediaTypeOrNull())
-
-            viewModel.createHoneyTip(tipRequestBody, imageParts?.toList())
+            val title = binding.titleEt.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+            val content = binding.bodyEt.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+            val category = category.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+            viewModel.createHoneyTip(title, content, category, imageParts?.toTypedArray()!!)
             //finish()
         }
 

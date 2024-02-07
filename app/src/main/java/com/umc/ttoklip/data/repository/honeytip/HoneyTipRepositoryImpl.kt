@@ -17,11 +17,20 @@ class HoneyTipRepositoryImpl @Inject constructor(
     /*override suspend fun createHoneyTip(request: CreateHoneyTipRequest): NetworkResult<CreateHoneyTipResponse> {
         return handleApi({api.postNewHoneyTip(request)}) {response: ResponseBody<CreateHoneyTipResponse> -> response.result}
     }*/
-    override suspend fun createHoneyTip(
+    /*override suspend fun createHoneyTip(
         request: RequestBody,
-        uri: List<MultipartBody.Part>
+        uri: Array<MultipartBody.Part>
     ): NetworkResult<CreateHoneyTipResponse> {
         return handleApi({api.postNewHoneyTip(request, uri)}) {response: ResponseBody<CreateHoneyTipResponse> -> response.result}
+    }*/
+
+    override suspend fun createHoneyTip(
+        title: RequestBody,
+        content: RequestBody,
+        category: RequestBody,
+        uri: Array<MultipartBody.Part>
+    ): NetworkResult<CreateHoneyTipResponse> {
+        return handleApi({api.postNewHoneyTip(title, content, category, uri)}) {response: ResponseBody<CreateHoneyTipResponse> -> response.result}
     }
 
 }

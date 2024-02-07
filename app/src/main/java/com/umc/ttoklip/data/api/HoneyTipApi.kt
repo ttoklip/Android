@@ -14,11 +14,23 @@ import retrofit2.http.POST
 import retrofit2.http.Part
 
 interface HoneyTipApi {
+    /*@Multipart
+    @POST("/api/v1/question/post")
+    suspend fun postNewHoneyTip(
+        @Part("CreateHoneyTipRequest") request: RequestBody,
+        @Part images: List<MultipartBody.Part>
+    ): Response<ResponseBody<CreateHoneyTipResponse>>*/
+
     @Multipart
     @POST("/api/v1/question/post")
-suspend fun postNewHoneyTip(@Part("CreateHoneyTipRequest") request: RequestBody, @Part images: List<MultipartBody.Part>)
-    : Response<ResponseBody<CreateHoneyTipResponse>>
+    suspend fun postNewHoneyTip(
+        //@Part("CreateHoneyTipRequest") request: RequestBody,
+        @Part ("title") title: RequestBody,
+        @Part ("content") content: RequestBody,
+        @Part ("category") category: RequestBody,
+        @Part images: Array<MultipartBody.Part>
+    ): Response<ResponseBody<CreateHoneyTipResponse>>
 
     /*@GET("/api/v1/common/main")
-    suspend fun get*/
+    suspend fun getHoneyTipMain():*/
 }
