@@ -26,8 +26,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val viewModel: HomeViewModel by viewModels<HomeViewModelImpl>()
     private val newsRVA by lazy {
         NewsRVA(onClick = {
-            startActivity(ArticleActivity.newIntent(requireContext()))
-        }
+            NewsRVA { news ->
+                startActivity(ArticleActivity.newIntent(requireContext(), news.newsletterId))
+            } }
         )
     }
     private val townRVA by lazy {

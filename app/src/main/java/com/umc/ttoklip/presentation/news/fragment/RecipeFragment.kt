@@ -20,18 +20,20 @@ class RecipeFragment() : BaseFragment<FragmentItemNewsBinding>(R.layout.fragment
         ownerProducer = { requireParentFragment() }
     )
     private val newsRVA by lazy {
-        NewsRVA { startActivity(ArticleActivity.newIntent(requireContext())) }
+        NewsRVA { news ->
+            startActivity(ArticleActivity.newIntent(requireContext(), news.newsletterId))
+        }
     }
 
     override fun initObserver() {
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                parentViewModel.recipeList.collect{
-                            newsRVA.submitList(it)
-                        }
-                    }
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                parentViewModel.recipeList.collect {
+                    newsRVA.submitList(it)
                 }
             }
+        }
+    }
 
     override fun initView() {
         binding.rv.adapter = newsRVA

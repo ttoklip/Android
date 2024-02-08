@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.data.model.news.News
 import com.umc.ttoklip.databinding.ItemNewsBinding
 
-class NewsRVA(val onClick: () -> Unit) : ListAdapter<News, NewsRVA.ItemViewHolder>(differ) {
+class NewsRVA(val onClick: (News) -> Unit) : ListAdapter<News, NewsRVA.ItemViewHolder>(differ) {
 
     inner class ItemViewHolder(
         private val binding: ItemNewsBinding
@@ -17,7 +17,7 @@ class NewsRVA(val onClick: () -> Unit) : ListAdapter<News, NewsRVA.ItemViewHolde
         fun bind(data: News) {
             binding.item = data
             binding.itemV.setOnClickListener {
-                onClick()
+                onClick(data)
             }
         }
     }

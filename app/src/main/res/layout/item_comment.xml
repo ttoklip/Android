@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.umc.ttoklip.presentation.news.adapter.Comment" />
+            type="com.umc.ttoklip.data.model.news.comment.NewsCommentResponse" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="똑똑이"
+            android:text="@{item.writer == null ? `똑똑이` : item.writer}"
             android:textAppearance="@style/TextAppearance.App.12sp_500"
             app:layout_constraintBottom_toBottomOf="@id/cardView"
             app:layout_constraintStart_toEndOf="@id/cardView"
@@ -91,13 +91,13 @@
             app:layout_constraintTop_toBottomOf="@id/cardView"
             app:layout_constraintStart_toStartOf="@id/cardView"
             android:textAppearance="@style/TextAppearance.App.12sp_400"
-            android:text="이번에도 좋은 소식 감사합니다." />
+            android:text="@{item.commentContent}" />
 
         <TextView
             android:id="@+id/date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1일전"
+            android:text="@{item.writtenTime}"
             android:textAppearance="@style/TextAppearance.App.12sp_400"
             android:textColor="@color/gray60"
             app:layout_constraintStart_toStartOf="@id/cardView"

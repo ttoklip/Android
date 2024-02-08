@@ -6,19 +6,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
 import com.umc.ttoklip.databinding.ItemCommentBinding
 import com.umc.ttoklip.databinding.ItemReplyBinding
 
-
-//댓글 1 대댓글 2
-
-class CommentRVA : ListAdapter<Comment, RecyclerView.ViewHolder>(differ) {
+class CommentRVA : ListAdapter<NewsCommentResponse, RecyclerView.ViewHolder>(differ) {
 
     inner class ItemViewHolder(
         private val binding: ItemCommentBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: Comment) {
+        fun bind(data: NewsCommentResponse) {
             binding.item = data
         }
     }
@@ -27,7 +25,7 @@ class CommentRVA : ListAdapter<Comment, RecyclerView.ViewHolder>(differ) {
         private val binding: ItemReplyBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: Comment) {
+        fun bind(data: NewsCommentResponse) {
             binding.item = data
         }
     }
@@ -37,7 +35,7 @@ class CommentRVA : ListAdapter<Comment, RecyclerView.ViewHolder>(differ) {
         viewType: Int
     ): RecyclerView.ViewHolder {
         return when (viewType) {
-            1 -> {
+            0 -> {
                 ItemViewHolder(
                     ItemCommentBinding.inflate(
                         LayoutInflater.from(parent.context),
@@ -60,26 +58,27 @@ class CommentRVA : ListAdapter<Comment, RecyclerView.ViewHolder>(differ) {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
-            1 -> {
+            0 -> {
                 (holder as ItemViewHolder).bind(currentList[position])
             }
-            else ->{
+
+            else -> {
                 (holder as ItemReplyViewHolder).bind(currentList[position])
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return currentList[position].isReply
+        return currentList[position].parentId ?: 0
     }
 
     companion object {
-        val differ = object : DiffUtil.ItemCallback<Comment>() {
-            override fun areItemsTheSame(oldItem: Comment, newItem: Comment): Boolean {
-                return oldItem.id == newItem.id
+        val differ = object : DiffUtil.ItemCallback<NewsCommentResponse>() {
+            override fun areItemsTheSame(oldItem: NewsCommentResponse, newItem: NewsCommentResponse): Boolean {
+                return oldItem.commentId == newItem.commentId
             }
 
-            override fun areContentsTheSame(oldItem: Comment, newItem: Comment): Boolean {
+            override fun areContentsTheSame(oldItem: NewsCommentResponse, newItem: NewsCommentResponse): Boolean {
                 return oldItem == newItem
             }
         }

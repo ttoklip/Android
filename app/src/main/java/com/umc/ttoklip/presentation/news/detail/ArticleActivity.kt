@@ -2,7 +2,12 @@ package com.umc.ttoklip.presentation.news.detail
 
 import android.content.Context
 import android.content.Intent
+import android.text.method.LinkMovementMethod
+import android.text.util.Linkify
 import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityArticleBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
@@ -10,6 +15,7 @@ import com.umc.ttoklip.presentation.news.adapter.Comment
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import com.umc.ttoklip.presentation.news.adapter.NewsCardRVA
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ArticleActivity : BaseActivity<ActivityArticleBinding>(R.layout.activity_article) {
@@ -20,6 +26,13 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>(R.layout.activity_a
         CommentRVA()
     }
     override fun initObserver() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.comments.collect{
+                    commentRVA.submitList(it)
+                }
+            }
+        }
     }
 
     override fun initView() {
@@ -27,13 +40,15 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>(R.layout.activity_a
         binding.backBtn.setOnClickListener {
             finish()
         }
-        binding.rv2.adapter = commentRVA
-        commentRVA.submitList(listOf(Comment(1,1,"ㅎㅇ","ㅎ"),Comment(2,2,"ㅎㅇ","ㅎ"),Comment(3,1,"ㅎㅇ","ㅎ")))
+        binding.commentRV.adapter = commentRVA
+        viewModel.getDetail(intent.getIntExtra(ARTICLE,0))
     }
 
     companion object {
         const val ARTICLE = "article"
-        fun newIntent(context: Context) =
-            Intent(context, ArticleActivity::class.java)
+        fun newIntent(context: Context, id : Int) =
+            Intent(context, ArticleActivity::class.java).apply {
+                putExtra(ARTICLE , id)
+            }
     }
 }

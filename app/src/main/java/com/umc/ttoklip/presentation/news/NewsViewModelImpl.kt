@@ -47,7 +47,6 @@ class NewsViewModelImpl @Inject constructor(
     override val welfarePolicyList: StateFlow<List<News>>
         get() = _welfarePolicyList
 
-    override val test = MutableStateFlow<Boolean>(true)
 
     override fun expandedAppBar() {
         viewModelScope.launch {

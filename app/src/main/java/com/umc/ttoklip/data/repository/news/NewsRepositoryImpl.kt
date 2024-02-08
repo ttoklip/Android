@@ -3,6 +3,7 @@ package com.umc.ttoklip.data.repository.news
 import com.umc.ttoklip.data.api.NewsApi
 import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.news.MainNewsResponse
+import com.umc.ttoklip.data.model.news.detail.NewsDetailResponse
 import com.umc.ttoklip.module.NetworkResult
 import com.umc.ttoklip.module.handleApi
 import javax.inject.Inject
@@ -13,6 +14,10 @@ class NewsRepositoryImpl @Inject constructor(
 
     override suspend fun getNewsMain(): NetworkResult<MainNewsResponse> {
         return handleApi({api.getNewsMainApi()}) {response: ResponseBody<MainNewsResponse> -> response.result}
+    }
+
+    override suspend fun getDetailNews(postId: Int): NetworkResult<NewsDetailResponse> {
+        return handleApi({api.getDetailNewsApi(postId = postId)}) {response: ResponseBody<NewsDetailResponse> -> response.result}
     }
 
 }

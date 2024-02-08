@@ -20,8 +20,11 @@ class WelfareFragment() : BaseFragment<FragmentItemNewsBinding>(R.layout.fragmen
         ownerProducer = { requireParentFragment() }
     )
     private val newsRVA by lazy {
-        NewsRVA { startActivity(ArticleActivity.newIntent(requireContext())) }
+        NewsRVA { news ->
+            startActivity(ArticleActivity.newIntent(requireContext(), news.newsletterId))
+        }
     }
+
 
     override fun initObserver() {
         viewLifecycleOwner.lifecycleScope.launch {

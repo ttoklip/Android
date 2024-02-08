@@ -63,11 +63,7 @@ class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read) {
         }
 
         binding.commentRv.adapter = commentRVA
-        commentRVA.submitList(listOf(
-            Comment(1,1,"ㅎㅇ","ㅎ"),
-            Comment(2,2,"ㅎㅇ","ㅎ"),
-            Comment(3,1,"ㅎㅇ","ㅎ")
-        ))
+
 
         //hideMenu()
 

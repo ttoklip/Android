@@ -48,10 +48,6 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(R.layout.fragment_news) {
             tab.text = tabTitleArray[position]
         }.attach()
 
-        binding.titleT.setOnClickListener {
-            viewModel.test.value = !viewModel.test.value
-        }
-
         binding.appBar.addOnOffsetChangedListener(OnOffsetChangedListener { appBarLayout, verticalOffset ->
             if (Math.abs(verticalOffset) - appBarLayout.totalScrollRange == 0) {
                 viewModel.collapsedAppBar()

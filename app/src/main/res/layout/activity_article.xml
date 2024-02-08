@@ -5,17 +5,19 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.umc.ttoklip.presentation.news.detail.ArticleViewModel" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
-
+        android:background="@color/white"
+        tools:context=".presentation.news.detail.NewsDetailActivity">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/backBtn"
@@ -28,7 +30,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/appBarTitleT"
+            android:id="@+id/board_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="뉴스레터"
@@ -37,6 +39,80 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/backBtn" />
+
+        <LinearLayout
+            android:id="@+id/honey_tip_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/rectangle_corner_10_strok_1"
+            android:orientation="vertical"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="12dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dotBtn"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/edit_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_edit" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="수정하기"
+                    android:textAppearance="@style/TextAppearance.App.12sp_500" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/delete_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_delete" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="삭제하기"
+                    android:textAppearance="@style/TextAppearance.App.12sp_500" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/report_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/rectangle_corner_10_strok_1"
+            android:clickable="true"
+            android:drawableStart="@drawable/ic_report"
+            android:drawablePadding="8dp"
+            android:focusable="true"
+            android:gravity="center"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="12dp"
+            android:text="신고하기"
+            android:textAppearance="@style/TextAppearance.App.12sp_500"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dotBtn"
+            tools:visibility="visible" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/dotBtn"
@@ -52,7 +128,7 @@
             android:id="@+id/scrollV"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -74,33 +150,33 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/writerT"
+                    android:id="@+id/writer_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="똑립 뉴스"
+                    android:text="@{vm.newsDetail.writer == null ? `똑립뉴스` : vm.newsDetail.writer }"
                     android:textAppearance="@style/TextAppearance.App.14sp_700"
                     app:layout_constraintBottom_toBottomOf="@id/profileImg"
                     app:layout_constraintStart_toEndOf="@id/profileImg"
                     app:layout_constraintTop_toTopOf="@id/profileImg" />
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/certificationImg"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="2dp"
+                    android:id="@+id/level_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:src="@drawable/ic_certification_mark_16"
-                    app:layout_constraintBottom_toBottomOf="@id/writerT"
-                    app:layout_constraintStart_toEndOf="@id/writerT"
-                    app:layout_constraintTop_toTopOf="@id/writerT" />
+                    app:layout_constraintBottom_toBottomOf="@id/profileImg"
+                    app:layout_constraintStart_toEndOf="@id/writer_tv"
+                    app:layout_constraintTop_toTopOf="@id/profileImg" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/titleT"
+                    android:id="@+id/title_tv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="24dp"
-                    android:text="뉴스제목"
+                    android:text="@{vm.newsDetail.title}"
                     android:textAppearance="@style/TextAppearance.App.20sp_500"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/profileImg"
@@ -115,7 +191,7 @@
                     android:background="@color/gray20"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/titleT" />
+                    app:layout_constraintTop_toBottomOf="@id/title_tv" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/contentT"
@@ -123,7 +199,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:lineSpacingExtra="4dp"
-                    android:text="화장실은 곰팡이가 번식하기 좋은 환경을 제공합니다. 습기, 따뜻함, 열악한 환기의 세 가지 요소는 곰팡이 포자의 안식처를 만듭니다. 샤워나 목욕에서 나오는 증기가 공기 중에 남아 있으면 표면에 침전되어 곰팡이가 자라게 됩니다."
+                    android:text="@{vm.newsDetail.content}"
                     android:textAppearance="@style/TextAppearance.App.10sp_400"
                     android:textColor="@color/black"
                     android:textSize="14sp"
@@ -135,10 +211,10 @@
                     android:id="@+id/bookmarkImg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="12dp"
                     android:src="@drawable/ic_bookmark_off_20"
                     app:layout_constraintStart_toStartOf="@id/contentT"
-                    app:layout_constraintTop_toBottomOf="@id/contentT" />
+                    app:layout_constraintTop_toBottomOf="@id/link_layout" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/bookmarkT"
@@ -146,8 +222,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:text="00"
-                    android:textAppearance="@style/TextAppearance.App.12sp_400"
+                    android:textAppearance="@style/TextAppearance.App.8sp_400"
                     android:textColor="@color/black"
+                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
                     app:layout_constraintStart_toEndOf="@id/bookmarkImg"
                     app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
@@ -168,8 +245,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:text="00"
-                    android:textAppearance="@style/TextAppearance.App.12sp_400"
+                    android:textAppearance="@style/TextAppearance.App.8sp_400"
                     android:textColor="@color/black"
+                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
                     app:layout_constraintStart_toEndOf="@id/likeImg"
                     app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
@@ -190,8 +268,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:text="00"
-                    android:textAppearance="@style/TextAppearance.App.12sp_400"
+                    android:textAppearance="@style/TextAppearance.App.8sp_400"
                     android:textColor="@color/black"
+                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
                     app:layout_constraintStart_toEndOf="@id/commitImg"
                     app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
@@ -269,55 +348,55 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-                <View
-                    android:id="@+id/line2"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
+                <LinearLayout
+                    android:id="@+id/link_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="12dp"
-                    android:background="@color/gray20"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/scrapBtn" />
+                    android:background="@drawable/rectangle_corner_10_strok_1"
+                    android:gravity="start"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="5dp"
+                    app:layout_constraintTop_toBottomOf="@id/ImgRV">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/linkImg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginTop="16dp"
-                    android:src="@drawable/ic_link_24"
-                    android:tint="@color/blue"
-                    app:layout_constraintStart_toStartOf="@id/line2"
-                    app:layout_constraintTop_toBottomOf="@id/line2" />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/linkImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:src="@drawable/ic_link_24"
+                        android:tint="@color/blue"
+                        app:layout_constraintStart_toStartOf="@id/ImgRV"
+                        app:layout_constraintTop_toBottomOf="@id/ImgRV" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/linkT"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:text="https://www.bing.com/?FORM=Z9FD1"
-                    android:textAppearance="@style/TextAppearance.App.18sp_700"
-                    android:textColor="@color/blue"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="@id/linkImg"
-                    app:layout_constraintStart_toEndOf="@id/linkImg"
-                    app:layout_constraintTop_toTopOf="@id/linkImg" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/linkT"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:autoLink="web"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:text="@{vm.newsDetail.urlList.size() == 0 ? `링크` : vm.newsDetail.urlList[0].url }"
+                        android:textAppearance="@style/TextAppearance.App.18sp_700"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv1"
+                    android:id="@+id/ImgRV"
                     android:layout_width="0dp"
                     android:layout_height="144dp"
-                    android:layout_marginStart="18dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="28dp"
                     android:orientation="horizontal"
+                    android:visibility="@{vm.imageUrls.size() == 0 ? View.GONE : View.VISIBLE}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/linkImg"
+                    app:layout_constraintTop_toBottomOf="@id/contentT"
                     tools:listitem="@layout/item_image" />
 
                 <View
@@ -329,10 +408,10 @@
                     android:background="@color/gray20"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rv1" />
+                    app:layout_constraintTop_toBottomOf="@id/scrapBtn" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv2"
+                    android:id="@+id/commentRV"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -350,12 +429,12 @@
         </androidx.core.widget.NestedScrollView>
 
         <View
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:background="@color/white"
             android:layout_width="0dp"
-            android:layout_height="80dp"/>
+            android:layout_height="80dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/comment_layout"
@@ -370,17 +449,29 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
+            <TextView
+                android:id="@+id/replyT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:textAppearance="@style/TextAppearance.App.12sp_400"
+                android:textColor="@color/blue"
+                app:layout_constraintBottom_toBottomOf="@id/comment_et"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/comment_et" />
+
             <EditText
                 android:id="@+id/comment_et"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
                 android:layout_marginEnd="8dp"
                 android:background="@null"
                 android:hint="댓글을 입력해주세요."
                 android:textAppearance="@style/TextAppearance.App.12sp_400"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/cardView"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@id/replyT"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.cardview.widget.CardView
