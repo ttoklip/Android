@@ -3,6 +3,7 @@ package com.umc.ttoklip.presentation.news.detail
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.ttoklip.data.model.news.comment.NewsCommentRequest
 import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
 import com.umc.ttoklip.data.model.news.detail.ImageUrl
 import com.umc.ttoklip.data.model.news.detail.NewsDetailResponse
@@ -18,9 +19,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ArticleViewModelImpl@Inject constructor(
+class ArticleViewModelImpl @Inject constructor(
     private val newsRepository: NewsRepository
-): ViewModel(), ArticleViewModel {
+) : ViewModel(), ArticleViewModel {
 
     private val _newsDetail = MutableStateFlow(NewsDetailResponse())
     override val newsDetail: StateFlow<NewsDetailResponse>
@@ -33,6 +34,9 @@ class ArticleViewModelImpl@Inject constructor(
     private val _imageUrls = MutableStateFlow(listOf<ImageUrl>())
     override val imageUrls: StateFlow<List<ImageUrl>>
         get() = _imageUrls
+
+    override val replyCommentParentId = MutableStateFlow(0)
+    override val commentContent = MutableStateFlow("")
 
     override fun getDetail(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -49,10 +53,32 @@ class ArticleViewModelImpl@Inject constructor(
                     }.onException {
                         throw it
                     }
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 e.printStackTrace()
                 Log.d("예외", "$e")
             }
         }
     }
+
+    override fun postComment(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                newsRepository.postCommentNews(
+                    id,
+                    NewsCommentRequest(commentContent.value, replyCommentParentId.value)
+                ).onSuccess {
+                    getDetail(id)
+                }.onFail {
+
+                }.onException {
+                    throw it
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.d("예외", "$e")
+            }
+        }
+    }
+
+
 }

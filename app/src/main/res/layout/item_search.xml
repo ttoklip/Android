@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="item"
+            type="com.umc.ttoklip.data.model.search.SearchModel" />
 
     </data>
 
@@ -48,7 +52,7 @@
             android:id="@+id/date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1일전"
+            android:text=""
             android:textAppearance="@style/TextAppearance.App.12sp_400"
             android:textColor="@color/gray60"
             app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="음식물 쓰레기 냄새 방지!!"
+            android:text="@{item.title}"
             android:textAppearance="@style/TextAppearance.App.14sp_700"
             app:layout_constraintStart_toStartOf="@id/boardT"
             app:layout_constraintTop_toBottomOf="@id/boardT" />
@@ -69,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="집에 가끔씩이지만 나타나는 바퀴벌레, 잘못 처리하면 알깐다고도..."
+            android:text="@{item.content}"
             android:textAppearance="@style/TextAppearance.App.12sp_400"
             app:layout_constraintStart_toStartOf="@id/boardT"
             app:layout_constraintTop_toBottomOf="@id/title_tv" />
@@ -125,8 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:textAppearance="@style/TextAppearance.App.10sp_400"
-                android:text="00" />
+                android:textAppearance="@style/TextAppearance.App.10sp_400" />
 
 
         </LinearLayout>

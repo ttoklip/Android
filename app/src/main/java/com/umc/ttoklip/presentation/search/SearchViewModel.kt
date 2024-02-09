@@ -1,5 +1,6 @@
 package com.umc.ttoklip.presentation.search
 
+import com.umc.ttoklip.data.model.search.SearchModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,6 +12,7 @@ interface SearchViewModel {
     val filterBoard : StateFlow<Int>
     val filterCategory: StateFlow<Int>
     val showDialog : SharedFlow<Boolean>
+    val searchList : StateFlow<List<SearchModel>>
 
     fun goSearchAfter()
     fun goSearchBefore()

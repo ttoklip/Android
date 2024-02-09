@@ -63,6 +63,7 @@
             android:padding="4dp">
 
             <ImageView
+                android:id="@+id/replyBtn"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:src="@drawable/ic_message_24"
@@ -76,6 +77,7 @@
                 android:layout_marginVertical="3dp" />
 
             <ImageView
+                android:id="@+id/deleteBtn"
                 android:layout_marginStart="1dp"
                 android:layout_width="15dp"
                 android:layout_height="15dp"

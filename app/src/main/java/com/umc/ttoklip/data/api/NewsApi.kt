@@ -22,7 +22,7 @@ interface NewsApi {
         @Path("postId") postId : Int
     ): Response<ResponseBody<NewsDetailResponse>>
 
-    @POST("/api/v1/newsletters/comment/{postId}")
+    @POST("/api/v1/newsletter/comment/{postId}")
     suspend fun postCommentNewsApi(
         @Path("postId") postId: Int,
         @Body request : NewsCommentRequest

@@ -73,16 +73,14 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
         }
 
         binding.searchBtn.setOnClickListener {
-            if (!binding.appBarTitleT.text.isNullOrEmpty())
+            if (!binding.appBarTitleT.text.isNullOrEmpty()) {
                 viewModel.clickSearchAfter()
+            }
             if (!viewModel.searchAfter.value) {
                 binding.appBarTitleT.setText("")
             }
         }
         binding.searchRV.adapter = searchRVA
-        searchRVA.submitList(
-            listOf(Dummy(""), Dummy(""), Dummy(""))
-        )
 
         historyRVA.submitList(
             listOf(
@@ -229,6 +227,14 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
                     } else {
                         viewModel.filter(0, 0, 0)
                     }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.searchList.collect {
+                    searchRVA.submitList(it)
                 }
             }
         }

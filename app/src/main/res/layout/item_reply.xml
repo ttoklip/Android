@@ -83,19 +83,6 @@
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_marginEnd="4dp"
-                    android:src="@drawable/ic_message_24"
-                    app:tint="@color/gray60" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginVertical="3dp"
-                    android:background="@color/gray60" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
                     android:layout_marginStart="1dp"
                     android:src="@drawable/ic_dots_vertical_24"
                     app:tint="@color/gray60" />

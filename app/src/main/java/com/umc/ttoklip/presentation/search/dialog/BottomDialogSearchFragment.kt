@@ -125,6 +125,10 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
             category5.isVisible = true
         }
     }
+    //1:최신 2:인기 3:댓많
+    //1:뉴스 2:질문해요 3:꿀팁공유 4:함께해요 5:소통해요
+    //1-1:집안일 2:레시피 3:안전한생활 4:복지정책
+    //3-1:집안일 2:요리 3:안전한생활 4:사기 5:복지정책
 
     private fun getResult() : List<Int>{
         with(binding){

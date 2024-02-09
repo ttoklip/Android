@@ -41,3 +41,8 @@ fun ImageView.setUrlImg(imageUrl: String, placeholder: Drawable?) {
         .apply(RequestOptions().fitCenter())
         .into(this)
 }
+
+@BindingAdapter("textInt")
+fun AppCompatTextView.textInt(int: Int) {
+    this.text = int.toString()
+}
