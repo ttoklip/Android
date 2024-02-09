@@ -22,9 +22,17 @@ interface HoneyTipApi {
     ): Response<ResponseBody<CreateHoneyTipResponse>>*/
 
     @Multipart
-    @POST("/api/v1/question/post")
+    @POST("/api/v1/honeytips/posts")
     suspend fun postNewHoneyTip(
-        //@Part("CreateHoneyTipRequest") request: RequestBody,
+        @Part ("title") title: RequestBody,
+        @Part ("content") content: RequestBody,
+        @Part ("category") category: RequestBody,
+        @Part images: Array<MultipartBody.Part>
+    ): Response<ResponseBody<CreateHoneyTipResponse>>
+
+    @Multipart
+    @POST("/api/v1/question/post")
+    suspend fun postNewQuestion(
         @Part ("title") title: RequestBody,
         @Part ("content") content: RequestBody,
         @Part ("category") category: RequestBody,

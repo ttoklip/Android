@@ -46,7 +46,8 @@ import java.util.Collections.addAll
 
 
 @AndroidEntryPoint
-class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.activity_honey_tip), OnImageClickListener {
+class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.activity_honey_tip),
+    OnImageClickListener {
     private val viewModel: HoneyTipViewModel by viewModels()
     private lateinit var imageAdapter: ImageRVA
     private var category: Category = Category.HOUSEWORK
@@ -68,11 +69,11 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
             .replace(R.id.container, WriteHoneyTipFragment(intent.getStringExtra(BOARD) ?: ""))
             .commit()*/
         binding.viewModel = viewModel
+        setTitle()
         initTabLayout()
         initImageRVA()
         addLink()
         addImage()
-        setTitle()
         writeDone()
         binding.backBtn.setOnClickListener {
             finish()
@@ -84,49 +85,56 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
     }
 
     private fun setTitle() {
-        binding.titleTv.text = when (intent.getStringExtra(BOARD)) {
-            HONEY_TIP -> "꿀팁 공유하기"
-            else -> "질문하기"
+        when (intent.getStringExtra(BOARD)) {
+            HONEY_TIP -> {
+                binding.titleTv.text = "꿀팁 공유하기"
+            }
+
+            else -> {
+                binding.titleTv.text = "질문하기"
+                binding.addLinkBtn.visibility = View.GONE
+            }
         }
     }
 
-    private fun writeDone(){
+    private fun writeDone() {
         binding.titleEt.doAfterTextChanged {
-            if(!it.toString().isNullOrBlank()){
+            if (!it.toString().isNullOrBlank()) {
                 viewModel.setTitle(false)
-            }
-            else{
+            } else {
                 viewModel.setTitle(true)
             }
         }
 
         binding.bodyEt.doAfterTextChanged {
-            if(!it.toString().isNullOrBlank()){
+            if (!it.toString().isNullOrBlank()) {
                 viewModel.setBody(false)
-            }
-            else{
+            } else {
                 viewModel.setBody(true)
             }
         }
 
         binding.writeDoneBtn.setOnClickListener {
-            val images = imageAdapter.currentList.filterIsInstance<Image>().map{it.uri}.toList()
+            val images = imageAdapter.currentList.filterIsInstance<Image>().map { it.uri }.toList()
             val imageParts: MutableList<MultipartBody.Part> = mutableListOf()
-            for(i in images.indices) {
-                val imagePart: MultipartBody.Part? = if(images[i] != null){
+            for (i in images.indices) {
+                val imagePart: MultipartBody.Part? = if (images[i] != null) {
                     val imagePath = images[i]
-                    val imageFile = convertUriToJpegFile(this, imagePath,"${imagePath.port+i}")
-                    if (imageFile == null){
+                    val imageFile = convertUriToJpegFile(this, imagePath, "${imagePath.port + i}")
+                    if (imageFile == null) {
                         null
-                    }else {
+                    } else {
                         //val imageFile = File(absolutelyPath(images[i], this))
                         val imageRequestBody =
                             imageFile.asRequestBody("image/*".toMediaTypeOrNull())
                         Log.d("imagePart", imageRequestBody.toString())
-                        MultipartBody.Part.createFormData("images", imageFile.name, imageRequestBody)
+                        MultipartBody.Part.createFormData(
+                            "images",
+                            imageFile.name,
+                            imageRequestBody
+                        )
                     }
-                }
-                else{
+                } else {
                     null
                 }
                 if (imagePart != null) {
@@ -134,16 +142,20 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
                 }
             }
 
-            val honeyTip = CreateHoneyTipRequest(binding.titleEt.text.toString(), binding.bodyEt.text.toString(),
-                category.toString()) //,listOf( binding.inputUrlEt.text.toString()))
+            val honeyTip = CreateHoneyTipRequest(
+                binding.titleEt.text.toString(), binding.bodyEt.text.toString(),
+                category.toString()
+            ) //,listOf( binding.inputUrlEt.text.toString()))
             Log.d("createHoneytip", honeyTip.toString())
-            Log.d("imageParts", imageParts?.toString()?:"")
+            Log.d("imageParts", imageParts?.toString() ?: "")
 
             val gson = Gson()
             val tipJson = gson.toJson(honeyTip)
             val tipRequestBody = tipJson.toRequestBody("application/json".toMediaTypeOrNull())
-            val title = binding.titleEt.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            val content = binding.bodyEt.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+            val title =
+                binding.titleEt.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+            val content =
+                binding.bodyEt.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
             val category = category.toString().toRequestBody("text/plain".toMediaTypeOrNull())
             viewModel.createHoneyTip(title, content, category, imageParts?.toTypedArray()!!)
             //finish()
@@ -170,7 +182,7 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
         return if (outputFile.exists()) outputFile else null
     }
 
-    fun absolutelyPath(path: Uri?, context : Context): String {
+    fun absolutelyPath(path: Uri?, context: Context): String {
         var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
         var c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
         var index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
@@ -183,10 +195,10 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
 
     private fun initImageRVA() {
         imageAdapter = ImageRVA(this)
-            /*val images = imageAdapter.currentList.filterIsInstance<Image>().map{it.uri.toString()}.toTypedArray()
-            val intent = Intent(this, ImageViewActivity::class.java)
-            intent.putExtra("images", images)
-            startActivity(intent)*/
+        /*val images = imageAdapter.currentList.filterIsInstance<Image>().map{it.uri.toString()}.toTypedArray()
+        val intent = Intent(this, ImageViewActivity::class.java)
+        intent.putExtra("images", images)
+        startActivity(intent)*/
 
         binding.imageRv.adapter = imageAdapter
     }
@@ -202,7 +214,10 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                setSelectedTabTextStyleBold(R.font.pretendard_bold, binding.tabLayout.selectedTabPosition)
+                setSelectedTabTextStyleBold(
+                    R.font.pretendard_bold,
+                    binding.tabLayout.selectedTabPosition
+                )
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -251,7 +266,7 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
     private fun addImage() {
         binding.addImageBtn.setOnClickListener {
             val imageDialog = ImageDialogFragment()
-            imageDialog.setDialogClickListener(object : ImageDialogFragment.DialogClickListener{
+            imageDialog.setDialogClickListener(object : ImageDialogFragment.DialogClickListener {
                 override fun onClick() {
                     binding.imageRv.visibility = View.VISIBLE
                     pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
@@ -266,15 +281,17 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
         val updatedImages = imageAdapter.currentList.toMutableList().apply { addAll(images) }
         imageAdapter.submitList(updatedImages)
     }
+
     override fun onClick(image: Image) {
-        val images = imageAdapter.currentList.filterIsInstance<Image>().map{it.uri.toString()}.toTypedArray()
+        val images = imageAdapter.currentList.filterIsInstance<Image>().map { it.uri.toString() }
+            .toTypedArray()
         Log.d("images", images.toString())
         val intent = Intent(this, ImageViewActivity::class.java)
         intent.putExtra("images", images)
         startActivity(intent)
     }
 
-    enum class Category{
+    enum class Category {
         HOUSEWORK,
         COOKING,
         SAFE_LIVING,

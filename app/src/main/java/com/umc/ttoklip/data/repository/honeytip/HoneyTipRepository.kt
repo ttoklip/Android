@@ -8,4 +8,5 @@ import okhttp3.RequestBody
 
 interface HoneyTipRepository {
     suspend fun createHoneyTip(title: RequestBody, content: RequestBody, category: RequestBody, uri: Array<MultipartBody.Part>): NetworkResult<CreateHoneyTipResponse>
+    suspend fun createQuestion(title: RequestBody, content: RequestBody, category: RequestBody, uri: Array<MultipartBody.Part>): NetworkResult<CreateHoneyTipResponse>
 }
