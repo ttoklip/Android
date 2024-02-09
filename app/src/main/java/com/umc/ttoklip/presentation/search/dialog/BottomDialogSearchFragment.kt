@@ -120,8 +120,8 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
             category1.text = "집안일"
             category2.text = "요리"
             category3.text = "안전한 생활"
-            category4.text = "사기"
-            category5.text = "복지·정책"
+            category4.text = "복지·정책"
+            category5.text = "사기"
             category5.isVisible = true
         }
     }

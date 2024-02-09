@@ -53,6 +53,8 @@ class SearchViewModelImpl @Inject constructor(
                 searchRepository.getNewsSearch(title = searchText.value).onSuccess {
                     _searchList.emit(it)
                     fSearchList.emit(it.toMutableList())
+                    searchTip()
+                    searchTown()
                 }.onFail {
 
                 }.onException {
@@ -94,16 +96,34 @@ class SearchViewModelImpl @Inject constructor(
             _filterSort.value = sort
             _filterBoard.value = board
             _filterCategory.value = category
-            filterSort(filterSort.value)
-            filterCategory(filterBoard.value, filterCategory.value)
+            filterCategory(filterSort.value,filterBoard.value, filterCategory.value)
         }
     }
 
-    fun searchNews() {
+    private fun searchTip() {
         viewModelScope.launch {
             try {
-                searchRepository.getNewsSearch(title = searchText.value).onSuccess {
-                    _searchList.emit(it)
+                searchRepository.getTipSearch(title = searchText.value).onSuccess {
+                    _searchList.emit(searchList.value + it)
+                    fSearchList.emit((fSearchList.value + it.toMutableList()) as MutableList<SearchModel>)
+                }.onFail {
+
+                }.onException {
+                    throw it
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.d("예외", "$e")
+            }
+        }
+    }
+
+    private fun searchTown() {
+        viewModelScope.launch {
+            try {
+                searchRepository.getTownSearch(title = searchText.value).onSuccess {
+                    _searchList.emit(searchList.value + it)
+                    fSearchList.emit((fSearchList.value + it.toMutableList()) as MutableList<SearchModel>)
                 }.onFail {
 
                 }.onException {
@@ -132,58 +152,167 @@ class SearchViewModelImpl @Inject constructor(
         }
     }
 
-    private suspend fun filterCategory(board: Int, category: Int) {
+    private suspend fun filterCategory(sort: Int, board: Int, category: Int) {
         val copy: MutableList<SearchModel> = mutableListOf()
         copy.addAll(fSearchList.value)
-        when (board) {
-            1 -> {
-                when (category) {
+        when(sort){
+            1 ->{
+                when (board) {
                     1 -> {
-                        copy.removeIf { it.bigCategory != 1 || it.category != "HOUSEWORK" }
-                        _searchList.emit(copy)
+                        when (category) {
+                            1 -> {
+                                copy.removeIf { it.bigCategory != 1 || it.category != "HOUSEWORK" }
+                                _searchList.emit(copy)
+                            }
+
+                            2 -> {
+                                copy.removeIf { it.bigCategory != 1 || it.category != "RECIPE" }
+                                _searchList.emit(copy)
+                            }
+
+                            3 -> {
+                                copy.removeIf { it.bigCategory != 1 || it.category != "SAFE_LIVING" }
+                                _searchList.emit(copy)
+                            }
+
+                            4 -> {
+                                copy.removeIf { it.bigCategory != 1 || it.category != "WELFARE_POLICY" }
+                                _searchList.emit(copy)
+                            }
+
+                            else -> {
+                                copy.removeIf { it.bigCategory != 1 }
+                                _searchList.emit(copy)
+                            }
+                        }
                     }
 
                     2 -> {
-                        copy.removeIf { it.bigCategory != 1 || it.category != "RECIPE" }
-                        _searchList.emit(copy)
+                        _searchList.emit(listOf())
                     }
 
                     3 -> {
-                        copy.removeIf { it.bigCategory != 1 || it.category != "SAFE_LIVING" }
-                        _searchList.emit(copy)
+                        when (category) {
+                            1 -> {
+                                copy.removeIf { it.bigCategory != 3 || it.category != "HOUSEWORK" }
+                                _searchList.emit(copy)
+                            }
+
+                            2 -> {
+                                copy.removeIf { it.bigCategory != 3 || it.category != "RECIPE" }
+                                _searchList.emit(copy)
+                            }
+
+                            3 -> {
+                                copy.removeIf { it.bigCategory != 3 || it.category != "SAFE_LIVING" }
+                                _searchList.emit(copy)
+                            }
+
+                            4 -> {
+                                copy.removeIf { it.bigCategory != 3 || it.category != "WELFARE_POLICY" }
+                                _searchList.emit(copy)
+                            }
+
+                            else -> {
+                                copy.removeIf { it.bigCategory != 3 }
+                                _searchList.emit(copy)
+                            }
+                        }
                     }
 
                     4 -> {
-                        copy.removeIf { it.bigCategory != 1 || it.category != "WELFARE_POLICY" }
+                        _searchList.emit(listOf())
+                    }
+
+                    5 -> {
+                        copy.removeIf { it.bigCategory != 5 }
                         _searchList.emit(copy)
                     }
 
                     else -> {
-                        copy.removeIf { it.bigCategory != 1 }
                         _searchList.emit(copy)
                     }
                 }
-
             }
+            else ->{
 
-            2 -> {
+                when (board) {
+                    1 -> {
+                        when (category) {
+                            1 -> {
+                                copy.removeIf { it.bigCategory != 1 || it.category != "HOUSEWORK" }
+                                _searchList.emit(copy.sortedBy { it.commentCount }.reversed())
+                            }
 
-            }
+                            2 -> {
+                                copy.removeIf { it.bigCategory != 1 || it.category != "RECIPE" }
+                                _searchList.emit(copy.sortedBy { it.commentCount }.reversed())
+                            }
 
-            3 -> {
+                            3 -> {
+                                copy.removeIf { it.bigCategory != 1 || it.category != "SAFE_LIVING" }
+                                _searchList.emit(copy.sortedBy { it.commentCount }.reversed())
+                            }
 
-            }
+                            4 -> {
+                                copy.removeIf { it.bigCategory != 1 || it.category != "WELFARE_POLICY" }
+                                _searchList.emit(copy.sortedBy { it.commentCount }.reversed())
+                            }
 
-            4 -> {
+                            else -> {
+                                copy.removeIf { it.bigCategory != 1 }
+                                _searchList.emit(copy.sortedBy { it.commentCount }.reversed())
+                            }
+                        }
 
-            }
+                    }
 
-            5 -> {
+                    2 -> {
+                        _searchList.emit(listOf())
+                    }
 
-            }
+                    3 -> {
+                        when (category) {
+                            1 -> {
+                                copy.removeIf { it.bigCategory != 3 || it.category != "HOUSEWORK" }
+                                _searchList.emit(copy)
+                            }
 
-            else -> {
-                _searchList.emit(copy)
+                            2 -> {
+                                copy.removeIf { it.bigCategory != 3 || it.category != "RECIPE" }
+                                _searchList.emit(copy)
+                            }
+
+                            3 -> {
+                                copy.removeIf { it.bigCategory != 3 || it.category != "SAFE_LIVING" }
+                                _searchList.emit(copy)
+                            }
+
+                            4 -> {
+                                copy.removeIf { it.bigCategory != 3 || it.category != "WELFARE_POLICY" }
+                                _searchList.emit(copy)
+                            }
+
+                            else -> {
+                                copy.removeIf { it.bigCategory != 3 }
+                                _searchList.emit(copy)
+                            }
+                        }
+                    }
+
+                    4 -> {
+                        _searchList.emit(listOf())
+                    }
+
+                    5 -> {
+                        copy.removeIf { it.bigCategory != 5 }
+                        _searchList.emit(copy)
+                    }
+
+                    else -> {
+                        _searchList.emit(copy.sortedBy { it.commentCount }.reversed())
+                    }
+                }
             }
         }
     }

@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.data.model.search.SearchModel
 import com.umc.ttoklip.databinding.ItemSearchBinding
 
-class SearchRVA(val onClick: () -> Unit) : ListAdapter<SearchModel, SearchRVA.ItemViewHolder>(differ) {
+class SearchRVA(val onClick: () -> Unit) :
+    ListAdapter<SearchModel, SearchRVA.ItemViewHolder>(differ) {
 
     inner class ItemViewHolder(
         private val binding: ItemSearchBinding
@@ -17,6 +18,14 @@ class SearchRVA(val onClick: () -> Unit) : ListAdapter<SearchModel, SearchRVA.It
         fun bind(data: SearchModel) {
             binding.item = data
             binding.commentCountTv.text = data.commentCount.toString()
+            binding.boardT.text = when (data.bigCategory) {
+                1 -> "뉴스레터"
+                2 -> "질문해요"
+                3 -> "꿀팁 공유해요"
+                4 -> "함께해요"
+                5 -> "소통해요"
+                else -> ""
+            }
         }
     }
 
