@@ -18,6 +18,7 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivitySearchBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.news.adapter.Dummy
+import com.umc.ttoklip.presentation.news.detail.ArticleActivity
 import com.umc.ttoklip.presentation.search.adapter.HistoryModel
 import com.umc.ttoklip.presentation.search.adapter.HistoryRVA
 import com.umc.ttoklip.presentation.search.adapter.SearchRVA
@@ -35,7 +36,18 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
     }
 
     private val searchRVA by lazy {
-        SearchRVA({})
+        SearchRVA { category, id ->
+            when (category) {
+                1 -> {
+                    startActivity(ArticleActivity.newIntent(this, id))
+                }
+                2 -> {}
+                3 -> {}
+                4 -> {}
+                5 -> {}
+                else -> {}
+            }
+        }
     }
 
     override fun initView() {

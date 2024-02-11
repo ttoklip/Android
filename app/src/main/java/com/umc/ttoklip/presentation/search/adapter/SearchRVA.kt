@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.data.model.search.SearchModel
 import com.umc.ttoklip.databinding.ItemSearchBinding
 
-class SearchRVA(val onClick: () -> Unit) :
+class SearchRVA(val onClick: (Int,Int) -> Unit) :
     ListAdapter<SearchModel, SearchRVA.ItemViewHolder>(differ) {
 
     inner class ItemViewHolder(
@@ -25,6 +25,9 @@ class SearchRVA(val onClick: () -> Unit) :
                 4 -> "함께해요"
                 5 -> "소통해요"
                 else -> ""
+            }
+            binding.root.setOnClickListener {
+                onClick(data.bigCategory, data.id)
             }
         }
     }
