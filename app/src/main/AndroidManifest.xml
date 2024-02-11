@@ -178,6 +178,9 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity android:name="com.umc.ttoklip.presentation.honeytip.ImageViewActivity" />
+        <activity android:name=".presentation.news.detail.PostImageActivity"
+            android:screenOrientation="portrait"
+            android:exported="false"/>
     </application>
 
 </manifest>

@@ -2,14 +2,20 @@ package com.umc.ttoklip.presentation.news.detail
 
 import android.content.Context
 import android.content.Intent
+import android.opengl.Visibility
+import android.view.View
 import androidx.activity.viewModels
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityArticleBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
+import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
+import com.umc.ttoklip.presentation.news.adapter.PostImageRVA
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -23,20 +29,39 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>(R.layout.activity_a
             viewModel.replyCommentParentId.value = id
         }
     }
+
+    private val imageRVA by lazy {
+        PostImageRVA{ imageUrl ->
+            val intent = Intent(this, PostImageActivity::class.java)
+            intent.putExtra("images", imageUrl.map { it.imageUrl }.toTypedArray())
+            startActivity(intent)
+        }
+    }
+
+    private var isMenuOpen = false
     override fun initObserver() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.comments.collect{
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.comments.collect {
                     commentRVA.submitList(it)
                 }
             }
         }
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.replyCommentParentId.collect{ id ->
-                    if (id == 0){
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.imageUrls.collect {
+                    viewModel.imageUrls.collect {
+                        imageRVA.submitList(it)
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.replyCommentParentId.collect { id ->
+                    if (id == 0) {
                         binding.replyT.text = ""
-                    }else {
+                    } else {
                         binding.replyT.text = "@${id}"
                     }
                 }
@@ -53,19 +78,34 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>(R.layout.activity_a
             finish()
         }
         binding.commentRV.adapter = commentRVA
-        viewModel.getDetail(intent.getIntExtra(ARTICLE,0))
+        viewModel.getDetail(intent.getIntExtra(ARTICLE, 0))
         binding.SendCardView.setOnClickListener {
-            viewModel.postComment(intent.getIntExtra(ARTICLE,0))
+            viewModel.postComment(intent.getIntExtra(ARTICLE, 0))
             binding.commentEt.setText("")
             viewModel.replyCommentParentId.value = 0
+        }
+        binding.ImgRV.adapter = imageRVA
+        binding.dotBtn.setOnClickListener {
+            binding.menu.apply {
+                if (!isMenuOpen){
+                    visibility = View.VISIBLE
+                    isMenuOpen = true
+                }else{
+                    visibility = View.GONE
+                    isMenuOpen = false
+                }
+            }
+        }
+        binding.menu.setOnClickListener{
+
         }
     }
 
     companion object {
         const val ARTICLE = "article"
-        fun newIntent(context: Context, id : Int) =
+        fun newIntent(context: Context, id: Int) =
             Intent(context, ArticleActivity::class.java).apply {
-                putExtra(ARTICLE , id)
+                putExtra(ARTICLE, id)
             }
     }
 }

@@ -200,14 +200,6 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
                             }
                         }
 
-                        5 -> {
-                            if (viewModel.filterBoard.value == 1) {
-                                binding.categoryFilterT.text = "복지•정책"
-                            } else {
-                                binding.categoryFilterT.text = "사기"
-                            }
-                        }
-
                         else -> {}
                     }
                 }

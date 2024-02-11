@@ -1,26 +1,14 @@
 package com.umc.ttoklip.presentation.honeytip.read
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
-import androidx.core.view.isVisible
-import androidx.databinding.DataBindingUtil.setContentView
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityReadBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.BOARD
-import com.umc.ttoklip.presentation.honeytip.DetailHoneyTipFragment
 import com.umc.ttoklip.presentation.honeytip.HONEY_TIP
-import com.umc.ttoklip.presentation.honeytip.HoneyTipViewModel
 import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
-import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
 import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
-import com.umc.ttoklip.presentation.news.adapter.Comment
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 
 class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read) {

@@ -84,7 +84,6 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
                 R.id.category2 -> {}
                 R.id.category3 -> {}
                 R.id.category4 -> {}
-                R.id.category5 -> {}
                 else -> {}
             }
         }
@@ -109,7 +108,6 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
             category2.text = "레시피"
             category3.text = "안전한 생활"
             category4.text = "복지·정책"
-            category5.isGone = true
         }
     }
 
@@ -121,8 +119,6 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
             category2.text = "요리"
             category3.text = "안전한 생활"
             category4.text = "복지·정책"
-            category5.text = "사기"
-            category5.isVisible = true
         }
     }
     //1:최신 2:인기 3:댓많
@@ -151,7 +147,6 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
                 R.id.category2 -> 2
                 R.id.category3 -> 3
                 R.id.category4 -> 4
-                R.id.category5 -> 5
                 else -> {0}
             }
 
