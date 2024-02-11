@@ -1,5 +1,6 @@
 package com.umc.ttoklip.presentation.home
 
+import android.content.Intent
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -10,6 +11,8 @@ import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.home.adapter.HomeTipRVA
+import com.umc.ttoklip.presentation.hometown.CommunicationActivity
+import com.umc.ttoklip.presentation.hometown.TogetherActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTips
 import com.umc.ttoklip.presentation.mypage.adapter.Transaction
 import com.umc.ttoklip.presentation.mypage.adapter.TransactionAdapter
@@ -98,6 +101,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 )
             )
         )
+        binding.chatImg.setOnClickListener {
+            val intent = Intent(requireContext(), CommunicationActivity::class.java)
+            startActivity(intent)
+        }
+        binding.groupButImg.setOnClickListener {
+            val intent = Intent(requireContext(), TogetherActivity::class.java)
+            startActivity(intent)
+        }
         binding.newsRV.adapter = newsRVA
         binding.groupBuyRV.adapter = townRVA
         townRVA.submitList(
