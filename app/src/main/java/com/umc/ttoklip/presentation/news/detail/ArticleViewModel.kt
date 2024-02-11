@@ -17,4 +17,6 @@ interface ArticleViewModel {
 
     fun getDetail(id: Int)
     fun postComment(id: Int)
+    fun postReportNews(id : Int, content : String)
+    fun postReportComment(id : Int)
 }

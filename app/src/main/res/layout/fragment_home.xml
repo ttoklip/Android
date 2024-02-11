@@ -190,6 +190,7 @@
                         android:layout_height="40dp"
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="24dp"
+                        android:onClick="@{()-> vm.clickMoreTip()}"
                         android:src="@drawable/idea_img"
                         app:layout_constraintEnd_toStartOf="@id/chatImg"
                         app:layout_constraintStart_toStartOf="parent"
@@ -220,6 +221,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:src="@drawable/help_img"
+                        android:onClick="@{()-> vm.clickMoreTip()}"
                         app:layout_constraintEnd_toStartOf="@id/groupButImg"
                         app:layout_constraintStart_toEndOf="@id/newsImg"
                         app:layout_constraintTop_toTopOf="@+id/tipImg" />

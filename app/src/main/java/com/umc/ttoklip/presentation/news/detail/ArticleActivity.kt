@@ -14,6 +14,7 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityArticleBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
+import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import com.umc.ttoklip.presentation.news.adapter.PostImageRVA
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,9 +26,21 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>(R.layout.activity_a
     private val viewModel: ArticleViewModel by viewModels<ArticleViewModelImpl>()
 
     private val commentRVA by lazy {
-        CommentRVA { id ->
+        CommentRVA( { id ->
             viewModel.replyCommentParentId.value = id
-        }
+        },{ id ,myComment ->
+            if (myComment){
+                //댓글 삭제 예정
+            }else{
+                val reportDialog = ReportDialogFragment()
+                reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
+                    override fun onClick() {
+                        viewModel.postReportComment(intent.getIntExtra(ARTICLE,1))
+                    }
+                })
+                reportDialog.show(supportFragmentManager, reportDialog.tag)
+            }
+        })
     }
 
     private val imageRVA by lazy {
@@ -96,8 +109,14 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>(R.layout.activity_a
                 }
             }
         }
-        binding.menu.setOnClickListener{
-
+        binding.menu.setOnClickListener {
+            val reportDialog = ReportDialogFragment()
+            reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
+                override fun onClick() {
+                    viewModel.postReportNews(intent.getIntExtra(ARTICLE,1),"게시글 신고")
+                }
+            })
+            reportDialog.show(supportFragmentManager, reportDialog.tag)
         }
     }
 

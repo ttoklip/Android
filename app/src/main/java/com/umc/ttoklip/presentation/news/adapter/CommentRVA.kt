@@ -10,7 +10,7 @@ import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
 import com.umc.ttoklip.databinding.ItemCommentBinding
 import com.umc.ttoklip.databinding.ItemReplyBinding
 
-class CommentRVA(val replyComment: (Int)->Unit) : ListAdapter<NewsCommentResponse, RecyclerView.ViewHolder>(differ) {
+class CommentRVA(val replyComment: (Int)->Unit, val ReportOrDelete: (Int, Boolean)->Unit) : ListAdapter<NewsCommentResponse, RecyclerView.ViewHolder>(differ) {
 
     inner class ItemViewHolder(
         private val binding: ItemCommentBinding
@@ -21,6 +21,9 @@ class CommentRVA(val replyComment: (Int)->Unit) : ListAdapter<NewsCommentRespons
             binding.replyBtn.setOnClickListener {
                 replyComment(data.commentId)
             }
+            binding.deleteBtn.setOnClickListener {
+                ReportOrDelete(data.commentId, false)
+            }
         }
     }
 
@@ -30,6 +33,9 @@ class CommentRVA(val replyComment: (Int)->Unit) : ListAdapter<NewsCommentRespons
 
         fun bind(data: NewsCommentResponse) {
             binding.item = data
+            binding.deleteBtn.setOnClickListener {
+                ReportOrDelete(data.commentId, false)
+            }
         }
     }
 

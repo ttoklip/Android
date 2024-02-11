@@ -3,6 +3,7 @@ package com.umc.ttoklip.presentation.news.detail
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.ttoklip.data.model.news.ReportRequest
 import com.umc.ttoklip.data.model.news.comment.NewsCommentRequest
 import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
 import com.umc.ttoklip.data.model.news.detail.ImageUrl
@@ -66,6 +67,46 @@ class ArticleViewModelImpl @Inject constructor(
                 newsRepository.postCommentNews(
                     id,
                     NewsCommentRequest(commentContent.value, replyCommentParentId.value)
+                ).onSuccess {
+                    getDetail(id)
+                }.onFail {
+
+                }.onException {
+                    throw it
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.d("예외", "$e")
+            }
+        }
+    }
+
+    override fun postReportNews(id: Int, content: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                newsRepository.postReportNews(
+                    id,
+                    ReportRequest(content, reportType = "INAPPROPRIATE_CONTENT")
+                ).onSuccess {
+                    getDetail(id)
+                }.onFail {
+
+                }.onException {
+                    throw it
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.d("예외", "$e")
+            }
+        }
+    }
+
+    override fun postReportComment(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                newsRepository.postReportCommentNews(
+                    id,
+                    ReportRequest("부적절한 댓글", reportType = "INAPPROPRIATE_CONTENT")
                 ).onSuccess {
                     getDetail(id)
                 }.onFail {

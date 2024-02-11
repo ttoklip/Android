@@ -13,7 +13,7 @@ import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 
 class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read) {
     private val commentRVA by lazy {
-        CommentRVA({})
+        CommentRVA({},{id,delete ->})
     }
     override fun initView() {
         binding.view = this
