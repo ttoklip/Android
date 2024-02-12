@@ -348,7 +348,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/link_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -367,26 +367,30 @@
                         android:layout_marginStart="6dp"
                         android:src="@drawable/ic_link_24"
                         android:tint="@color/blue"
-                        app:layout_constraintStart_toStartOf="@id/image_rv"
-                        app:layout_constraintTop_toBottomOf="@id/image_rv" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/linkT"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:autoLink="web"
+                        android:linksClickable="true"
                         android:ellipsize="end"
                         android:lines="1"
+                        android:textColorLink="@color/blue"
                         android:text="https://www.bing.com/?FORM=Z9FD1"
                         android:textAppearance="@style/TextAppearance.App.18sp_700"
                         android:textColor="@color/blue"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@id/linkImg"
                         app:layout_constraintStart_toEndOf="@id/linkImg"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/linkImg" />
 
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/image_rv"

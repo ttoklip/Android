@@ -1,9 +1,10 @@
 package com.umc.ttoklip.presentation.honeytip
 
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
+import android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
 import android.util.Log
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
@@ -13,6 +14,7 @@ import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipListRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTips
 import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
 import com.umc.ttoklip.presentation.honeytip.read.ReadActivity
+
 
 class HoneyTipListFragment :
     BaseFragment<FragmentHoneyTipListBinding>(R.layout.fragment_honey_tip_list),

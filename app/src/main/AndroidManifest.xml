@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-
     <application
         android:name=".TtoklipApplication"
         android:allowBackup="true"
@@ -34,6 +33,7 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
+            
             android:name=".presentation.honeytip.write.WriteHoneyTipActivity"
             android:screenOrientation="portrait"
             android:exported="false"
@@ -177,6 +177,7 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity android:name="com.umc.ttoklip.presentation.honeytip.ImageViewActivity" />
+
     </application>
 
 </manifest>

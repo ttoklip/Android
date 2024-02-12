@@ -12,6 +12,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
@@ -25,23 +27,15 @@ import com.umc.ttoklip.presentation.search.SearchActivity
 
 
 class HoneyTipFragment: BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment_honey_tip) {
-    private var board = "꿀팁 공유"
+    private var board = HONEY_TIP
     private val viewModel: HoneyTipViewModel by activityViewModels()
-
     override fun initObserver() {
 
     }
 
     override fun initView() {
         initTabLayout()
-        binding.writeFab.setOnClickListener {
-            val intent = Intent(activity, WriteHoneyTipActivity::class.java)
-            board = viewModel.boardLiveData.value ?: ""
-            intent.putExtra(BOARD, board)
-            Log.d("GoWriteHoneyTip", board)
-            startActivity(intent)
-        }
-
+        goWriteActivity()
         binding.searchBtn.setOnClickListener {
             startActivity(SearchActivity.newIntent(requireContext()))
         }
@@ -51,8 +45,18 @@ class HoneyTipFragment: BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment_
         }
     }
 
+    private fun goWriteActivity(){
+        binding.writeFab.setOnClickListener {
+            val intent = Intent(activity, WriteHoneyTipActivity::class.java)
+            board = viewModel.boardLiveData.value ?: ""
+            intent.putExtra(BOARD, board)
+            Log.d("GoWriteHoneyTip", board)
+            startActivity(intent)
+        }
+    }
+
     private fun initTabLayout(){
-        val tabTitles = listOf("꿀팁 공유", "질문해요")
+        val tabTitles = listOf(HONEY_TIP, ASK)
         binding.boardVp.adapter = HoneyTipAndQuestionVPA(this)
         binding.boardVp.isUserInputEnabled = false
         Log.d("position", binding.boardTablayout.selectedTabPosition.toString())
@@ -62,21 +66,20 @@ class HoneyTipFragment: BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment_
                 tab.text = tabTitles[position]
             }
         }.attach()
+        setBoard()
+    }
+
+    private fun setBoard(){
         binding.boardTablayout.addOnTabSelectedListener(object : OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 board = tab?.text.toString()
                 viewModel.setBoardLiveData(board)
                 Log.d("HoneyTipFragment", board)
             }
-
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-
             }
-
             override fun onTabReselected(tab: TabLayout.Tab?) {
-
             }
-
         })
     }
 }

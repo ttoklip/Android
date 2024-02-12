@@ -5,12 +5,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.umc.ttoklip.data.model.CreateHoneyTipRequest
 import com.umc.ttoklip.data.repository.honeytip.HoneyTipRepositoryImpl
 import com.umc.ttoklip.module.onSuccess
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTips
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
@@ -41,6 +44,11 @@ class HoneyTipViewModel @Inject constructor(
     val createHoneyTipMessage: LiveData<String> by lazy { _createHoneyTipMessage }
     private val _createHoneyTipMessage by lazy { MutableLiveData<String>() }
 
+    private val _writeDoneEvent = MutableSharedFlow<String>()
+    val writeDoneEvent = _writeDoneEvent.asSharedFlow()
+
+    private val _changeBoardEvent = MutableStateFlow<String>("꿀팁 공유")
+    val changeBoardEvent = _changeBoardEvent.asStateFlow()
     fun setHoneyTip(honeyTip: HoneyTips){
         _honeyTipLiveData.value?.title = honeyTip.title
         _honeyTipLiveData.value?.writer = "test"
@@ -56,12 +64,23 @@ class HoneyTipViewModel @Inject constructor(
         _isBodyNull.value = boolean
     }
 
-    fun createHoneyTip(title: RequestBody, content: RequestBody, category: RequestBody, uri: Array<MultipartBody.Part>){
+    fun createHoneyTip(title: RequestBody, content: RequestBody, category: RequestBody, images: Array<MultipartBody.Part>, uri: RequestBody){
         viewModelScope.launch(Dispatchers.IO) {
-            repository.createHoneyTip(title, content, category, uri).onSuccess {
+            repository.createHoneyTip(title, content, category, images, uri).onSuccess {
                 withContext(Dispatchers.Main) {
+                    _writeDoneEvent.emit("true")
                     _createHoneyTipMessage.value = it.message
                     Log.d("honey tip api test", it.message)
+                }
+            }
+        }
+    }
+
+    fun createQuestion(title: RequestBody, content: RequestBody, category: RequestBody, images: Array<MultipartBody.Part>){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.createQuestion(title, content, category, images).onSuccess {
+                withContext(Dispatchers.Main){
+                    Log.d("question", it.message)
                 }
             }
         }

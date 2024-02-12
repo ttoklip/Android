@@ -14,6 +14,7 @@ class ImageViewActivity: BaseActivity<ActivityImageViewBinding>(R.layout.activit
     override fun initView() {
         val images = (intent.getStringArrayExtra("images") ?: emptyArray()).map{ uriString ->
             Image(Uri.parse(uriString)) }
+        val index = intent.getIntExtra("position", 0)
         val adapter = ImageVPA()
         binding.vp.adapter = adapter
         adapter.submitList(images)
@@ -21,7 +22,8 @@ class ImageViewActivity: BaseActivity<ActivityImageViewBinding>(R.layout.activit
         binding.closeBtn.setOnClickListener {
             finish()
         }
-
+        binding.vp.currentItem = index
+        binding.currentTv.text = "${index+1}/"
         binding.vp.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
                 binding.currentTv.text = "${position+1}/"

@@ -1,5 +1,6 @@
-package com.umc.ttoklip.data.model
+package com.umc.ttoklip.data.model.honeytip.request
 
+import android.net.Uri
 import com.google.gson.annotations.SerializedName
 
 data class CreateHoneyTipRequest(
@@ -9,6 +10,7 @@ data class CreateHoneyTipRequest(
     val content: String,
     @SerializedName("category")
     val category: String,
-    //@SerializedName("url")
-    //val url: List<String>
+    val images: List<Uri>,
+    @SerializedName("url")
+    val url: List<String>
 )
