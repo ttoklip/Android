@@ -177,7 +177,7 @@ class WriteHoneyTipFragment() : BaseFragment<FragmentWriteHoneyTipBinding>(R.lay
             val category = category.toString().toRequestBody("text/plain".toMediaTypeOrNull())
             val uri = binding.inputUrlEt.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
             val intentImages = imageAdapter.currentList.filterIsInstance<Image>().map{it.uri.toString()}.toTypedArray()
-            honeyTip = HoneyTip(binding.titleEt.text.toString(), binding.bodyEt.text.toString(), intentImages, binding.inputUrlEt.text.toString())
+            //honeyTip = HoneyTip(binding.titleEt.text.toString(), binding.bodyEt.text.toString(), intentImages, binding.inputUrlEt.text.toString())
             //viewModel.createHoneyTip(title, content, category, imageParts.toTypedArray(), uri)
             //viewModel.createQuestion(title, content, category, imageParts?.toTypedArray()!!)
             //finish()

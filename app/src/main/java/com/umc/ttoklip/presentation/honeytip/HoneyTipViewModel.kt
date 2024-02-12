@@ -16,18 +16,20 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
 @HiltViewModel
 class HoneyTipViewModel @Inject constructor(
     private val repository: HoneyTipRepositoryImpl
-): ViewModel() {
+) : ViewModel() {
     val boardLiveData: LiveData<String> by lazy { _boardLiveData }
     private val _boardLiveData by lazy { MutableLiveData<String>("꿀팁 공유") }
 
-    fun setBoardLiveData(board: String){
+    fun setBoardLiveData(board: String) {
         _boardLiveData.value = board
         Log.d("viewModel", board)
     }
@@ -49,24 +51,35 @@ class HoneyTipViewModel @Inject constructor(
 
     private val _changeBoardEvent = MutableStateFlow<String>("꿀팁 공유")
     val changeBoardEvent = _changeBoardEvent.asStateFlow()
-    fun setHoneyTip(honeyTip: HoneyTips){
-        _honeyTipLiveData.value?.title = honeyTip.title
-        _honeyTipLiveData.value?.writer = "test"
-        _honeyTipLiveData.value?.body = honeyTip.title
-        _honeyTipLiveData.value?.date = "2일전"
-        _honeyTipLiveData.value?.chatCnt = 2
-    }
-    fun setTitle(boolean: Boolean){
+
+    //private val _houseWorkHoneyTip = MutableSharedFlow<>
+
+    fun setTitle(boolean: Boolean) {
         _isTitleNull.value = boolean
     }
 
-    fun setBody(boolean: Boolean){
+    fun setBody(boolean: Boolean) {
         _isBodyNull.value = boolean
     }
 
-    fun createHoneyTip(title: RequestBody, content: RequestBody, category: RequestBody, images: Array<MultipartBody.Part>, uri: RequestBody){
+    private fun convertStringToTextPlain(string: String): RequestBody {
+        return string.toRequestBody("text/plain".toMediaTypeOrNull())
+    }
+
+    fun createHoneyTip(title: String,
+        content: String,
+        category: String,
+        images: Array<MultipartBody.Part>,
+        uri: String
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.createHoneyTip(title, content, category, images, uri).onSuccess {
+            repository.createHoneyTip(
+                convertStringToTextPlain(title),
+                convertStringToTextPlain(content),
+                convertStringToTextPlain(category),
+                images,
+                convertStringToTextPlain(uri)
+            ).onSuccess {
                 withContext(Dispatchers.Main) {
                     _writeDoneEvent.emit("true")
                     _createHoneyTipMessage.value = it.message
@@ -76,11 +89,31 @@ class HoneyTipViewModel @Inject constructor(
         }
     }
 
-    fun createQuestion(title: RequestBody, content: RequestBody, category: RequestBody, images: Array<MultipartBody.Part>){
-        viewModelScope.launch(Dispatchers.IO){
-            repository.createQuestion(title, content, category, images).onSuccess {
-                withContext(Dispatchers.Main){
+    fun createQuestion(
+        title: String,
+        content: String,
+        category: String,
+        images: Array<MultipartBody.Part>
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.createQuestion(
+                convertStringToTextPlain(title),
+                convertStringToTextPlain(content),
+                convertStringToTextPlain(category),
+                images
+            ).onSuccess {
+                withContext(Dispatchers.Main) {
                     Log.d("question", it.message)
+                }
+            }
+        }
+    }
+
+    fun getHoneyTipMain(){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.getHoneyTipMain().onSuccess {
+                withContext(Dispatchers.Main){
+                    Log.d("HoneyTipMain api", it.toString())
                 }
             }
         }

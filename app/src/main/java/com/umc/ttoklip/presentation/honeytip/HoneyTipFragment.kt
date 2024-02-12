@@ -43,6 +43,7 @@ class HoneyTipFragment: BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment_
         binding.alarmBtn.setOnClickListener {
             startActivity(AlarmActivity.newIntent(requireContext()))
         }
+        viewModel.getHoneyTipMain()
     }
 
     private fun goWriteActivity(){

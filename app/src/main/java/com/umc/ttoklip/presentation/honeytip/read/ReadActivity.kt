@@ -33,54 +33,27 @@ class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read),
     private val commentRVA by lazy {
         CommentRVA()
     }
-    private lateinit var board: String
-    private lateinit var imageAdapter: ImageRVA
+    private val board: String by lazy {
+        intent.getStringExtra(BOARD)!!
+    }
+    private val imageAdapter: ImageRVA by lazy {
+        ImageRVA(this@ReadActivity)
+    }
     private var images: MutableList<Uri> = mutableListOf()
     private var honeyTip: HoneyTip? = null
     private var question: Question? = null
     private var isShowMenu = false
+    private var category = ""
     override fun initView() {
         binding.view = this
         binding.backBtn.setOnClickListener {
             finish()
         }
 
-        //separateBoard()
         initImageRVA()
         checkHoneyTipOrQuestion()
         showMenu()
         showDeleteDialog()
-        // 수정하기
-        /*binding.editBtn.setOnClickListener {
-            val intent = Intent(this, WriteHoneyTipActivity::class.java)
-            val intentImages = imageAdapter.currentList.filterIsInstance<Image>()?.map { it.uri.toString() }
-                ?.toTypedArray()
-            val title = binding.titleTv.text.toString()
-            val content = binding.contentT.text.toString()
-            val url = binding.linkT.text.toString()
-            if (board == HONEY_TIP) {
-                val honeyTip = HoneyTip(
-                    title,
-                    content,
-                    intentImages,
-                    url
-                )
-                intent.putExtra("honeyTip", honeyTip)
-            } else{
-                val question = Question(
-                    title,
-                    content,
-                    intentImages
-                )
-                intent.putExtra("question", question)
-            }
-            intent.putExtra(BOARD, board)
-            intent.putExtra("isEdit", true)
-            startActivity(intent)
-            finish()
-        }*/
-
-
 
         binding.commentRv.adapter = commentRVA
         commentRVA.submitList(
@@ -96,12 +69,11 @@ class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read),
 
     }
     private fun initImageRVA() {
-        imageAdapter = ImageRVA(this@ReadActivity)
         binding.imageRv.adapter = imageAdapter
     }
 
     private fun checkHoneyTipOrQuestion() {
-        board = intent.getStringExtra(BOARD)!!
+        //board = intent.getStringExtra(BOARD)!!
 
         if (board == HONEY_TIP) {
             binding.boardTitleTv.text = "꿀팁 공유하기"
@@ -122,6 +94,7 @@ class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read),
                 titleTv.text = honeyTip?.title
                 contentT.text = honeyTip?.content
                 linkT.text = honeyTip?.uri
+                category = honeyTip?.category!!
                 val temp = (honeyTip?.images ?: emptyArray()).map { uriString ->
                     Uri.parse(uriString)
                 }
@@ -137,6 +110,7 @@ class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read),
             with(binding) {
                 titleTv.text = question?.title
                 contentT.text = question?.content
+                category = question?.category!!
                 val temp = (question?.images ?: emptyArray()).map { uriString ->
                     Uri.parse(uriString)
                 }
@@ -168,12 +142,8 @@ class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read),
             val title = binding.titleTv.text.toString()
             val content = binding.contentT.text.toString()
             val url = binding.linkT.text.toString()
-            val honeyTip = HoneyTip(
-                title,
-                content,
-                intentImages,
-                url
-            )
+            val honeyTip = HoneyTip(title, content, intentImages, url, category)
+
             intent.putExtra("honeyTip", honeyTip)
             editDone(intent)
         }
@@ -187,11 +157,7 @@ class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read),
                     ?.toTypedArray()
             val title = binding.titleTv.text.toString()
             val content = binding.contentT.text.toString()
-            val question = Question(
-                title,
-                content,
-                intentImages
-            )
+            val question = Question(title, content, intentImages, category)
             intent.putExtra("question", question)
             editDone(intent)
         }

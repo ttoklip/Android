@@ -1,5 +1,6 @@
 package com.umc.ttoklip.data.model.honeytip
 
 data class HoneyTipMainResponse(
-    val categoryResponse: CategoryResponse
+    val questionCategory: CategoryResponse,
+    val honeyTipCategory: CategoryResponse
 )

@@ -7,5 +7,6 @@ data class HoneyTip(
     var title: String,
     var content: String,
     val images: Array<String>?,
-    val uri: String
+    val uri: String,
+    val category: String
 ): Serializable

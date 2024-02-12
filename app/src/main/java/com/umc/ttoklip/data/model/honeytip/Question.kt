@@ -6,4 +6,5 @@ data class Question(
     var title: String,
     var content: String,
     val images: Array<String>?,
+    val category: String
 ): Serializable
