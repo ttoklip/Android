@@ -4,6 +4,7 @@ import com.umc.ttoklip.data.api.HoneyTipApi
 import com.umc.ttoklip.data.model.CreateHoneyTipResponse
 import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.honeytip.HoneyTipMainResponse
+import com.umc.ttoklip.data.model.honeytip.InquireHoneyTipResponse
 import com.umc.ttoklip.module.NetworkResult
 import com.umc.ttoklip.module.handleApi
 import okhttp3.MultipartBody
@@ -34,6 +35,10 @@ class HoneyTipRepositoryImpl @Inject constructor(
 
     override suspend fun getHoneyTipMain(): NetworkResult<HoneyTipMainResponse> {
         return handleApi({api.getHoneyTipMain()}) {response: ResponseBody<HoneyTipMainResponse> -> response.result}
+    }
+
+    override suspend fun inquireHoneyTip(honeyTipId: Int): NetworkResult<InquireHoneyTipResponse> {
+        return handleApi({api.getHoneyTip(honeyTipId)}) {response: ResponseBody<InquireHoneyTipResponse> -> response.result}
     }
 
 }

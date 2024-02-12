@@ -5,16 +5,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.ttoklip.data.model.honeytip.HoneyTipCategory
+import com.umc.ttoklip.data.model.honeytip.HoneyTipMainResponse
+import com.umc.ttoklip.data.model.honeytip.InquireHoneyTipResponse
 import com.umc.ttoklip.data.repository.honeytip.HoneyTipRepositoryImpl
 import com.umc.ttoklip.module.onSuccess
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTips
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -49,10 +52,29 @@ class HoneyTipViewModel @Inject constructor(
     private val _writeDoneEvent = MutableSharedFlow<String>()
     val writeDoneEvent = _writeDoneEvent.asSharedFlow()
 
-    private val _changeBoardEvent = MutableStateFlow<String>("꿀팁 공유")
-    val changeBoardEvent = _changeBoardEvent.asStateFlow()
+    private val _honeyTip = MutableSharedFlow<InquireHoneyTipResponse>()
+    val honeyTip = _honeyTip.asSharedFlow()
 
-    //private val _houseWorkHoneyTip = MutableSharedFlow<>
+    private val _honeyTipMain = MutableSharedFlow<HoneyTipMainResponse>()
+    val honeyTipMain = _honeyTipMain.asSharedFlow()
+
+    private val _honeyTipMain2 = MutableLiveData<HoneyTipMainResponse>()
+    val honeyTipMain2 get() = _honeyTipMain2
+
+    private val _honeyTipCategory = MutableLiveData<String>("집안일")
+    val honeyTipCategory get() = _honeyTipCategory
+
+    private val _questionCategory = MutableLiveData<String>("집안일")
+    val questionCategory get() = _questionCategory
+
+    fun setHoneyTipCategory(string: String){
+        _honeyTipCategory.value = string
+    }
+
+    fun setQuestionCategory(string: String){
+        _questionCategory.value = string
+    }
+
 
     fun setTitle(boolean: Boolean) {
         _isTitleNull.value = boolean
@@ -111,9 +133,22 @@ class HoneyTipViewModel @Inject constructor(
 
     fun getHoneyTipMain(){
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getHoneyTipMain().onSuccess {
+                repository.getHoneyTipMain().onSuccess {
+                    withContext(Dispatchers.Main) {
+                        //_honeyTipMain.emit(it)
+                        _honeyTipMain2.value = it
+                        Log.d("HoneyTipMain api", it.toString())
+                    }
+            }
+        }
+    }
+
+    fun inquireHoneyTip(honeyTipId: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.inquireHoneyTip(honeyTipId).onSuccess {
                 withContext(Dispatchers.Main){
-                    Log.d("HoneyTipMain api", it.toString())
+                    Log.d("inquire HoneyTip api", it.toString())
+                    _honeyTip.emit(it)
                 }
             }
         }
