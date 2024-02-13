@@ -10,22 +10,16 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.Navigator
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.umc.ttoklip.R
@@ -40,7 +34,7 @@ import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.OnImageClickListener
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
-import com.umc.ttoklip.presentation.honeytip.read.ReadActivity
+import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -50,7 +44,6 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
-import java.util.Collections.addAll
 
 
 class WriteHoneyTipFragment() : BaseFragment<FragmentWriteHoneyTipBinding>(R.layout.fragment_write_honey_tip),
@@ -95,7 +88,7 @@ class WriteHoneyTipFragment() : BaseFragment<FragmentWriteHoneyTipBinding>(R.lay
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.writeDoneEvent.collect{
-                    val intent = Intent(requireContext(), ReadActivity::class.java)
+                    val intent = Intent(requireContext(), ReadHoneyTipActivity::class.java)
                     intent.putExtra("honeyTip", honeyTip)
                     intent.putExtra(BOARD, HONEY_TIP)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

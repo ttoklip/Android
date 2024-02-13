@@ -1,6 +1,5 @@
 package com.umc.ttoklip.presentation.mypage
 
-import android.content.Intent
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
@@ -8,9 +7,7 @@ import com.umc.ttoklip.data.model.honeytip.HoneyTipResponse
 import com.umc.ttoklip.databinding.ActivityMyHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipListRVA
-import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTips
 import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
-import com.umc.ttoklip.presentation.honeytip.read.ReadActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

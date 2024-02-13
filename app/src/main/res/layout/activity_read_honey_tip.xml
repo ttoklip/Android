@@ -7,7 +7,7 @@
 
         <variable
             name="view"
-            type="com.umc.ttoklip.presentation.honeytip.read.ReadActivity" />
+            type="com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

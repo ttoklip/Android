@@ -17,7 +17,7 @@ import com.umc.ttoklip.presentation.honeytip.HONEY_TIP
 import com.umc.ttoklip.presentation.honeytip.HoneyTipViewModel
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipListRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
-import com.umc.ttoklip.presentation.honeytip.read.ReadActivity
+import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -40,7 +40,7 @@ class RecipeHoneyTipListFragment: BaseFragment<FragmentHoneyTipListBinding>(R.la
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.honeyTip.collect {
-                    val intent = Intent(activity, ReadActivity::class.java)
+                    val intent = Intent(activity, ReadHoneyTipActivity::class.java)
                     intent.putExtra(BOARD, board)
                     intent.putExtra("honeyTip", it)
                     Log.d("HoneyTipListFragment", board)
@@ -76,7 +76,7 @@ class RecipeHoneyTipListFragment: BaseFragment<FragmentHoneyTipListBinding>(R.la
     }
 
     override fun onClick(honeyTipResponse: HoneyTipResponse) {
-        val intent = Intent(activity, ReadActivity::class.java)
+        val intent = Intent(activity, ReadHoneyTipActivity::class.java)
         intent.putExtra(BOARD, board)
         intent.putExtra("honeyTipId", honeyTipResponse.honeyTipId)
         startActivity(intent)

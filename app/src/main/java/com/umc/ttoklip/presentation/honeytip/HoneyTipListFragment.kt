@@ -2,7 +2,6 @@ package com.umc.ttoklip.presentation.honeytip
 
 import android.content.Intent
 import android.util.Log
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -10,13 +9,12 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
-import com.umc.ttoklip.data.model.honeytip.HoneyTipMainResponse
 import com.umc.ttoklip.data.model.honeytip.HoneyTipResponse
 import com.umc.ttoklip.databinding.FragmentHoneyTipListBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipListRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
-import com.umc.ttoklip.presentation.honeytip.read.ReadActivity
+import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -36,7 +34,7 @@ class HoneyTipListFragment() :
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.honeyTip.collect {
-                    val intent = Intent(activity, ReadActivity::class.java)
+                    val intent = Intent(activity, ReadHoneyTipActivity::class.java)
                     intent.putExtra(BOARD, board)
                     intent.putExtra("honeyTip", it)
                     Log.d("HoneyTipListFragment", board)

@@ -30,7 +30,7 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".presentation.honeytip.read.ReadActivity"
+            android:name=".presentation.honeytip.read.ReadHoneyTipActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity

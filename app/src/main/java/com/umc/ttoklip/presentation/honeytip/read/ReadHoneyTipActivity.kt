@@ -6,13 +6,14 @@ import android.os.Build
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.honeytip.HoneyTip
 import com.umc.ttoklip.data.model.honeytip.Question
-import com.umc.ttoklip.databinding.ActivityReadBinding
+import com.umc.ttoklip.databinding.ActivityReadHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.honeytip.ASK
 import com.umc.ttoklip.presentation.honeytip.BOARD
 import com.umc.ttoklip.presentation.honeytip.HONEY_TIP
 import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
@@ -25,12 +26,14 @@ import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.news.adapter.Comment
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.internal.cache2.Relay.Companion.edit
+import kotlinx.coroutines.launch
 import java.util.Collections.addAll
 
 @AndroidEntryPoint
-class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read),
+class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.activity_read_honey_tip),
     OnImageClickListener {
+
+
     private val commentRVA by lazy {
         CommentRVA()
     }
@@ -38,13 +41,20 @@ class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read),
         intent.getStringExtra(BOARD)!!
     }
     private val imageAdapter: ImageRVA by lazy {
-        ImageRVA(this@ReadActivity)
+        ImageRVA(this@ReadHoneyTipActivity)
     }
     private var images: MutableList<Uri> = mutableListOf()
     private var honeyTip: HoneyTip? = null
     private var question: Question? = null
     private var isShowMenu = false
     private var category = ""
+
+    override fun initObserver() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+            }
+        }
+    }
     override fun initView() {
         binding.view = this
         binding.backBtn.setOnClickListener {
@@ -64,10 +74,6 @@ class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read),
                 Comment(3, 1, "ㅎㅇ", "ㅎ")
             )
         )
-    }
-
-    override fun initObserver() {
-
     }
     private fun initImageRVA() {
         binding.imageRv.adapter = imageAdapter

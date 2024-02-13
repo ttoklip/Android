@@ -36,7 +36,7 @@ import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.OnImageClickListener
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
-import com.umc.ttoklip.presentation.honeytip.read.ReadActivity
+import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -112,7 +112,7 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
     }
 
     private fun goReadActivity() {
-        val intent = Intent(this@WriteHoneyTipActivity, ReadActivity::class.java)
+        val intent = Intent(this@WriteHoneyTipActivity, ReadHoneyTipActivity::class.java)
         if (board == HONEY_TIP) {
             intent.putExtra("honeyTip", honeyTip)
         } else {
