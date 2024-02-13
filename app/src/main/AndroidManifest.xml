@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.umc.ttoklip">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -135,6 +136,16 @@
         <activity android:name=".presentation.signup.DirectLocationActivity"
             android:screenOrientation="portrait"
             android:exported="false"/>
+        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="oauth"
+                    android:scheme="kakao${kakaoNativeKey}"/>
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".presentation.intro.SplashActivity"
@@ -149,15 +160,6 @@
             android:screenOrientation="portrait"
             android:name=".presentation.MainActivity"
             android:exported="false"/>
-<!--        <activity-->
-<!--            android:name=".presentation.MainActivity"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
 
         <service
             android:name="com.google.android.gms.metadata.ModuleDependencies"

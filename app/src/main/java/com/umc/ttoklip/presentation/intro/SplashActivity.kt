@@ -17,8 +17,10 @@ class SplashActivity:BaseActivity<ActivitySplashBinding>(R.layout.activity_splas
             val firstRun=spf.getBoolean("firstRun",true)
             if(firstRun){
                 startActivity(Intent(this, IntroActivity::class.java))
+                finish()
             }else{
                 startActivity(Intent(this, LoginActivity::class.java))
+                finish()
             }
         },2000)
     }
