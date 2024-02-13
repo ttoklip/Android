@@ -18,6 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_signup4) {
 
     private val viewModel: SignupViewModel by viewModels()
+    private lateinit var interestArray:ArrayList<String>
 
     private var independentCareerYear:Int? =null
     private var independentCareerMonth: Int? =null
@@ -30,17 +31,18 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
     }
 
     override fun initView() {
+        interestArray=ArrayList()
         val activity = activity as SignupActivity
         activity?.setProg(2)
 
         binding.signup4NickcheckButton.setOnClickListener {
             //닉네임 확인 로직
             viewModel.nickCheck(binding.signup4NicknameEt.text.toString())
-            if (binding.signup4NicknameEt.text.toString().equals("aa")) {
+            if(viewModel.nickok.value){
                 binding.signup4NickokTv.visibility = View.VISIBLE
                 binding.signup4NicknotokTv.visibility = View.GONE
                 nickok=true
-            } else {
+            }else{
                 binding.signup4NickokTv.visibility = View.GONE
                 binding.signup4NicknotokTv.visibility = View.VISIBLE
                 nickok=false
@@ -97,6 +99,7 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
             //chip 클릭해야 발생
             val bottomSheet = ChooseMainInterestDialogFragment { interests ->
                 binding.signup4InterestGroup.removeAllViews()
+                interestArray.clear()
                 interests.forEach { interest ->
                     val chip = Chip(activity)
                     chip.text = interest
@@ -105,6 +108,8 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
                     chip.setChipBackgroundColorResource(R.color.yellow)
                     chip.setChipStrokeColorResource(R.color.yellow)
                     binding.signup4InterestGroup.addView(chip)
+
+                    interestArray.add(interest)
                 }
                 interestNotNull=true
             }
@@ -115,6 +120,13 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
 
         binding.signup4NextBtn.setOnClickListener {
             if(nickok&&independentCareerNotNull&&interestNotNull){
+                viewModel.saveUserInfo(
+                    binding.signup4NicknameEt.text.toString(),
+                    interestArray,
+                    binding.signup4ProfileImageIv.resources.toString(),
+                    independentCareerYear!!,
+                    independentCareerMonth!!
+                )
                 findNavController().navigate(R.id.action_signup4_fragment_to_signup5_fragment)
             }
         }
