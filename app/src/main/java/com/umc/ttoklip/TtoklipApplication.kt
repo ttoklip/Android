@@ -6,7 +6,10 @@ import android.content.Context
 import androidx.annotation.StringRes
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import com.kakao.sdk.common.KakaoSdk
+import com.navercorp.nid.NaverIdLoginSDK
 import com.umc.ttoklip.module.NetworkConnectionChecker
+import com.umc.ttoklip.util.PreferenceUtil
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
@@ -15,6 +18,14 @@ class TtoklipApplication : Application(), DefaultLifecycleObserver {
         super<Application>.onCreate()
         context = applicationContext
         networkConnectionChecker = NetworkConnectionChecker(context)
+        prefs=PreferenceUtil(applicationContext)
+
+        //login sdk 객체 초기화
+        KakaoSdk.init(this, BuildConfig.kakaoNativeKey)
+        NaverIdLoginSDK.initialize(this,
+            BuildConfig.naverClientId,
+            BuildConfig.naverClientSecret,
+            "똑립")
     }
 
     override fun onStop(owner: LifecycleOwner) {
@@ -37,5 +48,7 @@ class TtoklipApplication : Application(), DefaultLifecycleObserver {
 
         private lateinit var networkConnectionChecker: NetworkConnectionChecker
         fun isOnline() = networkConnectionChecker.isOnline()
+
+        lateinit var prefs:PreferenceUtil
     }
 }

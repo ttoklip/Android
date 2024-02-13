@@ -19,13 +19,25 @@ class SignupActivity:BaseActivity<ActivitySignupBinding>(R.layout.activity_signu
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.signup_frm)as NavHostFragment
         var navController=navHostFragment.findNavController()
         binding.signupBackIb.setOnClickListener {
-            navController.popBackStack()
+            if(!navController.popBackStack()){
+                finish()
+            }else{
+                navController.popBackStack()
+            }
         }
         binding.signupCancelIb.setOnClickListener {
             binding.signupBackIb.visibility= View.VISIBLE
-            binding.signupBackIb.visibility= View.GONE
+            binding.signupCancelIb.visibility= View.INVISIBLE
             navController.popBackStack()
         }
+    }
+
+    fun termBack(){
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.signup_frm)as NavHostFragment
+        var navController=navHostFragment.findNavController()
+        binding.signupBackIb.visibility= View.VISIBLE
+        binding.signupCancelIb.visibility= View.INVISIBLE
+        navController.popBackStack()
     }
 
     override fun initObserver()=Unit
@@ -34,7 +46,7 @@ class SignupActivity:BaseActivity<ActivitySignupBinding>(R.layout.activity_signu
         binding.signupProgressbar.progress=step
     }
     fun updateButtonForTerm(){
-        binding.signupBackIb.visibility= View.GONE
-        binding.signupBackIb.visibility= View.VISIBLE
+        binding.signupBackIb.visibility= View.INVISIBLE
+        binding.signupCancelIb.visibility= View.VISIBLE
     }
 }
