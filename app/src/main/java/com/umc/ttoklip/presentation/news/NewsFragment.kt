@@ -36,6 +36,7 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(R.layout.fragment_news) {
 
     override fun initView() {
         binding.vm = viewModel
+        viewModel.getMainNews()
         bindingV =binding
         binding.vp.adapter = vpRVA
         binding.indicator.attachTo(binding.vp)

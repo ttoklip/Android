@@ -4,38 +4,43 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <ImageButton
-            android:id="@+id/login_back_ib"
+            android:id="@+id/signup_back_ib"
             android:layout_width="19dp"
             android:layout_height="19dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:background="#00000000"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_arrow_back_24"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="visible"/>
 
-        <TextView
-            android:id="@+id/login_title_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1단계 - 개인정보 입력"
-            android:textAppearance="@style/TextAppearance.App.20sp_600"
-            app:layout_constraintBottom_toBottomOf="@id/login_back_ib"
+        <ImageButton
+            android:id="@+id/signup_cancel_ib"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="20dp"
+            android:background="#00000000"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_plus_24"
+            android:rotation="45"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/login_back_ib" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
 
         <SeekBar
             android:id="@+id/signup_progressbar"
-            android:layout_width="312dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="15dp"
             android:background="@null"
-            android:max="4"
+            android:max="3"
             android:paddingStart="0dp"
             android:paddingEnd="0dp"
             android:progress="1"
@@ -44,7 +49,7 @@
             android:thumb="@color/yellow"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/login_title_tv" />
+            app:layout_constraintTop_toBottomOf="@id/signup_back_ib" />
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/signup_frm"

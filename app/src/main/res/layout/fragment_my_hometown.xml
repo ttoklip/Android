@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/bellBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="24dp"
+            android:src="@drawable/ic_bell_off_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/searchBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/ic_search_24"
+            app:layout_constraintEnd_toStartOf="@id/bellBtn"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_hometown_tab_title"
+            android:layout_marginStart="24dp"
+            android:textAppearance="@style/TextAppearance.App.18sp_700"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@id/searchBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/searchBtn" />
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/bellBtn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="48dp"
+            android:layout_marginBottom="8dp"
+            android:fillViewport="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="24dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ad_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+                    <TextView
+                        android:id="@+id/my_hometown_filter_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/rectangle_corner_10_strok_1"
+                        android:text="수도권 어딘가"
+                        android:drawablePadding="4dp"
+                        android:paddingVertical="7dp"
+                        android:drawableEnd="@drawable/ic_arrow_down"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="6dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/together_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/rectangle_corner_20_stroke_1"
+                    android:padding="24dp"
+                    app:layout_constraintTop_toBottomOf="@id/ad_frame">
+
+                    <TextView
+                        android:id="@+id/together_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/together_title"
+                        android:textAppearance="@style/TextAppearance.App.18sp_700"
+                        android:textColor="@color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/see_detail_together_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/see_detail"
+                        android:textAppearance="@style/TextAppearance.App.12sp_400"
+                        android:textColor="@color/gray60"
+                        app:drawableEndCompat="@drawable/ic_front_arrow_16"
+                        app:layout_constraintBottom_toBottomOf="@id/together_tv"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/together_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintTop_toBottomOf="@id/together_tv"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_together" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/write_together_btn"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/yellow_btn_background"
+                        android:paddingEnd="10dp"
+                        android:text="@string/write_together"
+                        android:textAppearance="@style/TextAppearance.App.12sp_600"
+                        android:textColor="@color/black"
+                        app:layout_constraintTop_toBottomOf="@id/together_rv"
+                        tools:layout_editor_absoluteX="24dp" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/write_together_plus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="95sp"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/ic_plus_16"
+                        app:layout_constraintBottom_toBottomOf="@id/write_together_btn"
+                        app:layout_constraintEnd_toEndOf="@id/write_together_btn"
+                        app:layout_constraintStart_toStartOf="@+id/write_together_btn"
+                        app:layout_constraintTop_toTopOf="@id/write_together_btn" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/communication_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/rectangle_corner_20_stroke_1"
+                    android:padding="24dp"
+                    app:layout_constraintTop_toBottomOf="@id/together_frame">
+
+                    <TextView
+                        android:id="@+id/communication_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/communication_title"
+                        android:textAppearance="@style/TextAppearance.App.18sp_700"
+                        android:textColor="@color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/see_detail_communication_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/see_detail"
+                        android:textAppearance="@style/TextAppearance.App.12sp_400"
+                        android:textColor="@color/gray60"
+                        app:drawableEndCompat="@drawable/ic_front_arrow_16"
+                        app:layout_constraintBottom_toBottomOf="@id/communication_tv"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/communication_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintTop_toBottomOf="@id/communication_tv"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_together" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/write_communication_btn"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/yellow_btn_background"
+                        android:paddingEnd="10dp"
+                        android:text="@string/write_communication"
+                        android:textAppearance="@style/TextAppearance.App.12sp_600"
+                        android:textColor="@color/black"
+                        app:layout_constraintTop_toBottomOf="@id/communication_rv"
+                        tools:layout_editor_absoluteX="24dp" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/write_communication_plus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="95sp"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/ic_plus_16"
+                        app:layout_constraintBottom_toBottomOf="@id/write_communication_btn"
+                        app:layout_constraintEnd_toEndOf="@id/write_communication_btn"
+                        app:layout_constraintStart_toStartOf="@+id/write_communication_btn"
+                        app:layout_constraintTop_toTopOf="@id/write_communication_btn" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

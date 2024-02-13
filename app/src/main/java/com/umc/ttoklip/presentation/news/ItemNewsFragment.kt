@@ -7,7 +7,9 @@ import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.news.adapter.Dummy
 import com.umc.ttoklip.presentation.news.adapter.NewsRVA
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ItemNewsFragment : BaseFragment<FragmentItemNewsBinding>(R.layout.fragment_item_news) {
     private val viewModel: NewsViewModel by viewModels<NewsViewModelImpl>()
     private val newsRVA by lazy {
@@ -18,6 +20,7 @@ class ItemNewsFragment : BaseFragment<FragmentItemNewsBinding>(R.layout.fragment
     }
 
     override fun initView() {
+        binding.vm = viewModel
         binding.rv.adapter = newsRVA
         newsRVA.submitList(listOf(
             Dummy("1"), Dummy("2"), Dummy("3"), Dummy("4"),Dummy("1"), Dummy("2"), Dummy("3"), Dummy("4"),Dummy("1"), Dummy("2"), Dummy("3"), Dummy("4")

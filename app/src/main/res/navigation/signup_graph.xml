@@ -3,30 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/signup_graph"
-    app:startDestination="@id/signup1_fragment">
+    app:startDestination="@id/signup3_fragment">
 
-    <fragment
-        android:id="@+id/signup1_fragment"
-        android:name="com.umc.ttoklip.presentation.signup.fragments.Signup1Fragment"
-        android:label="Signup1Fragment"
-        tools:layout="@layout/fragment_signup1">
-        <action
-            android:id="@+id/action_signup1_fragment_to_signup2_fragment"
-            app:destination="@id/signup2_fragment"/>
-    </fragment>
-    <fragment
-        android:id="@+id/signup2_fragment"
-        android:name="com.umc.ttoklip.presentation.signup.fragments.Signup2Fragment"
-        android:label="Signup2Fragment"
-        tools:layout="@layout/fragment_signup2">
-        <action
-            android:id="@+id/action_signup2_fragment_to_signup3_fragment"
-            app:destination="@id/signup3_fragment" />
-        <action
-            android:id="@+id/action_signup2_fragment_to_signup1_fragment"
-            app:destination="@id/signup1_fragment"
-            app:popUpTo="@id/signup1_fragment"/>
-    </fragment>
     <fragment
         android:id="@+id/signup3_fragment"
         android:name="com.umc.ttoklip.presentation.signup.fragments.Signup3Fragment"
@@ -34,12 +12,26 @@
         tools:layout="@layout/fragment_signup3">
         <action
             android:id="@+id/action_signup3_fragment_to_signup4_fragment"
-            app:destination="@id/signup4_fragment"/>
+            app:destination="@id/signup4_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim" />
         <action
-            android:id="@+id/action_signup3_fragment_to_signup2_fragment"
-            app:destination="@id/signup2_fragment"
-            app:popUpTo="@id/signup2_fragment"/>
+            android:id="@+id/action_signup3_fragment_to_signupTerm_fragment"
+            app:destination="@id/signupTerm_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim"/>
     </fragment>
+
+    <fragment
+        android:id="@+id/signupTerm_fragment"
+        android:name="com.umc.ttoklip.presentation.signup.fragments.SignupTermFragment"
+        android:label="SignupTermFragment"
+        tools:layout="@layout/fragment_signup_term">
+
+        <action
+            android:id="@+id/action_signupTerm_fragment_to_signup3_fragment"
+            app:destination="@id/signup3_fragment"/>
+    </fragment>
+
     <fragment
         android:id="@+id/signup4_fragment"
         android:name="com.umc.ttoklip.presentation.signup.fragments.Signup4Fragment"
@@ -49,6 +41,21 @@
             android:id="@+id/action_signup4_fragment_to_signup3_fragment"
             app:destination="@id/signup3_fragment"
             app:popUpTo="@id/signup3_fragment"/>
+        <action
+            android:id="@+id/action_signup4_fragment_to_signup5_fragment"
+            app:destination="@id/signup5_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/signup5_fragment"
+        android:name="com.umc.ttoklip.presentation.signup.fragments.Signup5Fragment"
+        android:label="Signup5Fragment"
+        tools:layout="@layout/fragment_signup5">
+        <action
+            android:id="@+id/action_signup5_fragment_to_signup4_fragment"
+            app:destination="@id/signup4_fragment"
+            app:popUpTo="@id/signup4_fragment"/>
     </fragment>
 
 </navigation>

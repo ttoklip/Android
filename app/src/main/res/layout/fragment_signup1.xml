@@ -5,44 +5,62 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/signup1_desc_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="개인정보를 입력해주세요!"
-        android:textAppearance="@style/TextAppearance.App.12sp_500"
-        android:textSize="13sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <LinearLayout
         android:id="@+id/signup1_signupbox_ll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        app:layout_constraintTop_toBottomOf="@id/signup1_desc_tv"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/signup1_desc1_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="똑립 이용을 위해"
+                android:textAppearance="@style/TextAppearance.App.22sp_400"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+            <TextView
+                android:id="@+id/signup1_desc2_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="본인확인"
+                android:textAppearance="@style/TextAppearance.App.22sp_600"
+                app:layout_constraintTop_toBottomOf="@id/signup1_desc1_tv"
+                app:layout_constraintStart_toStartOf="@id/signup1_desc1_tv"/>
+            <TextView
+                android:id="@+id/signup_desc3_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="을 해주세요"
+                android:textAppearance="@style/TextAppearance.App.22sp_400"
+                app:layout_constraintTop_toTopOf="@id/signup1_desc2_tv"
+                app:layout_constraintStart_toEndOf="@id/signup1_desc2_tv"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/signup1_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="이름"
-            android:textAppearance="@style/TextAppearance.App.14sp_700"/>
+            android:textAppearance="@style/TextAppearance.App.14sp_700"
+            android:layout_marginTop="15dp"/>
         <EditText
             android:id="@+id/signup1_name_et"
-            android:layout_width="309dp"
-            android:layout_height="40dp"
+            android:layout_width="312dp"
+            android:layout_height="50dp"
             android:background="@drawable/rectangle_corner_10"
             android:backgroundTint="@color/gray20"
             android:hint="똑리비"
-            android:textSize="11sp"
-            android:textAppearance="@style/TextAppearance.App.14sp_500"
+            android:textAppearance="@style/TextAppearance.App.12sp_400"
             android:textColorHint="@color/gray60"
             android:paddingLeft="10dp"
             android:layout_marginTop="10dp"/>
@@ -55,13 +73,12 @@
             android:layout_marginTop="15dp"/>
         <EditText
             android:id="@+id/signup1_birth_et"
-            android:layout_width="309dp"
-            android:layout_height="40dp"
+            android:layout_width="312dp"
+            android:layout_height="50dp"
             android:background="@drawable/rectangle_corner_10"
             android:backgroundTint="@color/gray20"
             android:hint="2000.00.00"
-            android:textSize="11sp"
-            android:textAppearance="@style/TextAppearance.App.14sp_500"
+            android:textAppearance="@style/TextAppearance.App.12sp_400"
             android:textColorHint="@color/gray60"
             android:paddingLeft="10dp"
             android:layout_marginTop="10dp"/>
@@ -72,74 +89,80 @@
             android:text="이메일"
             android:textAppearance="@style/TextAppearance.App.14sp_700"
             android:layout_marginTop="15dp"/>
-        <EditText
-            android:id="@+id/signup1_email_et"
-            android:layout_width="309dp"
-            android:layout_height="40dp"
-            android:background="@drawable/rectangle_corner_10"
-            android:backgroundTint="@color/gray20"
-            android:hint="ttoknip@xxxx.com"
-            android:textSize="11sp"
-            android:textAppearance="@style/TextAppearance.App.14sp_500"
-            android:textColorHint="@color/gray60"
-            android:paddingLeft="10dp"
-            android:layout_marginTop="10dp"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/signup1_cert_cl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="10dp">
+        <EditText
+            android:id="@+id/signup1_email_et"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rectangle_corner_10"
+            android:backgroundTint="@color/gray20"
+            android:hint="ttoknip@xxxx.com"
+            android:textAppearance="@style/TextAppearance.App.12sp_400"
+            android:textColorHint="@color/gray60"
+            android:paddingLeft="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/signup1_certSend_button"
-                android:layout_width="114dp"
-                android:layout_height="40dp"
-                android:background="@drawable/rectangle_corner_30"
-                android:backgroundTint="@color/yellow"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:background="@drawable/rectangle_corner_10_strok_1_black"
                 android:stateListAnimator="@null"
-                android:text="인증번호 받기"
+                android:text="인증번호 발송"
+                android:textAppearance="@style/TextAppearance.App.14sp_400"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/signup1_certsend_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="인증번호가 발송되었습니다."
+                android:textColor="@color/blue"
                 android:textAppearance="@style/TextAppearance.App.12sp_500"
                 android:textSize="11sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/signup1_certSend_button"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+
             <EditText
                 android:id="@+id/signup1_cert_et"
-                android:layout_width="180dp"
-                android:layout_height="40dp"
+                android:layout_width="312dp"
+                android:layout_height="50dp"
                 android:background="@drawable/rectangle_corner_10"
                 android:backgroundTint="@color/gray20"
                 android:hint="인증번호 입력"
+                android:inputType="number"
                 android:paddingLeft="10dp"
                 android:textColorHint="@color/gray60"
-                android:textAppearance="@style/TextAppearance.App.12sp_500"
-                android:textSize="11sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/signup1_certcheck_button"
-                android:layout_width="50dp"
-                android:layout_height="28dp"
-                android:background="@drawable/rectangle_corner_30"
-                android:backgroundTint="@color/gray40"
-                android:text="확인"
-                android:textAppearance="@style/TextAppearance.App.12sp_500"
-                android:textSize="11sp"
-                android:textColor="@color/gray80"
-                app:layout_constraintTop_toTopOf="@id/signup1_cert_et"
-                app:layout_constraintBottom_toBottomOf="@id/signup1_cert_et"
-                app:layout_constraintEnd_toEndOf="@id/signup1_cert_et"
-                android:layout_marginEnd="10dp"
-                android:stateListAnimator="@null"/>
+                android:textAppearance="@style/TextAppearance.App.12sp_400"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
             <TextView
                 android:id="@+id/signup1_certok_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                android:text="인증이 완료되었어요 :)"
+                android:text="인증되었습니다."
                 android:textColor="@color/blue"
                 android:textAppearance="@style/TextAppearance.App.12sp_500"
                 android:textSize="11sp"
+                android:layout_marginTop="5dp"
                 app:layout_constraintTop_toBottomOf="@id/signup1_cert_et"
                 app:layout_constraintEnd_toEndOf="parent"/>
             <TextView
@@ -147,29 +170,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                android:text="인증번호가 일치하지 않아요ㅠㅠ"
+                android:text="인증번호가 일치하지 않습니다."
                 android:textColor="@color/orange"
                 android:textAppearance="@style/TextAppearance.App.12sp_500"
                 android:textSize="11sp"
+                android:layout_marginTop="5dp"
                 app:layout_constraintTop_toBottomOf="@id/signup1_cert_et"
                 app:layout_constraintEnd_toEndOf="parent"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/signup1_next_btn"
-        android:layout_width="240dp"
+        android:layout_width="312dp"
         android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/rectangle_corner_30"
-        android:backgroundTint="@color/yellow"
+        android:background="@drawable/rectangle_corner_10_strok_1_black"
         android:stateListAnimator="@null"
         android:text="다음"
         android:textAppearance="@style/TextAppearance.App.16sp_600"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/signup1_signupbox_ll" />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

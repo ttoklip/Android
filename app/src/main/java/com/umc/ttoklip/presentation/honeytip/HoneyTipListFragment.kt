@@ -1,16 +1,9 @@
 package com.umc.ttoklip.presentation.honeytip
 
 import android.content.Intent
-import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat.startActivity
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
@@ -24,16 +17,16 @@ import com.umc.ttoklip.presentation.honeytip.read.ReadActivity
 class HoneyTipListFragment :
     BaseFragment<FragmentHoneyTipListBinding>(R.layout.fragment_honey_tip_list),
     OnItemClickListener {
-    private lateinit var honeyTipViewModel: HoneyTipViewModel
+    private val viewModel: HoneyTipViewModel by activityViewModels()
     private var board = ""
     override fun initObserver() {
     }
 
     override fun initView() {
         initRV()
-        honeyTipViewModel = ViewModelProvider(requireActivity())[HoneyTipViewModel::class.java]
-        honeyTipViewModel.boardLiveData.observe(viewLifecycleOwner){
+        viewModel.boardLiveData.observe(this){
             board = it
+            Log.d("HoneyTipListFragment change board", it)
         }
     }
 
@@ -71,6 +64,5 @@ class HoneyTipListFragment :
         intent.putExtra(BOARD, board)
         Log.d("HoneyTipListFragment", board)
         startActivity(intent)
-
     }
 }

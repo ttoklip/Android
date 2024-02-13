@@ -21,8 +21,11 @@ class TransactionAdapter(private val context: Context) :
         private val binding: ItemTransactionHistoryBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: Transaction) {
+        fun bind(data: Transaction, pos: Int) {
             with(binding) {
+                if (pos == itemCount - 1) {
+                    binding.itemSeparator.isGone = true
+                }
                 transactionTitleTv.text = data.title
                 transactionDateTv.text = data.date
                 data.icon?.let {
@@ -98,7 +101,7 @@ class TransactionAdapter(private val context: Context) :
     }
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), position)
     }
 
     companion object {

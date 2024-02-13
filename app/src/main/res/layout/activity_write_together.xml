@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:fillViewport="true"
+        android:paddingHorizontal="24dp">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_arrow_back_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/together_title"
+                android:textAppearance="@style/TextAppearance.App.16sp_600"
+                app:layout_constraintBottom_toBottomOf="@id/back_btn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/back_btn" />
+
+            <TextView
+                android:id="@+id/write_done_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="작성완료"
+                android:textAppearance="@style/TextAppearance.App.12sp_400"
+                android:textColor="@color/write_btn_selector"
+                app:layout_constraintBottom_toBottomOf="@id/title_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintTop_toTopOf="@id/title_tv" />
+
+
+            <EditText
+                android:id="@+id/title_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@null"
+                android:hint="제목 입력"
+                android:inputType="text"
+                android:textAppearance="@style/TextAppearance.App.20sp_500"
+                android:textColorHint="@color/gray80"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/write_done_btn" />
+
+            <View
+                android:id="@+id/title_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/gray20"
+                app:layout_constraintTop_toBottomOf="@id/title_et" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/required_parameter_frame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/title_line">
+
+                <EditText
+                    android:id="@+id/total_price_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rectangle_corner_10_strok_1"
+                    android:drawablePadding="6dp"
+                    android:hint="총가격"
+                    android:inputType="number"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp"
+                    android:textAppearance="@style/TextAppearance.App.12sp_500"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray80"
+                    app:drawableStartCompat="@drawable/ic_price_off_18"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/max_member_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/rectangle_corner_10_strok_1"
+                    android:drawablePadding="6dp"
+                    android:hint="공구 최대 인원"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp"
+                    android:textAppearance="@style/TextAppearance.App.12sp_500"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray80"
+                    app:drawableStartCompat="@drawable/ic_face_off_18"
+                    app:layout_constraintStart_toEndOf="@id/total_price_tv"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/trading_place_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/rectangle_corner_10_strok_1"
+                    android:drawablePadding="6dp"
+                    android:hint="거래 희망 장소"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp"
+                    android:textAppearance="@style/TextAppearance.App.12sp_500"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray80"
+                    app:drawableStartCompat="@drawable/ic_gps_off_18"
+                    app:layout_constraintStart_toStartOf="@id/total_price_tv"
+                    app:layout_constraintTop_toBottomOf="@id/total_price_tv" />
+
+                <EditText
+                    android:id="@+id/open_chat_link_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/rectangle_corner_10_strok_1"
+                    android:drawablePadding="6dp"
+                    android:hint="오픈채팅방 링크 추가"
+                    android:inputType="text"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="7dp"
+                    android:textAppearance="@style/TextAppearance.App.12sp_500"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray80"
+                    app:drawableStartCompat="@drawable/ic_link_off_18"
+                    app:layout_constraintStart_toStartOf="@id/total_price_tv"
+                    app:layout_constraintTop_toBottomOf="@id/trading_place_tv" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/together_parameter_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/gray20"
+                app:layout_constraintTop_toBottomOf="@id/required_parameter_frame" />
+
+
+            <EditText
+                android:id="@+id/body_et"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="24dp"
+                android:background="@null"
+                android:gravity="top"
+                android:hint="우리 동네 사람들과 어떤 이야기를 나누고 싶나요?\n(최대 500자) "
+                android:maxLength="1000"
+                android:maxLines="100"
+                android:nestedScrollingEnabled="true"
+                android:orientation="vertical"
+                android:textAppearance="@style/TextAppearance.App.12sp_400"
+                android:textColorHint="@color/gray80"
+                app:layout_constraintBottom_toTopOf="@id/line2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/together_parameter_line" />
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:background="@color/gray20"
+                app:layout_constraintBottom_toTopOf="@id/image_rv" />
+
+            <LinearLayout
+                android:id="@+id/add_link_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/rectangle_corner_10"
+                android:backgroundTint="@color/gray20"
+                android:gravity="center"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp"
+                app:layout_constraintBottom_toTopOf="@id/add_image_btn"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/add_link_iv"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_link_24"
+                    app:tint="@color/gray80" />
+
+                <TextView
+                    android:id="@+id/add_link_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="URL 추가하기"
+                    android:textAppearance="@style/TextAppearance.App.14sp_700"
+                    android:textColor="@color/gray80" />
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/input_url_btn"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_add_url_btn"
+                android:orientation="horizontal"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="5dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/add_link_btn"
+                app:layout_goneMarginBottom="24dp"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/add_link_iv2"
+                    android:layout_width="23dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/ic_link_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/gray80" />
+
+                <EditText
+                    android:id="@+id/input_url_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:background="@null"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:textAppearance="@style/TextAppearance.App.12sp_700"
+                    android:textColor="@color/gray80"
+                    android:textIsSelectable="true"
+                    app:layout_constraintBottom_toBottomOf="@id/add_link_iv2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/add_link_iv2"
+                    app:layout_constraintTop_toTopOf="@id/add_link_iv2" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/image_rv"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="12dp"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toTopOf="@id/input_url_btn"
+                tools:listitem="@layout/item_image" />
+
+            <LinearLayout
+                android:id="@+id/add_image_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/rectangle_corner_10"
+                android:backgroundTint="@color/gray20"
+                android:gravity="center"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/add_image_iv"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_add_image_24"
+                    app:tint="@color/gray80" />
+
+                <TextView
+                    android:id="@+id/add_image_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="사진 추가하기"
+                    android:textAppearance="@style/TextAppearance.App.14sp_700"
+                    android:textColor="@color/gray80" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>
