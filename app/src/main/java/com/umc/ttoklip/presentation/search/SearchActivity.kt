@@ -32,7 +32,10 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
     private val viewModel: SearchViewModel by viewModels<SearchViewModelImpl>()
 
     private val historyRVA by lazy {
-        HistoryRVA()
+        HistoryRVA{ title ->
+            binding.appBarTitleT.setText(title)
+            viewModel.clickHistory(title)
+        }
     }
 
     private val searchRVA by lazy {
@@ -54,6 +57,11 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
         binding.vm = viewModel
         binding.backBtn.setOnClickListener {
             finish()
+        }
+        viewModel.getAllHistory()
+
+        binding.deleteBtn.setOnClickListener {
+            viewModel.deleteAllHistory()
         }
 
         //flexLayout -> RV 연동
@@ -94,22 +102,17 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
         }
         binding.searchRV.adapter = searchRVA
 
-        historyRVA.submitList(
-            listOf(
-                HistoryModel("keepGoingBro"),
-                HistoryModel("keepGoingBro"),
-                HistoryModel("keep"),
-                HistoryModel("Going"),
-                HistoryModel("Bro"),
-                HistoryModel("haha"),
-                HistoryModel("굿"),
-                HistoryModel("하하"),
-            )
-        )
-
     }
 
     override fun initObserver() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.historyList.collect {
+                   historyRVA.submitList(it)
+                }
+            }
+        }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.showDialog.collect {

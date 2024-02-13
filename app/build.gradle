@@ -121,6 +121,10 @@ dependencies {
     implementation "com.kakao.sdk:v2-user:2.19.0"
     //naver login
     implementation 'com.navercorp.nid:oauth:5.1.1'
+
+    implementation "androidx.room:room-runtime:2.6.1"
+    kapt "androidx.room:room-compiler:2.6.1"
+    implementation "androidx.room:room-ktx:2.6.1"
 }
 kapt {
     correctErrorTypes true
