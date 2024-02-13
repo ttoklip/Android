@@ -179,7 +179,7 @@
                     app:tabIndicatorHeight="1dp"
                     app:tabRippleColor="@android:color/white"
                     app:tabSelectedTextColor="@color/black"
-                    app:tabTextAppearance="@style/TextAppearance.App.16sp_500"
+                    app:tabTextAppearance="@style/TextAppearance.App.14sp_500"
                     app:tabTextColor="@color/gray80" />
 
                 <androidx.viewpager2.widget.ViewPager2

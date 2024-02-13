@@ -82,7 +82,7 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(R.layout.fragment_news) {
         val tabTitleArray = arrayOf(
             "집안일",
             "레시피",
-            "안전한 생활",
+            "안전한생활",
             "복지·정책",
         )
     }
