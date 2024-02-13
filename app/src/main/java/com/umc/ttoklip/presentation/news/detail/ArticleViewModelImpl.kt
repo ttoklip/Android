@@ -81,6 +81,25 @@ class ArticleViewModelImpl @Inject constructor(
         }
     }
 
+
+    override fun deleteComment(id: Int,postId :Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                newsRepository.deleteCommentNews(
+                    id
+                ).onSuccess {
+                    getDetail(postId)
+                }.onFail {
+
+                }.onException {
+                    throw it
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.d("예외", "$e")
+            }
+        }
+    }
     override fun postReportNews(id: Int, content: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -88,7 +107,7 @@ class ArticleViewModelImpl @Inject constructor(
                     id,
                     ReportRequest(content, reportType = "INAPPROPRIATE_CONTENT")
                 ).onSuccess {
-                    getDetail(id)
+
                 }.onFail {
 
                 }.onException {
@@ -108,7 +127,7 @@ class ArticleViewModelImpl @Inject constructor(
                     id,
                     ReportRequest("부적절한 댓글", reportType = "INAPPROPRIATE_CONTENT")
                 ).onSuccess {
-                    getDetail(id)
+
                 }.onFail {
 
                 }.onException {

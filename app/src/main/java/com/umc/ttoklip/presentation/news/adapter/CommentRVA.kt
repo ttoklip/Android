@@ -22,7 +22,7 @@ class CommentRVA(val replyComment: (Int)->Unit, val ReportOrDelete: (Int, Boolea
                 replyComment(data.commentId)
             }
             binding.deleteBtn.setOnClickListener {
-                ReportOrDelete(data.commentId, false)
+                ReportOrDelete(data.commentId, true)
             }
         }
     }
@@ -34,7 +34,7 @@ class CommentRVA(val replyComment: (Int)->Unit, val ReportOrDelete: (Int, Boolea
         fun bind(data: NewsCommentResponse) {
             binding.item = data
             binding.deleteBtn.setOnClickListener {
-                ReportOrDelete(data.commentId, false)
+                ReportOrDelete(data.commentId, true)
             }
         }
     }

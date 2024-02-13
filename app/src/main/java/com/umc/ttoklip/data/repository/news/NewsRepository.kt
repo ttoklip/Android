@@ -17,4 +17,6 @@ interface NewsRepository {
 
     suspend fun postReportCommentNews(postId: Int, request : ReportRequest): NetworkResult<CommonResponse>
 
+    suspend fun deleteCommentNews(postId: Int): NetworkResult<CommonResponse>
+
 }

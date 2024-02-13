@@ -14,6 +14,7 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityArticleBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
+import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import com.umc.ttoklip.presentation.news.adapter.PostImageRVA
@@ -30,7 +31,13 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>(R.layout.activity_a
             viewModel.replyCommentParentId.value = id
         },{ id ,myComment ->
             if (myComment){
-                //댓글 삭제 예정
+                val deleteDialog = DeleteDialogFragment()
+                deleteDialog.setDialogClickListener(object : DeleteDialogFragment.DialogClickListener {
+                    override fun onClick() {
+                        viewModel.deleteComment(id, intent.getIntExtra(ARTICLE,1))
+                    }
+                })
+                deleteDialog.show(supportFragmentManager, deleteDialog.tag)
             }else{
                 val reportDialog = ReportDialogFragment()
                 reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {

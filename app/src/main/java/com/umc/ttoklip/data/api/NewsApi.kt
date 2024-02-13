@@ -8,6 +8,7 @@ import com.umc.ttoklip.data.model.news.comment.NewsCommentRequest
 import com.umc.ttoklip.data.model.news.detail.NewsDetailResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -42,4 +43,8 @@ interface NewsApi {
     ): Response<ResponseBody<CommonResponse>>
 
 
+    @DELETE("/api/v1/newsletter/comment/{commentId}")
+    suspend fun deleteCommentNewsApi(
+        @Path("commentId") commentId: Int,
+    ): Response<ResponseBody<CommonResponse>>
 }

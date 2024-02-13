@@ -93,7 +93,9 @@ object NetworkModule {
     fun provideSearchApi(retrofit: Retrofit): SearchApi {
         return retrofit.buildService()
     }
-    
+
+    @Provides
+    @Singleton
     fun provideLoginApi(retrofit: Retrofit): LoginApi{
         return retrofit.buildService()
     }

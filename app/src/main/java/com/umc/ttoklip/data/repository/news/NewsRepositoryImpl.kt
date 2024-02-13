@@ -42,4 +42,8 @@ class NewsRepositoryImpl @Inject constructor(
         return handleApi({api.postReportCommentNewsApi(commentId = postId, request= request)}) {response: ResponseBody<CommonResponse> -> response.result}
     }
 
+    override suspend fun deleteCommentNews(postId: Int): NetworkResult<CommonResponse> {
+        return handleApi({api.deleteCommentNewsApi(commentId = postId)}) {response: ResponseBody<CommonResponse> -> response.result}
+    }
+
 }
