@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.databinding.FragmentNewsBinding
 import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.alarm.AlarmActivity
@@ -34,6 +35,9 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(R.layout.fragment_news) {
     }
 
     override fun initView() {
+        //테스트용
+        TtoklipApplication.prefs.setString("nickname","한건희")
+
         binding.vm = viewModel
         viewModel.getMainNews()
         binding.vp.adapter = vpRVA

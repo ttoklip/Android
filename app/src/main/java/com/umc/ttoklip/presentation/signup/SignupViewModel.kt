@@ -64,5 +64,7 @@ class SignupViewModel @Inject constructor(
         _independenctYear.value=independentYear
         _independenctMonth.value=independentMonth
         TtoklipApplication.prefs.setString("nickname",nick)
+        Log.d("닉네임","${nick}")
+        Log.d("닉네임","${TtoklipApplication.prefs.getString("nickname", "")}")
     }
 }
