@@ -27,7 +27,7 @@ abstract class BaseFragment<V : ViewDataBinding>(@LayoutRes val layoutResource: 
             null,
             false
         )
-        binding.lifecycleOwner = viewLifecycleOwner
+        binding.lifecycleOwner = this.viewLifecycleOwner
         return binding.root
     }
 

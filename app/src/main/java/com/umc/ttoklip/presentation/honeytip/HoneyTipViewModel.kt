@@ -5,19 +5,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.umc.ttoklip.data.model.honeytip.HoneyTipCategory
 import com.umc.ttoklip.data.model.honeytip.HoneyTipMainResponse
 import com.umc.ttoklip.data.model.honeytip.InquireHoneyTipResponse
 import com.umc.ttoklip.data.repository.honeytip.HoneyTipRepositoryImpl
 import com.umc.ttoklip.module.onSuccess
-import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTips
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -43,23 +39,17 @@ class HoneyTipViewModel @Inject constructor(
     val isBodyNull: LiveData<Boolean> by lazy { _isBodyNull }
     private val _isBodyNull by lazy { MutableLiveData<Boolean>(true) }
 
-    val honeyTipLiveData: LiveData<HoneyTips> by lazy { _honeyTipLiveData }
-    private val _honeyTipLiveData by lazy { MutableLiveData<HoneyTips>() }
-
-    val createHoneyTipMessage: LiveData<String> by lazy { _createHoneyTipMessage }
-    private val _createHoneyTipMessage by lazy { MutableLiveData<String>() }
-
     private val _writeDoneEvent = MutableSharedFlow<String>()
     val writeDoneEvent = _writeDoneEvent.asSharedFlow()
 
     private val _honeyTip = MutableSharedFlow<InquireHoneyTipResponse>()
     val honeyTip = _honeyTip.asSharedFlow()
 
-    private val _honeyTipMain = MutableSharedFlow<HoneyTipMainResponse>()
-    val honeyTipMain = _honeyTipMain.asSharedFlow()
+    private val _honeyTipMainEvent = MutableSharedFlow<Boolean>()
+    val honeyTipMainEvent = _honeyTipMainEvent.asSharedFlow()
 
-    private val _honeyTipMain2 = MutableLiveData<HoneyTipMainResponse>()
-    val honeyTipMain2 get() = _honeyTipMain2
+    private val _honeyTipMainData = MutableLiveData<HoneyTipMainResponse>()
+    val honeyTipMainData get() = _honeyTipMainData
 
     private val _honeyTipCategory = MutableLiveData<String>("집안일")
     val honeyTipCategory get() = _honeyTipCategory
@@ -104,7 +94,7 @@ class HoneyTipViewModel @Inject constructor(
             ).onSuccess {
                 withContext(Dispatchers.Main) {
                     _writeDoneEvent.emit("true")
-                    _createHoneyTipMessage.value = it.message
+                    _honeyTipMainEvent.emit(true)
                     Log.d("honey tip api test", it.message)
                 }
             }
@@ -135,8 +125,7 @@ class HoneyTipViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
                 repository.getHoneyTipMain().onSuccess {
                     withContext(Dispatchers.Main) {
-                        //_honeyTipMain.emit(it)
-                        _honeyTipMain2.value = it
+                        _honeyTipMainData.value = it
                         Log.d("HoneyTipMain api", it.toString())
                     }
             }

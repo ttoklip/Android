@@ -36,7 +36,7 @@ class HoneyTipListRVA(private var listener: OnItemClickListener) :
             val writtenDate = Date.parse(honeyTipResponse.writtenTime)
             val timeDiffInMillis = currentDate.time - writtenDate.time*/
             binding.titleTv.text = honeyTipResponse.title
-            binding.writerTv.text = "똑똑이"//honeyTipResponse.writer
+            binding.writerTv.text = honeyTipResponse.writer
             binding.dateTv.text = "1일전"//honeyTipResponse.date
             binding.bodyTv.text = honeyTipResponse.content
             binding.commentCountTv.text = honeyTipResponse.commentCount.toString()

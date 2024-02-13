@@ -2,6 +2,7 @@ package com.umc.ttoklip.presentation.honeytip.read
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -88,7 +89,11 @@ class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read),
     }
 
     private fun checkHoneyTip() {
-        honeyTip = intent.getSerializableExtra("honeyTip", HoneyTip::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            honeyTip = intent.getSerializableExtra("honeyTip", HoneyTip::class.java)
+        } else{
+            honeyTip = intent.getSerializableExtra("honeyTip") as HoneyTip
+        }
         if (honeyTip != null) {
             with(binding) {
                 titleTv.text = honeyTip?.title
@@ -105,7 +110,11 @@ class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read),
     }
 
     private fun checkQuestion() {
-        question = intent.getSerializableExtra("question", Question::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            question = intent.getSerializableExtra("question", Question::class.java)
+        } else {
+            question = intent.getSerializableExtra("question") as Question
+        }
         if (question != null) {
             with(binding) {
                 titleTv.text = question?.title
@@ -207,7 +216,7 @@ class ReadActivity : BaseActivity<ActivityReadBinding>(R.layout.activity_read),
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        Log.d("event", isTouchInside(binding.dotBtn, ev?.x!!, ev?.y!!).toString())
+        //Log.d("event", isTouchInside(binding.dotBtn, ev?.x!!, ev?.y!!).toString())
         if (isShowMenu && !isTouchInside(binding.dotBtn, ev?.x!!, ev?.y!!)) {
             if (!isTouchInside(binding.honeyTipMenu, ev?.x!!, ev?.y!!)) {
                 binding.honeyTipMenu.visibility = View.GONE

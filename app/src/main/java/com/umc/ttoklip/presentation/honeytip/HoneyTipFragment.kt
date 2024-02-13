@@ -1,7 +1,6 @@
 package com.umc.ttoklip.presentation.honeytip
 
 import android.content.Intent
-import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -11,20 +10,13 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.umc.ttoklip.R
-import com.umc.ttoklip.data.model.honeytip.HoneyTipCategory
-import com.umc.ttoklip.data.model.honeytip.HoneyTipMainResponse
 import com.umc.ttoklip.databinding.FragmentHoneyTipBinding
 import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipAndQuestionVPA
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.search.SearchActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 
 class HoneyTipFragment: BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment_honey_tip) {
@@ -32,14 +24,15 @@ class HoneyTipFragment: BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment_
     private val viewModel: HoneyTipViewModel by activityViewModels()
     override fun initObserver() {
         viewModel.getHoneyTipMain()
-        /*lifecycleScope.launch {
+        lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.honeyTipMain.collect{
-                    honeyTipMain = it
+                viewModel.honeyTipMainEvent.collect{
+                    viewModel.getHoneyTipMain()
                 }
             }
-        }*/
-        viewModel.honeyTipMain2.observe(viewLifecycleOwner){
+        }
+
+        viewModel.honeyTipMainData.observe(viewLifecycleOwner){
             initTabLayout()
         }
     }

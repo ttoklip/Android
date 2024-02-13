@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Typeface
 import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -127,7 +128,11 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
         if (isEdit) {
             //val images: MutableList<Uri> = mutableListOf()
             if (board == HONEY_TIP) {
-                val honeyTip = intent.getSerializableExtra("honeyTip", HoneyTip::class.java)
+                val honeyTip = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    intent.getSerializableExtra("honeyTip", HoneyTip::class.java)
+                } else {
+                    intent.getSerializableExtra("honeyTip") as HoneyTip
+                }
                 Log.d("honeytip image", honeyTip.toString())
                 with(binding) {
                     titleEt.setText(honeyTip?.title)
@@ -141,7 +146,11 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
                     })
                 }
             } else {
-                val question = intent.getSerializableExtra("question", Question::class.java)
+                val question = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    intent.getSerializableExtra("question", Question::class.java)
+                } else {
+                    intent.getSerializableExtra("question") as Question
+                }
                 with(binding) {
                     titleEt.setText(question?.title)
                     bodyEt.setText(question?.content)
@@ -177,7 +186,7 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
 
     private fun enableWriteDoneButton() {
         binding.titleEt.doAfterTextChanged {
-            if (!it.toString().isNullOrBlank()) {
+            if (it.toString().isNotBlank()) {
                 viewModel.setTitle(false)
             } else {
                 viewModel.setTitle(true)
@@ -185,7 +194,7 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
         }
 
         binding.bodyEt.doAfterTextChanged {
-            if (!it.toString().isNullOrBlank()) {
+            if (it.toString().isNotBlank()) {
                 viewModel.setBody(false)
             } else {
                 viewModel.setBody(true)
@@ -233,9 +242,9 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
                 val url = binding.inputUrlEt.text.toString()
 
                 if (board == HONEY_TIP) {
-                    //viewModel.createHoneyTip(title, content, category, imageParts, url)
+                    viewModel.createHoneyTip(title, content, category, imageParts, url)
                 } else {
-                    //viewModel.createQuestion(title, content, category, imageParts)
+                    viewModel.createQuestion(title, content, category, imageParts)
                 }
 
                 makeIntentData(title, content, url, category)
@@ -300,7 +309,11 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
         isEdit = intent.getBooleanExtra("isEdit", false)
         if (isEdit) {
             //val images: MutableList<Uri> = mutableListOf()
-            val honeyTip = intent.getSerializableExtra("honeyTip", HoneyTip::class.java)
+            val honeyTip = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                intent.getSerializableExtra("honeyTip", HoneyTip::class.java)
+            } else {
+                intent.getSerializableExtra("honeyTip") as HoneyTip
+            }
             initEditHoneyTipView(honeyTip)
             editDone()
         }
@@ -326,7 +339,11 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
     private fun editQuestion() {
         isEdit = intent.getBooleanExtra("isEdit", false)
         if (isEdit) {
-            val question = intent.getSerializableExtra("question", Question::class.java)
+            val question = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                intent.getSerializableExtra("question", Question::class.java)
+            } else {
+                intent.getSerializableExtra("quesion") as Question
+            }
             initEditQuestionView(question)
             editDone()
         }

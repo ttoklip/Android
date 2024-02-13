@@ -9,7 +9,9 @@ import com.umc.ttoklip.databinding.ActivityImageViewBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageVPA
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ImageViewActivity: BaseActivity<ActivityImageViewBinding>(R.layout.activity_image_view) {
     override fun initView() {
         val images = (intent.getStringArrayExtra("images") ?: emptyArray()).map{ uriString ->

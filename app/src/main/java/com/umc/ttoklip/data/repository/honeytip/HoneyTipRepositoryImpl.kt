@@ -1,7 +1,7 @@
 package com.umc.ttoklip.data.repository.honeytip
 
 import com.umc.ttoklip.data.api.HoneyTipApi
-import com.umc.ttoklip.data.model.CreateHoneyTipResponse
+import com.umc.ttoklip.data.model.honeytip.CreateHoneyTipResponse
 import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.honeytip.HoneyTipMainResponse
 import com.umc.ttoklip.data.model.honeytip.InquireHoneyTipResponse

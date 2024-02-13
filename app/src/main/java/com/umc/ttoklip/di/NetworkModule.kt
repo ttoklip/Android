@@ -1,6 +1,5 @@
 package com.umc.ttoklip.di
 
-import android.content.SharedPreferences
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.api.HoneyTipApi
@@ -8,24 +7,17 @@ import com.umc.ttoklip.data.api.LoginApi
 import com.umc.ttoklip.data.api.NewsApi
 import com.umc.ttoklip.data.api.SignupApi
 import com.umc.ttoklip.data.api.TestApi
-import com.umc.ttoklip.data.repository.news.NewsRepository
-import com.umc.ttoklip.data.repository.news.NewsRepositoryImpl
-import com.umc.ttoklip.module.HttpRequestInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
-import okio.IOException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
