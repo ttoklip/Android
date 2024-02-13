@@ -3,6 +3,7 @@ package com.umc.ttoklip.presentation.honeytip
 import android.content.Intent
 import android.util.Log
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -16,16 +17,20 @@ import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipListRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
 import com.umc.ttoklip.presentation.honeytip.read.ReadActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 
+@AndroidEntryPoint
 class HoneyTipListFragment() :
     BaseFragment<FragmentHoneyTipListBinding>(R.layout.fragment_honey_tip_list),
     OnItemClickListener {
     private val honeyTipListRVA by lazy {
         HoneyTipListRVA(this)
     }
-    private val viewModel: HoneyTipViewModel by activityViewModels()
+    private val viewModel: HoneyTipViewModel by viewModels(
+        ownerProducer = {requireParentFragment().requireParentFragment()}
+    )
     private var board = ""
     override fun initObserver() {
         lifecycleScope.launch {
@@ -40,9 +45,17 @@ class HoneyTipListFragment() :
             }
         }
 
-        val honeyTipMainResponse = viewModel.honeyTipMainData.value
+        lifecycleScope.launch{
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                    viewModel.houseworkHoneyTip.collect{
+                        Log.d("in list", it.toString())
+                        honeyTipListRVA.submitList(it)
+                    }
+                }
+        }
 
-        viewModel.boardLiveData.observe(viewLifecycleOwner){
+
+        /*viewModel.boardLiveData.observe(viewLifecycleOwner){
             board = it
             if(it == HONEY_TIP){
                 submitHoneyTipList(honeyTipMainResponse!!)
@@ -50,35 +63,13 @@ class HoneyTipListFragment() :
             else{
                 submitQuestionList(honeyTipMainResponse!!)
             }
-        }
-    }
-
-    private fun submitHoneyTipList(honeyTipMainResponse: HoneyTipMainResponse){
-        viewModel.honeyTipCategory.observe(viewLifecycleOwner){ category->
-            when(category){
-                "집안일" -> {honeyTipListRVA.submitList(honeyTipMainResponse?.honeyTipCategory?.housework)
-                Log.d("뭐고", honeyTipMainResponse?.honeyTipCategory?.housework.toString())}
-                "레시피" -> {honeyTipListRVA.submitList(honeyTipMainResponse?.honeyTipCategory?.cooking)
-                Log.d("왜 작동 안해", honeyTipMainResponse?.honeyTipCategory?.cooking.toString())}
-                "안전한 생활" -> honeyTipListRVA.submitList(honeyTipMainResponse?.honeyTipCategory?.safeLiving)
-                else -> honeyTipListRVA.submitList(honeyTipMainResponse?.honeyTipCategory?.welfarePolicy)
-            }
-        }
-    }
-
-    private fun submitQuestionList(honeyTipMainResponse: HoneyTipMainResponse){
-        viewModel.questionCategory.observe(viewLifecycleOwner){ category->
-            when(category){
-                "집안일" -> honeyTipListRVA.submitList(honeyTipMainResponse?.questionCategory?.housework)
-                "레시피" -> honeyTipListRVA.submitList(honeyTipMainResponse?.questionCategory?.cooking)
-                "안전한 생활" -> honeyTipListRVA.submitList(honeyTipMainResponse?.questionCategory?.safeLiving)
-                else -> honeyTipListRVA.submitList(honeyTipMainResponse?.questionCategory?.welfarePolicy)
-            }
-        }
+        }*/
     }
 
     override fun initView() {
+        Log.d("initview", "시작")
         initRV()
+        //Log.d("parent", parentFragment.toString())
         /*viewModel.boardLiveData.observe(this) {
             board = it
             Log.d("HoneyTipListFragment change board", it)
@@ -101,8 +92,8 @@ class HoneyTipListFragment() :
         )*/
         //val honeyTipList = mutableListOf<HoneyTipResponse>()
 
-        binding.rv.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        /*binding.rv.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)*/
         binding.rv.addItemDecoration(
             DividerItemDecoration(
                 requireContext(),

@@ -3,6 +3,7 @@ package com.umc.ttoklip.presentation.honeytip
 import android.content.Intent
 import android.util.Log
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -16,31 +17,31 @@ import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipAndQuestionVPA
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.search.SearchActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 
+@AndroidEntryPoint
 class HoneyTipFragment: BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment_honey_tip) {
     private var board = HONEY_TIP
-    private val viewModel: HoneyTipViewModel by activityViewModels()
+    private val viewModel: HoneyTipViewModel by viewModels()
     override fun initObserver() {
-        viewModel.getHoneyTipMain()
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.honeyTipMainEvent.collect{
-                    viewModel.getHoneyTipMain()
+                    //initTabLayout()
                 }
             }
         }
 
-        viewModel.honeyTipMainData.observe(viewLifecycleOwner){
+        /*viewModel.honeyTipMainData.observe(viewLifecycleOwner){
             initTabLayout()
-        }
+        }*/
     }
 
     override fun initView() {
-        binding.lifecycleOwner = viewLifecycleOwner
-        //viewModel.getHoneyTipMain()
-        //initTabLayout()
+        viewModel.getHoneyTipMain()
+        initTabLayout()
         goWriteActivity()
         binding.searchBtn.setOnClickListener {
             startActivity(SearchActivity.newIntent(requireContext()))

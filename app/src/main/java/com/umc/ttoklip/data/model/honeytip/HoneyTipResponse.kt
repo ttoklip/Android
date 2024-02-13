@@ -5,6 +5,7 @@ data class HoneyTipResponse(
     val title: String,
     val content: String,
     val writer: String?,
+    val likeCount: Int,
     val commentCount: Int,
     val writtenTime: String
 )

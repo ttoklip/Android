@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/item_daily_popular_honey_tip_external_background"
+    android:minHeight="208dp"
     android:paddingHorizontal="24dp"
-    android:paddingVertical="24dp"
-    >
+    android:paddingVertical="24dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -56,25 +56,29 @@
 
     <TextView
         android:id="@+id/honey_tip_body_content_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="12dp"
+        android:gravity="start"
         android:textAppearance="@style/TextAppearance.App.12sp_400"
         android:textColor="@color/black"
         android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/cardView"
         app:layout_constraintTop_toBottomOf="@id/honey_tip_title_tv"
         tools:text="빨래를 돌렸는데 냄새가 나는 것 같거나 옷이 오히려 더러워진 것 같으시면 세탁기 청소 상태 문제일 수도 있어요. 세탁기 내부에 있는 먼지 거름망을 확인.." />
 
     <LinearLayout
+        android:id="@+id/layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/honey_tip_body_content_tv">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
             android:id="@+id/star_iv"
