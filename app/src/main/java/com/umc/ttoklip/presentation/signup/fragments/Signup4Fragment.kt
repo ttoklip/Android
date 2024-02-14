@@ -1,25 +1,21 @@
 package com.umc.ttoklip.presentation.signup.fragments
 
-import android.content.Intent
+import android.content.Context
+import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.registerForActivityResult
-import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.chip.Chip
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentSignup4Binding
@@ -27,11 +23,12 @@ import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
 import com.umc.ttoklip.presentation.mypage.ChooseMainInterestDialogFragment
 import com.umc.ttoklip.presentation.mypage.InputIndependentCareerDialogFragment
-import com.umc.ttoklip.presentation.signup.LocationActivity
 import com.umc.ttoklip.presentation.signup.SignupActivity
 import com.umc.ttoklip.presentation.signup.SignupViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.File
 
 @AndroidEntryPoint
 class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_signup4) {
@@ -48,19 +45,19 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.nickok.collect {
-                        if (nickcheckbtn) {
-                            if (it) {
-                                binding.signup4NickokTv.visibility = View.VISIBLE
-                                binding.signup4NicknotokTv.visibility = View.GONE
-                            } else {
-                                binding.signup4NickokTv.visibility = View.GONE
-                                binding.signup4NicknotokTv.visibility = View.VISIBLE
+                    viewModel.nickcheckbtn.collect{
+                        if(it){
+                            delay(100)
+                            viewModel.nickok.collect {
+                                if (it) {
+                                    binding.signup4NickokTv.visibility = View.VISIBLE
+                                    binding.signup4NicknotokTv.visibility = View.GONE
+                                } else {
+                                    binding.signup4NickokTv.visibility = View.GONE
+                                    binding.signup4NicknotokTv.visibility = View.VISIBLE
+                                }
+                                nextok()
                             }
-                            nextok()
-                        } else {
-                            binding.signup4NickokTv.visibility = View.GONE
-                            binding.signup4NicknotokTv.visibility = View.GONE
                         }
                     }
                 }
@@ -75,7 +72,7 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
 
         binding.signup4NickcheckButton.setOnClickListener {
             viewModel.nickCheck(binding.signup4NicknameEt.text.toString())
-            nickcheckbtn = true
+            viewModel.nickcheckclick()
         }
 
         if (independentCareerYear != null || independentCareerMonth != null) {
@@ -153,7 +150,13 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
                     chip.setChipStrokeColorResource(R.color.yellow)
                     binding.signup4InterestGroup.addView(chip)
 
-                    interestArray.add(interest)
+                    val interestType=
+                        if (interest.equals("집안일"))"HOUSEWORK"
+                    else if(interest.equals("요리"))"RECIPE"
+                    else if(interest.equals("안전한 생활"))"SAFE_LIVING"
+                    else if(interest.equals("사기"))"FRAUD"
+                    else "WELFARE_POLICY"
+                    interestArray.add(interestType)
                 }
                 if (interests.isNotEmpty()) viewModel.interestCheck(true)
                 nextok()
@@ -175,24 +178,24 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
                 viewModel.nickok.value
             ) {
                 val bundle= Bundle()
-                bundle.putString("nickname",viewModel.nickname.value)
-                bundle.putStringArrayList("interest",viewModel.categories.value)
-                bundle.putString("imageUri",viewModel.profileImage.value)
-                bundle.putInt("independentCareerYear",viewModel.independenctYear.value)
-                bundle.putInt("independentCareerMonth",viewModel.independenctMonth.value)
+                bundle.putString("nickname",binding.signup4NicknameEt.text.toString())
+                bundle.putStringArrayList("interest",interestArray)
+                bundle.putString("imageUri",imageSource)
+                bundle.putInt("independentCareerYear",independentCareerYear!!)
+                bundle.putInt("independentCareerMonth",independentCareerMonth!!)
 
                 findNavController().navigate(R.id.action_signup4_fragment_to_signup5_fragment,bundle)
             }
         }
     }
 
-    private lateinit var imageUri: Uri
+    private lateinit var imageSource:String
     private val pickMedia= registerForActivityResult(ActivityResultContracts.PickVisualMedia()){ uri ->
         if (uri!=null) {
-            imageUri=uri
             Glide.with(this).load(uri)
                 .circleCrop()
                 .into(binding.signup4ProfileImageIv)
+            imageSource=getRealPathFromUri(uri,requireContext())
         } else {
             Log.d("PhotoPicker", "No media selected")
         }
@@ -205,6 +208,20 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
             }
         })
         imageDialog.show(activity.supportFragmentManager, imageDialog.toString())
+    }
+    fun getRealPathFromUri(contentUri: Uri, context: Context): String {
+        var cursor: Cursor? = null
+        try {
+            val proj = arrayOf(MediaStore.Video.Media.DATA)
+            cursor = context.contentResolver.query(contentUri, proj, null, null, null)
+            val columnIndex = cursor?.getColumnIndexOrThrow(MediaStore.Video.Media.DATA)
+            if (cursor != null && cursor.moveToFirst()) {
+                return cursor.getString(columnIndex!!)
+            }
+        } finally {
+            cursor?.close()
+        }
+        return ""
     }
 
     private fun nextok() {

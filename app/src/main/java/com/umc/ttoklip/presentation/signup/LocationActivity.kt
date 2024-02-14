@@ -110,6 +110,10 @@ class LocationActivity :
                     }
                 viewModel.savePrivacy()
                 startActivity(Intent(this, MainActivity::class.java))
+                val loginActivity=LoginActivity.loginActivity
+                loginActivity?.finish()
+                val signupActivity=SignupActivity.signupActivity
+                signupActivity?.finish()
                 finish()
             }
         }

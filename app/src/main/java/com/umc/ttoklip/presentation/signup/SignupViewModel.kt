@@ -7,12 +7,21 @@ import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.signup.SignupRequest
 import com.umc.ttoklip.data.repository.signup.SignupRepositoryImpl
+import com.umc.ttoklip.module.onError
 import com.umc.ttoklip.module.onFail
 import com.umc.ttoklip.module.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.ResponseBody
+import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -21,6 +30,9 @@ class SignupViewModel @Inject constructor(
     private val signupRepository: SignupRepositoryImpl
 ) : ViewModel() {
 
+    private val _nickcheckbtn=MutableStateFlow<Boolean>(false)
+    val nickcheckbtn:StateFlow<Boolean>
+        get() = _nickcheckbtn
     private val _nickok = MutableStateFlow<Boolean>(false)
     val nickok: StateFlow<Boolean>
         get() = _nickok
@@ -43,6 +55,11 @@ class SignupViewModel @Inject constructor(
                 }
         }
     }
+    fun nickcheckclick(){
+       viewModelScope.launch {
+           _nickcheckbtn.value=true
+       }
+    }
 
     fun independentCheck(indendentok: Boolean) {
         viewModelScope.launch {
@@ -61,14 +78,14 @@ class SignupViewModel @Inject constructor(
         get() = _nickname
     private var _categories = MutableStateFlow<ArrayList<String>>(ArrayList<String>())
     val categories: StateFlow<ArrayList<String>>
-    get() = _categories
-    private var _profileImage=MutableStateFlow<String>("")
+        get() = _categories
+    private var _profileImage = MutableStateFlow<String>("")
     val profileImage: StateFlow<String>
         get() = _profileImage
-    private var _independenctYear=MutableStateFlow<Int>(0)
+    private var _independenctYear = MutableStateFlow<Int>(0)
     val independenctYear: StateFlow<Int>
         get() = _independenctYear
-    private var _independenctMonth=MutableStateFlow<Int>(0)
+    private var _independenctMonth = MutableStateFlow<Int>(0)
     val independenctMonth: StateFlow<Int>
         get() = _independenctMonth
 
@@ -94,20 +111,29 @@ class SignupViewModel @Inject constructor(
 
     fun savePrivacy() {
         viewModelScope.launch {
-            signupRepository.savePrivacy(
-                SignupRequest(
-                    street,
-                    nickname.value,
-                    categories.value,
-                    profileImage.value,
-                    independenctYear.value,
-                    independenctMonth.value
-                )
-            ).onSuccess {
-                Log.i("USER-SAVE", "성공")
-            }.onFail {
-                Log.d("USER-SAVE", "실패")
+            val file = File(profileImage.value)
+            val requestBody = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+            val fileToUpload =
+                MultipartBody.Part.createFormData("profileImage", file.name+".jpg", requestBody)
+
+            val cate=ArrayList<MultipartBody.Part>()
+            for (c in categories.value) {
+                cate.add(MultipartBody.Part.createFormData("categories",c))
             }
+
+            val requestMap= hashMapOf<String, RequestBody>()
+            requestMap["street"] = street.toRequestBody("text/plain".toMediaTypeOrNull())
+            requestMap["nickname"] = nickname.value.toRequestBody("text/plain".toMediaTypeOrNull())
+            requestMap["independentYear"] = independenctYear.value.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+            requestMap["independentMonth"] = independenctMonth.value.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+            signupRepository.savePrivacy(fileToUpload, requestMap,cate)
+                .onSuccess {
+                    Log.i("USERSAVE", "성공")
+                }.onFail {
+                    Log.d("USERSAVE", "실패")
+                }.onError {
+                    Log.d("USERSAVE ERROR", it.toString())
+                }
         }
     }
 }

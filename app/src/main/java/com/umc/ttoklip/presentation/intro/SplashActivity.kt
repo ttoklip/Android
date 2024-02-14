@@ -23,6 +23,7 @@ class SplashActivity:BaseActivity<ActivitySplashBinding>(R.layout.activity_splas
                 finish()
             }else if(jwt.isNotEmpty()&&!isFirstLogin){
                 startActivity(Intent(this,MainActivity::class.java))
+                finish()
             } else{
                 startActivity(Intent(this, LoginActivity::class.java))
                 finish()

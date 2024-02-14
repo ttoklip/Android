@@ -13,6 +13,7 @@ import com.umc.ttoklip.data.model.signup.SignupRequest
 import com.umc.ttoklip.databinding.FragmentSignup5Binding
 import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
+import com.umc.ttoklip.presentation.login.LoginActivity
 import com.umc.ttoklip.presentation.signup.DirectLocationActivity
 import com.umc.ttoklip.presentation.signup.LocationActivity
 import com.umc.ttoklip.presentation.signup.SignupActivity
@@ -81,6 +82,8 @@ class Signup5Fragment: BaseFragment<FragmentSignup5Binding>(R.layout.fragment_si
         }
         binding.signup5NextBtn.setOnClickListener {
             startActivity(Intent(activity, MainActivity::class.java))
+            val loginActivity=LoginActivity.loginActivity
+            loginActivity?.finish()
             activity.finish()
         }
     }
