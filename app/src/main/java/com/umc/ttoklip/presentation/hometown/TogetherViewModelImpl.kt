@@ -2,6 +2,7 @@ package com.umc.ttoklip.presentation.hometown
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.ttoklip.data.repository.town.ReadTogetherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +13,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TogetherViewModelImpl @Inject constructor() : ViewModel(), TogetherViewModel {
+class TogetherViewModelImpl @Inject constructor(private val repository: ReadTogetherRepository) :
+    ViewModel(), TogetherViewModel {
     private val _filterRequiredAmount = MutableStateFlow(0)
     override val filterRequiredAmount: StateFlow<Int>
         get() = _filterRequiredAmount
