@@ -7,8 +7,10 @@ import android.location.Address
 import android.location.Geocoder
 import android.os.Build
 import android.widget.SeekBar
+import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
@@ -23,11 +25,15 @@ import com.umc.ttoklip.databinding.ActivityLocationBinding
 import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.login.LoginActivity
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
+@AndroidEntryPoint
 class LocationActivity :
     BaseActivity<ActivityLocationBinding>(R.layout.activity_location),
     OnMapReadyCallback {
+
+    private val viewModel: SignupViewModel by viewModels()
 
     private lateinit var naverMap: NaverMap
     private lateinit var locationSource: FusedLocationSource
@@ -39,9 +45,9 @@ class LocationActivity :
         Manifest.permission.ACCESS_COARSE_LOCATION
     )
     private lateinit var range: String
-    private lateinit var circle:CircleOverlay
+    private lateinit var circle: CircleOverlay
 
-    private var locationok:Boolean=false
+    private var locationok: Boolean = false
 
 
     override fun initView() {
@@ -49,7 +55,7 @@ class LocationActivity :
             ActivityCompat.requestPermissions(this, PERMISSIONS, LOCATION_PERMISSION_REQUEST_CODE)
         }
         initMapView()
-        circle= CircleOverlay()
+        circle = CircleOverlay()
 
         range = getString(R.string.range_500m)
         binding.locationRangeDescTv.text =
@@ -69,7 +75,7 @@ class LocationActivity :
                 } else {
                     setRange15km()
                 }
-                if(locationok) setcircle()
+                if (locationok) setcircle()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
@@ -86,13 +92,24 @@ class LocationActivity :
                         setRange15km()
                     }
                 }
-                if(locationok) setcircle()
+                if (locationok) setcircle()
             }
         })
 
         binding.locationNextBtn.setOnClickListener {
-            if (locationok){
-                startActivity(Intent(this,MainActivity::class.java))
+            if (locationok) {
+                val bundle = intent.getBundleExtra("userInfo")
+                if (bundle != null) {
+                    viewModel.saveUserStreet(address)
+                    viewModel.saveUserInfoAt4(
+                        bundle.getString("nickname")!!,
+                        bundle.getStringArrayList("interest")!!,
+                        bundle.getString("imageUri")!!,
+                        bundle.getInt("independentCareerYear")!!,
+                        bundle.getInt("independentCareerMonth")!!)
+                    }
+                viewModel.savePrivacy()
+                startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }
         }
@@ -115,19 +132,19 @@ class LocationActivity :
                 it.latitude,
                 it.longitude
             )
-            circle.center= LatLng(it.latitude,it.longitude)
-            locationok=true
+            circle.center = LatLng(it.latitude, it.longitude)
+            locationok = true
             setcircle()
             nextok()
         }
     }
 
-    private fun setcircle(){
-        if(range=="500m")circle.radius=500.0
-        else if(range=="1km")circle.radius=1000.0
-        else circle.radius=1500.0
-        circle.color=ContextCompat.getColor(this, R.color.yellow_trans30)
-        circle.map=naverMap
+    private fun setcircle() {
+        if (range == "500m") circle.radius = 500.0
+        else if (range == "1km") circle.radius = 1000.0
+        else circle.radius = 1500.0
+        circle.color = ContextCompat.getColor(this, R.color.yellow_trans30)
+        circle.map = naverMap
     }
 
     private fun hasPermission(): Boolean {
@@ -141,13 +158,13 @@ class LocationActivity :
         return true
     }
 
-    private fun nextok(){
-        if(locationok){
-            binding.locationNextBtn.isClickable=true
+    private fun nextok() {
+        if (locationok) {
+            binding.locationNextBtn.isClickable = true
             binding.locationNextBtn.setBackgroundResource(R.drawable.rectangle_corner_10_yellow)
             binding.locationNextBtn.setTextAppearance(R.style.TextAppearance_App_16sp_700)
-        }else{
-            binding.locationNextBtn.isClickable=false
+        } else {
+            binding.locationNextBtn.isClickable = false
             binding.locationNextBtn.setBackgroundResource(R.drawable.rectangle_corner_10_strok_1_black)
             binding.locationNextBtn.setTextAppearance(R.style.TextAppearance_App_16sp_500)
         }

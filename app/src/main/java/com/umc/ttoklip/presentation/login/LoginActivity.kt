@@ -80,6 +80,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                     } else if (token != null) {
                         Log.i("카카오로그인", "카카오톡으로 로그인 성공")
                         val loginRequest = LoginRequest("${token.accessToken}", "kakao")
+//                        Log.i("KAKAO-LOGIN","${token.accessToken}")
                         viewModel.postLogin(loginRequest)
                     }
                 }
