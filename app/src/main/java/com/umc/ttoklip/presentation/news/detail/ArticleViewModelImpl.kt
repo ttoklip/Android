@@ -39,12 +39,26 @@ class ArticleViewModelImpl @Inject constructor(
     override val replyCommentParentId = MutableStateFlow(0)
     override val commentContent = MutableStateFlow("")
 
+    private val  _toast = MutableStateFlow("")
+    override val toast: MutableStateFlow<String>
+        get() = _toast
+
+    private val _isLike = MutableStateFlow(false)
+    override val isLike: MutableStateFlow<Boolean>
+        get() = _isLike
+
+    private val _isScrap = MutableStateFlow(false)
+    override val isScrap: MutableStateFlow<Boolean>
+        get() = _isScrap
+
     override fun getDetail(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 newsRepository.getDetailNews(id)
                     .onSuccess {
                         _newsDetail.emit(it)
+                        //라이크 스크랩 상태 받을 예정
+
                         _comments.emit(it.commentResponses.sortedBy { comment ->
                             comment.parentId ?: comment.commentId
                         })
@@ -89,6 +103,7 @@ class ArticleViewModelImpl @Inject constructor(
                     id
                 ).onSuccess {
                     getDetail(postId)
+                    _toast.emit("댓글을 삭제했습니다.")
                 }.onFail {
 
                 }.onException {
@@ -100,6 +115,99 @@ class ArticleViewModelImpl @Inject constructor(
             }
         }
     }
+
+    override fun postLike() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                newsRepository.postLikeNews(
+                    newsDetail.value.newsletterId
+                ).onSuccess {
+                    _isLike.emit(true)
+                    _newsDetail.emit(newsDetail.value.copy().also {
+                        it.likeCount += 1
+                    })
+                    _toast.emit("뉴스 좋아요")
+                }.onFail {
+
+                }.onException {
+                    throw it
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.d("예외", "$e")
+            }
+        }
+    }
+
+    override fun deleteLike() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                newsRepository.deleteLikeNews(
+                    newsDetail.value.newsletterId
+                ).onSuccess {
+                    _isLike.emit(false)
+                    _newsDetail.emit(newsDetail.value.copy().also {
+                        it.likeCount -= 1
+                    })
+                    _toast.emit("뉴스 좋아요 취소")
+                }.onFail {
+
+                }.onException {
+                    throw it
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.d("예외", "$e")
+            }
+        }
+    }
+
+    override fun postScrap() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                newsRepository.postScrapNews(
+                    newsDetail.value.newsletterId
+                ).onSuccess {
+                    _isScrap.emit(true)
+                    _newsDetail.emit(newsDetail.value.copy().also {
+                        it.scrapCount += 1
+                    })
+                    _toast.emit("뉴스 스크랩")
+                }.onFail {
+
+                }.onException {
+                    throw it
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.d("예외", "$e")
+            }
+        }
+    }
+
+    override fun deleteScrap() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                newsRepository.deleteScrapNews(
+                    newsDetail.value.newsletterId
+                ).onSuccess {
+                    _isScrap.emit(false)
+                    _newsDetail.emit(newsDetail.value.copy().also {
+                        it.scrapCount -= 1
+                    })
+                    _toast.emit("뉴스 스크랩 취소")
+                }.onFail {
+
+                }.onException {
+                    throw it
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.d("예외", "$e")
+            }
+        }
+    }
+
     override fun postReportNews(id: Int, content: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -107,7 +215,7 @@ class ArticleViewModelImpl @Inject constructor(
                     id,
                     ReportRequest(content, reportType = "INAPPROPRIATE_CONTENT")
                 ).onSuccess {
-
+                    _toast.emit("게시글을 신고했습니다.")
                 }.onFail {
 
                 }.onException {
@@ -127,7 +235,7 @@ class ArticleViewModelImpl @Inject constructor(
                     id,
                     ReportRequest("부적절한 댓글", reportType = "INAPPROPRIATE_CONTENT")
                 ).onSuccess {
-
+                    _toast.emit("댓글을 신고했습니다.")
                 }.onFail {
 
                 }.onException {
