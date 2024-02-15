@@ -76,6 +76,10 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
                 binding.contentT.text = event.inquireQuestionResponse.content
                 binding.linkT.text = event.inquireQuestionResponse.urlResponses?.firstOrNull()
                 imageAdapter.submitList(event.inquireQuestionResponse.imageUrls)
+                val writer = TtoklipApplication.prefs.getString("nickname", "")
+                if(event.inquireQuestionResponse.writer == writer){
+                    showReportBtn()
+                }
             }
 
             else -> {Toast.makeText(this, "신고가 완료되었습니다.", Toast.LENGTH_SHORT).show()}
@@ -184,7 +188,11 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
             reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
                 override fun onClick(request: ReportRequest) {
                     Log.d("report request", request.toString())
-                    viewModel.reportHoneyTip(postId, request)
+                    if(BOARD == HONEY_TIP) {
+                        viewModel.reportHoneyTip(postId, request)
+                    } else {
+                        viewModel.reportQuestion(postId, request)
+                    }
                 }
             })
             reportDialog.show(supportFragmentManager, reportDialog.tag)

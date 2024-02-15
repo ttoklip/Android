@@ -74,7 +74,7 @@ class ReadHoneyTipViewModel @Inject constructor(
 
     fun reportQuestion(questionId: Int, request: ReportRequest){
         viewModelScope.launch(Dispatchers.IO) {
-            repository.reportHoneyTip(questionId, request).onSuccess {
+            repository.reportQuestion(questionId, request).onSuccess {
                 Log.d("report Question", it.toString())
                 event(ReadEvent.ReportQuestion)
             }
