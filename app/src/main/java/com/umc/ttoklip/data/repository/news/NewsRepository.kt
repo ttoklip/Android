@@ -19,4 +19,12 @@ interface NewsRepository {
 
     suspend fun deleteCommentNews(postId: Int): NetworkResult<CommonResponse>
 
+    suspend fun postLikeNews(postId: Int): NetworkResult<CommonResponse>
+
+    suspend fun deleteLikeNews(postId: Int): NetworkResult<CommonResponse>
+
+    suspend fun postScrapNews(postId: Int): NetworkResult<CommonResponse>
+
+    suspend fun deleteScrapNews(postId: Int): NetworkResult<CommonResponse>
+
 }
