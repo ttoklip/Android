@@ -46,4 +46,20 @@ class NewsRepositoryImpl @Inject constructor(
         return handleApi({api.deleteCommentNewsApi(commentId = postId)}) {response: ResponseBody<CommonResponse> -> response.result}
     }
 
+    override suspend fun postLikeNews(postId: Int): NetworkResult<CommonResponse> {
+        return handleApi({api.postLikeNewsApi(postId = postId)}) {response: ResponseBody<CommonResponse> -> response.result}
+    }
+
+    override suspend fun deleteLikeNews(postId: Int): NetworkResult<CommonResponse> {
+        return handleApi({api.deleteLikeNewsApi(postId = postId)}) {response: ResponseBody<CommonResponse> -> response.result}
+    }
+
+    override suspend fun postScrapNews(postId: Int): NetworkResult<CommonResponse> {
+        return handleApi({api.postScrapNewsApi(postId = postId)}) {response: ResponseBody<CommonResponse> -> response.result}
+    }
+
+    override suspend fun deleteScrapNews(postId: Int): NetworkResult<CommonResponse> {
+        return handleApi({api.deleteScrapNewsApi(postId = postId)}) {response: ResponseBody<CommonResponse> -> response.result}
+    }
+
 }
