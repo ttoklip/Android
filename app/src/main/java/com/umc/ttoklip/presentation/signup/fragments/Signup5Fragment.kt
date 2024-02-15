@@ -1,17 +1,27 @@
 package com.umc.ttoklip.presentation.signup.fragments
 
 import android.content.Intent
+import android.os.Bundle
 import android.widget.SeekBar
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.umc.ttoklip.R
+import com.umc.ttoklip.data.model.signup.SignupRequest
 import com.umc.ttoklip.databinding.FragmentSignup5Binding
 import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
+import com.umc.ttoklip.presentation.login.LoginActivity
 import com.umc.ttoklip.presentation.signup.DirectLocationActivity
 import com.umc.ttoklip.presentation.signup.LocationActivity
 import com.umc.ttoklip.presentation.signup.SignupActivity
+import com.umc.ttoklip.presentation.signup.SignupViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 class Signup5Fragment: BaseFragment<FragmentSignup5Binding>(R.layout.fragment_signup5) {
+
     private lateinit var range: String
 
     override fun initObserver() {
@@ -56,13 +66,24 @@ class Signup5Fragment: BaseFragment<FragmentSignup5Binding>(R.layout.fragment_si
         })
 
         binding.signup5LocationBtn.setOnClickListener {
-            startActivity(Intent(activity, LocationActivity::class.java))
+            val bbundle= requireArguments()
+            val abundle=Bundle()
+            abundle.putString("nickname",bbundle.getString("nickname"))
+            abundle.putStringArrayList("interest",bbundle.getStringArrayList("interest"))
+            abundle.putString("imageUri",bbundle.getString("imageUri"))
+            abundle.putInt("independentCareerYear",bbundle.getInt("independentCareerYear"))
+            abundle.putInt("independentCareerMonth",bbundle.getInt("independentCareerMonth"))
+            val intent=Intent(activity, LocationActivity::class.java)
+            intent.putExtra("userInfo",abundle)
+            startActivity(intent)
         }
         binding.signup5LocationDirectEt.setOnClickListener {
             startActivity(Intent(activity, DirectLocationActivity::class.java))
         }
         binding.signup5NextBtn.setOnClickListener {
             startActivity(Intent(activity, MainActivity::class.java))
+            val loginActivity=LoginActivity.loginActivity
+            loginActivity?.finish()
             activity.finish()
         }
     }
