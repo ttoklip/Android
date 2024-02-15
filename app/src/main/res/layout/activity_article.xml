@@ -175,7 +175,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:src="@drawable/ic_bookmark_off_20"
+                    android:src="@{vm.isScrap ? @drawable/ic_bookmark_on_20 : @drawable/ic_bookmark_off_20}"
                     app:layout_constraintStart_toStartOf="@id/contentT"
                     app:layout_constraintTop_toBottomOf="@id/link_layout" />
 
@@ -184,7 +184,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
-                    android:text="00"
+                    bind:textInt="@{vm.newsDetail.scrapCount}"
                     android:textAppearance="@style/TextAppearance.App.8sp_400"
                     android:textColor="@color/black"
                     android:textSize="12sp"
@@ -197,7 +197,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
-                    android:src="@drawable/ic_heart_off_20"
+                    android:src="@{vm.isLike() ? @drawable/ic_heart_on_20 : @drawable/ic_heart_off_20}"
                     app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
                     app:layout_constraintStart_toEndOf="@id/bookmarkT"
                     app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
@@ -207,7 +207,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
-                    android:text="00"
+                    bind:textInt="@{vm.newsDetail.likeCount}"
                     android:textAppearance="@style/TextAppearance.App.8sp_400"
                     android:textColor="@color/black"
                     android:textSize="12sp"
@@ -244,6 +244,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/rectangle_corner_4"
+                    android:onClick="@{()-> vm.isScrap ? vm.deleteScrap() : vm.postScrap() }"
                     android:backgroundTint="@color/gray20"
                     app:layout_constraintStart_toStartOf="@id/bookmarkImg"
                     app:layout_constraintTop_toBottomOf="@id/bookmarkImg">
@@ -281,6 +282,7 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/rectangle_corner_4"
+                    android:onClick="@{()-> vm.isLike() ? vm.deleteLike() : vm.postLike()}"
                     android:backgroundTint="@color/gray20"
                     app:layout_constraintStart_toEndOf="@id/scrapBtn"
                     app:layout_constraintTop_toBottomOf="@id/bookmarkImg">
