@@ -57,8 +57,16 @@ interface HoneyTipApi {
     @DELETE("/api/v1/honeytips/posts/{postId}")
     suspend fun deleteHoneyTip(@Path("postId") honeyTipId: Int): Response<ResponseBody<CreateHoneyTipResponse>>
 
+    @Multipart
     @PATCH("/api/v1/honeytips/posts/{postId}")
-    suspend fun patchHoneyTip(@Path("postId") honeyTipId: Int): Response<ResponseBody<CreateHoneyTipResponse>>
+    suspend fun patchHoneyTip(
+        @Path("postId") honeyTipId: Int,
+        @Part("title") title: RequestBody,
+        @Part("content") content: RequestBody,
+        @Part("category") category: RequestBody,
+        @Part images: Array<MultipartBody.Part>,
+        @Part("url") url: RequestBody
+    ): Response<ResponseBody<CreateHoneyTipResponse>>
 
     //꿀팁 댓글
     @POST("/api/v1/honeytip/comment/{postId}")

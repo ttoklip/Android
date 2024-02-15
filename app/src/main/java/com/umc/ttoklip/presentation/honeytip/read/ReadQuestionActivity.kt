@@ -1,20 +1,16 @@
 package com.umc.ttoklip.presentation.honeytip.read
 
 import android.content.Intent
-import android.media.Image
-import android.net.Uri
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
-import com.umc.ttoklip.data.model.honeytip.EditHoneyTip
 import com.umc.ttoklip.data.model.honeytip.ImageUrl
 import com.umc.ttoklip.data.model.honeytip.request.ReportRequest
 import com.umc.ttoklip.databinding.ActivityReadHoneyTipBinding
@@ -26,15 +22,13 @@ import com.umc.ttoklip.presentation.honeytip.adapter.OnReadImageClickListener
 import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
 import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
-import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.news.adapter.Comment
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ReadHoneyTipActivity :
-    BaseActivity<ActivityReadHoneyTipBinding>(R.layout.activity_read_honey_tip),
+class ReadQuestionActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.activity_read_honey_tip),
     OnReadImageClickListener {
     private val viewModel: ReadHoneyTipViewModel by viewModels()
 
@@ -43,33 +37,31 @@ class ReadHoneyTipActivity :
     }
 
     private val imageAdapter: ReadImageRVA by lazy {
-        ReadImageRVA(this, this@ReadHoneyTipActivity)
+        ReadImageRVA(this, this@ReadQuestionActivity)
     }
     private var isShowMenu = false
     private var postId = 0
-    private var category = ""
 
     override fun initObserver() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.readEvent.collect {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.readEvent.collect{
                     handleEvent(it)
                 }
             }
         }
     }
 
-    private fun handleEvent(event: ReadHoneyTipViewModel.ReadEvent) {
-        when (event) {
-            is ReadHoneyTipViewModel.ReadEvent.ReadHoneyTipEvent -> {
-                binding.titleTv.text = event.inquireHoneyTipResponse.title
-                binding.writerTv.text = event.inquireHoneyTipResponse.writer
-                binding.contentT.text = event.inquireHoneyTipResponse.content
-                binding.linkT.text = event.inquireHoneyTipResponse.urlResponses?.firstOrNull()?.urls
-                imageAdapter.submitList(event.inquireHoneyTipResponse.imageUrls)
-                category = event.inquireHoneyTipResponse.category
+    private fun handleEvent(event: ReadHoneyTipViewModel.ReadEvent){
+        when(event){
+            is ReadHoneyTipViewModel.ReadEvent.ReadQuestionEvent -> {
+                binding.titleTv.text = event.inquireQuestionResponse.title
+                binding.writerTv.text = event.inquireQuestionResponse.writer
+                binding.contentT.text = event.inquireQuestionResponse.content
+                binding.linkT.text = event.inquireQuestionResponse.urlResponses?.firstOrNull()
+                imageAdapter.submitList(event.inquireQuestionResponse.imageUrls)
                 val writer = TtoklipApplication.prefs.getString("nickname", "")
-                if (event.inquireHoneyTipResponse.writer == writer) {
+                if(event.inquireQuestionResponse.writer == writer){
                     showHoneyTipWriterMenu()
                 } else {
                     showReportBtn()
@@ -77,16 +69,16 @@ class ReadHoneyTipActivity :
             }
 
             else -> {
-                Toast.makeText(this, "신고가 완료되었습니다.", Toast.LENGTH_SHORT).show()
-            }
+                Toast.makeText(this, "신고가 완료되었습니다.", Toast.LENGTH_SHORT).show()}
         }
     }
-
     override fun initView() {
         postId = intent.getIntExtra("postId", 0)
         Log.d("read postid", postId.toString())
-        binding.boardTitleTv.text = "꿀팁 공유하기"
-        viewModel.inquireHoneyTip(postId)
+
+        binding.boardTitleTv.text = "질문하기"
+        binding.linkLayout.visibility = View.GONE
+        viewModel.inquireQuestion(postId)
 
         binding.backBtn.setOnClickListener {
             finish()
@@ -95,7 +87,6 @@ class ReadHoneyTipActivity :
         initImageRVA()
         showDeleteDialog()
         showReportDialog()
-        editHoneyTip()
 
         binding.commentRv.adapter = commentRVA
         commentRVA.submitList(
@@ -106,12 +97,10 @@ class ReadHoneyTipActivity :
             )
         )
     }
-
     private fun initImageRVA() {
         binding.imageRv.adapter = imageAdapter
     }
-
-    private fun showReportBtn() {
+    private fun showReportBtn(){
         binding.dotBtn.setOnClickListener {
             if (!isShowMenu) {
                 binding.reportBtn.bringToFront()
@@ -137,25 +126,7 @@ class ReadHoneyTipActivity :
         }
     }
 
-    private fun editHoneyTip() {
-        binding.editBtn.setOnClickListener {
-            val intent = Intent(this, WriteHoneyTipActivity::class.java)
-            intent.putExtra("isEdit", true)
-            intent.putExtra(BOARD, HONEY_TIP)
-            val images = imageAdapter.currentList.filterIsInstance<ImageUrl>()?.map { it.imageUrl }
-                ?.toTypedArray()
-            val editHoneyTip = EditHoneyTip(
-                postId,
-                binding.titleTv.text.toString(),
-                binding.contentT.text.toString(),
-                category,
-                images ?: emptyArray(),
-                binding.linkT.text.toString()
-            )
-            intent.putExtra("honeyTip", editHoneyTip)
-            startActivity(intent)
-        }
-    }
+    //private fun editHoneyTip()
 
     /*private fun editHoneyTip() {
         binding.editBtn.setOnClickListener {
@@ -193,7 +164,7 @@ class ReadHoneyTipActivity :
             reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
                 override fun onClick(request: ReportRequest) {
                     Log.d("report request", request.toString())
-                    viewModel.reportHoneyTip(postId, request)
+                    viewModel.reportQuestion(postId, request)
                 }
             })
             reportDialog.show(supportFragmentManager, reportDialog.tag)
@@ -213,6 +184,7 @@ class ReadHoneyTipActivity :
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        //Log.d("event", isTouchInside(binding.dotBtn, ev?.x!!, ev?.y!!).toString())
         if (isShowMenu && !isTouchInside(binding.dotBtn, ev?.x!!, ev?.y!!)) {
             if (!isTouchInside(binding.honeyTipMenu, ev?.x!!, ev?.y!!)) {
                 binding.honeyTipMenu.visibility = View.GONE

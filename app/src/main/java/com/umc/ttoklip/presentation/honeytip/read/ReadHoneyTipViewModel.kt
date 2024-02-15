@@ -80,14 +80,4 @@ class ReadHoneyTipViewModel @Inject constructor(
             }
         }
     }
-
-    enum class ReportType{
-        FISHING_DUPLICATE_SPAM,
-        COMMERCIAL_ADVERTISING,
-        INAPPROPRIATE_CONTENT,
-        ABUSE,
-        RELIGIOUS_PROSELYTIZING,
-        INAPPROPRIATE_FOR_FORUM,
-        LEAK_IMPERSONATION_FRAUD
-    }
 }

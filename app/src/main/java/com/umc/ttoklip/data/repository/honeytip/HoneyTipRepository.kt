@@ -25,9 +25,19 @@ interface HoneyTipRepository {
 
     suspend fun deleteHoneyTip(honeyTipId: Int): NetworkResult<CreateHoneyTipResponse>
 
-    suspend fun editHoneyTip(honeyTipId: Int): NetworkResult<CreateHoneyTipResponse>
+    suspend fun editHoneyTip(
+        honeyTipId: Int,
+        title: RequestBody,
+        content: RequestBody,
+        category: RequestBody,
+        images: Array<MultipartBody.Part>,
+        url: RequestBody
+    ): NetworkResult<CreateHoneyTipResponse>
 
-    suspend fun reportHoneyTip(honeyTipId: Int, request: ReportRequest): NetworkResult<CreateHoneyTipResponse>
+    suspend fun reportHoneyTip(
+        honeyTipId: Int,
+        request: ReportRequest
+    ): NetworkResult<CreateHoneyTipResponse>
 
     //질문
     suspend fun createQuestion(
@@ -39,6 +49,9 @@ interface HoneyTipRepository {
 
     suspend fun inquireQuestion(questionId: Int): NetworkResult<InquireQuestionResponse>
 
-    suspend fun reportQuestion(questionId: Int, request: ReportRequest): NetworkResult<CreateHoneyTipResponse>
+    suspend fun reportQuestion(
+        questionId: Int,
+        request: ReportRequest
+    ): NetworkResult<CreateHoneyTipResponse>
 
 }

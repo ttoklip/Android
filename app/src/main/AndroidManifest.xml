@@ -187,6 +187,7 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity android:name="com.umc.ttoklip.presentation.honeytip.ImageViewActivity" />
+        <activity android:name=".presentation.honeytip.read.ReadQuestionActivity" />
 
     </application>
 

@@ -1,11 +1,11 @@
 package com.umc.ttoklip.presentation.honeytip.write
 
-import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Typeface
 import android.net.Uri
-import android.provider.MediaStore
+import android.os.Build
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +16,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -23,7 +24,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.tabs.TabLayout
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
-import com.umc.ttoklip.databinding.ActivityHoneyTipBinding
+import com.umc.ttoklip.data.model.honeytip.EditHoneyTip
+import com.umc.ttoklip.databinding.ActivityWriteHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.BOARD
 import com.umc.ttoklip.presentation.honeytip.HONEY_TIP
@@ -37,28 +39,23 @@ import com.umc.ttoklip.presentation.mypage.adapter.HoneyTip
 import com.umc.ttoklip.util.WriteHoneyTipUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
 
 
 @AndroidEntryPoint
-class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.activity_honey_tip),
+class WriteHoneyTipActivity :
+    BaseActivity<ActivityWriteHoneyTipBinding>(R.layout.activity_write_honey_tip),
     OnImageClickListener {
     private val imageAdapter: ImageRVA by lazy {
-        ImageRVA(this)
+        ImageRVA(this, this)
     }
     private val board: String by lazy {
         intent.getStringExtra(BOARD)!!
     }
     private val viewModel: WriteHoneyTipViewModel by viewModels()
-    private var category: Category = Category.HOUSEWORK
+    private var category = Category.HOUSEWORK.toString()
     private var isEdit = false
     private var images = mutableListOf<Uri>()
+    private var postId = 0
 
     private val pickMultipleMedia = registerForActivityResult(
         ActivityResultContracts.PickMultipleVisualMedia(
@@ -77,9 +74,10 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
         initTabLayout()
         initImageRVA()
         checkHoneyTipOrQuestion()
-        //edit()
+        edit()
         addLink()
         showAddImageDialog()
+        enableWriteDoneButton()
         writeDone()
         binding.backBtn.setOnClickListener {
             finish()
@@ -96,23 +94,24 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
         }
 
         viewModel.isBodyNull.observe(this) {
-            if (viewModel.isBodyNull.value == false && viewModel.isTitleNull.value == false) {
-                binding.writeDoneBtn.isEnabled = true
-            }
+            Log.d("body", it.toString())
+            if(!isEdit)
+            binding.writeDoneBtn.isEnabled = viewModel.isBodyNull.value == false && viewModel.isTitleNull.value == false
         }
         viewModel.isTitleNull.observe(this) {
-            if (viewModel.isBodyNull.value == false && viewModel.isTitleNull.value == false) {
-                binding.writeDoneBtn.isEnabled = true
-            }
+            Log.d("title", it.toString())
+            if(!isEdit)
+            binding.writeDoneBtn.isEnabled = viewModel.isBodyNull.value == false && viewModel.isTitleNull.value == false
         }
     }
 
-    private fun handleEvent(event: WriteHoneyTipViewModel.WriteDoneEvent){
+    private fun handleEvent(event: WriteHoneyTipViewModel.WriteDoneEvent) {
         val intent = Intent(this@WriteHoneyTipActivity, ReadHoneyTipActivity::class.java)
-        when(event){
+        when (event) {
             is WriteHoneyTipViewModel.WriteDoneEvent.WriteDoneHoneyTip -> {
                 intent.putExtra("postId", event.postId)
             }
+
             is WriteHoneyTipViewModel.WriteDoneEvent.WriteDoneQuestion -> {
                 intent.putExtra("postId", event.postId)
             }
@@ -120,6 +119,34 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
         intent.putExtra(BOARD, board)
         startActivity(intent)
         finish()
+    }
+
+    private fun edit() {
+        isEdit = intent.getBooleanExtra("isEdit", false)
+        if (!isEdit){
+            return
+        } else {
+            val editHoneyTip = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                intent.getSerializableExtra("honeyTip", EditHoneyTip::class.java)
+            } else {
+                intent.getSerializableExtra("honeyTip") as EditHoneyTip
+            }
+            with(binding) {
+                writeDoneBtn.isEnabled = true
+                writeDoneBtn.text = "수정완료"
+                titleEt.setText(editHoneyTip?.title)
+                bodyEt.setText(editHoneyTip?.content)
+                inputUrlEt.setText(editHoneyTip?.url)
+                imageRv.visibility = View.VISIBLE
+                addLinkBtn.visibility = View.GONE
+                inputUrlEt.visibility = View.VISIBLE
+            }
+            val images = editHoneyTip?.image?.map { it -> Image(Uri.parse(it)) }
+            imageAdapter.submitList(images)
+            postId = editHoneyTip?.postId ?: 0
+            category = editHoneyTip?.category?:""
+            binding.tabLayout.selectTab(binding.tabLayout.getTabAt(stringToNum(category)))
+        }
     }
 
     /*private fun edit() {
@@ -184,36 +211,93 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
     }
 
     private fun enableWriteDoneButton() {
-        binding.titleEt.doAfterTextChanged {
+        /*binding.titleEt.doAfterTextChanged {
             if (it.toString().isNotBlank()) {
                 viewModel.setTitle(false)
             } else {
                 viewModel.setTitle(true)
             }
-        }
+        }*/
 
-        binding.bodyEt.doAfterTextChanged {
+        binding.titleEt.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                if(s.toString().isNotBlank()){
+                    viewModel.setTitle(false)
+                } else {
+                    viewModel.setTitle(true)
+                }
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(s.toString().isNotBlank()){
+                    viewModel.setTitle(false)
+                } else {
+                    viewModel.setTitle(true)
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if(s.toString().isNotBlank()){
+                    viewModel.setTitle(false)
+                } else {
+                    viewModel.setTitle(true)
+                }
+            }
+
+        })
+
+        binding.bodyEt.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                if(s.toString().isNotBlank()){
+                    viewModel.setBody(false)
+                } else {
+                    viewModel.setBody(true)
+                }
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(s.toString().isNotBlank()){
+                    viewModel.setBody(false)
+                } else {
+                    viewModel.setBody(true)
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if(s.toString().isNotBlank()){
+                    viewModel.setBody(false)
+                } else {
+                    viewModel.setBody(true)
+                }
+            }
+
+        })
+
+        /*binding.bodyEt.doAfterTextChanged {
             if (it.toString().isNotBlank()) {
                 viewModel.setBody(false)
             } else {
                 viewModel.setBody(true)
             }
-        }
+        }*/
     }
+
     private fun writeDone() {
-        enableWriteDoneButton()
-        if (!isEdit) {
-            binding.writeDoneBtn.setOnClickListener {
-                val images =
-                    imageAdapter.currentList.filterIsInstance<Image>().map { it.uri }.toList()
-                val imageParts = WriteHoneyTipUtil(this).convertUriToMultiBody(images)
+        binding.writeDoneBtn.setOnClickListener {
+            val images =
+                imageAdapter.currentList.filterIsInstance<Image>().map { it.uri }.toList()
+            val imageParts = WriteHoneyTipUtil(this).convertUriToMultiBody(images)
 
-                val title = binding.titleEt.text.toString()
-                val content = binding.bodyEt.text.toString()
-                val category = category.toString()
-                Log.d("write done category", category)
-                val url = binding.inputUrlEt.text.toString()
+            val title = binding.titleEt.text.toString()
+            val content = binding.bodyEt.text.toString()
+            val category = category.toString()
+            Log.d("write done category", category)
+            val url = binding.inputUrlEt.text.toString()
 
+            if(isEdit){
+                Log.d("it Edit", isEdit.toString())
+                viewModel.editHoneyTip(postId, title, content, category, imageParts, url)
+            } else {
                 if (board == HONEY_TIP) {
                     viewModel.createHoneyTip(title, content, category, imageParts, url)
                 } else {
@@ -222,6 +306,7 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
             }
         }
     }
+
 
     /*private fun convertResizeImage(imageUri: Uri): Uri {
         val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
@@ -343,7 +428,7 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                category = stringToEnum(tab?.text.toString())
+                category = tabTextToCategory(tab?.text.toString())
                 setSelectedTabTextStyleBold(
                     R.font.pretendard_bold,
                     binding.tabLayout.selectedTabPosition
@@ -407,8 +492,7 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
                     }
                 })
                 imageDialog.show(supportFragmentManager, imageDialog.toString())
-            }
-            else{
+            } else {
                 binding.imageRv.visibility = View.VISIBLE
                 pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             }
@@ -434,17 +518,17 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
         WELFARE_POLICY
     }
 
-    private fun stringToEnum(string: kotlin.String): Category {
+    private fun tabTextToCategory(string: kotlin.String): String {
         return when (string) {
-            "집안일" -> Category.HOUSEWORK
-            "요리" -> Category.RECIPE
-            "안전한 생활" -> Category.SAFE_LIVING
-            else -> Category.WELFARE_POLICY
+            "집안일" -> Category.HOUSEWORK.toString()
+            "요리" -> Category.RECIPE.toString()
+            "안전한 생활" -> Category.SAFE_LIVING.toString()
+            else -> Category.WELFARE_POLICY.toString()
         }
     }
 
-    private fun stringToNum(category: kotlin.String): Int{
-        return when(category){
+    private fun stringToNum(category: kotlin.String): Int {
+        return when (category) {
             "HOUSEWORK" -> 0
             "RECIPE" -> 1
             "SAFE_LIVING" -> 2

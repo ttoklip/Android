@@ -21,6 +21,7 @@ import com.umc.ttoklip.presentation.honeytip.HoneyTipViewModel
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipListRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
+import com.umc.ttoklip.presentation.honeytip.read.ReadQuestionActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -59,8 +60,7 @@ class HouseWorkQuestionListFragment :
     }
 
     override fun onClick(honeyTip: HoneyTipMain) {
-        val intent = Intent(activity, ReadHoneyTipActivity::class.java)
-        intent.putExtra(BOARD, ASK)
+        val intent = Intent(activity, ReadQuestionActivity::class.java)
         intent.putExtra("postId", honeyTip.id)
         Log.d("Clicked honeyTip", honeyTip.toString())
         Log.d("postId", honeyTip.id.toString())

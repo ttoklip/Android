@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.data.repository.honeytip.HoneyTipRepositoryImpl
+import com.umc.ttoklip.module.onError
 import com.umc.ttoklip.module.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,15 +21,16 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
 @HiltViewModel
-class WriteHoneyTipViewModel@Inject constructor(
+class WriteHoneyTipViewModel @Inject constructor(
     private val repository: HoneyTipRepositoryImpl
 ) : ViewModel() {
 
     private val _writeDoneEvent = MutableSharedFlow<WriteDoneEvent>()
     val writeDoneEvent = _writeDoneEvent.asSharedFlow()
-    sealed class WriteDoneEvent{
-        data class WriteDoneHoneyTip(val postId: Int): WriteDoneEvent()
-        data class WriteDoneQuestion(val postId: Int): WriteDoneEvent()
+
+    sealed class WriteDoneEvent {
+        data class WriteDoneHoneyTip(val postId: Int) : WriteDoneEvent()
+        data class WriteDoneQuestion(val postId: Int) : WriteDoneEvent()
     }
 
     val isTitleNull: LiveData<Boolean> by lazy { _isTitleNull }
@@ -54,6 +56,7 @@ class WriteHoneyTipViewModel@Inject constructor(
             _writeDoneEvent.emit(event)
         }
     }
+
     fun createHoneyTip(
         title: String,
         content: String,
@@ -72,6 +75,32 @@ class WriteHoneyTipViewModel@Inject constructor(
                 val postId = it.message.replace(("[^\\d]").toRegex(), "").toInt()
                 event(WriteDoneEvent.WriteDoneHoneyTip(postId))
                 Log.d("honey tip api test", it.message)
+            }
+        }
+    }
+
+    fun editHoneyTip(
+        honeyTipId: Int,
+        title: String,
+        content: String,
+        category: String,
+        images: Array<MultipartBody.Part>,
+        url: String
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.editHoneyTip(
+                honeyTipId,
+                convertStringToTextPlain(title),
+                convertStringToTextPlain(content),
+                convertStringToTextPlain(category),
+                images,
+                convertStringToTextPlain(url)
+            ).onSuccess {
+                val postId = it.message.replace(("[^\\d]").toRegex(), "").toInt()
+                event(WriteDoneEvent.WriteDoneHoneyTip(postId))
+                Log.d("edit honey tip api test", it.message)
+            }.onError {
+                Log.d("error", it.stackTraceToString())
             }
         }
     }

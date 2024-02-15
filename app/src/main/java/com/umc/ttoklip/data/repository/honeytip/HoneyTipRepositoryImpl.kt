@@ -29,7 +29,8 @@ class HoneyTipRepositoryImpl @Inject constructor(
         images: Array<MultipartBody.Part>,
         uri: RequestBody
     ): NetworkResult<CreateHoneyTipResponse> {
-        return handleApi({ api.postNewHoneyTip(title, content, category, images, uri)
+        return handleApi({
+            api.postNewHoneyTip(title, content, category, images, uri)
         }) { response: ResponseBody<CreateHoneyTipResponse> -> response.result }
     }
 
@@ -41,8 +42,16 @@ class HoneyTipRepositoryImpl @Inject constructor(
         return handleApi({ api.deleteHoneyTip(honeyTipId) }) { response: ResponseBody<CreateHoneyTipResponse> -> response.result }
     }
 
-    override suspend fun editHoneyTip(honeyTipId: Int): NetworkResult<CreateHoneyTipResponse> {
-        return handleApi({ api.patchHoneyTip(honeyTipId) }) { response: ResponseBody<CreateHoneyTipResponse> -> response.result }
+    override suspend fun editHoneyTip(
+        honeyTipId: Int,
+        title: RequestBody,
+        content: RequestBody,
+        category: RequestBody,
+        images: Array<MultipartBody.Part>,
+        url: RequestBody
+    ): NetworkResult<CreateHoneyTipResponse> {
+        return handleApi({ api.patchHoneyTip(honeyTipId, title, content, category, images, url) })
+        { response: ResponseBody<CreateHoneyTipResponse> -> response.result }
     }
 
     override suspend fun reportHoneyTip(
@@ -75,7 +84,12 @@ class HoneyTipRepositoryImpl @Inject constructor(
         questionId: Int,
         request: ReportRequest
     ): NetworkResult<CreateHoneyTipResponse> {
-        return handleApi({ api.postReportQuestion(questionId, ReportRequest(request.content, request.reportType))})
+        return handleApi({
+            api.postReportQuestion(
+                questionId,
+                ReportRequest(request.content, request.reportType)
+            )
+        })
         { response: ResponseBody<CreateHoneyTipResponse> -> response.result }
     }
 }
