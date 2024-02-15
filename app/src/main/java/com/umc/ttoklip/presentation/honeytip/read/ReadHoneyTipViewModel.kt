@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.data.model.honeytip.InquireHoneyTipResponse
 import com.umc.ttoklip.data.model.honeytip.InquireQuestionResponse
+import com.umc.ttoklip.data.model.honeytip.request.ReportRequest
 import com.umc.ttoklip.data.repository.honeytip.HoneyTipRepositoryImpl
 import com.umc.ttoklip.module.onError
 import com.umc.ttoklip.module.onSuccess
@@ -33,6 +34,9 @@ class ReadHoneyTipViewModel @Inject constructor(
     sealed class ReadEvent{
         data class ReadHoneyTipEvent(val inquireHoneyTipResponse: InquireHoneyTipResponse): ReadEvent()
         data class ReadQuestionEvent(val inquireQuestionResponse: InquireQuestionResponse): ReadEvent()
+        object ReportHoneyTip: ReadEvent()
+        object ReportQuestion: ReadEvent()
+
     }
 
     private fun event(event: ReadEvent) {
@@ -51,11 +55,39 @@ class ReadHoneyTipViewModel @Inject constructor(
         }
     }
 
+    fun reportHoneyTip(honeyTipId: Int, request: ReportRequest){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.reportHoneyTip(honeyTipId, request).onSuccess {
+                Log.d("report HoneyTip", it.toString())
+                event(ReadEvent.ReportHoneyTip)
+            }
+        }
+    }
+
     fun inquireQuestion(questionId: Int){
         viewModelScope.launch(Dispatchers.IO){
             repository.inquireQuestion(questionId).onSuccess {
                 event(ReadEvent.ReadQuestionEvent(it))
             }
         }
+    }
+
+    fun reportQuestion(questionId: Int, request: ReportRequest){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.reportHoneyTip(questionId, request).onSuccess {
+                Log.d("report Question", it.toString())
+                event(ReadEvent.ReportQuestion)
+            }
+        }
+    }
+
+    enum class ReportType{
+        FISHING_DUPLICATE_SPAM,
+        COMMERCIAL_ADVERTISING,
+        INAPPROPRIATE_CONTENT,
+        ABUSE,
+        RELIGIOUS_PROSELYTIZING,
+        INAPPROPRIATE_FOR_FORUM,
+        LEAK_IMPERSONATION_FRAUD
     }
 }

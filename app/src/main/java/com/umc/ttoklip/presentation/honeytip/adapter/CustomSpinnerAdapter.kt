@@ -9,7 +9,7 @@ import com.umc.ttoklip.databinding.SpinnerInnerFirstBinding
 import com.umc.ttoklip.databinding.SpinnerInnerViewBinding
 import com.umc.ttoklip.databinding.SpinnerOuterViewBinding
 
-class CustomSpinnerAdapter(context: Context, private val list: List<String>?) :
+class CustomSpinnerAdapter(context: Context, private val list: List<String>?, private val listener: GetSpinnerText) :
     BaseAdapter() {
 
     private val inflater: LayoutInflater
@@ -42,6 +42,7 @@ class CustomSpinnerAdapter(context: Context, private val list: List<String>?) :
         if (list != null) {
             item = list[position]
             binding.spinnerOuterTv.text = item
+            listener.getText(item?:"")
         }
         return convertView
     }
@@ -63,5 +64,9 @@ class CustomSpinnerAdapter(context: Context, private val list: List<String>?) :
             binding.spinnerInnerTv.text = item
         }
         return convertView
+    }
+
+    interface GetSpinnerText{
+        fun getText(text: String)
     }
 }

@@ -6,12 +6,16 @@ import android.net.Uri
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.honeytip.ImageUrl
+import com.umc.ttoklip.data.model.honeytip.request.ReportRequest
 import com.umc.ttoklip.databinding.ActivityReadHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.BOARD
@@ -41,6 +45,7 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
         ReadImageRVA(this, this@ReadHoneyTipActivity)
     }
     private var isShowMenu = false
+    private var postId = 0
 
     override fun initObserver() {
         lifecycleScope.launch {
@@ -56,21 +61,29 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
         when(event){
             is ReadHoneyTipViewModel.ReadEvent.ReadHoneyTipEvent -> {
                 binding.titleTv.text = event.inquireHoneyTipResponse.title
+                binding.writerTv.text = event.inquireHoneyTipResponse.writer
                 binding.contentT.text = event.inquireHoneyTipResponse.content
                 binding.linkT.text = event.inquireHoneyTipResponse?.urlResponses?.firstOrNull()?.urls
                 imageAdapter.submitList(event.inquireHoneyTipResponse.imageUrls)
+                val writer = TtoklipApplication.prefs.getString("nickname", "")
+                if(event.inquireHoneyTipResponse.writer == writer){
+                    showReportBtn()
+                }
             }
             is ReadHoneyTipViewModel.ReadEvent.ReadQuestionEvent -> {
                 binding.titleTv.text = event.inquireQuestionResponse.title
+                binding.writerTv.text = event.inquireQuestionResponse.writer
                 binding.contentT.text = event.inquireQuestionResponse.content
                 binding.linkT.text = event.inquireQuestionResponse.urlResponses?.firstOrNull()
                 imageAdapter.submitList(event.inquireQuestionResponse.imageUrls)
             }
+
+            else -> {Toast.makeText(this, "신고가 완료되었습니다.", Toast.LENGTH_SHORT).show()}
         }
     }
     override fun initView() {
         binding.view = this
-        val postId = intent.getIntExtra("postId", 0)
+        postId = intent.getIntExtra("postId", 0)
         Log.d("read postid", postId.toString())
         if (board == HONEY_TIP) {
             binding.boardTitleTv.text = "꿀팁 공유하기"
@@ -86,8 +99,9 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
         }
 
         initImageRVA()
-        showMenu()
+        //showMenu()
         showDeleteDialog()
+        showReportDialog()
 
         binding.commentRv.adapter = commentRVA
         commentRVA.submitList(
@@ -101,7 +115,20 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
     private fun initImageRVA() {
         binding.imageRv.adapter = imageAdapter
     }
-    private fun showMenu() {
+    private fun showReportBtn(){
+        binding.dotBtn.setOnClickListener {
+            if (!isShowMenu) {
+                binding.reportBtn.bringToFront()
+                binding.reportBtn.visibility = View.VISIBLE
+                isShowMenu = true
+            } else {
+                binding.reportBtn.visibility = View.GONE
+                isShowMenu = false
+            }
+        }
+    }
+
+    private fun showHoneyTipWriterMenu() {
         binding.dotBtn.setOnClickListener {
             if (!isShowMenu) {
                 binding.honeyTipMenu.bringToFront()
@@ -152,13 +179,16 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
     }
 
     private fun showReportDialog() {
-        val reportDialog = ReportDialogFragment()
-        reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
-            override fun onClick() {
-
-            }
-        })
-        reportDialog.show(supportFragmentManager, reportDialog.tag)
+        binding.reportBtn.setOnClickListener {
+            val reportDialog = ReportDialogFragment()
+            reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
+                override fun onClick(request: ReportRequest) {
+                    Log.d("report request", request.toString())
+                    viewModel.reportHoneyTip(postId, request)
+                }
+            })
+            reportDialog.show(supportFragmentManager, reportDialog.tag)
+        }
     }
 
     private fun showDeleteDialog() {
