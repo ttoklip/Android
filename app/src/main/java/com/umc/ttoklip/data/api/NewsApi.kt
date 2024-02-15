@@ -10,6 +10,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -47,4 +48,25 @@ interface NewsApi {
     suspend fun deleteCommentNewsApi(
         @Path("commentId") commentId: Int,
     ): Response<ResponseBody<CommonResponse>>
+
+    @POST("/api/v1/newsletter/posts/like/{postId}")
+    suspend fun postLikeNewsApi(
+        @Path("postId") postId: Int,
+    ): Response<ResponseBody<CommonResponse>>
+
+    @DELETE("/api/v1/newsletter/posts/like/{postId}")
+    suspend fun deleteLikeNewsApi(
+        @Path("postId") postId: Int,
+    ): Response<ResponseBody<CommonResponse>>
+
+    @POST("/api/v1/newsletter/posts/scrap/{postId}")
+    suspend fun postScrapNewsApi(
+        @Path("postId") postId: Int,
+    ): Response<ResponseBody<CommonResponse>>
+
+    @DELETE("/api/v1/newsletter/posts/scrap/{postId}")
+    suspend fun deleteScrapNewsApi(
+        @Path("postId") postId: Int,
+    ): Response<ResponseBody<CommonResponse>>
+
 }
