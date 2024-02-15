@@ -6,7 +6,7 @@ import com.umc.ttoklip.presentation.base.BaseBottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TogetherBottomSheetDialogFragment(private val completeClick: (List<Int>) -> Unit) :
+class TogetherBottomSheetDialogFragment(private val completeClick: (List<Long>) -> Unit) :
     BaseBottomSheetDialogFragment<FragmentTogetherBottomSheetDialogBinding>(R.layout.fragment_together_bottom_sheet_dialog) {
     override fun initObserver() {
 
@@ -47,9 +47,9 @@ class TogetherBottomSheetDialogFragment(private val completeClick: (List<Int>) -
         }
     }
 
-    private fun getResult(): List<Int> {
+    private fun getResult(): List<Long> {
         with(binding) {
-            val requiredAmount = when (requiredAmountyChipG.checkedChipId) {
+            val requiredAmount: Long = when (requiredAmountyChipG.checkedChipId) {
                 R.id.amount1 -> 1
                 R.id.amount2 -> 2
                 R.id.amount3 -> 3
@@ -60,7 +60,7 @@ class TogetherBottomSheetDialogFragment(private val completeClick: (List<Int>) -
                 }
             }
 
-            val maxMember = when (maxMemberChipG.checkedChipId) {
+            val maxMember: Long = when (maxMemberChipG.checkedChipId) {
                 R.id.member1 -> 1
                 R.id.member2 -> 2
                 R.id.member3 -> 3

@@ -7,6 +7,8 @@ import android.graphics.PorterDuffColorFilter
 import android.graphics.Rect
 import android.icu.text.DecimalFormat
 import android.net.Uri
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -16,6 +18,10 @@ import android.widget.EditText
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityWriteTogetherBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
@@ -24,6 +30,7 @@ import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class WriteTogetherActivity :
@@ -60,8 +67,9 @@ class WriteTogetherActivity :
             Log.d("PhotoPicker", "No media selected")
         }
     }
-
+    private val viewModel: WriteTogetherViewModel by viewModels<WriteTogetherViewModelImpl>()
     override fun initView() {
+        binding.vm = viewModel as WriteTogetherViewModelImpl
         initImageRVA()
         addImage()
         addLink()
@@ -69,32 +77,56 @@ class WriteTogetherActivity :
             finish()
         }
 
-        binding.totalPriceTv.setOnEditorActionListener { v, actionId, event ->
-            var current = binding.totalPriceTv.text.toString()
-            if (current.contains(",")) {
-                current = current.replace(",", "")
-            }
-            if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                Log.d("price", current)
-                if (current.length > 3) {
-                    val currentAmount = AMOUNT_FORMAT.format(current.toLong())
-                    binding.totalPriceTv.setText(currentAmount)
-                    binding.totalPriceTv.compoundDrawables.forEach { drawable ->
-                        if (drawable != null) {
-                            drawable.colorFilter =
-                                PorterDuffColorFilter(
-                                    getColor(R.color.black),
-                                    PorterDuff.Mode.SRC_IN
-                                )
-                        }
+        binding.totalPriceTv.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) =
+                Unit
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                s?.let {
+                    if (it.isBlank()) {
+                        viewModel.setTotalPrice(0)
+                        viewModel.checkDone()
                     }
                 }
             }
+
+            override fun afterTextChanged(s: Editable?) = Unit
+
+        })
+        binding.totalPriceTv.setOnEditorActionListener { v, actionId, event ->
+            var current = binding.totalPriceTv.text.toString()
+            if (current.isBlank()) {
+                viewModel.setTotalPrice(0)
+                viewModel.checkDone()
+            } else {
+                if (current.contains(",")) {
+                    current = current.replace(",", "")
+                }
+                viewModel.setTotalPrice(current.toLong())
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    Log.d("price", current)
+                    if (current.length > 3) {
+                        val currentAmount = AMOUNT_FORMAT.format(current.toLong())
+                        binding.totalPriceTv.setText(currentAmount)
+//                    binding.totalPriceTv.compoundDrawables.forEach { drawable ->
+//                        if (drawable != null) {
+//                            drawable.colorFilter =
+//                                PorterDuffColorFilter(
+//                                    getColor(R.color.black),
+//                                    PorterDuff.Mode.SRC_IN
+//                                )
+//                        }
+//                    }
+                    }
+                }
+            }
+
             false
         }
 
         binding.maxMemberTv.setOnClickListener {
             val bottomSheet = InputMaxMemberDialogFragment { member ->
+                viewModel.setTotalMember(member.toLong())
                 binding.maxMemberTv.text = getString(R.string.max_member_format, member)
                 binding.maxMemberTv.compoundDrawables.forEach { drawable ->
                     if (drawable != null) {
@@ -110,21 +142,6 @@ class WriteTogetherActivity :
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
 
-        binding.openChatLinkTv.setOnEditorActionListener { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                binding.openChatLinkTv.compoundDrawables.forEach { drawable ->
-                    if (drawable != null) {
-                        drawable.colorFilter =
-                            PorterDuffColorFilter(
-                                getColor(R.color.black),
-                                PorterDuff.Mode.SRC_IN
-                            )
-                    }
-                }
-            }
-            false
-        }
-
         binding.tradingPlaceTv.setOnClickListener {
             val intent = Intent(this, TradeLocationActivity::class.java)
             activityResultLauncher.launch(intent)
@@ -132,7 +149,64 @@ class WriteTogetherActivity :
     }
 
     override fun initObserver() {
-
+        with(lifecycleScope) {
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.doneButtonActivated.collect {
+                        binding.writeDoneBtn.isEnabled = it
+                    }
+                }
+            }
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.title.collect {
+                        viewModel.checkDone()
+                    }
+                }
+            }
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.content.collect {
+                        viewModel.checkDone()
+                    }
+                }
+            }
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.totalPrice.collect {
+                        viewModel.checkDone()
+                    }
+                }
+            }
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.totalMember.collect {
+                        viewModel.checkDone()
+                    }
+                }
+            }
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.dealPlace.collect {
+                        viewModel.checkDone()
+                    }
+                }
+            }
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.openLink.collect {
+                        viewModel.checkDone()
+                    }
+                }
+            }
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.content.collect {
+                        viewModel.checkDone()
+                    }
+                }
+            }
+        }
     }
 
     private fun addLink() {

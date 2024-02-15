@@ -162,23 +162,23 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
                     viewModel.filterRequiredAmount.collect {
                         binding.requiredAmount.isGone = false
                         when (it) {
-                            1 -> {
+                            1L -> {
                                 binding.requiredAmount.text = "10,000"
                             }
 
-                            2 -> {
+                            2L -> {
                                 binding.requiredAmount.text = "20,000"
                             }
 
-                            3 -> {
+                            3L -> {
                                 binding.requiredAmount.text = "30,000"
                             }
 
-                            4 -> {
+                            4L -> {
                                 binding.requiredAmount.text = "40,000"
                             }
 
-                            5 -> {
+                            5L -> {
                                 binding.requiredAmount.text = "50,000 이상"
                             }
 
@@ -195,27 +195,27 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
                     viewModel.filterMaxMember.collect {
                         binding.maxMemberSizeTv.isGone = false
                         when (it) {
-                            1 -> {
+                            1L -> {
                                 binding.maxMemberSizeTv.text = "2~4"
                             }
 
-                            2 -> {
+                            2L -> {
                                 binding.maxMemberSizeTv.text = "5~7"
                             }
 
-                            3 -> {
+                            3L -> {
                                 binding.maxMemberSizeTv.text = "8~10"
                             }
 
-                            4 -> {
+                            4L -> {
                                 binding.maxMemberSizeTv.text = "11~13"
                             }
 
-                            5 -> {
+                            5L -> {
                                 binding.maxMemberSizeTv.text = "14~17"
                             }
 
-                            6 -> {
+                            6L -> {
                                 binding.maxMemberSizeTv.text = "18~20"
                             }
 

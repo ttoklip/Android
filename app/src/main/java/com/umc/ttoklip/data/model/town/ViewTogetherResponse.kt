@@ -10,5 +10,7 @@ data class ViewTogetherResponse(
     val scrapCount: Long,
     val likeCount: Long,
     val commentCount: Int,
-    val commentResponse: CommentResponse
+    val commentResponse: CommentResponse,
+    val likedByCurrentUser: Boolean,
+    val scrapedByCurrentUser: Boolean
 )

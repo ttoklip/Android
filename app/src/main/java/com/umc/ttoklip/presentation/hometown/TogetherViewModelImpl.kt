@@ -15,12 +15,12 @@ import javax.inject.Inject
 @HiltViewModel
 class TogetherViewModelImpl @Inject constructor(private val repository: ReadTogetherRepository) :
     ViewModel(), TogetherViewModel {
-    private val _filterRequiredAmount = MutableStateFlow(0)
-    override val filterRequiredAmount: StateFlow<Int>
+    private val _filterRequiredAmount = MutableStateFlow(0L)
+    override val filterRequiredAmount: StateFlow<Long>
         get() = _filterRequiredAmount
 
-    private val _filterMaxMember = MutableStateFlow(0)
-    override val filterMaxMember: StateFlow<Int>
+    private val _filterMaxMember = MutableStateFlow(0L)
+    override val filterMaxMember: StateFlow<Long>
         get() = _filterMaxMember
 
     private val _showDialog = MutableSharedFlow<Boolean>()
@@ -33,7 +33,7 @@ class TogetherViewModelImpl @Inject constructor(private val repository: ReadToge
         }
     }
 
-    override fun getFilters(requiredAmount: Int, maxMember: Int) {
+    override fun getFilters(requiredAmount: Long, maxMember: Long) {
         viewModelScope.launch {
             _filterRequiredAmount.value = requiredAmount
             _filterMaxMember.value = maxMember

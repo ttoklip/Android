@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="vm"
+            type="com.umc.ttoklip.presentation.hometown.WriteTogetherViewModelImpl" />
     </data>
 
 
@@ -46,11 +49,11 @@
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:text="작성완료"
+                android:onClick="@{()->vm.doneButtonClicked()}"
                 android:textAppearance="@style/TextAppearance.App.12sp_400"
                 android:textColor="@color/write_btn_selector"
                 app:layout_constraintBottom_toBottomOf="@id/title_tv"
                 app:layout_constraintEnd_toEndOf="parent"
-
                 app:layout_constraintTop_toTopOf="@id/title_tv" />
 
 
@@ -61,6 +64,7 @@
                 android:layout_marginTop="24dp"
                 android:background="@null"
                 android:hint="제목 입력"
+                android:text="@={vm._title}"
                 android:inputType="text"
                 android:textAppearance="@style/TextAppearance.App.20sp_500"
                 android:textColorHint="@color/gray80"
@@ -95,7 +99,7 @@
                     android:textAppearance="@style/TextAppearance.App.12sp_500"
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray80"
-                    app:drawableStartCompat="@drawable/ic_price_off_18"
+                    android:drawableStart="@{vm.totalPrice > 0 ? @drawable/ic_price_on_18 : @drawable/ic_price_off_18}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -124,6 +128,7 @@
                     android:background="@drawable/rectangle_corner_10_strok_1"
                     android:drawablePadding="6dp"
                     android:hint="거래 희망 장소"
+                    android:text="@={vm._dealPlace}"
                     android:paddingHorizontal="15dp"
                     android:paddingVertical="7dp"
                     android:textAppearance="@style/TextAppearance.App.12sp_500"
@@ -141,13 +146,14 @@
                     android:background="@drawable/rectangle_corner_10_strok_1"
                     android:drawablePadding="6dp"
                     android:hint="오픈채팅방 링크 추가"
+                    android:text="@={vm._openLink}"
                     android:inputType="text"
                     android:paddingHorizontal="15dp"
                     android:paddingVertical="7dp"
                     android:textAppearance="@style/TextAppearance.App.12sp_500"
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray80"
-                    app:drawableStartCompat="@drawable/ic_link_off_18"
+                    android:drawableStart="@{vm.openLink.length() > 0 ? @drawable/ic_link_on_18 : @drawable/ic_link_off_18}"
                     app:layout_constraintStart_toStartOf="@id/total_price_tv"
                     app:layout_constraintTop_toBottomOf="@id/trading_place_tv" />
 
@@ -172,6 +178,7 @@
                 android:gravity="top"
                 android:hint="우리 동네 사람들과 어떤 이야기를 나누고 싶나요?\n(최대 500자) "
                 android:maxLength="1000"
+                android:text="@={vm._content}"
                 android:maxLines="100"
                 android:nestedScrollingEnabled="true"
                 android:orientation="vertical"
@@ -255,6 +262,7 @@
                     android:background="@null"
                     android:imeOptions="actionDone"
                     android:inputType="text"
+                    android:text="@={vm._extraUrl}"
                     android:textAppearance="@style/TextAppearance.App.12sp_700"
                     android:textColor="@color/gray80"
                     android:textIsSelectable="true"

@@ -9,17 +9,29 @@ import androidx.core.view.isVisible
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityReadCommunicationBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.honeytip.DetailHoneyTipFragment
+import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
+import com.umc.ttoklip.presentation.news.adapter.Comment
+import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ReadCommunicationActivity :
     BaseActivity<ActivityReadCommunicationBinding>(R.layout.activity_read_communication) {
+    private val commentRVA by lazy {
+        CommentRVA()
+    }
+
     override fun initView() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container, DetailHoneyTipFragment())
-            .commit()
+        binding.commentRv.adapter = commentRVA
+        binding.reportBtn.bringToFront()
+        commentRVA.submitList(
+            listOf(
+                Comment(1, 1, "ㅎㅇ", "ㅎ"),
+                Comment(2, 2, "ㅎㅇ", "ㅎ"),
+                Comment(3, 1, "ㅎㅇ", "ㅎ")
+            )
+        )
 
         binding.backBtn.setOnClickListener {
             finish()
@@ -37,6 +49,17 @@ class ReadCommunicationActivity :
             })
             reportDialog.show(supportFragmentManager, reportDialog.tag)
         }
+
+        binding.deleteBtn.setOnClickListener {
+            val deleteDialog = DeleteDialogFragment()
+            deleteDialog.setDialogClickListener(object : DeleteDialogFragment.DialogClickListener {
+                override fun onClick() {
+
+                }
+            })
+            deleteDialog.show(supportFragmentManager, deleteDialog.tag)
+        }
+
     }
 
     override fun initObserver() {
@@ -58,5 +81,14 @@ class ReadCommunicationActivity :
             }
         }
         return super.dispatchTouchEvent(event)
+    }
+
+    fun showReportDialog() {
+        val reportDialog = ReportDialogFragment()
+        reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
+            override fun onClick() {
+            }
+        })
+        reportDialog.show(supportFragmentManager, reportDialog.tag)
     }
 }

@@ -12,7 +12,10 @@ import androidx.core.view.isVisible
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityReadTogetherBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
+import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
+import com.umc.ttoklip.presentation.news.adapter.Comment
+import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Random
 
@@ -20,8 +23,31 @@ import java.util.Random
 class ReadTogetherActivity :
     BaseActivity<ActivityReadTogetherBinding>(R.layout.activity_read_together) {
     private val viewModel: ReadTogetherViewModel by viewModels<ReadTogetherViewModelImpl>()
+    private val commentRVA by lazy {
+        CommentRVA()
+    }
+
     override fun initView() {
         binding.vm = viewModel
+        binding.reportBtn.bringToFront()
+        binding.commentRv.adapter = commentRVA
+        commentRVA.submitList(
+            listOf(
+                Comment(1, 1, "ㅎㅇ", "ㅎ"),
+                Comment(2, 2, "ㅎㅇ", "ㅎ"),
+                Comment(3, 1, "ㅎㅇ", "ㅎ")
+            )
+        )
+
+        binding.deleteBtn.setOnClickListener {
+            val deleteDialog = DeleteDialogFragment()
+            deleteDialog.setDialogClickListener(object : DeleteDialogFragment.DialogClickListener {
+                override fun onClick() {
+
+                }
+            })
+            deleteDialog.show(supportFragmentManager, deleteDialog.tag)
+        }
         binding.backBtn.setOnClickListener {
             finish()
         }

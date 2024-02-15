@@ -12,7 +12,18 @@ import javax.inject.Inject
 class WriteTogetherRepositoryImpl @Inject constructor(private val api: WriteTogetherApi) :
     WriteTogetherRepository {
     override suspend fun createTogether(body: CreateTogethersRequest): NetworkResult<CreateTogethersResponse> {
-        return handleApi({ api.createTogethers(body) }) { response: ResponseBody<CreateTogethersResponse> -> response.result }
+        return handleApi({
+            api.createTogethers(
+                title = body.title,
+                content = body.content,
+                totalPrice = body.totalPrice,
+                location = body.location,
+                chatUrl = body.chatUrl,
+                party = body.party,
+                images = body.images,
+                itemUrls = body.itemUrls
+            )
+        }) { response: ResponseBody<CreateTogethersResponse> -> response.result }
     }
 
     override suspend fun patchTogether(
@@ -22,7 +33,14 @@ class WriteTogetherRepositoryImpl @Inject constructor(private val api: WriteToge
         return handleApi({
             api.patchTogethers(
                 postId = postId,
-                body = body
+                title = body.title,
+                content = body.content,
+                totalPrice = body.totalPrice,
+                location = body.location,
+                chatUrl = body.chatUrl,
+                party = body.party,
+                images = body.images,
+                itemUrls = body.itemUrls
             )
         }) { response: ResponseBody<PatchTogetherResponse> -> response.result }
     }

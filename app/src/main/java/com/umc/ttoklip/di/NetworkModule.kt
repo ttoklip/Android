@@ -1,31 +1,27 @@
 package com.umc.ttoklip.di
 
-import android.content.SharedPreferences
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.api.HoneyTipApi
 import com.umc.ttoklip.data.api.LoginApi
 import com.umc.ttoklip.data.api.NewsApi
+import com.umc.ttoklip.data.api.ReadCommsApi
+import com.umc.ttoklip.data.api.ReadTogetherApi
 import com.umc.ttoklip.data.api.SignupApi
 import com.umc.ttoklip.data.api.TestApi
-import com.umc.ttoklip.data.repository.news.NewsRepository
-import com.umc.ttoklip.data.repository.news.NewsRepositoryImpl
-import com.umc.ttoklip.module.HttpRequestInterceptor
+import com.umc.ttoklip.data.api.WriteCommsApi
+import com.umc.ttoklip.data.api.WriteTogetherApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
-import okio.IOException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
@@ -36,11 +32,11 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOKHttpClient (): OkHttpClient {
+    fun provideOKHttpClient(): OkHttpClient {
         val interceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
-        val authIntercepter=AuthIntercepter()
+        val authIntercepter = AuthIntercepter()
 
         return OkHttpClient.Builder()
             .addInterceptor(interceptor)
@@ -61,17 +57,17 @@ object NetworkModule {
             .build()
     }
 
-    class AuthIntercepter:Interceptor{
-        override fun intercept(chain: Interceptor.Chain): Response= with(chain) {
+    class AuthIntercepter : Interceptor {
+        override fun intercept(chain: Interceptor.Chain): Response = with(chain) {
 //            if(request().headers["Auth"]=="false"){
 //                val newRequest = request().newBuilder()
 //                    .removeHeader("Auth")
 //                    .build()
 //                return chain.proceed(newRequest)
 //            }
-            val token=("Bearer "+TtoklipApplication.prefs.getString("jwt",""))
-            val newRequest=request().newBuilder()
-                .addHeader("Authorization",token)
+            val token = ("Bearer " + TtoklipApplication.prefs.getString("jwt", ""))
+            val newRequest = request().newBuilder()
+                .addHeader("Authorization", token)
                 .build()
             proceed(newRequest)
         }
@@ -97,15 +93,40 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideLoginApi(retrofit: Retrofit): LoginApi{
+    fun provideLoginApi(retrofit: Retrofit): LoginApi {
         return retrofit.buildService()
     }
 
     @Provides
     @Singleton
-    fun provideSignupApi(retrofit: Retrofit): SignupApi{
+    fun provideSignupApi(retrofit: Retrofit): SignupApi {
         return retrofit.buildService()
     }
+
+    @Provides
+    @Singleton
+    fun provideReadCommsApi(retrofit: Retrofit): ReadCommsApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideReadTogetherApi(retrofit: Retrofit): ReadTogetherApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideWriteCommsApi(retrofit: Retrofit): WriteCommsApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideWriteTogetherApi(retrofit: Retrofit): WriteTogetherApi {
+        return retrofit.buildService()
+    }
+
 
     private inline fun <reified T> Retrofit.buildService(): T {
         return this.create(T::class.java)

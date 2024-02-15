@@ -13,7 +13,13 @@ class WriteCommsRepositoryImpl @Inject constructor(
     private val api: WriteCommsApi
 ) : WriteCommsRepository {
     override suspend fun createComms(body: CreateCommunicationsRequest): NetworkResult<CreateCommunicationsResponse> {
-        return handleApi({ api.createCommunications(body) }) { response: ResponseBody<CreateCommunicationsResponse> -> response.result }
+        return handleApi({
+            api.createCommunications(
+                content = body.content,
+                title = body.title,
+                images = body.images
+            )
+        }) { response: ResponseBody<CreateCommunicationsResponse> -> response.result }
     }
 
     override suspend fun patchComms(
@@ -23,7 +29,9 @@ class WriteCommsRepositoryImpl @Inject constructor(
         return handleApi({
             api.patchCommunications(
                 postId = postId,
-                body = body
+                content = body.content,
+                title = body.title,
+                images = body.images
             )
         }) { response: ResponseBody<PatchCommunicationResponse> -> response.result }
     }
