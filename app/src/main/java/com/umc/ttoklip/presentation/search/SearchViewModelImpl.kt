@@ -175,7 +175,7 @@ class SearchViewModelImpl @Inject constructor(
 
     override fun getAllHistory() {
         viewModelScope.launch {
-            val history = historyDao.getAll()
+            val history = historyDao.getAll().sortedBy { it.id }
             _historyList.emit(history)
         }
     }
