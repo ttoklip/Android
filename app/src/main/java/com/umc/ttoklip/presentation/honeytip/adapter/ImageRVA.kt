@@ -1,12 +1,14 @@
 package com.umc.ttoklip.presentation.honeytip.adapter
 
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.databinding.ItemImageBinding
+import okhttp3.internal.assertThreadDoesntHoldLock
 
 class ImageRVA(private var listener: OnImageClickListener?): ListAdapter<Image, ImageRVA.ImageViewHolder>(object : DiffUtil.ItemCallback<Image>(){
     override fun areItemsTheSame(oldItem: Image, newItem: Image): Boolean {
@@ -23,6 +25,9 @@ class ImageRVA(private var listener: OnImageClickListener?): ListAdapter<Image, 
             binding.iv.setImageURI(image.uri)
             binding.iv.setOnClickListener {
                 listener?.onClick(image)
+            }
+            binding.deleteBtn.setOnClickListener {
+                listener?.deleteImage(bindingAdapterPosition)
             }
         }
     }
@@ -42,6 +47,7 @@ class ImageRVA(private var listener: OnImageClickListener?): ListAdapter<Image, 
 
 interface OnImageClickListener {
     fun onClick(image: Image)
+    fun deleteImage(position: Int)
 }
 
 data class Image(

@@ -30,11 +30,6 @@ class WriteHoneyTipViewModel@Inject constructor(
         data class WriteDoneHoneyTip(val postId: Int): WriteDoneEvent()
         data class WriteDoneQuestion(val postId: Int): WriteDoneEvent()
     }
-    private val _writeDoneHoneyTipEvent = MutableSharedFlow<String>()
-    val writeDoneHoneyTipEvent = _writeDoneHoneyTipEvent.asSharedFlow()
-
-    private val _writeDoneQuestionEvent = MutableSharedFlow<String>()
-    val writeDoneQuestionEvent = _writeDoneQuestionEvent.asSharedFlow()
 
     val isTitleNull: LiveData<Boolean> by lazy { _isTitleNull }
     private val _isTitleNull by lazy { MutableLiveData<Boolean>(true) }

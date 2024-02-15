@@ -3,8 +3,6 @@ package com.umc.ttoklip.presentation.honeytip.adapter
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.umc.ttoklip.presentation.honeytip.HONEY_TIP
-import com.umc.ttoklip.presentation.honeytip.HoneyTipListFragment
-import com.umc.ttoklip.presentation.honeytip.ShareHoneyTipFragment
 import com.umc.ttoklip.presentation.honeytip.honeytiplist.HouseWorkHoneyTipListFragment
 import com.umc.ttoklip.presentation.honeytip.honeytiplist.RecipeHoneyTipListFragment
 import com.umc.ttoklip.presentation.honeytip.honeytiplist.SafeLivingHoneyTipListFragment
@@ -13,6 +11,7 @@ import com.umc.ttoklip.presentation.honeytip.questionlist.HouseWorkQuestionListF
 import com.umc.ttoklip.presentation.honeytip.questionlist.RecipeQuestionListFragment
 import com.umc.ttoklip.presentation.honeytip.questionlist.SafeLivingQuestionListFragment
 import com.umc.ttoklip.presentation.honeytip.questionlist.WelfareQuestionListFragment
+import kotlin.String
 
 class CategoryVPA(
     fragment: Fragment,

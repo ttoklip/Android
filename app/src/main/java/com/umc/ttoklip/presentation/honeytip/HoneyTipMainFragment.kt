@@ -37,8 +37,13 @@ class HoneyTipMainFragment : BaseFragment<FragmentHoneyTipBinding>(R.layout.frag
         }
     }
 
-    override fun initView() {
+    override fun onStart() {
+        super.onStart()
         viewModel.getHoneyTipMain()
+    }
+
+    override fun initView() {
+        //viewModel.getHoneyTipMain()
         initTabLayout()
         goWriteActivity()
         binding.searchBtn.setOnClickListener {

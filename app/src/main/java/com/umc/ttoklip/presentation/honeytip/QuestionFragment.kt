@@ -21,7 +21,7 @@ class QuestionFragment: BaseFragment<FragmentShareHoneyTipBinding>(R.layout.frag
     private val popularHoneyTipsVPA by lazy {
         DailyPopularHoneyTipsVPA{
             val intent = Intent(requireContext(), ReadHoneyTipActivity::class.java)
-            intent.putExtra("honeyTipId", it.id)
+            intent.putExtra("postId", it.id)
             intent.putExtra(BOARD, HONEY_TIP)
             startActivity(intent)
         }

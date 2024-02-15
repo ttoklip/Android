@@ -1,23 +1,19 @@
 package com.umc.ttoklip.presentation.honeytip
 
 import android.net.Uri
-import android.util.Log
-import android.widget.Toolbar
 import androidx.viewpager2.widget.ViewPager2
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityImageViewBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageVPA
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ImageViewActivity: BaseActivity<ActivityImageViewBinding>(R.layout.activity_image_view) {
     override fun initView() {
-        val images = (intent.getStringArrayExtra("images") ?: emptyArray()).map{ uriString ->
-            Image(Uri.parse(uriString)) }
+        val images = (intent.getStringArrayExtra("images") ?: emptyArray()).toMutableList()
         val index = intent.getIntExtra("position", 0)
-        val adapter = ImageVPA()
+        val adapter = ImageVPA(this)
         binding.vp.adapter = adapter
         adapter.submitList(images)
         binding.totalTv.text = images.size.toString()

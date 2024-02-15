@@ -1,6 +1,7 @@
 package com.umc.ttoklip.presentation.honeytip.read
 
 import android.content.Intent
+import android.media.Image
 import android.net.Uri
 import android.util.Log
 import android.view.MotionEvent
@@ -15,6 +16,7 @@ import com.umc.ttoklip.databinding.ActivityReadHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.BOARD
 import com.umc.ttoklip.presentation.honeytip.HONEY_TIP
+import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.OnReadImageClickListener
 import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
 import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
@@ -38,19 +40,12 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
     private val imageAdapter: ReadImageRVA by lazy {
         ReadImageRVA(this, this@ReadHoneyTipActivity)
     }
-    private var images: MutableList<Uri> = mutableListOf()
     private var isShowMenu = false
-    private var category = ""
 
     override fun initObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.readEvent.collect{
-                    /*Log.d("read honeyTip", it.toString())
-                    binding.titleTv.text = it.title
-                    binding.contentT.text = it.content
-                    binding.linkT.text = it.urlResponses.firstOrNull()
-                    imageAdapter.submitList(it.imageUrls)*/
                     handleEvent(it)
                 }
             }
@@ -91,7 +86,6 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
         }
 
         initImageRVA()
-        //checkHoneyTipOrQuestion()
         showMenu()
         showDeleteDialog()
 
@@ -107,63 +101,6 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
     private fun initImageRVA() {
         binding.imageRv.adapter = imageAdapter
     }
-
-    /*private fun checkHoneyTipOrQuestion() {
-        //board = intent.getStringExtra(BOARD)!!
-
-        if (board == HONEY_TIP) {
-            binding.boardTitleTv.text = "꿀팁 공유하기"
-            checkHoneyTip()
-            editHoneyTip()
-        } else {
-            binding.boardTitleTv.text = "질문하기"
-            binding.linkLayout.visibility = View.GONE
-            checkQuestion()
-            editQuestion()
-        }
-    }*/
-
-    /*private fun checkHoneyTip() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            honeyTip = intent.getSerializableExtra("honeyTip", HoneyTip::class.java)
-        } else{
-            honeyTip = intent.getSerializableExtra("honeyTip") as HoneyTip
-        }
-        if (honeyTip != null) {
-            with(binding) {
-                titleTv.text = honeyTip?.title
-                contentT.text = honeyTip?.content
-                linkT.text = honeyTip?.uri
-                category = honeyTip?.category!!
-                val temp = (honeyTip?.images ?: emptyArray()).map { uriString ->
-                    Uri.parse(uriString)
-                }
-                images.addAll(temp)
-                updateImages(images.toList())
-            }
-        }
-    }*/
-
-    /*private fun checkQuestion() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            question = intent.getSerializableExtra("question", Question::class.java)
-        } else {
-            question = intent.getSerializableExtra("question") as Question
-        }
-        if (question != null) {
-            with(binding) {
-                titleTv.text = question?.title
-                contentT.text = question?.content
-                category = question?.category!!
-                val temp = (question?.images ?: emptyArray()).map { uriString ->
-                    Uri.parse(uriString)
-                }
-                images.addAll(temp)
-                updateImages(images.toList())
-            }
-        }
-    }*/
-
     private fun showMenu() {
         binding.dotBtn.setOnClickListener {
             if (!isShowMenu) {
@@ -214,25 +151,11 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
         finish()
     }
 
-    /*private fun updateImages(uriList: List<Uri>) {
-        val images = uriList.map { Image(it) }
-        val updatedImages = imageAdapter.currentList.toMutableList().apply { addAll(images) }
-        imageAdapter.submitList(updatedImages)
-    }*/
-
-    /*override fun onClick(image: Image) {
-        val images = imageAdapter.currentList.filterIsInstance<Image>().map { it.uri.toString() }
-            .toTypedArray()
-        Log.d("images", images.toString())
-        val intent = Intent(this, ImageViewActivity::class.java)
-        intent.putExtra("images", images)
-        startActivity(intent)
-    }*/
-
     private fun showReportDialog() {
         val reportDialog = ReportDialogFragment()
         reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
             override fun onClick() {
+
             }
         })
         reportDialog.show(supportFragmentManager, reportDialog.tag)
@@ -276,7 +199,12 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
         return x >= location[0] && x <= realRight && y >= location[1] && y <= realBottom
     }
 
-    override fun onClick(imageUrl: ImageUrl) {
-
+    override fun onClick(imageUrl: String) {
+        val images = imageAdapter.currentList.filterIsInstance<ImageUrl>().map { it.imageUrl }
+            .toTypedArray()
+        Log.d("images", images.toString())
+        val intent = Intent(this, ImageViewActivity::class.java)
+        intent.putExtra("images", images)
+        startActivity(intent)
     }
 }
