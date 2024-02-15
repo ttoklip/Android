@@ -245,7 +245,7 @@
                     android:layout_marginTop="12dp"
                     android:background="@drawable/rectangle_corner_4"
                     android:onClick="@{()-> vm.isScrap ? vm.deleteScrap() : vm.postScrap() }"
-                    android:backgroundTint="@color/gray20"
+                    android:backgroundTint="@{vm.isScrap ? @color/yellow : @color/gray20}"
                     app:layout_constraintStart_toStartOf="@id/bookmarkImg"
                     app:layout_constraintTop_toBottomOf="@id/bookmarkImg">
 
@@ -255,7 +255,7 @@
                         android:layout_height="16dp"
                         android:layout_margin="4dp"
                         android:src="@drawable/ic_bookmark_off_20"
-                        android:tint="@color/gray60"
+                        android:tint="@{vm.isScrap ? @color/black : @color/gray60}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -268,7 +268,7 @@
                         android:paddingEnd="6dp"
                         android:text="스크랩"
                         android:textAppearance="@style/TextAppearance.App.10sp_500"
-                        android:textColor="@color/gray60"
+                        android:textColor="@{vm.isScrap ? @color/black : @color/gray60}"
                         app:layout_constraintBottom_toBottomOf="@id/scrapBtnImg"
                         app:layout_constraintStart_toEndOf="@id/scrapBtnImg"
                         app:layout_constraintTop_toTopOf="@id/scrapBtnImg" />
@@ -283,7 +283,7 @@
                     android:layout_marginTop="12dp"
                     android:background="@drawable/rectangle_corner_4"
                     android:onClick="@{()-> vm.isLike() ? vm.deleteLike() : vm.postLike()}"
-                    android:backgroundTint="@color/gray20"
+                    android:backgroundTint="@{vm.isLike ? @color/yellow : @color/gray20}"
                     app:layout_constraintStart_toEndOf="@id/scrapBtn"
                     app:layout_constraintTop_toBottomOf="@id/bookmarkImg">
 
@@ -293,7 +293,7 @@
                         android:layout_height="16dp"
                         android:layout_margin="4dp"
                         android:src="@drawable/ic_heart_off_20"
-                        android:tint="@color/gray60"
+                        android:tint="@{vm.isScrap ? @color/black : @color/gray60}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -306,7 +306,7 @@
                         android:paddingEnd="6dp"
                         android:text="좋아요"
                         android:textAppearance="@style/TextAppearance.App.10sp_500"
-                        android:textColor="@color/gray60"
+                        android:textColor="@{vm.isLike ? @color/black : @color/gray60}"
                         app:layout_constraintBottom_toBottomOf="@id/likeBtnImg"
                         app:layout_constraintStart_toEndOf="@id/likeBtnImg"
                         app:layout_constraintTop_toTopOf="@id/likeBtnImg" />
