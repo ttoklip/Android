@@ -3,6 +3,7 @@ package com.umc.ttoklip.presentation.news.detail
 import android.content.Context
 import android.content.Intent
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -63,6 +64,16 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>(R.layout.activity_a
                 }
             }
         }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.toast.collect {
+                    if (it.isNotEmpty()){
+                        Toast.makeText(baseContext, it,Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.imageUrls.collect {
