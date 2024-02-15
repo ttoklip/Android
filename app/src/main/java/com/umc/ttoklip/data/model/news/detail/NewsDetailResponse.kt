@@ -8,12 +8,14 @@ data class NewsDetailResponse(
     val content: String,
     val imageUrlList: List<ImageUrl>,
     val newsletterId: Int,
-    var likeCount :Int,
-    var scrapCount : Int,
+    var likeCount: Int,
+    var scrapCount: Int,
     val title: String?,
     val urlList: List<Url>,
     val writer: String?,
-    val writtenTime: String
-){
-    constructor():this("", listOf(),"", listOf(),0,0,0,"", listOf(),"","")
+    val writtenTime: String,
+    val likedByCurrentUser: Boolean,
+    val scrapedByCurrentUser: Boolean
+) {
+    constructor() : this("", listOf(), "", listOf(), 0, 0, 0, "", listOf(), "", "", false, false)
 }

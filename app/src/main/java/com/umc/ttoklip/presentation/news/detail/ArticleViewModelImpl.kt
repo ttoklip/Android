@@ -58,7 +58,8 @@ class ArticleViewModelImpl @Inject constructor(
                     .onSuccess {
                         _newsDetail.emit(it)
                         //라이크 스크랩 상태 받을 예정
-
+                        _isScrap.emit(it.scrapedByCurrentUser)
+                        _isLike.emit(it.likedByCurrentUser)
                         _comments.emit(it.commentResponses.sortedBy { comment ->
                             comment.parentId ?: comment.commentId
                         })
