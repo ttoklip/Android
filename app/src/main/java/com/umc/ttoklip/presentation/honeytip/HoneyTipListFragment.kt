@@ -9,7 +9,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
-import com.umc.ttoklip.data.model.honeytip.HoneyTipResponse
+import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
 import com.umc.ttoklip.databinding.FragmentHoneyTipListBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipListRVA
@@ -31,7 +31,7 @@ class HoneyTipListFragment() :
     )
     private var board = ""
     override fun initObserver() {
-        lifecycleScope.launch {
+        /*lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.honeyTip.collect {
                     val intent = Intent(activity, ReadHoneyTipActivity::class.java)
@@ -41,7 +41,7 @@ class HoneyTipListFragment() :
                     startActivity(intent)
                 }
             }
-        }
+        }*/
 
         lifecycleScope.launch{
             repeatOnLifecycle(Lifecycle.State.STARTED){
@@ -53,15 +53,9 @@ class HoneyTipListFragment() :
         }
 
 
-        /*viewModel.boardLiveData.observe(viewLifecycleOwner){
+        viewModel.boardLiveData.observe(viewLifecycleOwner){
             board = it
-            if(it == HONEY_TIP){
-                submitHoneyTipList(honeyTipMainResponse!!)
-            }
-            else{
-                submitQuestionList(honeyTipMainResponse!!)
-            }
-        }*/
+        }
     }
 
     override fun initView() {
@@ -102,7 +96,13 @@ class HoneyTipListFragment() :
         //honeyTipListRVA.submitList(honeyTipList)
     }
 
-    override fun onClick(honeyTipResponse: HoneyTipResponse) {
-        viewModel.inquireHoneyTip(honeyTipResponse.honeyTipId)
+    override fun onClick(honeyTip: HoneyTipMain) {
+        //viewModel.inquireHoneyTip(honeyTipResponse.honeyTipId)
+        Log.d("honeyTipId", honeyTip.id.toString())
+        val intent = Intent(activity, ReadHoneyTipActivity::class.java)
+        intent.putExtra(BOARD, board)
+        intent.putExtra("honeyTipId", honeyTip.id)
+        Log.d("HoneyTipListFragment", honeyTip.toString())
+        startActivity(intent)
     }
 }

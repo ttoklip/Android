@@ -5,23 +5,22 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.umc.ttoklip.data.model.honeytip.HoneyTipResponse
+import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
 import com.umc.ttoklip.databinding.ItemDailyPopularHoneyTipBinding
-import kotlin.String
 
-class DailyPopularHoneyTipsVPA(val onClick: (HoneyTipResponse) -> Unit) :
-    ListAdapter<HoneyTipResponse, DailyPopularHoneyTipsVPA.DailyPopularHoneyTipsViewHolder>(object :
-        DiffUtil.ItemCallback<HoneyTipResponse>() {
+class DailyPopularHoneyTipsVPA(val onClick: (HoneyTipMain) -> Unit) :
+    ListAdapter<HoneyTipMain, DailyPopularHoneyTipsVPA.DailyPopularHoneyTipsViewHolder>(object :
+        DiffUtil.ItemCallback<HoneyTipMain>() {
         override fun areItemsTheSame(
-            oldItem: HoneyTipResponse,
-            newItem: HoneyTipResponse
+            oldItem: HoneyTipMain,
+            newItem: HoneyTipMain
         ): Boolean {
             return oldItem === newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: HoneyTipResponse,
-            newItem: HoneyTipResponse
+            oldItem: HoneyTipMain,
+            newItem: HoneyTipMain
         ): Boolean {
            return oldItem == newItem
         }
@@ -29,15 +28,15 @@ class DailyPopularHoneyTipsVPA(val onClick: (HoneyTipResponse) -> Unit) :
     }) {
     inner class DailyPopularHoneyTipsViewHolder(private val binding: ItemDailyPopularHoneyTipBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(honeyTipResponse: HoneyTipResponse) {
-            binding.writerTv.text = honeyTipResponse.writer
-            binding.honeyTipTitleTv.text = honeyTipResponse.title
-            binding.honeyTipBodyContentTv.text = honeyTipResponse.content
+        fun bind(honeyTip: HoneyTipMain) {
+            binding.writerTv.text = honeyTip.writer
+            binding.honeyTipTitleTv.text = honeyTip.title
+            binding.honeyTipBodyContentTv.text = honeyTip.content
             binding.starCountTv.text = "0"
-            binding.likeCountTv.text = honeyTipResponse.likeCount.toString()
-            binding.commentCountTv.text = honeyTipResponse.commentCount.toString()
+            binding.likeCountTv.text = honeyTip.likeCount.toString()
+            binding.commentCountTv.text = honeyTip.commentCount.toString()
             binding.root.setOnClickListener {
-                onClick(honeyTipResponse)
+                onClick(honeyTip)
             }
         }
     }

@@ -23,18 +23,17 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.umc.ttoklip.R
-import com.umc.ttoklip.data.model.honeytip.HoneyTip
 import com.umc.ttoklip.databinding.FragmentWriteHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.honeytip.BOARD
 import com.umc.ttoklip.presentation.honeytip.HONEY_TIP
-import com.umc.ttoklip.presentation.honeytip.HoneyTipViewModel
 import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.OnImageClickListener
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
+import com.umc.ttoklip.presentation.mypage.adapter.HoneyTip
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -56,7 +55,7 @@ class WriteHoneyTipFragment() : BaseFragment<FragmentWriteHoneyTipBinding>(R.lay
     private lateinit var imageAdapter: ImageRVA
     private lateinit var honeyTip: HoneyTip
     private var category: Category = Category.HOUSEWORK
-    private val viewModel: HoneyTipViewModel by activityViewModels()
+    private val viewModel: WriteHoneyTipViewModel by activityViewModels()
     //private val navigator = findNavController()
 
     private val pickMultipleMedia = registerForActivityResult(
@@ -87,9 +86,9 @@ class WriteHoneyTipFragment() : BaseFragment<FragmentWriteHoneyTipBinding>(R.lay
         binding.viewModel = viewModel
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.writeDoneEvent.collect{
+                viewModel.writeDoneHoneyTipEvent.collect{
                     val intent = Intent(requireContext(), ReadHoneyTipActivity::class.java)
-                    intent.putExtra("honeyTip", honeyTip)
+                    ///intent.putExtra("honeyTip", honeyTip)
                     intent.putExtra(BOARD, HONEY_TIP)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
@@ -97,18 +96,7 @@ class WriteHoneyTipFragment() : BaseFragment<FragmentWriteHoneyTipBinding>(R.lay
             }
         }
 
-        viewModel.boardLiveData.observe(this){
-            when(it){
-                HONEY_TIP -> {
-                    binding.titleTv.text = "꿀팁 공유하기"
-                }
 
-                else -> {
-                    binding.titleTv.text = "질문하기"
-                    binding.addLinkBtn.visibility = View.GONE
-                }
-            }
-        }
     }
     private fun enableWriteDoneButton(){
         binding.titleEt.doAfterTextChanged {

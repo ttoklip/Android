@@ -2,37 +2,32 @@ package com.umc.ttoklip.presentation.honeytip.read
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
-import com.umc.ttoklip.data.model.honeytip.HoneyTip
-import com.umc.ttoklip.data.model.honeytip.Question
+import com.umc.ttoklip.data.model.honeytip.ImageUrl
 import com.umc.ttoklip.databinding.ActivityReadHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.BOARD
 import com.umc.ttoklip.presentation.honeytip.HONEY_TIP
-import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
-import com.umc.ttoklip.presentation.honeytip.adapter.Image
-import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
-import com.umc.ttoklip.presentation.honeytip.adapter.OnImageClickListener
+import com.umc.ttoklip.presentation.honeytip.adapter.OnReadImageClickListener
+import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
 import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
-import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.news.adapter.Comment
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.util.Collections.addAll
 
 @AndroidEntryPoint
 class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.activity_read_honey_tip),
-    OnImageClickListener {
-
+    OnReadImageClickListener {
+    private val viewModel: ReadHoneyTipViewModel by viewModels()
 
     private val commentRVA by lazy {
         CommentRVA()
@@ -40,29 +35,63 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
     private val board: String by lazy {
         intent.getStringExtra(BOARD)!!
     }
-    private val imageAdapter: ImageRVA by lazy {
-        ImageRVA(this@ReadHoneyTipActivity)
+    private val imageAdapter: ReadImageRVA by lazy {
+        ReadImageRVA(this, this@ReadHoneyTipActivity)
     }
     private var images: MutableList<Uri> = mutableListOf()
-    private var honeyTip: HoneyTip? = null
-    private var question: Question? = null
     private var isShowMenu = false
     private var category = ""
 
     override fun initObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.readEvent.collect{
+                    /*Log.d("read honeyTip", it.toString())
+                    binding.titleTv.text = it.title
+                    binding.contentT.text = it.content
+                    binding.linkT.text = it.urlResponses.firstOrNull()
+                    imageAdapter.submitList(it.imageUrls)*/
+                    handleEvent(it)
+                }
+            }
+        }
+    }
+
+    private fun handleEvent(event: ReadHoneyTipViewModel.ReadEvent){
+        when(event){
+            is ReadHoneyTipViewModel.ReadEvent.ReadHoneyTipEvent -> {
+                binding.titleTv.text = event.inquireHoneyTipResponse.title
+                binding.contentT.text = event.inquireHoneyTipResponse.content
+                binding.linkT.text = event.inquireHoneyTipResponse?.urlResponses?.firstOrNull()?.urls
+                imageAdapter.submitList(event.inquireHoneyTipResponse.imageUrls)
+            }
+            is ReadHoneyTipViewModel.ReadEvent.ReadQuestionEvent -> {
+                binding.titleTv.text = event.inquireQuestionResponse.title
+                binding.contentT.text = event.inquireQuestionResponse.content
+                binding.linkT.text = event.inquireQuestionResponse.urlResponses?.firstOrNull()
+                imageAdapter.submitList(event.inquireQuestionResponse.imageUrls)
             }
         }
     }
     override fun initView() {
         binding.view = this
+        val postId = intent.getIntExtra("postId", 0)
+        Log.d("read postid", postId.toString())
+        if (board == HONEY_TIP) {
+            binding.boardTitleTv.text = "꿀팁 공유하기"
+            viewModel.inquireHoneyTip(postId)
+        } else {
+            binding.boardTitleTv.text = "질문하기"
+            binding.linkLayout.visibility = View.GONE
+            viewModel.inquireQuestion(postId)
+        }
+
         binding.backBtn.setOnClickListener {
             finish()
         }
 
         initImageRVA()
-        checkHoneyTipOrQuestion()
+        //checkHoneyTipOrQuestion()
         showMenu()
         showDeleteDialog()
 
@@ -79,7 +108,7 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
         binding.imageRv.adapter = imageAdapter
     }
 
-    private fun checkHoneyTipOrQuestion() {
+    /*private fun checkHoneyTipOrQuestion() {
         //board = intent.getStringExtra(BOARD)!!
 
         if (board == HONEY_TIP) {
@@ -92,9 +121,9 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
             checkQuestion()
             editQuestion()
         }
-    }
+    }*/
 
-    private fun checkHoneyTip() {
+    /*private fun checkHoneyTip() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             honeyTip = intent.getSerializableExtra("honeyTip", HoneyTip::class.java)
         } else{
@@ -113,9 +142,9 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
                 updateImages(images.toList())
             }
         }
-    }
+    }*/
 
-    private fun checkQuestion() {
+    /*private fun checkQuestion() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             question = intent.getSerializableExtra("question", Question::class.java)
         } else {
@@ -133,7 +162,7 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
                 updateImages(images.toList())
             }
         }
-    }
+    }*/
 
     private fun showMenu() {
         binding.dotBtn.setOnClickListener {
@@ -148,7 +177,7 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
         }
     }
 
-    private fun editHoneyTip() {
+    /*private fun editHoneyTip() {
         binding.editBtn.setOnClickListener {
             val intent = Intent(this, WriteHoneyTipActivity::class.java)
             val intentImages =
@@ -162,9 +191,9 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
             intent.putExtra("honeyTip", honeyTip)
             editDone(intent)
         }
-    }
+    }*/
 
-    private fun editQuestion() {
+    /*private fun editQuestion() {
         binding.editBtn.setOnClickListener {
             val intent = Intent(this, WriteHoneyTipActivity::class.java)
             val intentImages =
@@ -176,7 +205,7 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
             intent.putExtra("question", question)
             editDone(intent)
         }
-    }
+    }*/
 
     private fun editDone(intent: Intent){
         intent.putExtra(BOARD, board)
@@ -185,20 +214,20 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
         finish()
     }
 
-    private fun updateImages(uriList: List<Uri>) {
+    /*private fun updateImages(uriList: List<Uri>) {
         val images = uriList.map { Image(it) }
         val updatedImages = imageAdapter.currentList.toMutableList().apply { addAll(images) }
         imageAdapter.submitList(updatedImages)
-    }
+    }*/
 
-    override fun onClick(image: Image) {
+    /*override fun onClick(image: Image) {
         val images = imageAdapter.currentList.filterIsInstance<Image>().map { it.uri.toString() }
             .toTypedArray()
         Log.d("images", images.toString())
         val intent = Intent(this, ImageViewActivity::class.java)
         intent.putExtra("images", images)
         startActivity(intent)
-    }
+    }*/
 
     private fun showReportDialog() {
         val reportDialog = ReportDialogFragment()
@@ -245,5 +274,9 @@ class ReadHoneyTipActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
         val realRight = location[0] + view.width
         val realBottom = location[1] + view.height
         return x >= location[0] && x <= realRight && y >= location[1] && y <= realBottom
+    }
+
+    override fun onClick(imageUrl: ImageUrl) {
+
     }
 }

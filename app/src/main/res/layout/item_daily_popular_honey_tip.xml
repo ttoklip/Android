@@ -81,7 +81,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
-            android:id="@+id/star_iv"
+            android:id="@+id/scrap_iv"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:src="@drawable/ic_bookmark_off_20" />

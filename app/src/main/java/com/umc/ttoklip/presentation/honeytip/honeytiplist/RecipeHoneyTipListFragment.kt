@@ -9,7 +9,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
-import com.umc.ttoklip.data.model.honeytip.HoneyTipResponse
+import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
 import com.umc.ttoklip.databinding.FragmentHoneyTipListBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.honeytip.BOARD
@@ -22,63 +22,43 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class RecipeHoneyTipListFragment: BaseFragment<FragmentHoneyTipListBinding>(R.layout.fragment_honey_tip_list),
+class RecipeHoneyTipListFragment :
+    BaseFragment<FragmentHoneyTipListBinding>(R.layout.fragment_honey_tip_list),
     OnItemClickListener {
     private val honeyTipListRVA by lazy {
         HoneyTipListRVA(this)
     }
     private val viewModel: HoneyTipViewModel by viewModels(
-        ownerProducer = {requireParentFragment().requireParentFragment()}
+        ownerProducer = { requireParentFragment().requireParentFragment() }
     )
-    private var board = HONEY_TIP
     override fun initObserver() {
-        viewModel.boardLiveData.observe(this){
-            board = it
-            Log.d("board", board.toString())
-        }
-
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.honeyTip.collect {
-                    val intent = Intent(activity, ReadHoneyTipActivity::class.java)
-                    intent.putExtra(BOARD, board)
-                    intent.putExtra("honeyTip", it)
-                    Log.d("HoneyTipListFragment", board)
-                    startActivity(intent)
-                }
-            }
-        }
-
-        lifecycleScope.launch{
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                if (board == HONEY_TIP) {
-                    viewModel.recipeHoneyTip.collect {
-                        honeyTipListRVA.submitList(it)
-                    }
-                } else {
-                    viewModel.recipeQuestion.collect{
-                        honeyTipListRVA.submitList(it)
-                    }
+                viewModel.recipeHoneyTip.collect {
+                    honeyTipListRVA.submitList(it)
                 }
             }
         }
     }
+
     override fun initView() {
         initRV()
     }
 
     private fun initRV() {
         binding.rv.addItemDecoration(
-            DividerItemDecoration(requireContext(),
-            LinearLayoutManager.VERTICAL)
+            DividerItemDecoration(
+                requireContext(),
+                LinearLayoutManager.VERTICAL
+            )
         )
         binding.rv.adapter = honeyTipListRVA
     }
 
-    override fun onClick(honeyTipResponse: HoneyTipResponse) {
+    override fun onClick(honeyTip: HoneyTipMain) {
         val intent = Intent(activity, ReadHoneyTipActivity::class.java)
-        intent.putExtra(BOARD, board)
-        intent.putExtra("honeyTipId", honeyTipResponse.honeyTipId)
+        intent.putExtra(BOARD, HONEY_TIP)
+        intent.putExtra("honeyTipId", honeyTip.id)
         startActivity(intent)
     }
 }

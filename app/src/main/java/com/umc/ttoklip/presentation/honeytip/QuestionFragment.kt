@@ -1,7 +1,6 @@
 package com.umc.ttoklip.presentation.honeytip
 
 import android.content.Intent
-import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -13,12 +12,9 @@ import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.honeytip.adapter.CategoryVPA
 import com.umc.ttoklip.presentation.honeytip.adapter.DailyPopularHoneyTipsVPA
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
-class ShareHoneyTipFragment(
-) : BaseFragment<FragmentShareHoneyTipBinding>(R.layout.fragment_share_honey_tip) {
+class QuestionFragment: BaseFragment<FragmentShareHoneyTipBinding>(R.layout.fragment_share_honey_tip) {
     private val viewModel: HoneyTipViewModel by viewModels(
         ownerProducer = {requireParentFragment()}
     )
@@ -89,32 +85,9 @@ class ShareHoneyTipFragment(
 
     private fun initCategoryViewPager() {
         val tabTitles = listOf("집안일", "레시피", "안전한 생활", "복지 \u00b7 정책")
-        binding.categoryVp.adapter = CategoryVPA(this, HONEY_TIP, tabTitles.size)
+        binding.categoryVp.adapter = CategoryVPA(this, ASK, tabTitles.size)
         TabLayoutMediator(binding.categoryTablayout, binding.categoryVp) { tab, position ->
             tab.text = tabTitles[position]
         }.attach()
     }
-
-    /*private fun changeCategory(board: String){
-        binding.categoryTablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                if(board == HONEY_TIP) {
-                    viewModel.setHoneyTipCategory(tab?.text.toString())
-                    Log.d("Honey category", tab?.text.toString())
-                } else {
-                    viewModel.setQuestionCategory(tab?.text.toString())
-                    Log.d("Question category", tab?.text.toString())
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-
-            }
-
-        })
-    }*/
 }

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Typeface
 import android.net.Uri
-import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -17,26 +16,23 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.tabs.TabLayout
 import com.umc.ttoklip.R
-import com.umc.ttoklip.data.model.honeytip.HoneyTip
-import com.umc.ttoklip.data.model.honeytip.Question
 import com.umc.ttoklip.databinding.ActivityHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.BOARD
 import com.umc.ttoklip.presentation.honeytip.HONEY_TIP
-import com.umc.ttoklip.presentation.honeytip.HoneyTipViewModel
 import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.OnImageClickListener
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
+import com.umc.ttoklip.presentation.mypage.adapter.HoneyTip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -58,8 +54,7 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
         intent.getStringExtra(BOARD)!!
     }
     private var honeyTip: HoneyTip? = null
-    private var question: Question? = null
-    private val viewModel: HoneyTipViewModel by viewModels()
+    private val viewModel: WriteHoneyTipViewModel by viewModels()
     private var category: Category = Category.HOUSEWORK
     private var isEdit = false
     private var images = mutableListOf<Uri>()
@@ -94,7 +89,7 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.writeDoneEvent.collect {
-                    goReadActivity()
+                    handleEvent(it)
                 }
             }
         }
@@ -111,19 +106,34 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
         }
     }
 
-    private fun goReadActivity() {
+    private fun handleEvent(event: WriteHoneyTipViewModel.WriteDoneEvent){
         val intent = Intent(this@WriteHoneyTipActivity, ReadHoneyTipActivity::class.java)
-        if (board == HONEY_TIP) {
-            intent.putExtra("honeyTip", honeyTip)
-        } else {
-            intent.putExtra("question", question)
+        when(event){
+            is WriteHoneyTipViewModel.WriteDoneEvent.WriteDoneHoneyTip -> {
+                intent.putExtra("postId", event.postId)
+            }
+            is WriteHoneyTipViewModel.WriteDoneEvent.WriteDoneQuestion -> {
+                intent.putExtra("postId", event.postId)
+            }
         }
         intent.putExtra(BOARD, board)
         startActivity(intent)
         finish()
     }
 
-    private fun edit() {
+    private fun goReadActivity(postId: Int) {
+        val intent = Intent(this@WriteHoneyTipActivity, ReadHoneyTipActivity::class.java)
+        if (board == HONEY_TIP) {
+            intent.putExtra("honeyTipId", postId)
+        } else {
+            intent.putExtra("questionId", postId)
+        }
+        intent.putExtra(BOARD, board)
+        startActivity(intent)
+        finish()
+    }
+
+    /*private fun edit() {
         isEdit = intent.getBooleanExtra("isEdit", false)
         if (isEdit) {
             //val images: MutableList<Uri> = mutableListOf()
@@ -167,20 +177,20 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
             binding.writeDoneBtn.setOnClickListener {
                 Toast.makeText(this@WriteHoneyTipActivity, "수정완료", Toast.LENGTH_SHORT)
                     .show()
-                goReadActivity()
+                //goReadActivity()
             }
         }
-    }
+    }*/
 
     private fun checkHoneyTipOrQuestion() {
         if (board == HONEY_TIP) {
             binding.titleTv.text = "꿀팁 공유하기"
-            editHoneyTip()
+            //editHoneyTip()
 
         } else {
             binding.titleTv.text = "질문하기"
             binding.addLinkBtn.visibility = View.GONE
-            editQuestion()
+            //editQuestion()
         }
     }
 
@@ -247,12 +257,12 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
                     viewModel.createQuestion(title, content, category, imageParts)
                 }
 
-                makeIntentData(title, content, url, category)
+                //makeIntentData(title, content, url, category)
             }
         }
     }
 
-    private fun makeIntentData(title: String, content: String, url: String, category: String) {
+    /*private fun makeIntentData(title: String, content: String, url: String, category: String) {
         val intentImages =
             imageAdapter.currentList.filterIsInstance<Image>().map { it.uri.toString() }
                 .toTypedArray()
@@ -262,8 +272,8 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
             question = Question(title, content, intentImages, category)
         }
         //api 연동 없이 테스트
-        goReadActivity()
-    }
+        //goReadActivity()
+    }*/
 
     private fun convertResizeImage(imageUri: Uri): Uri {
         val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
@@ -305,7 +315,7 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
         binding.imageRv.adapter = imageAdapter
     }
 
-    private fun editHoneyTip() {
+    /*private fun editHoneyTip() {
         isEdit = intent.getBooleanExtra("isEdit", false)
         if (isEdit) {
             //val images: MutableList<Uri> = mutableListOf()
@@ -317,9 +327,9 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
             initEditHoneyTipView(honeyTip)
             editDone()
         }
-    }
+    }*/
 
-    private fun initEditHoneyTipView(honeyTip: HoneyTip?) {
+    /*private fun initEditHoneyTipView(honeyTip: HoneyTip?) {
         with(binding) {
             titleEt.setText(honeyTip?.title)
             bodyEt.setText(honeyTip?.content)
@@ -334,9 +344,9 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
                 Uri.parse(uriString)
             })
         }
-    }
+    }*/
 
-    private fun editQuestion() {
+    /*private fun editQuestion() {
         isEdit = intent.getBooleanExtra("isEdit", false)
         if (isEdit) {
             val question = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -347,9 +357,9 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
             initEditQuestionView(question)
             editDone()
         }
-    }
+    }*/
 
-    private fun initEditQuestionView(question: Question?) {
+    /*private fun initEditQuestionView(question: Question?) {
         with(binding) {
             titleEt.setText(question?.title)
             bodyEt.setText(question?.content)
@@ -360,7 +370,7 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
                 Uri.parse(uriString)
             })
         }
-    }
+    }*/
 
     private fun editDone() {
         binding.writeDoneBtn.text = "수정완료"
@@ -370,7 +380,7 @@ class WriteHoneyTipActivity : BaseActivity<ActivityHoneyTipBinding>(R.layout.act
         binding.writeDoneBtn.setOnClickListener {
             Toast.makeText(this@WriteHoneyTipActivity, "수정완료", Toast.LENGTH_SHORT)
                 .show()
-            goReadActivity()
+            //goReadActivity()
         }
     }
 

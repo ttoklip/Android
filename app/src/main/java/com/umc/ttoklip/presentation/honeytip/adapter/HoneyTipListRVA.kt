@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.umc.ttoklip.data.model.honeytip.HoneyTipResponse
+import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
 import com.umc.ttoklip.databinding.ItemListHoneyTipBinding
 import java.io.Serializable
 import java.text.SimpleDateFormat
@@ -14,18 +14,18 @@ import java.util.Date
 import kotlin.String
 
 class HoneyTipListRVA(private var listener: OnItemClickListener) :
-    ListAdapter<HoneyTipResponse, HoneyTipListRVA.HoneyTipListViewHolder>(object :
-        DiffUtil.ItemCallback<HoneyTipResponse>() {
+    ListAdapter<HoneyTipMain, HoneyTipListRVA.HoneyTipListViewHolder>(object :
+        DiffUtil.ItemCallback<HoneyTipMain>() {
         override fun areItemsTheSame(
-            oldItem: HoneyTipResponse,
-            newItem: HoneyTipResponse
+            oldItem: HoneyTipMain,
+            newItem: HoneyTipMain
         ): Boolean {
             return oldItem === newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: HoneyTipResponse,
-            newItem: HoneyTipResponse
+            oldItem: HoneyTipMain,
+            newItem: HoneyTipMain
         ): Boolean {
             return oldItem == newItem
         }
@@ -48,15 +48,17 @@ class HoneyTipListRVA(private var listener: OnItemClickListener) :
 
     inner class HoneyTipListViewHolder(private val binding: ItemListHoneyTipBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(honeyTipResponse: HoneyTipResponse) {
-            binding.titleTv.text = honeyTipResponse.title
-            binding.writerTv.text = honeyTipResponse.writer
-            binding.dateTv.text = calculateDate(honeyTipResponse.writtenTime)
-            binding.bodyTv.text = honeyTipResponse.content
-            binding.commentCountTv.text = honeyTipResponse.commentCount.toString()
+        fun bind(honeyTip: HoneyTipMain) {
+            binding.titleTv.text = honeyTip.title
+            binding.writerTv.text = honeyTip.writer
+            binding.dateTv.text = calculateDate(honeyTip.writtenTime)
+            binding.bodyTv.text = honeyTip.content
+            binding.commentCountTv.text = honeyTip.commentCount.toString()
+            binding.likeCountTv.text = honeyTip.likeCount.toString()
+            binding.scrapCountTv.text = honeyTip.scrapCount.toString()
 
             binding.root.setOnClickListener {
-                listener.onClick(honeyTipResponse)
+                listener.onClick(honeyTip)
             }
         }
     }
@@ -75,7 +77,7 @@ class HoneyTipListRVA(private var listener: OnItemClickListener) :
 }
 
 interface OnItemClickListener {
-    fun onClick(honeyTipResponse: HoneyTipResponse)
+    fun onClick(honeyTip: HoneyTipMain)
 }
 
 data class HoneyTips(

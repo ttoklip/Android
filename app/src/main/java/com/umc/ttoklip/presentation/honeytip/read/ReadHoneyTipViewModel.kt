@@ -1,17 +1,61 @@
 package com.umc.ttoklip.presentation.honeytip.read
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.umc.ttoklip.data.model.honeytip.HoneyTipResponse
-import com.umc.ttoklip.data.repository.honeytip.HoneyTipRepository
+import androidx.lifecycle.viewModelScope
+import com.umc.ttoklip.data.model.honeytip.InquireHoneyTipResponse
+import com.umc.ttoklip.data.model.honeytip.InquireQuestionResponse
 import com.umc.ttoklip.data.repository.honeytip.HoneyTipRepositoryImpl
+import com.umc.ttoklip.module.onError
+import com.umc.ttoklip.module.onSuccess
+import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ReadHoneyTipViewModel @Inject constructor(
     private val repository: HoneyTipRepositoryImpl
 ): ViewModel(){
-    private val _honeyTip = MutableSharedFlow<HoneyTipResponse>()
+    private val _honeyTip = MutableStateFlow<InquireHoneyTipResponse>(
+        InquireHoneyTipResponse(0, "", "", "", "", "", emptyList(), emptyList(), emptyList())
+    )
+    val honeyTip = _honeyTip.asStateFlow()
+
+    private val _readEvent = MutableSharedFlow<ReadEvent>()
+    val readEvent = _readEvent.asSharedFlow()
+
+    sealed class ReadEvent{
+        data class ReadHoneyTipEvent(val inquireHoneyTipResponse: InquireHoneyTipResponse): ReadEvent()
+        data class ReadQuestionEvent(val inquireQuestionResponse: InquireQuestionResponse): ReadEvent()
+    }
+
+    private fun event(event: ReadEvent) {
+        viewModelScope.launch {
+            _readEvent.emit(event)
+        }
+    }
+
+    fun inquireHoneyTip(honeyTipId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.inquireHoneyTip(honeyTipId).onSuccess {
+                Log.d("emit success", "success")
+                event(ReadEvent.ReadHoneyTipEvent(it))
+                Log.d("inquirehoneytip", it.toString())
+            }.onError { Log.d("error", it.stackTraceToString()) }
+        }
+    }
+
+    fun inquireQuestion(questionId: Int){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.inquireQuestion(questionId).onSuccess {
+                event(ReadEvent.ReadQuestionEvent(it))
+            }
+        }
+    }
 }
