@@ -33,6 +33,7 @@ class LoginViewModel @Inject constructor(
             loginRepository.postLogin(request)
                 .onSuccess {
                     TtoklipApplication.prefs.setString("jwt",it.jwtToken)
+                    TtoklipApplication.prefs.setBoolean("isFirstLogin",it.ifFirstLogin)
                     _isFirstLogin.value=it.ifFirstLogin
                     _isLogin.value=true
                 }.onFail {
