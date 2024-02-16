@@ -9,16 +9,12 @@ import com.umc.ttoklip.data.repository.town.WriteTogetherRepository
 import com.umc.ttoklip.module.onError
 import com.umc.ttoklip.module.onSuccess
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
+import com.umc.ttoklip.util.ConvertImageToJpg
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.File
-import java.io.FileOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
@@ -107,19 +103,7 @@ class WriteTogetherViewModelImpl @Inject constructor(
                     chatUrl = openLink.value,
                     party = totalMember.value,
                     itemUrls = listOf(extraUrl.value),
-                    images = images.value.map {
-                        val contentResolver = context.contentResolver
-                        val inputStream = contentResolver.openInputStream(it.uri)
-                        val tempDir = File.createTempFile("temp_image", null, context.cacheDir)
-                        val fileOutputStream = FileOutputStream(tempDir)
-                        inputStream?.copyTo(fileOutputStream)
-                        fileOutputStream.close()
-                        val imageRequestBody = tempDir.asRequestBody("image/*".toMediaTypeOrNull())
-                        val imagePart = imageRequestBody?.let {
-                            MultipartBody.Part.createFormData("multipartFile", tempDir.name, it)
-                        }
-                        imagePart!!
-                    }
+                    images = ConvertImageToJpg(context).convertUriToMultiBody(images.value.map { it.uri })
                 )
             ).onSuccess {
                 _closePage.value = true

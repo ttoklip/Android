@@ -10,6 +10,10 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityWriteCommunicationBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
@@ -17,6 +21,7 @@ import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class WriteCommunicationActivity :
@@ -24,7 +29,7 @@ class WriteCommunicationActivity :
     private val imageAdapter by lazy {
         ImageRVA(null)
     }
-
+    private val viewModel: WriteCommunicationViewModel by viewModels<WriteCommunicationViewModelImpl>()
     private val pickMultipleMedia = registerForActivityResult(
         ActivityResultContracts.PickMultipleVisualMedia(
             100
@@ -38,6 +43,7 @@ class WriteCommunicationActivity :
     }
 
     override fun initView() {
+        binding.vm = viewModel as WriteCommunicationViewModelImpl
         initImageRVA()
         addImage()
 
@@ -47,7 +53,51 @@ class WriteCommunicationActivity :
     }
 
     override fun initObserver() {
-
+        with(lifecycleScope) {
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.doneButtonActivated.collect {
+                        binding.writeDoneBtn.isEnabled = it
+                    }
+                }
+            }
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.title.collect {
+                        viewModel.checkDone()
+                    }
+                }
+            }
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.content.collect {
+                        viewModel.checkDone()
+                    }
+                }
+            }
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.content.collect {
+                        viewModel.checkDone()
+                    }
+                }
+            }
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.images.collect {
+                        Log.d("uri image", it.toString())
+                        imageAdapter.submitList(it.toList())
+                    }
+                }
+            }
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.closePage.collect {
+                        if (it) finish()
+                    }
+                }
+            }
+        }
     }
 
     private fun initImageRVA() {
@@ -68,9 +118,9 @@ class WriteCommunicationActivity :
     }
 
     private fun updateImages(uriList: List<Uri>) {
+        Log.d("uri", uriList.toString())
         val images = uriList.map { Image(it) }
-        val updatedImages = imageAdapter.currentList.toMutableList().apply { addAll(images) }
-        imageAdapter.submitList(updatedImages)
+        viewModel.addImages(images)
     }
 
     override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
