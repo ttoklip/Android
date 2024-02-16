@@ -154,6 +154,7 @@ class ReadHoneyTipActivity :
             )
             intent.putExtra("honeyTip", editHoneyTip)
             startActivity(intent)
+            finish()
         }
     }
 

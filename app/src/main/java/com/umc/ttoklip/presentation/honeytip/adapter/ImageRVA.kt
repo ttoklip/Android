@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.umc.ttoklip.databinding.ItemImageBinding
 import okhttp3.internal.assertThreadDoesntHoldLock
 
-class ImageRVA(private val context: Context, private var listener: OnImageClickListener?): ListAdapter<Image, ImageRVA.ImageViewHolder>(object : DiffUtil.ItemCallback<Image>(){
+class ImageRVA(private var listener: OnImageClickListener?): ListAdapter<Image, ImageRVA.ImageViewHolder>(object : DiffUtil.ItemCallback<Image>(){
     override fun areItemsTheSame(oldItem: Image, newItem: Image): Boolean {
         return oldItem === newItem
     }
@@ -24,10 +24,7 @@ class ImageRVA(private val context: Context, private var listener: OnImageClickL
 }) {
     inner class ImageViewHolder(private val binding: ItemImageBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(image: Image){
-
-            Glide.with(context)
-                .load(image.uri)
-                .into(binding.iv)
+            binding.iv.setImageURI(image.uri)
 
             binding.iv.setOnClickListener {
                 listener?.onClick(image)

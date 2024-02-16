@@ -60,7 +60,7 @@ class WriteHoneyTipActivity :
     BaseActivity<ActivityWriteHoneyTipBinding>(R.layout.activity_write_honey_tip),
     OnImageClickListener {
     private val imageAdapter: ImageRVA by lazy {
-        ImageRVA(this, this)
+        ImageRVA(this)
     }
     private val board: String by lazy {
         intent.getStringExtra(BOARD)!!
@@ -322,7 +322,7 @@ class WriteHoneyTipActivity :
     }
 
     private fun initTabLayout() {
-        val tabTitles = listOf("집안일", "요리", "안전한 생활", "복지 \u00b7 정책")
+        val tabTitles = listOf("집안일", "레시피", "안전한 생활", "복지 \u00b7 정책")
         for (i in tabTitles.indices) {
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(tabTitles[i]))
         }
@@ -425,7 +425,7 @@ class WriteHoneyTipActivity :
     private fun tabTextToCategory(string: kotlin.String): String {
         return when (string) {
             "집안일" -> Category.HOUSEWORK.toString()
-            "요리" -> Category.RECIPE.toString()
+            "레시피" -> Category.RECIPE.toString()
             "안전한 생활" -> Category.SAFE_LIVING.toString()
             else -> Category.WELFARE_POLICY.toString()
         }
