@@ -1,8 +1,10 @@
 package com.umc.ttoklip.presentation.hometown
 
 import android.content.Intent
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.databinding.FragmentMyHometownBinding
 import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
@@ -34,6 +36,7 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
     }
 
     override fun initView() {
+        Log.d("jwt", TtoklipApplication.prefs.getString("jwt", ""))
         binding.seeDetailTogetherBtn.setOnClickListener {
             val intent = Intent(requireContext(), TogetherActivity::class.java)
             startActivity(intent)

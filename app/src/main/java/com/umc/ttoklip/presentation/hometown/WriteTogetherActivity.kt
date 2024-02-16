@@ -26,6 +26,7 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityWriteTogetherBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.hometown.dialog.InputMaxMemberDialogFragment
+import com.umc.ttoklip.presentation.hometown.dialog.TogetherDialog
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
@@ -71,8 +72,8 @@ class WriteTogetherActivity :
     override fun initView() {
         binding.vm = viewModel as WriteTogetherViewModelImpl
         initImageRVA()
-        addImage()
         addLink()
+        addImage()
         binding.backBtn.setOnClickListener {
             finish()
         }
@@ -206,6 +207,40 @@ class WriteTogetherActivity :
                     }
                 }
             }
+
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.images.collect {
+                        Log.d("uri image", it.toString())
+                        imageAdapter.submitList(it.toList())
+                    }
+                }
+            }
+
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.doneWriteTogether.collect {
+                        if (it) {
+                            val together = TogetherDialog()
+                            together.setDialogClickListener(object :
+                                TogetherDialog.TogetherDialogClickListener {
+                                override fun onClick() {
+                                    viewModel.writeTogether()
+                                }
+                            })
+                            together.show(supportFragmentManager, together.tag)
+                        }
+                    }
+                }
+            }
+
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.closePage.collect {
+                        if (it) finish()
+                    }
+                }
+            }
         }
     }
 
@@ -234,9 +269,9 @@ class WriteTogetherActivity :
     }
 
     private fun updateImages(uriList: List<Uri>) {
+        Log.d("uri", uriList.toString())
         val images = uriList.map { Image(it) }
-        val updatedImages = imageAdapter.currentList.toMutableList().apply { addAll(images) }
-        imageAdapter.submitList(updatedImages)
+        viewModel.addImages(images)
     }
 
     override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
