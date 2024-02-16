@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
+import android.util.Log
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -22,7 +23,8 @@ class WriteHoneyTipUtil(private val context: Context) {
                 //Log.d("images", images[i].toString())
                 val imagePath = images[i]
                 val path = convertResizeImage(imagePath)
-                val imageFile = convertUriToJpegFile(context, imagePath, "$i+1")
+                Log.d("path", imagePath.lastPathSegment.toString())
+                val imageFile = convertUriToJpegFile(context, imagePath, imagePath.lastPathSegment.toString())
                 if (imageFile == null) {
                     null
                 } else {
@@ -59,6 +61,7 @@ class WriteHoneyTipUtil(private val context: Context) {
     private fun convertUriToJpegFile(context: Context, uri: Uri, targetFilename: kotlin.String): File? {
         val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
         val outputFile = File(context.cacheDir, "$targetFilename.jpeg")
+        Log.d("outfile", outputFile.toString())
 
         inputStream?.use { input ->
             FileOutputStream(outputFile).use { output ->
@@ -74,4 +77,6 @@ class WriteHoneyTipUtil(private val context: Context) {
 
         return if (outputFile.exists()) outputFile else null
     }
+
+    //수정하기 관련
 }

@@ -1,9 +1,15 @@
 package com.umc.ttoklip.presentation.honeytip.write
 
+import android.content.ContentResolver
+import android.content.ContentUris
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -15,12 +21,16 @@ import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.tabs.TabLayout
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
@@ -35,10 +45,14 @@ import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.OnImageClickListener
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
+import com.umc.ttoklip.presentation.honeytip.read.ReadQuestionActivity
 import com.umc.ttoklip.presentation.mypage.adapter.HoneyTip
 import com.umc.ttoklip.util.WriteHoneyTipUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.lang.Exception
 
 
 @AndroidEntryPoint
@@ -54,8 +68,8 @@ class WriteHoneyTipActivity :
     private val viewModel: WriteHoneyTipViewModel by viewModels()
     private var category = Category.HOUSEWORK.toString()
     private var isEdit = false
-    private var images = mutableListOf<Uri>()
     private var postId = 0
+    private var editImage = mutableListOf<Uri>()
 
     private val pickMultipleMedia = registerForActivityResult(
         ActivityResultContracts.PickMultipleVisualMedia(
@@ -106,18 +120,21 @@ class WriteHoneyTipActivity :
     }
 
     private fun handleEvent(event: WriteHoneyTipViewModel.WriteDoneEvent) {
-        val intent = Intent(this@WriteHoneyTipActivity, ReadHoneyTipActivity::class.java)
         when (event) {
             is WriteHoneyTipViewModel.WriteDoneEvent.WriteDoneHoneyTip -> {
+                val intent = Intent(this@WriteHoneyTipActivity, ReadHoneyTipActivity::class.java)
                 intent.putExtra("postId", event.postId)
+                intent.putExtra(BOARD, board)
+                startActivity(intent)
             }
 
             is WriteHoneyTipViewModel.WriteDoneEvent.WriteDoneQuestion -> {
+                val intent = Intent(this@WriteHoneyTipActivity, ReadQuestionActivity::class.java)
                 intent.putExtra("postId", event.postId)
+                intent.putExtra(BOARD, board)
+                startActivity(intent)
             }
         }
-        intent.putExtra(BOARD, board)
-        startActivity(intent)
         finish()
     }
 
@@ -141,62 +158,66 @@ class WriteHoneyTipActivity :
                 addLinkBtn.visibility = View.GONE
                 inputUrlEt.visibility = View.VISIBLE
             }
-            val images = editHoneyTip?.image?.map { it -> Image(Uri.parse(it)) }
-            imageAdapter.submitList(images)
+            val images = editHoneyTip?.image?.toList()
+            Log.d("edit images", images.toString())
+            convertURLtoURI(images)
             postId = editHoneyTip?.postId ?: 0
             category = editHoneyTip?.category?:""
             binding.tabLayout.selectTab(binding.tabLayout.getTabAt(stringToNum(category)))
         }
     }
 
-    /*private fun edit() {
-        isEdit = intent.getBooleanExtra("isEdit", false)
-        if (isEdit) {
-            //val images: MutableList<Uri> = mutableListOf()
-            if (board == HONEY_TIP) {
-                val honeyTip = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    intent.getSerializableExtra("honeyTip", HoneyTip::class.java)
-                } else {
-                    intent.getSerializableExtra("honeyTip") as HoneyTip
-                }
-                Log.d("honeytip image", honeyTip.toString())
-                with(binding) {
-                    titleEt.setText(honeyTip?.title)
-                    bodyEt.setText(honeyTip?.content)
-                    inputUrlEt.setText(honeyTip?.uri)
-                    binding.inputUrlBtn.isVisible = true
-                    binding.addLinkBtn.isVisible = false
-                    binding.imageRv.isVisible = true
-                    images.addAll((honeyTip?.images ?: emptyArray()).map { uriString ->
-                        Uri.parse(uriString)
-                    })
-                }
-            } else {
-                val question = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    intent.getSerializableExtra("question", Question::class.java)
-                } else {
-                    intent.getSerializableExtra("question") as Question
-                }
-                with(binding) {
-                    titleEt.setText(question?.title)
-                    bodyEt.setText(question?.content)
-                    binding.imageRv.isVisible = true
-                    images.addAll((question?.images ?: emptyArray()).map { uriString ->
-                        Uri.parse(uriString)
-                    })
-                }
-            }
-            binding.writeDoneBtn.text = "수정완료"
-            binding.writeDoneBtn.isEnabled = true
-            updateImages(images)
-            //Log.d("image", images.toString())
-            binding.writeDoneBtn.setOnClickListener {
-                Toast.makeText(this@WriteHoneyTipActivity, "수정완료", Toast.LENGTH_SHORT)
-                    .show()
-                //goReadActivity()
-            }
+    private fun convertURLtoURI(photos: List<String>?) {
+        val uris = mutableListOf<Uri>()
+        photos?.forEach {
+            Log.d("uris", uris.toString())
+            Glide.with(this).asBitmap().load(it)
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        Log.d("bittmap", resource.toString())
+                        uris.add(getImageUri(this@WriteHoneyTipActivity, resource))
+                        if (uris.size == photos.size) {
+                            imageAdapter.submitList(uris.map { it -> Image(it) })
+                            editImage.addAll(uris)
+                        }
+                    }
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                    }
+                })
         }
-    }*/
+    }
+
+    private fun getImageUri(inContext: Context, inImage: Bitmap): Uri {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path = MediaStore.Images.Media.insertImage(
+            inContext.contentResolver,
+            inImage,
+            "Title",
+            null
+        )
+        val uri = Uri.parse(path)
+        return Uri.parse(path)
+    }
+
+    private fun deleteImage(context: Context, imageUri: Uri): Boolean {
+        val contentResolver: ContentResolver = context.contentResolver
+
+        // 이미지의 ID를 추출합니다.
+        val id = ContentUris.parseId(imageUri)
+
+        // ContentResolver를 사용하여 이미지를 삭제합니다.
+        val deleteUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI.buildUpon()
+            .appendPath(id.toString()).build()
+
+        val deletedRows = contentResolver.delete(deleteUri, null, null)
+
+        // 삭제 성공 여부를 반환합니다.
+        return deletedRows > 0
+    }
 
     private fun checkHoneyTipOrQuestion() {
         if (board == HONEY_TIP) {
@@ -211,14 +232,6 @@ class WriteHoneyTipActivity :
     }
 
     private fun enableWriteDoneButton() {
-        /*binding.titleEt.doAfterTextChanged {
-            if (it.toString().isNotBlank()) {
-                viewModel.setTitle(false)
-            } else {
-                viewModel.setTitle(true)
-            }
-        }*/
-
         binding.titleEt.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 if(s.toString().isNotBlank()){
@@ -272,14 +285,6 @@ class WriteHoneyTipActivity :
             }
 
         })
-
-        /*binding.bodyEt.doAfterTextChanged {
-            if (it.toString().isNotBlank()) {
-                viewModel.setBody(false)
-            } else {
-                viewModel.setBody(true)
-            }
-        }*/
     }
 
     private fun writeDone() {
@@ -297,6 +302,10 @@ class WriteHoneyTipActivity :
             if(isEdit){
                 Log.d("it Edit", isEdit.toString())
                 viewModel.editHoneyTip(postId, title, content, category, imageParts, url)
+                editImage.forEach{
+                    val delete = deleteImage(this@WriteHoneyTipActivity, it)
+                    Log.d("delete", delete.toString())
+                }
             } else {
                 if (board == HONEY_TIP) {
                     viewModel.createHoneyTip(title, content, category, imageParts, url)
@@ -307,114 +316,9 @@ class WriteHoneyTipActivity :
         }
     }
 
-
-    /*private fun convertResizeImage(imageUri: Uri): Uri {
-        val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
-        val resizedBitmap =
-            Bitmap.createScaledBitmap(bitmap, bitmap.width / 2, bitmap.height / 2, true)
-
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 90, byteArrayOutputStream)
-
-        val tempFile = File.createTempFile("resized_image", ".jpg", this.cacheDir)
-        val fileOutputStream = FileOutputStream(tempFile)
-        fileOutputStream.write(byteArrayOutputStream.toByteArray())
-        fileOutputStream.close()
-
-        return Uri.fromFile(tempFile)
-    }
-
-    private fun convertUriToJpegFile(context: Context, uri: Uri, targetFilename: kotlin.String): File? {
-        val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
-        val outputFile = File(context.cacheDir, "$targetFilename.jpeg")
-
-        inputStream?.use { input ->
-            FileOutputStream(outputFile).use { output ->
-                val buffer = ByteArray(4 * 1024) // 4KB buffer size
-                while (true) {
-                    val byteCount = input.read(buffer)
-                    if (byteCount < 0) break
-                    output.write(buffer, 0, byteCount)
-                }
-                output.flush()
-            }
-        }
-
-        return if (outputFile.exists()) outputFile else null
-    }*/
-
     private fun initImageRVA() {
         //imageAdapter = ImageRVA(this)
         binding.imageRv.adapter = imageAdapter
-    }
-
-    /*private fun editHoneyTip() {
-        isEdit = intent.getBooleanExtra("isEdit", false)
-        if (isEdit) {
-            //val images: MutableList<Uri> = mutableListOf()
-            val honeyTip = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                intent.getSerializableExtra("honeyTip", HoneyTip::class.java)
-            } else {
-                intent.getSerializableExtra("honeyTip") as HoneyTip
-            }
-            initEditHoneyTipView(honeyTip)
-            editDone()
-        }
-    }*/
-
-    /*private fun initEditHoneyTipView(honeyTip: HoneyTip?) {
-        with(binding) {
-            titleEt.setText(honeyTip?.title)
-            bodyEt.setText(honeyTip?.content)
-            inputUrlEt.setText(honeyTip?.uri)
-            inputUrlBtn.isVisible = true
-            addLinkBtn.isVisible = false
-            imageRv.isVisible = true
-            Log.d("write edit category", honeyTip?.category.toString())
-            tabLayout.selectTab(binding.tabLayout.getTabAt(stringToNum(honeyTip?.category!!)))
-
-            images.addAll((honeyTip?.images ?: emptyArray()).map { uriString ->
-                Uri.parse(uriString)
-            })
-        }
-    }*/
-
-    /*private fun editQuestion() {
-        isEdit = intent.getBooleanExtra("isEdit", false)
-        if (isEdit) {
-            val question = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                intent.getSerializableExtra("question", Question::class.java)
-            } else {
-                intent.getSerializableExtra("quesion") as Question
-            }
-            initEditQuestionView(question)
-            editDone()
-        }
-    }*/
-
-    /*private fun initEditQuestionView(question: Question?) {
-        with(binding) {
-            titleEt.setText(question?.title)
-            bodyEt.setText(question?.content)
-            imageRv.isVisible = true
-            tabLayout.selectTab(binding.tabLayout.getTabAt(stringToNum(question?.category!!)))
-
-            images.addAll((question?.images ?: emptyArray()).map { uriString ->
-                Uri.parse(uriString)
-            })
-        }
-    }*/
-
-    private fun editDone() {
-        binding.writeDoneBtn.text = "수정완료"
-        binding.writeDoneBtn.isEnabled = true
-        updateImages(images)
-        //Log.d("image", images.toString())
-        binding.writeDoneBtn.setOnClickListener {
-            Toast.makeText(this@WriteHoneyTipActivity, "수정완료", Toast.LENGTH_SHORT)
-                .show()
-            //goReadActivity()
-        }
     }
 
     private fun initTabLayout() {

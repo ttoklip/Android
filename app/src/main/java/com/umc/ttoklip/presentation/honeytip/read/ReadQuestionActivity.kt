@@ -62,7 +62,6 @@ class ReadQuestionActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
                 imageAdapter.submitList(event.inquireQuestionResponse.imageUrls)
                 val writer = TtoklipApplication.prefs.getString("nickname", "")
                 if(event.inquireQuestionResponse.writer == writer){
-                    showHoneyTipWriterMenu()
                 } else {
                     showReportBtn()
                 }
