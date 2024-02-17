@@ -14,17 +14,20 @@ interface SearchApi {
     @GET("/api/v1/search/newsletter")
     suspend fun getSearchNewsApi(
         @Query("title") title : String,
+        @Query("sort") sort: String
     ): Response<ResponseBody<NewsSearchResponse>>
 
     @GET("/api/v1/search/honeytip")
     suspend fun getSearchTipApi(
         @Query("title") title : String,
+        @Query("sort") sort: String
     ): Response<ResponseBody<TipSearchResponse>>
 
 
     @GET("/api/v1/search/our-town")
     suspend fun getSearchTownApi(
         @Query("title") title : String,
+        @Query("sort") sort: String
     ): Response<ResponseBody<TownSearchResponse>>
 
 }
