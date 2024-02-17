@@ -24,7 +24,7 @@ class ReadHoneyTipViewModel @Inject constructor(
     private val repository: HoneyTipRepositoryImpl
 ): ViewModel(){
     private val _honeyTip = MutableStateFlow<InquireHoneyTipResponse>(
-        InquireHoneyTipResponse(0, "", "", "", "", "", emptyList(), emptyList(), emptyList())
+        InquireHoneyTipResponse(0, "", "", "", "", "", emptyList(), emptyList(), emptyList(), false, false)
     )
     val honeyTip = _honeyTip.asStateFlow()
 
@@ -35,6 +35,11 @@ class ReadHoneyTipViewModel @Inject constructor(
         data class ReadHoneyTipEvent(val inquireHoneyTipResponse: InquireHoneyTipResponse): ReadEvent()
         data class ReadQuestionEvent(val inquireQuestionResponse: InquireQuestionResponse): ReadEvent()
         object ReportHoneyTip: ReadEvent()
+
+        object DeleteHoneyTip: ReadEvent()
+
+        object ScrapHoneyTip: ReadEvent()
+
         object ReportQuestion: ReadEvent()
 
     }
@@ -60,6 +65,23 @@ class ReadHoneyTipViewModel @Inject constructor(
             repository.reportHoneyTip(honeyTipId, request).onSuccess {
                 Log.d("report HoneyTip", it.toString())
                 event(ReadEvent.ReportHoneyTip)
+            }
+        }
+    }
+
+    fun deleteHoneyTip(honeyTipId: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteHoneyTip(honeyTipId).onSuccess {
+                Log.d("delete honeyTip", it.toString())
+                event(ReadEvent.DeleteHoneyTip)
+            }
+        }
+    }
+
+    fun scrapHoneyTip(honeyTipId: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.scrapHoneyTip(honeyTipId).onSuccess {
+                Log.d("scrap honeyTip", it.toString())
             }
         }
     }

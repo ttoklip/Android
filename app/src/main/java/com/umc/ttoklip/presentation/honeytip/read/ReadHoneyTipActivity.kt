@@ -206,6 +206,7 @@ class ReadHoneyTipActivity :
             val deleteDialog = DeleteDialogFragment()
             deleteDialog.setDialogClickListener(object : DeleteDialogFragment.DialogClickListener {
                 override fun onClick() {
+                    viewModel.deleteHoneyTip(postId)
                     finish()
                 }
             })
