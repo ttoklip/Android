@@ -33,12 +33,11 @@ fun AppCompatTextView.setBold(isBold: Boolean) {
 
 @SuppressLint("CheckResult")
 @BindingAdapter(value = ["bind:url", "bind:baseImg"], requireAll = false)
-fun ImageView.setUrlImg(imageUrl: String, placeholder: Drawable?) {
+fun ImageView.setUrlImg(imageUrl: String?, placeholder: Drawable?) {
     Glide.with(this.context)
         .load(imageUrl)
         .placeholder(placeholder)
         .error(placeholder)
-        .apply(RequestOptions().fitCenter())
         .into(this)
 }
 
