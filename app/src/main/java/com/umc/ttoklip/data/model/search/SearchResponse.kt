@@ -5,9 +5,12 @@ data class SearchResponse(
     val commentCount: Int,
     val content: String,
     val id: Int,
-    val title: String
+    val likeCount: Int,
+    val scrapCount: Int,
+    val title: String,
+    val writer: String?
 ){
     fun toModel(bigCategory: Int) = SearchModel(
-        category, commentCount, content, id, title, bigCategory
+        category, commentCount, content, id, title, bigCategory ,likeCount, scrapCount , writer ?: ""
     )
 }
