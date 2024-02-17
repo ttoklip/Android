@@ -95,7 +95,7 @@ class SignupViewModel @Inject constructor(
         uprofileImage: String,
         uindependentYear: Int,
         uindependentMonth: Int
-    ) {
+    ){
         _nickname.value = unick
         _categories.value = ucategories
         _profileImage.value = uprofileImage
