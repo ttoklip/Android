@@ -293,7 +293,7 @@
                         android:layout_height="16dp"
                         android:layout_margin="4dp"
                         android:src="@drawable/ic_heart_off_20"
-                        android:tint="@{vm.isScrap ? @color/black : @color/gray60}"
+                        android:tint="@{vm.isLike() ? @color/black : @color/gray60}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
