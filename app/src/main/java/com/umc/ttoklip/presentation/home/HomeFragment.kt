@@ -16,7 +16,6 @@ import com.umc.ttoklip.presentation.hometown.TogetherActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTips
 import com.umc.ttoklip.presentation.mypage.adapter.Transaction
 import com.umc.ttoklip.presentation.mypage.adapter.TransactionAdapter
-import com.umc.ttoklip.presentation.news.adapter.Dummy
 import com.umc.ttoklip.presentation.news.adapter.NewsRVA
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
 import com.umc.ttoklip.presentation.search.SearchActivity

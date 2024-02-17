@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
-
     <application
         android:name=".TtoklipApplication"
         android:allowBackup="true"
@@ -34,10 +33,11 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".presentation.honeytip.read.ReadActivity"
+            android:name=".presentation.honeytip.read.ReadHoneyTipActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
+            
             android:name=".presentation.honeytip.write.WriteHoneyTipActivity"
             android:screenOrientation="portrait"
             android:exported="false"
@@ -167,6 +167,7 @@
             </intent-filter>
         </activity>
 
+
         <service
             android:name="com.google.android.gms.metadata.ModuleDependencies"
             android:enabled="false"
@@ -185,9 +186,13 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity android:name="com.umc.ttoklip.presentation.honeytip.ImageViewActivity" />
+
         <activity android:name=".presentation.news.detail.PostImageActivity"
             android:screenOrientation="portrait"
             android:exported="false"/>
+
+        <activity android:name=".presentation.honeytip.read.ReadQuestionActivity" />
+
     </application>
 
 </manifest>

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="view"
-            type="com.umc.ttoklip.presentation.honeytip.HoneyTipFragment" />
+            type="com.umc.ttoklip.presentation.honeytip.HoneyTipMainFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

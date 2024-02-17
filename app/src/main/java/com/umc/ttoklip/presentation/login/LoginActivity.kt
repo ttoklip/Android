@@ -15,7 +15,6 @@ import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
-import com.umc.ttoklip.data.model.CreateHoneyTipRequest
 import com.umc.ttoklip.data.model.login.LoginRequest
 import com.umc.ttoklip.databinding.ActivityLoginBinding
 import com.umc.ttoklip.presentation.MainActivity
