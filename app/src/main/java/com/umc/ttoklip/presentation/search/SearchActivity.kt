@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
@@ -17,9 +16,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivitySearchBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.news.adapter.Dummy
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
-import com.umc.ttoklip.presentation.search.adapter.HistoryModel
 import com.umc.ttoklip.presentation.search.adapter.HistoryRVA
 import com.umc.ttoklip.presentation.search.adapter.SearchRVA
 import com.umc.ttoklip.presentation.search.dialog.BottomDialogSearchFragment

@@ -3,20 +3,18 @@ package com.umc.ttoklip.presentation.news
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.umc.ttoklip.data.model.news.MainNewsResponse
 import com.umc.ttoklip.data.model.news.News
 import com.umc.ttoklip.data.repository.news.NewsRepository
-import com.umc.ttoklip.module.NetworkResult
 import com.umc.ttoklip.module.onException
 import com.umc.ttoklip.module.onFail
 import com.umc.ttoklip.module.onSuccess
+import com.umc.ttoklip.presentation.news.adapter.NewsCard
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import java.util.Random
 import javax.inject.Inject
 
 @HiltViewModel
@@ -47,6 +45,10 @@ class NewsViewModelImpl @Inject constructor(
     override val welfarePolicyList: StateFlow<List<News>>
         get() = _welfarePolicyList
 
+    private val _randomNews = MutableStateFlow(listOf<NewsCard>())
+    override val randomNews: StateFlow<List<NewsCard>>
+        get() = _randomNews
+
 
     override fun expandedAppBar() {
         viewModelScope.launch {
@@ -69,12 +71,20 @@ class NewsViewModelImpl @Inject constructor(
                         _recipeList.emit(it.categoryResponses.recipe)
                         _safeLivingList.emit(it.categoryResponses.safeLiving)
                         _welfarePolicyList.emit(it.categoryResponses.welfarePolicy)
+
+                        _randomNews.value =
+                        listOf(
+                            NewsCard("집안일", _houseWorkList.value.shuffled().take(4)),
+                            NewsCard("레시피", _recipeList.value.shuffled().take(4)),
+                            NewsCard("안전한생활", _safeLivingList.value.shuffled().take(4)),
+                            NewsCard("복지•정책", _welfarePolicyList.value.shuffled().take(4))
+                        )
                     }.onFail {
 
                     }.onException {
                         throw it
                     }
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 e.printStackTrace()
                 Log.d("예외", "$e")
             }

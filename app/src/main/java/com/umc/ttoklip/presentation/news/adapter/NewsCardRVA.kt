@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.databinding.ItemNewsViewPagerBinding
 
-class NewsCardRVA : ListAdapter<Dummy, NewsCardRVA.ItemViewHolder>(differ) {
+class NewsCardRVA : ListAdapter<NewsCard, NewsCardRVA.ItemViewHolder>(differ) {
 
     inner class ItemViewHolder(
         private val binding: ItemNewsViewPagerBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: Dummy) {
+        fun bind(data: NewsCard) {
             binding.item = data
         }
     }
@@ -36,12 +36,12 @@ class NewsCardRVA : ListAdapter<Dummy, NewsCardRVA.ItemViewHolder>(differ) {
     }
 
     companion object {
-        val differ = object : DiffUtil.ItemCallback<Dummy>() {
-            override fun areItemsTheSame(oldItem: Dummy, newItem: Dummy): Boolean {
-                return oldItem.name == newItem.name
+        val differ = object : DiffUtil.ItemCallback<NewsCard>() {
+            override fun areItemsTheSame(oldItem: NewsCard, newItem: NewsCard): Boolean {
+                return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: Dummy, newItem: Dummy): Boolean {
+            override fun areContentsTheSame(oldItem: NewsCard, newItem: NewsCard): Boolean {
                 return oldItem == newItem
             }
         }

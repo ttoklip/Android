@@ -1,8 +1,12 @@
 package com.umc.ttoklip.presentation.news
 
+import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.umc.ttoklip.R
@@ -16,6 +20,7 @@ import com.umc.ttoklip.presentation.news.adapter.NewsCardRVA
 import com.umc.ttoklip.presentation.news.adapter.NewsTabAdapter
 import com.umc.ttoklip.presentation.search.SearchActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -32,6 +37,14 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(R.layout.fragment_news) {
     }
 
     override fun initObserver() {
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.randomNews.collect {
+                    vpRVA.submitList(it)
+                }
+            }
+        }
     }
 
     override fun initView() {
@@ -40,11 +53,7 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(R.layout.fragment_news) {
         viewModel.getMainNews()
         binding.vp.adapter = vpRVA
         binding.indicator.attachTo(binding.vp)
-        vpRVA.submitList(
-            listOf(
-                Dummy("1"), Dummy("2"), Dummy("3"), Dummy("4")
-            )
-        )
+
         binding.vp2.adapter = vpFA
         TabLayoutMediator(binding.tabLayout, binding.vp2) { tab, position ->
             tab.text = tabTitleArray[position]
