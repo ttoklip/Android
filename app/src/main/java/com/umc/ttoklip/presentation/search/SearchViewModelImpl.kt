@@ -57,7 +57,7 @@ class SearchViewModelImpl @Inject constructor(
         viewModelScope.launch {
             _searchAfter.emit(true)
             try {
-                searchRepository.getNewsSearch(title = searchText.value).onSuccess {
+                searchRepository.getNewsSearch(title = searchText.value, sort = "latest").onSuccess {
                     _searchList.emit(it)
                     fSearchList.emit(it.toMutableList())
                     addHistory()
@@ -103,7 +103,7 @@ class SearchViewModelImpl @Inject constructor(
         viewModelScope.launch {
             _searchAfter.emit(true)
             try {
-                searchRepository.getNewsSearch(title = title).onSuccess {
+                searchRepository.getNewsSearch(title = title, sort = "latest").onSuccess {
                     _searchList.emit(it)
                     fSearchList.emit(it.toMutableList())
                     searchTip()
@@ -133,7 +133,7 @@ class SearchViewModelImpl @Inject constructor(
     private fun searchTip() {
         viewModelScope.launch {
             try {
-                searchRepository.getTipSearch(title = searchText.value).onSuccess {
+                searchRepository.getTipSearch(title = searchText.value, sort = "latest").onSuccess {
                     _searchList.emit(searchList.value + it)
                     fSearchList.emit((fSearchList.value + it.toMutableList()) as MutableList<SearchModel>)
                 }.onFail {
@@ -151,7 +151,7 @@ class SearchViewModelImpl @Inject constructor(
     private fun searchTown() {
         viewModelScope.launch {
             try {
-                searchRepository.getTownSearch(title = searchText.value).onSuccess {
+                searchRepository.getTownSearch(title = searchText.value, sort = "latest").onSuccess {
                     _searchList.emit(searchList.value + it)
                     fSearchList.emit((fSearchList.value + it.toMutableList()) as MutableList<SearchModel>)
                 }.onFail {

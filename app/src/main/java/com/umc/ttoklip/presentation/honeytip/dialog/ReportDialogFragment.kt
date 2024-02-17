@@ -36,7 +36,7 @@ class ReportDialogFragment: BaseDialogFragment<DialogReportBinding>(R.layout.dia
             dismiss()
         }
         binding.acceptBtn.setOnClickListener {
-            dialogClickListener.onClick(ReportRequest(binding.reasonEt.text.toString(), stringToEnum(reportType)))
+            dialogClickListener.onClick(content = binding.reasonEt.text.toString(), type =  stringToEnum(reportType))
             dismiss()
         }
     }
@@ -46,7 +46,7 @@ class ReportDialogFragment: BaseDialogFragment<DialogReportBinding>(R.layout.dia
     }
 
     interface DialogClickListener{
-        fun onClick(request: ReportRequest)
+        fun onClick(type: String, content : String)
     }
 
     private fun resize(dialog: Dialog, width: Float, height: Float){

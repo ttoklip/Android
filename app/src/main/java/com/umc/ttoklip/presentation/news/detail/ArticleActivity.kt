@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
+import com.umc.ttoklip.data.model.news.ReportRequest
 import com.umc.ttoklip.databinding.ActivityArticleBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
@@ -24,22 +25,27 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>(R.layout.activity_a
     private val viewModel: ArticleViewModel by viewModels<ArticleViewModelImpl>()
 
     private val commentRVA by lazy {
-        CommentRVA( { id ->
+        CommentRVA({ id ->
             viewModel.replyCommentParentId.value = id
-        },{ id ,myComment ->
-            if (myComment){
+        }, { id, myComment ->
+            if (myComment) {
                 val deleteDialog = DeleteDialogFragment()
-                deleteDialog.setDialogClickListener(object : DeleteDialogFragment.DialogClickListener {
+                deleteDialog.setDialogClickListener(object :
+                    DeleteDialogFragment.DialogClickListener {
                     override fun onClick() {
-                        viewModel.deleteComment(id, intent.getIntExtra(ARTICLE,1))
+                        viewModel.deleteComment(id, intent.getIntExtra(ARTICLE, 1))
                     }
                 })
                 deleteDialog.show(supportFragmentManager, deleteDialog.tag)
-            }else{
+            } else {
                 val reportDialog = ReportDialogFragment()
-                reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
-                    override fun onClick() {
-                        viewModel.postReportComment(intent.getIntExtra(ARTICLE,1))
+                reportDialog.setDialogClickListener(object :
+                    ReportDialogFragment.DialogClickListener {
+                    override fun onClick(type: String, content: String) {
+                        viewModel.postReportComment(
+                            intent.getIntExtra(ARTICLE, 1),
+                            ReportRequest(content = content, reportType = type)
+                        )
                     }
                 })
                 reportDialog.show(supportFragmentManager, reportDialog.tag)
@@ -48,7 +54,7 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>(R.layout.activity_a
     }
 
     private val imageRVA by lazy {
-        PostImageRVA{ imageUrl ->
+        PostImageRVA { imageUrl ->
             val intent = Intent(this, PostImageActivity::class.java)
             intent.putExtra("images", imageUrl.map { it.imageUrl }.toTypedArray())
             startActivity(intent)
@@ -67,8 +73,8 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>(R.layout.activity_a
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.toast.collect {
-                    if (it.isNotEmpty()){
-                        Toast.makeText(baseContext, it,Toast.LENGTH_SHORT).show()
+                    if (it.isNotEmpty()) {
+                        Toast.makeText(baseContext, it, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -114,10 +120,10 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>(R.layout.activity_a
         binding.ImgRV.adapter = imageRVA
         binding.dotBtn.setOnClickListener {
             binding.menu.apply {
-                if (!isMenuOpen){
+                if (!isMenuOpen) {
                     visibility = View.VISIBLE
                     isMenuOpen = true
-                }else{
+                } else {
                     visibility = View.GONE
                     isMenuOpen = false
                 }
@@ -126,8 +132,12 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>(R.layout.activity_a
         binding.menu.setOnClickListener {
             val reportDialog = ReportDialogFragment()
             reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
-                override fun onClick() {
-                    viewModel.postReportNews(intent.getIntExtra(ARTICLE,1),"게시글 신고")
+
+                override fun onClick(type: String, content: String) {
+                    viewModel.postReportNews(
+                        intent.getIntExtra(ARTICLE, 1),
+                        ReportRequest(content = content, reportType = type)
+                    )
                 }
             })
             reportDialog.show(supportFragmentManager, reportDialog.tag)

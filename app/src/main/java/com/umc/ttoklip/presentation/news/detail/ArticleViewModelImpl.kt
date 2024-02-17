@@ -39,7 +39,7 @@ class ArticleViewModelImpl @Inject constructor(
     override val replyCommentParentId = MutableStateFlow(0)
     override val commentContent = MutableStateFlow("")
 
-    private val  _toast = MutableStateFlow("")
+    private val _toast = MutableStateFlow("")
     override val toast: MutableStateFlow<String>
         get() = _toast
 
@@ -97,7 +97,7 @@ class ArticleViewModelImpl @Inject constructor(
     }
 
 
-    override fun deleteComment(id: Int,postId :Int) {
+    override fun deleteComment(id: Int, postId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 newsRepository.deleteCommentNews(
@@ -209,12 +209,12 @@ class ArticleViewModelImpl @Inject constructor(
         }
     }
 
-    override fun postReportNews(id: Int, content: String) {
+    override fun postReportNews(id: Int, request: ReportRequest) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 newsRepository.postReportNews(
                     id,
-                    ReportRequest(content, reportType = "INAPPROPRIATE_CONTENT")
+                    request
                 ).onSuccess {
                     _toast.emit("게시글을 신고했습니다.")
                 }.onFail {
@@ -229,12 +229,12 @@ class ArticleViewModelImpl @Inject constructor(
         }
     }
 
-    override fun postReportComment(id: Int) {
+    override fun postReportComment(id: Int, request: ReportRequest) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 newsRepository.postReportCommentNews(
                     id,
-                    ReportRequest("부적절한 댓글", reportType = "INAPPROPRIATE_CONTENT")
+                    request
                 ).onSuccess {
                     _toast.emit("댓글을 신고했습니다.")
                 }.onFail {

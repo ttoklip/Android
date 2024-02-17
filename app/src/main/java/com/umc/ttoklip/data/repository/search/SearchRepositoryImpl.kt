@@ -12,19 +12,62 @@ import javax.inject.Inject
 
 class SearchRepositoryImpl @Inject constructor(
     private val api: SearchApi
-): SearchRepository {
+) : SearchRepository {
 
 
-    override suspend fun getNewsSearch(title : String): NetworkResult<List<SearchModel>> {
-        return handleApi({api.getSearchNewsApi(title = title)}) {response: ResponseBody<NewsSearchResponse> -> response.result.newsletters.map { it.toModel(1) }}
+    override suspend fun getNewsSearch(
+        title: String,
+        sort: String
+    ): NetworkResult<List<SearchModel>> {
+        return handleApi({
+            api.getSearchNewsApi(
+                title = title,
+                sort = sort
+            )
+        }) { response: ResponseBody<NewsSearchResponse> ->
+            response.result.newsletters.map {
+                it.toModel(
+                    1
+                )
+            }
+        }
     }
 
-    override suspend fun getTipSearch(title : String): NetworkResult<List<SearchModel>> {
-        return handleApi({api.getSearchTipApi(title = title)}) {response: ResponseBody<TipSearchResponse> -> response.result.honeyTips.map { it.toModel(3) }}
+    override suspend fun getTipSearch(
+        title: String,
+        sort: String
+    ): NetworkResult<List<SearchModel>> {
+        return handleApi({
+            api.getSearchTipApi(
+                title = title,
+                sort = sort
+            )
+        }) { response: ResponseBody<TipSearchResponse> ->
+            response.result.honeyTips.map {
+                it.toModel(
+                    3
+                )
+            }
+        }
     }
 
-    override suspend fun getTownSearch(title: String): NetworkResult<List<SearchModel>> {
-        return handleApi({api.getSearchTownApi(title = title)}) {response: ResponseBody<TownSearchResponse> -> response.result.communities.map { it.toModel("",5) }}
+    override suspend fun getTownSearch(
+        title: String,
+        sort: String
+    ): NetworkResult<List<SearchModel>> {
+        return handleApi({
+            api.getSearchTownApi(
+                title = title,
+                sort = sort
+            )
+        }) { response: ResponseBody<TownSearchResponse> ->
+            response.result.communities.map {
+                it.toModel(
+                    "",
+                    5
+                )
+            }
+        }
 
     }
 

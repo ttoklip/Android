@@ -1,5 +1,6 @@
 package com.umc.ttoklip.presentation.news.detail
 
+import com.umc.ttoklip.data.model.news.ReportRequest
 import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
 import com.umc.ttoklip.data.model.news.detail.ImageUrl
 import com.umc.ttoklip.data.model.news.detail.NewsDetailResponse
@@ -20,8 +21,8 @@ interface ArticleViewModel {
 
     fun getDetail(id: Int)
     fun postComment(id: Int)
-    fun postReportNews(id : Int, content : String)
-    fun postReportComment(id : Int)
+    fun postReportNews(id : Int, request: ReportRequest)
+    fun postReportComment(id : Int, request: ReportRequest)
     fun deleteComment(id: Int,postId :Int)
     fun postLike()
     fun deleteLike()

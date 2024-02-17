@@ -10,9 +10,9 @@ import com.umc.ttoklip.module.NetworkResult
 
 interface SearchRepository {
 
-    suspend fun getNewsSearch(title : String): NetworkResult<List<SearchModel>>
+    suspend fun getNewsSearch(title : String, sort: String): NetworkResult<List<SearchModel>>
 
-    suspend fun getTipSearch(title : String): NetworkResult<List<SearchModel>>
+    suspend fun getTipSearch(title : String, sort: String): NetworkResult<List<SearchModel>>
 
-    suspend fun getTownSearch(title : String): NetworkResult<List<SearchModel>>
+    suspend fun getTownSearch(title : String, sort: String): NetworkResult<List<SearchModel>>
 }
