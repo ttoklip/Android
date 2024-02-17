@@ -23,10 +23,10 @@ class NewsCardRVA(val onClick: (News) -> Unit) : ListAdapter<NewsCard, NewsCardR
                 if (data.newsList.size >=2) onClick(data.newsList[1])
             }
             binding.newsTitle3T.setOnClickListener {
-                if (data.newsList.size >=2) onClick(data.newsList[2])
+                if (data.newsList.size >=3) onClick(data.newsList[2])
             }
             binding.newsTitle4T.setOnClickListener {
-                if (data.newsList.size >=2) onClick(data.newsList[3])
+                if (data.newsList.size >=4) onClick(data.newsList[3])
             }
         }
     }
