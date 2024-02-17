@@ -5,9 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.ttoklip.data.model.news.News
 import com.umc.ttoklip.databinding.ItemNewsViewPagerBinding
 
-class NewsCardRVA : ListAdapter<NewsCard, NewsCardRVA.ItemViewHolder>(differ) {
+class NewsCardRVA(val onClick: (News) -> Unit) : ListAdapter<NewsCard, NewsCardRVA.ItemViewHolder>(differ) {
 
     inner class ItemViewHolder(
         private val binding: ItemNewsViewPagerBinding
@@ -15,6 +16,18 @@ class NewsCardRVA : ListAdapter<NewsCard, NewsCardRVA.ItemViewHolder>(differ) {
 
         fun bind(data: NewsCard) {
             binding.item = data
+            binding.news1Img.setOnClickListener {
+                if (data.newsList.isNotEmpty()) onClick(data.newsList[0])
+            }
+            binding.newsTitle2T.setOnClickListener {
+                if (data.newsList.size >=2) onClick(data.newsList[1])
+            }
+            binding.newsTitle3T.setOnClickListener {
+                if (data.newsList.size >=2) onClick(data.newsList[2])
+            }
+            binding.newsTitle4T.setOnClickListener {
+                if (data.newsList.size >=2) onClick(data.newsList[3])
+            }
         }
     }
 

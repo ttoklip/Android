@@ -1,6 +1,8 @@
 package com.umc.ttoklip.presentation.news
 
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -18,6 +20,7 @@ import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.news.adapter.Dummy
 import com.umc.ttoklip.presentation.news.adapter.NewsCardRVA
 import com.umc.ttoklip.presentation.news.adapter.NewsTabAdapter
+import com.umc.ttoklip.presentation.news.detail.ArticleActivity
 import com.umc.ttoklip.presentation.search.SearchActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -29,8 +32,11 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(R.layout.fragment_news) {
     private val viewModel: NewsViewModel by viewModels<NewsViewModelImpl>()
 
     private val vpRVA by lazy {
-        NewsCardRVA()
+        NewsCardRVA { news ->
+            startActivity(ArticleActivity.newIntent(requireContext(), news.newsletterId))
+        }
     }
+
 
     private val vpFA by lazy {
         NewsTabAdapter(childFragmentManager, lifecycle)
