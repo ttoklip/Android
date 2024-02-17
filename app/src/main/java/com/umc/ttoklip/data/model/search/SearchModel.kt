@@ -6,5 +6,8 @@ data class SearchModel(
     val content: String,
     val id: Int,
     val title: String,
-    val bigCategory : Int
+    val bigCategory : Int,
+    val likeCount: Int,
+    val scrapCount : Int,
+    val writer : String
 )
