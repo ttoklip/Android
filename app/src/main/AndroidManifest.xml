@@ -48,6 +48,7 @@
             android:exported="false" />
         <activity
             android:name=".presentation.news.detail.ArticleActivity"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
@@ -154,20 +155,18 @@
             android:name=".presentation.intro.SplashActivity"
             android:screenOrientation="portrait"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:screenOrientation="portrait"
             android:name=".presentation.MainActivity"
             android:exported="true">
-            <!--<intent-filter>
+
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
         </activity>
+
 
         <service
             android:name="com.google.android.gms.metadata.ModuleDependencies"
@@ -187,6 +186,11 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity android:name="com.umc.ttoklip.presentation.honeytip.ImageViewActivity" />
+
+        <activity android:name=".presentation.news.detail.PostImageActivity"
+            android:screenOrientation="portrait"
+            android:exported="false"/>
+
         <activity android:name=".presentation.honeytip.read.ReadQuestionActivity" />
 
     </application>

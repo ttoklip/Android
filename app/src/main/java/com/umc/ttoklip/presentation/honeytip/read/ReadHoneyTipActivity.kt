@@ -1,14 +1,11 @@
 package com.umc.ttoklip.presentation.honeytip.read
 
 import android.content.Intent
-import android.media.Image
-import android.net.Uri
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -27,7 +24,6 @@ import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
 import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
-import com.umc.ttoklip.presentation.news.adapter.Comment
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -39,7 +35,7 @@ class ReadHoneyTipActivity :
     private val viewModel: ReadHoneyTipViewModel by viewModels()
 
     private val commentRVA by lazy {
-        CommentRVA()
+        CommentRVA({},{_,_->})
     }
 
     private val imageAdapter: ReadImageRVA by lazy {
@@ -100,9 +96,6 @@ class ReadHoneyTipActivity :
         binding.commentRv.adapter = commentRVA
         commentRVA.submitList(
             listOf(
-                Comment(1, 1, "ㅎㅇ", "ㅎ"),
-                Comment(2, 2, "ㅎㅇ", "ㅎ"),
-                Comment(3, 1, "ㅎㅇ", "ㅎ")
             )
         )
     }
@@ -192,9 +185,9 @@ class ReadHoneyTipActivity :
         binding.reportBtn.setOnClickListener {
             val reportDialog = ReportDialogFragment()
             reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
-                override fun onClick(request: ReportRequest) {
-                    Log.d("report request", request.toString())
-                    viewModel.reportHoneyTip(postId, request)
+
+                override fun onClick(type: String, content: String) {
+                    viewModel.reportHoneyTip(postId,ReportRequest( content = content, reportType = type))
                 }
             })
             reportDialog.show(supportFragmentManager, reportDialog.tag)

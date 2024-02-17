@@ -33,9 +33,10 @@ class ReadCommunicationActivity :
         binding.reportBtn.setOnClickListener {
             val reportDialog = ReportDialogFragment()
             reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
-                override fun onClick(request: ReportRequest) {
+                override fun onClick(type: String, content: String) {
 
                 }
+
             })
             reportDialog.show(supportFragmentManager, reportDialog.tag)
         }

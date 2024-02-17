@@ -22,10 +22,10 @@ import com.umc.ttoklip.presentation.honeytip.adapter.OnReadImageClickListener
 import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
 import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
-import com.umc.ttoklip.presentation.news.adapter.Comment
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.w3c.dom.Comment
 
 @AndroidEntryPoint
 class ReadQuestionActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.activity_read_honey_tip),
@@ -33,7 +33,7 @@ class ReadQuestionActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
     private val viewModel: ReadHoneyTipViewModel by viewModels()
 
     private val commentRVA by lazy {
-        CommentRVA()
+        CommentRVA({ },{_,_->})
     }
 
     private val imageAdapter: ReadImageRVA by lazy {
@@ -90,9 +90,6 @@ class ReadQuestionActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
         binding.commentRv.adapter = commentRVA
         commentRVA.submitList(
             listOf(
-                Comment(1, 1, "ㅎㅇ", "ㅎ"),
-                Comment(2, 2, "ㅎㅇ", "ㅎ"),
-                Comment(3, 1, "ㅎㅇ", "ㅎ")
             )
         )
     }
@@ -161,9 +158,11 @@ class ReadQuestionActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
         binding.reportBtn.setOnClickListener {
             val reportDialog = ReportDialogFragment()
             reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
-                override fun onClick(request: ReportRequest) {
-                    Log.d("report request", request.toString())
-                    viewModel.reportQuestion(postId, request)
+
+
+                override fun onClick(type: String, content: String) {
+                    Log.d("report request", content.toString())
+                    viewModel.reportQuestion(postId, ReportRequest(content = content, reportType = type))
                 }
             })
             reportDialog.show(supportFragmentManager, reportDialog.tag)
