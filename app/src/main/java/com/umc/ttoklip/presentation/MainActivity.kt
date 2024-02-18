@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,5 +28,11 @@ class MainActivity : AppCompatActivity() {
 
     fun goNews() {
         binding.bottomNav.selectedItemId = R.id.newsFragment
+    }
+    fun goTip() {
+        binding.bottomNav.selectedItemId = R.id.honeyTipFragment
+    }
+    fun goTown() {
+        binding.bottomNav.selectedItemId = R.id.townFragment
     }
 }

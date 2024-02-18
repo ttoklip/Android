@@ -20,7 +20,15 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField("String","kakaoNativeKey",properties.getProperty("kakao.native.key"))
+        buildConfigField("String","naverClientId",properties.getProperty("naver.client.id"))
+        buildConfigField("String","naverClientSecret",properties.getProperty("naver.client.secret"))
+        manifestPlaceholders["kakaoNativeKey"] = properties.getProperty("kakao.native.key")
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildFeatures{
+        buildConfig=true
     }
 
     buildTypes {
@@ -42,6 +50,13 @@ android {
     viewBinding {
         enabled = true
     }
+    sourceSets {
+        main {
+            assets {
+                srcDirs 'src\\main\\assets'
+            }
+        }
+    }
 }
 
 dependencies {
@@ -50,6 +65,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.10.2'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -109,6 +125,14 @@ dependencies {
     //naver map
     implementation "com.naver.maps:map-sdk:3.17.0"
     implementation "com.google.android.gms:play-services-location:21.1.0"
+    //kakao login
+    implementation "com.kakao.sdk:v2-user:2.19.0"
+    //naver login
+    implementation 'com.navercorp.nid:oauth:5.1.1'
+
+    implementation "androidx.room:room-runtime:2.6.1"
+    kapt "androidx.room:room-compiler:2.6.1"
+    implementation "androidx.room:room-ktx:2.6.1"
 }
 kapt {
     correctErrorTypes true

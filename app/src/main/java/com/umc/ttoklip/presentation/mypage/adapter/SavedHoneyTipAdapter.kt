@@ -2,6 +2,7 @@ package com.umc.ttoklip.presentation.mypage.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -21,12 +22,16 @@ class SavedHoneyTipAdapter(private var listener: OnSpinnerItemClickListener) :
     }) {
     inner class HoneyTipListViewHolder(private val binding: ItemSavedHoneyTipBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(honeyTips: HoneyTip) {
+        fun bind(honeyTips: HoneyTip, pos: Int) {
             binding.titleTv.text = honeyTips.title
             binding.writerTv.text = honeyTips.writer
             binding.dateTv.text = honeyTips.date
             binding.bodyTv.text = honeyTips.body
             binding.commentCountTv.text = honeyTips.chatCnt.toString()
+
+            if (pos == itemCount - 1) {
+                binding.itemSeparator.isGone = true
+            }
 
             binding.root.setOnClickListener {
                 listener.onClick(honeyTips)
@@ -43,7 +48,7 @@ class SavedHoneyTipAdapter(private var listener: OnSpinnerItemClickListener) :
     }
 
     override fun onBindViewHolder(holder: HoneyTipListViewHolder, position: Int) {
-        holder.bind(currentList[position])
+        holder.bind(currentList[position], position)
     }
 }
 

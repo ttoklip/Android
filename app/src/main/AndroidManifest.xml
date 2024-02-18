@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.umc.ttoklip">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:name=".TtoklipApplication"
@@ -19,7 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ttoklip"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        android:requestLegacyExternalStorage="true">
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
@@ -30,17 +32,23 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".presentation.honeytip.read.ReadActivity"
+            android:name=".presentation.honeytip.read.ReadHoneyTipActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
+            
             android:name=".presentation.honeytip.write.WriteHoneyTipActivity"
+            android:screenOrientation="portrait"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".presentation.alarm.AlarmActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.news.detail.ArticleActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".presentation.mypage.SetAnnouncementActivity"
@@ -83,28 +91,86 @@
             android:name=".presentation.mypage.MyHoneyTipActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
-        <activity android:name=".presentation.intro.IntroActivity"
-            android:exported="false"/>
-        <activity android:name=".presentation.login.LoginActivity"
-            android:exported="false"/>
-        <activity android:name=".presentation.signup.SignupActivity"
-            android:exported="false"/>
+        <activity
+            android:name=".presentation.intro.IntroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.login.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.signup.SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.hometown.TogetherActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.hometown.CommunicationActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.hometown.WriteTogetherActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.hometown.WriteCommunicationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.hometown.ReadCommunicationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.hometown.TradeLocationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.hometown.ReadTogetherActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" />
         <activity android:name=".presentation.signup.LocationActivity"
+            android:screenOrientation="portrait"
             android:exported="false"/>
         <activity android:name=".presentation.signup.DirectLocationActivity"
+            android:screenOrientation="portrait"
             android:exported="false"/>
+        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="oauth"
+                    android:scheme="kakao${kakaoNativeKey}"/>
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".presentation.intro.SplashActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".presentation.MainActivity"
-            android:exported="false"/>
+            android:exported="true">
+
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+
 
         <service
             android:name="com.google.android.gms.metadata.ModuleDependencies"
@@ -121,7 +187,21 @@
         </service>
         <activity
             android:name=".presentation.search.SearchActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
+        <activity
+            android:name=".presentation.search2.SearchActivity2"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+
+        <activity android:name="com.umc.ttoklip.presentation.honeytip.ImageViewActivity" />
+
+        <activity android:name=".presentation.news.detail.PostImageActivity"
+            android:screenOrientation="portrait"
+            android:exported="false"/>
+
+        <activity android:name=".presentation.honeytip.read.ReadQuestionActivity" />
+
     </application>
 
 </manifest>

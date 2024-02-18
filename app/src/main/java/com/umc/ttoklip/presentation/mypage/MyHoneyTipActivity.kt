@@ -1,14 +1,13 @@
 package com.umc.ttoklip.presentation.mypage
 
-import android.content.Intent
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
+import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
 import com.umc.ttoklip.databinding.ActivityMyHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipListRVA
-import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTips
 import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
-import com.umc.ttoklip.presentation.honeytip.read.ReadActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,7 +24,7 @@ class MyHoneyTipActivity : BaseActivity<ActivityMyHoneyTipBinding>(R.layout.acti
             SortSpinnerAdapter(this, sortFilters)
         binding.honeyTipFilterSpinner.setSelection(0)
 
-        val honeyTipList = listOf(
+        /*val honeyTipList = listOf(
             HoneyTips("똑똑이", "음식물 쓰레기 냄새 방지!!", "집에 가끔씩이지만 나타나는 바퀴벌레, 잘못 처리하면 알깐다고도...", "1일전", 0),
             HoneyTips("똑똑이", "음식물 쓰레기 냄새 방지!!", "집에 가끔씩이지만 나타나는 바퀴벌레, 잘못 처리하면 알깐다고도...", "1일전", 0),
             HoneyTips("똑똑이", "음식물 쓰레기 냄새 방지!!", "집에 가끔씩이지만 나타나는 바퀴벌레, 잘못 처리하면 알깐다고도...", "1일전", 0),
@@ -37,10 +36,17 @@ class MyHoneyTipActivity : BaseActivity<ActivityMyHoneyTipBinding>(R.layout.acti
             HoneyTips("똑똑이", "음식물 쓰레기 냄새 방지!!", "집에 가끔씩이지만 나타나는 바퀴벌레, 잘못 처리하면 알깐다고도...", "1일전", 0),
             HoneyTips("똑똑이", "음식물 쓰레기 냄새 방지!!", "집에 가끔씩이지만 나타나는 바퀴벌레, 잘못 처리하면 알깐다고도...", "1일전", 0),
             HoneyTips("똑똑이", "음식물 쓰레기 냄새 방지!!", "집에 가끔씩이지만 나타나는 바퀴벌레, 잘못 처리하면 알깐다고도...", "1일전", 0),
-        )
+        )*/
+        val honeyTipList = mutableListOf<HoneyTipMain>()
         val adapter = HoneyTipListRVA(this)
         binding.myHoneyTipRv.layoutManager = LinearLayoutManager(this)
         binding.myHoneyTipRv.adapter = adapter
+        binding.myHoneyTipRv.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                DividerItemDecoration.VERTICAL
+            )
+        )
         adapter.submitList(honeyTipList)
 
         binding.myHoneyTipBackBtn.setOnClickListener {
@@ -51,8 +57,12 @@ class MyHoneyTipActivity : BaseActivity<ActivityMyHoneyTipBinding>(R.layout.acti
     override fun initObserver() = Unit
 
 
-    override fun onClick(honeyTips: HoneyTips) {
+    /*override fun onClick(honeyTips: HoneyTips) {
         val intent = Intent(this, ReadActivity::class.java)
         startActivity(intent)
+    }*/
+
+    override fun onClick(honeyTip: HoneyTipMain) {
+
     }
 }

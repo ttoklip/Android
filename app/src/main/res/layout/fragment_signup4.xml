@@ -9,7 +9,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -65,11 +66,10 @@
                         android:layout_width="95dp"
                         android:layout_height="95dp"
                         android:layout_marginTop="20dp"
-                        android:src="@drawable/oval_stroke_1"
+                        android:src="@drawable/oval_gray40"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/gray40" />
+                        app:layout_constraintTop_toTopOf="parent"/>
 
                     <ImageView
                         android:id="@+id/signup4_camera_iv"

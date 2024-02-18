@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.umc.ttoklip.presentation.news.adapter.Comment" />
+            type="com.umc.ttoklip.data.model.news.comment.NewsCommentResponse" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="똑똑이"
+                android:text="@{item.writer == null? `똑똑이`: item.writer}"
                 android:textAppearance="@style/TextAppearance.App.12sp_500"
                 app:layout_constraintBottom_toBottomOf="@id/cardView"
                 app:layout_constraintStart_toEndOf="@id/cardView"
@@ -81,19 +81,7 @@
                 app:layout_constraintTop_toTopOf="@id/cardView">
 
                 <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_marginEnd="4dp"
-                    android:src="@drawable/ic_message_24"
-                    app:tint="@color/gray60" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginVertical="3dp"
-                    android:background="@color/gray60" />
-
-                <ImageView
+                    android:id="@+id/deleteBtn"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginStart="1dp"
@@ -106,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="이번에도 좋은 소식 감사합니다."
+                android:text="@{item.commentContent}"
                 android:textAppearance="@style/TextAppearance.App.12sp_400"
                 app:layout_constraintStart_toStartOf="@id/cardView"
                 app:layout_constraintTop_toBottomOf="@id/cardView" />
@@ -116,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="1일전"
+                android:text="@{item.writtenTime}"
                 android:textAppearance="@style/TextAppearance.App.12sp_400"
                 android:textColor="@color/gray60"
                 app:layout_constraintStart_toStartOf="@id/cardView"

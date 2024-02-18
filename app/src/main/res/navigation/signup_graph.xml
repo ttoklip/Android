@@ -12,10 +12,13 @@
         tools:layout="@layout/fragment_signup3">
         <action
             android:id="@+id/action_signup3_fragment_to_signup4_fragment"
-            app:destination="@id/signup4_fragment"/>
+            app:destination="@id/signup4_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim" />
         <action
             android:id="@+id/action_signup3_fragment_to_signupTerm_fragment"
-            app:destination="@id/signupTerm_fragment" />
+            app:destination="@id/signupTerm_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim"/>
     </fragment>
 
     <fragment
@@ -26,7 +29,7 @@
 
         <action
             android:id="@+id/action_signupTerm_fragment_to_signup3_fragment"
-            app:destination="@id/signup3_fragment" />
+            app:destination="@id/signup3_fragment"/>
     </fragment>
 
     <fragment
@@ -40,7 +43,9 @@
             app:popUpTo="@id/signup3_fragment"/>
         <action
             android:id="@+id/action_signup4_fragment_to_signup5_fragment"
-            app:destination="@id/signup5_fragment" />
+            app:destination="@id/signup5_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim"/>
     </fragment>
     <fragment
         android:id="@+id/signup5_fragment"

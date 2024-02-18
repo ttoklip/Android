@@ -1,32 +1,64 @@
 package com.umc.ttoklip.presentation.honeytip.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
 import com.umc.ttoklip.databinding.ItemListHoneyTipBinding
+import java.io.Serializable
+import java.text.SimpleDateFormat
+import java.util.Date
+import kotlin.String
 
-class HoneyTipListRVA(private var listener: OnItemClickListener): ListAdapter<HoneyTips, HoneyTipListRVA.HoneyTipListViewHolder>(object: DiffUtil.ItemCallback<HoneyTips>(){
-    override fun areItemsTheSame(oldItem: HoneyTips, newItem: HoneyTips): Boolean {
-        return oldItem.writer == newItem.writer && oldItem.title == newItem.title
+class HoneyTipListRVA(private var listener: OnItemClickListener) :
+    ListAdapter<HoneyTipMain, HoneyTipListRVA.HoneyTipListViewHolder>(object :
+        DiffUtil.ItemCallback<HoneyTipMain>() {
+        override fun areItemsTheSame(
+            oldItem: HoneyTipMain,
+            newItem: HoneyTipMain
+        ): Boolean {
+            return oldItem === newItem
+        }
+
+        override fun areContentsTheSame(
+            oldItem: HoneyTipMain,
+            newItem: HoneyTipMain
+        ): Boolean {
+            return oldItem == newItem
+        }
+
+    }) {
+    private fun calculateDate(writtenDate: String): String {
+        val currentDate = Date(System.currentTimeMillis())
+
+        // SimpleDateFormat을 사용하여 문자열을 Date로 변환
+        val sdf = SimpleDateFormat("yyyy.MM.dd hh:mm")
+
+        val date = sdf.parse("20$writtenDate")
+
+        // 두 날짜의 차이 계산
+        val difference = currentDate.time - date.time
+        val daysDifference = difference / (24 * 60 * 60 * 1000)
+        Log.d("날짜 계산", "$currentDate 와 $writtenDate 사이의 날짜 차이: $daysDifference 일")
+        return if (daysDifference == 0.toLong()) "오늘" else "${daysDifference}일전"
     }
 
-    override fun areContentsTheSame(oldItem: HoneyTips, newItem: HoneyTips): Boolean {
-        return oldItem == newItem
-    }
-
-}){
-    inner class HoneyTipListViewHolder(private val binding: ItemListHoneyTipBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(honeyTips: HoneyTips){
-            binding.titleTv.text = honeyTips.title
-            binding.writerTv.text = honeyTips.writer
-            binding.dateTv.text = honeyTips.date
-            binding.bodyTv.text = honeyTips.body
-            binding.commentCountTv.text = honeyTips.chatCnt.toString()
+    inner class HoneyTipListViewHolder(private val binding: ItemListHoneyTipBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(honeyTip: HoneyTipMain) {
+            binding.titleTv.text = honeyTip.title
+            binding.writerTv.text = honeyTip.writer
+            binding.dateTv.text = calculateDate(honeyTip.writtenTime)
+            binding.bodyTv.text = honeyTip.content
+            binding.commentCountTv.text = honeyTip.commentCount.toString()
+            binding.likeCountTv.text = honeyTip.likeCount.toString()
+            binding.scrapCountTv.text = honeyTip.scrapCount.toString()
 
             binding.root.setOnClickListener {
-                listener.onClick(honeyTips)
+                listener.onClick(honeyTip)
             }
         }
     }
@@ -45,7 +77,7 @@ class HoneyTipListRVA(private var listener: OnItemClickListener): ListAdapter<Ho
 }
 
 interface OnItemClickListener {
-    fun onClick(honeyTips: HoneyTips)
+    fun onClick(honeyTip: HoneyTipMain)
 }
 
 data class HoneyTips(
@@ -54,4 +86,4 @@ data class HoneyTips(
     var body: String,
     var date: String,
     var chatCnt: Int = 0,
-)
+) : Serializable

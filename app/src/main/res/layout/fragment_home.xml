@@ -85,6 +85,7 @@
                         app:layout_constraintTop_toTopOf="@id/weatherImg" />
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/weatherTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="지금은 맑아요"
@@ -106,39 +107,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/bellBtn">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/banner"
-                        android:layout_marginHorizontal="24dp"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:background="@drawable/rectangle_corner_10_strok_1"
-                        app:layout_constraintTop_toTopOf="parent" >
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/logoImg"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:layout_margin="20dp"
-                            android:src="@drawable/ic_logo_big"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"/>
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            app:layout_constraintTop_toTopOf="@id/logoImg"
-                            app:layout_constraintBottom_toBottomOf="@id/logoImg"
-                            app:layout_constraintStart_toEndOf="@id/logoImg"
-                            android:layout_marginStart="32dp"
-                            android:textColor="#FF333333"
-                            android:textAppearance="@style/TextAppearance.App.14sp_700"
-                            android:text="똑립에서 오늘 하루도 \n즐겁고 활기찬 하루되세요~"
-                            android:layout_height="wrap_content"/>
-
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -146,11 +114,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:paddingBottom="0dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="4dp"
                         android:visibility="@{vm.haveWork ? View.VISIBLE : View.GONE}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/banner">
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/whatDoT"
@@ -223,6 +191,7 @@
                         android:layout_height="40dp"
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="24dp"
+                        android:onClick="@{()-> vm.clickMoreTip()}"
                         android:src="@drawable/idea_img"
                         app:layout_constraintEnd_toStartOf="@id/chatImg"
                         app:layout_constraintStart_toStartOf="parent"
@@ -253,6 +222,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:src="@drawable/help_img"
+                        android:onClick="@{()-> vm.clickMoreTip()}"
                         app:layout_constraintEnd_toStartOf="@id/groupButImg"
                         app:layout_constraintStart_toEndOf="@id/newsImg"
                         app:layout_constraintTop_toTopOf="@+id/tipImg" />
@@ -426,6 +396,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/groupBuyRV"
                     android:layout_width="0dp"
+                    tools:listitem="@layout/item_transaction_history"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="18dp"

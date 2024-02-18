@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
@@ -17,8 +16,9 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivitySearchBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.search.adapter.HistoryModel
+import com.umc.ttoklip.presentation.news.detail.ArticleActivity
 import com.umc.ttoklip.presentation.search.adapter.HistoryRVA
+import com.umc.ttoklip.presentation.search.adapter.SearchRVA
 import com.umc.ttoklip.presentation.search.dialog.BottomDialogSearchFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -29,13 +29,36 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
     private val viewModel: SearchViewModel by viewModels<SearchViewModelImpl>()
 
     private val historyRVA by lazy {
-        HistoryRVA()
+        HistoryRVA{ title ->
+            binding.appBarTitleT.setText(title)
+            viewModel.clickHistory(title)
+        }
+    }
+
+    private val searchRVA by lazy {
+        SearchRVA { category, id ->
+            when (category) {
+                1 -> {
+                    startActivity(ArticleActivity.newIntent(this, id))
+                }
+                2 -> {}
+                3 -> {}
+                4 -> {}
+                5 -> {}
+                else -> {}
+            }
+        }
     }
 
     override fun initView() {
         binding.vm = viewModel
         binding.backBtn.setOnClickListener {
             finish()
+        }
+        viewModel.getAllHistory()
+
+        binding.deleteBtn.setOnClickListener {
+            viewModel.deleteAllHistory()
         }
 
         //flexLayout -> RV 연동
@@ -67,29 +90,26 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
         }
 
         binding.searchBtn.setOnClickListener {
-            if (!binding.appBarTitleT.text.isNullOrEmpty())
+            if (!binding.appBarTitleT.text.isNullOrEmpty()) {
                 viewModel.clickSearchAfter()
+            }
             if (!viewModel.searchAfter.value) {
                 binding.appBarTitleT.setText("")
             }
         }
-
-        historyRVA.submitList(
-            listOf(
-                HistoryModel("keepGoingBro"),
-                HistoryModel("keepGoingBro"),
-                HistoryModel("keep"),
-                HistoryModel("Going"),
-                HistoryModel("Bro"),
-                HistoryModel("haha"),
-                HistoryModel("굿"),
-                HistoryModel("하하"),
-            )
-        )
+        binding.searchRV.adapter = searchRVA
 
     }
 
     override fun initObserver() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.historyList.collect {
+                   historyRVA.submitList(it)
+                }
+            }
+        }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.showDialog.collect {
@@ -188,14 +208,6 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
                             if (viewModel.filterBoard.value == 1) {
                                 binding.categoryFilterT.text = "복지•정책"
                             } else {
-                                binding.categoryFilterT.text = "사기"
-                            }
-                        }
-
-                        5 -> {
-                            if (viewModel.filterBoard.value == 1) {
-                                binding.categoryFilterT.text = "복지•정책"
-                            } else {
                                 binding.categoryFilterT.text = "복지•정책"
                             }
                         }
@@ -219,6 +231,14 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_sea
                     } else {
                         viewModel.filter(0, 0, 0)
                     }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.searchList.collect {
+                    searchRVA.submitList(it)
                 }
             }
         }

@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivitySavedHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.honeytip.read.ReadActivity
+import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.mypage.adapter.HoneyTip
 import com.umc.ttoklip.presentation.mypage.adapter.OnSpinnerItemClickListener
 import com.umc.ttoklip.presentation.mypage.adapter.SavedHoneyTipAdapter
@@ -52,7 +52,7 @@ class SavedHoneyTipActivity :
     override fun initObserver() = Unit
 
     override fun onClick(honeyTip: HoneyTip) {
-        val intent = Intent(this, ReadActivity::class.java)
+        val intent = Intent(this, ReadHoneyTipActivity::class.java)
         startActivity(intent)
     }
 

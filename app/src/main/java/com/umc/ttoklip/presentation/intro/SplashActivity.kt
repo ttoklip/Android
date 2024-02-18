@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.databinding.ActivitySplashBinding
 import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.base.BaseActivity
@@ -15,10 +16,17 @@ class SplashActivity:BaseActivity<ActivitySplashBinding>(R.layout.activity_splas
         handler.postDelayed({
             val spf=getSharedPreferences("first", MODE_PRIVATE)
             val firstRun=spf.getBoolean("firstRun",true)
+            val jwt=TtoklipApplication.prefs.getString("jwt","")
+            val isFirstLogin=TtoklipApplication.prefs.getBoolean("isFirstLogin",true)
             if(firstRun){
                 startActivity(Intent(this, IntroActivity::class.java))
-            }else{
+                finish()
+            }else if(jwt.isNotEmpty()&&!isFirstLogin){
+                startActivity(Intent(this,MainActivity::class.java))
+                finish()
+            } else{
                 startActivity(Intent(this, LoginActivity::class.java))
+                finish()
             }
         },2000)
     }

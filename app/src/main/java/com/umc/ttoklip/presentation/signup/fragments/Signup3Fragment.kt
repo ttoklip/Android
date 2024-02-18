@@ -1,5 +1,7 @@
 package com.umc.ttoklip.presentation.signup.fragments
 
+import android.content.Context
+import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.umc.ttoklip.R
@@ -15,6 +17,7 @@ class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_s
     var locationAgree: Boolean = false
 
     override fun initObserver() {
+
     }
 
     override fun initView() {

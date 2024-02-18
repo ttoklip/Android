@@ -7,10 +7,10 @@ import com.umc.ttoklip.databinding.ActivityIntroBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.login.LoginActivity
 
-class IntroActivity:BaseActivity<ActivityIntroBinding>(R.layout.activity_intro){
+class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro) {
     override fun initView() {
         binding.introIntroVp.apply {
-            adapter=IntroVPAdapter(this@IntroActivity,3)
+            adapter = IntroVPAdapter(this@IntroActivity, 3)
 //            registerOnPageChangeCallback(object:ViewPager2.OnPageChangeCallback(){
 //                override fun onPageSelected(position: Int) {
 //                    super.onPageSelected(position)
@@ -24,15 +24,21 @@ class IntroActivity:BaseActivity<ActivityIntroBinding>(R.layout.activity_intro){
         binding.introIndicator.attachTo(binding.introIntroVp)
 
         binding.introNextBtn.setOnClickListener {
-            if(binding.introIntroVp.currentItem==2) {
-                val spf=getSharedPreferences("first", MODE_PRIVATE)
-                val editor=spf.edit()
-                editor.putBoolean("firstRun",false)
-                editor.apply()
-                startActivity(Intent(this, LoginActivity::class.java))
-            }else{
-                binding.introIntroVp.currentItem++
-            }
+//            if(binding.introIntroVp.currentItem==2) {
+//                val spf=getSharedPreferences("first", MODE_PRIVATE)
+//                val editor=spf.edit()
+//                editor.putBoolean("firstRun",false)
+//                editor.apply()
+//                startActivity(Intent(this, LoginActivity::class.java))
+//            }else{
+//                binding.introIntroVp.currentItem++
+//            }
+            val spf = getSharedPreferences("first", MODE_PRIVATE)
+            val editor = spf.edit()
+            editor.putBoolean("firstRun", false)
+            editor.apply()
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
         }
     }
 
