@@ -9,6 +9,6 @@ data class InquireQuestionResponse(
     val category: String,
     val commentCount: Int,
     val imageUrls: List<ImageUrl>,
-    val commentResponse: List<CommentResponse>,
+    val commentResponses: List<CommentResponse>,
     val likedByCurrentUser: Boolean
 )

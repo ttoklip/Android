@@ -14,6 +14,7 @@ import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.honeytip.EditHoneyTip
 import com.umc.ttoklip.data.model.honeytip.ImageUrl
 import com.umc.ttoklip.data.model.honeytip.request.ReportRequest
+import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
 import com.umc.ttoklip.databinding.ActivityReadHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.BOARD
@@ -25,6 +26,7 @@ import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
+import com.umc.ttoklip.presentation.news.detail.ArticleActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -35,7 +37,38 @@ class ReadHoneyTipActivity :
     private val viewModel: ReadHoneyTipViewModel by viewModels()
 
     private val commentRVA by lazy {
-        CommentRVA({},{_,_->})
+        CommentRVA({ id ->
+            viewModel.replyCommentParentId.value = id
+        }, { id, myComment ->
+            if (myComment) {
+                val deleteDialog = DeleteDialogFragment()
+                deleteDialog.setDialogClickListener(object :
+                    DeleteDialogFragment.DialogClickListener {
+                    override fun onClick() {
+                        viewModel.deleteHoneyTipComment(
+                            id,
+                            postId
+                        )
+                    }
+                })
+                deleteDialog.show(supportFragmentManager, deleteDialog.tag)
+            } else {
+                val reportDialog = ReportDialogFragment()
+                reportDialog.setDialogClickListener(object :
+                    ReportDialogFragment.DialogClickListener {
+                    override fun onClick(type: String, content: String) {
+                        viewModel.postReportHoneyTipComment(
+                            postId,
+                            ReportRequest(
+                                content = content,
+                                reportType = type
+                            )
+                        )
+                    }
+                })
+                reportDialog.show(supportFragmentManager, reportDialog.tag)
+            }
+        })
     }
 
     private val imageAdapter: ReadImageRVA by lazy {
@@ -63,13 +96,34 @@ class ReadHoneyTipActivity :
                 }
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.comments.collect {
+                    val list = it.map { it -> NewsCommentResponse(it.commentContent, it.commentId, it.parentId, it.writer, it.writtenTime) }
+                    commentRVA.submitList(list)
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.replyCommentParentId.collect { id ->
+                    if (id == 0) {
+                        binding.replyT.text = ""
+                    } else {
+                        binding.replyT.text = "@${id}"
+                    }
+                }
+            }
+        }
     }
 
     private fun handleReadEvent(event: ReadHoneyTipViewModel.ReadEvent) {
         when (event) {
             is ReadHoneyTipViewModel.ReadEvent.ReadHoneyTipEvent -> {
                 val honeyTip = event.inquireHoneyTipResponse
-                with(binding){
+                with(binding) {
                     titleTv.text = honeyTip.title
                     writerTv.text = honeyTip.writer
                     contentT.text = honeyTip.content
@@ -78,7 +132,7 @@ class ReadHoneyTipActivity :
                     bookmarkT.text = honeyTip.scrapCount.toString()
                     commitT.text = honeyTip.commentCount.toString()
                 }
-                if (honeyTip.imageUrls.isNotEmpty()){
+                if (honeyTip.imageUrls.isNotEmpty()) {
                     binding.imageRv.visibility = View.VISIBLE
                     imageAdapter.submitList(honeyTip.imageUrls)
                 }
@@ -90,43 +144,52 @@ class ReadHoneyTipActivity :
                     showReportBtn()
                 }
             }
+
             else -> {}
         }
     }
 
-    private fun handleMenuEvent(event: ReadHoneyTipViewModel.MenuEvent){
+    private fun handleMenuEvent(event: ReadHoneyTipViewModel.MenuEvent) {
         val toastText =
-        when(event) {
-            ReadHoneyTipViewModel.MenuEvent.DeleteLike -> "좋아요 취소"
-            ReadHoneyTipViewModel.MenuEvent.DeleteScrap -> "스크랩 취소"
-            ReadHoneyTipViewModel.MenuEvent.PostLike -> "좋아요"
-            ReadHoneyTipViewModel.MenuEvent.PostScrap -> "스크랩"
-            ReadHoneyTipViewModel.MenuEvent.ReportHoneyTip -> "해당 게시글에 대한 신고가 접수되었습니다."
-            else -> {}
-        }
+            when (event) {
+                ReadHoneyTipViewModel.MenuEvent.DeleteLike -> "좋아요 취소"
+                ReadHoneyTipViewModel.MenuEvent.DeleteScrap -> "스크랩 취소"
+                ReadHoneyTipViewModel.MenuEvent.PostLike -> "좋아요"
+                ReadHoneyTipViewModel.MenuEvent.PostScrap -> "스크랩"
+                ReadHoneyTipViewModel.MenuEvent.ReportHoneyTip -> "해당 게시글에 대한 신고가 접수되었습니다."
+                ReadHoneyTipViewModel.MenuEvent.DeleteHoneyTipComment -> "댓글이 삭제되었습니다."
+                ReadHoneyTipViewModel.MenuEvent.ReportHoneyTipComment -> "해당 댓글에 대한 신고가 접수되었습니다."
+                else -> {}
+            }
         Toast.makeText(this, "$toastText", Toast.LENGTH_SHORT)
     }
 
     override fun initView() {
         binding.vm = viewModel
+        binding.replyT.setOnClickListener {
+            viewModel.replyCommentParentId.value = 0
+        }
         postId = intent.getIntExtra("postId", 0)
         Log.d("read postid", postId.toString())
+        binding.commentRV.adapter = commentRVA
+        binding.SendCardView.setOnClickListener {
+            viewModel.postHoneyTipComment(postId)
+            binding.commentEt.setText("")
+            viewModel.replyCommentParentId.value = 0
+        }
         viewModel.inquireHoneyTip(postId)
 
         binding.backBtn.setOnClickListener {
             finish()
         }
 
+
         initImageRVA()
         showDeleteDialog()
         showReportDialog()
         editHoneyTip()
 
-        binding.commentRv.adapter = commentRVA
-        commentRVA.submitList(
-            listOf(
-            )
-        )
+
     }
 
     private fun initImageRVA() {
@@ -186,7 +249,10 @@ class ReadHoneyTipActivity :
             reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
 
                 override fun onClick(type: String, content: String) {
-                    viewModel.reportHoneyTip(postId,ReportRequest( content = content, reportType = type))
+                    viewModel.reportHoneyTip(
+                        postId,
+                        ReportRequest(content = content, reportType = type)
+                    )
                 }
             })
             reportDialog.show(supportFragmentManager, reportDialog.tag)

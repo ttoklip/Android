@@ -6,11 +6,14 @@ import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.honeytip.HoneyTipMainResponse
 import com.umc.ttoklip.data.model.honeytip.InquireHoneyTipResponse
 import com.umc.ttoklip.data.model.honeytip.InquireQuestionResponse
+import com.umc.ttoklip.data.model.honeytip.request.HoneyTipCommentRequest
 import com.umc.ttoklip.data.model.honeytip.request.ReportRequest
+import com.umc.ttoklip.data.model.news.comment.NewsCommentRequest
 import com.umc.ttoklip.module.NetworkResult
 import com.umc.ttoklip.module.handleApi
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Response
 import retrofit2.http.Body
 import javax.inject.Inject
 
@@ -79,6 +82,22 @@ class HoneyTipRepositoryImpl @Inject constructor(
         return handleApi({api.deleteLikeHoneyTip(honeyTipId)}) { response: ResponseBody<CreateHoneyTipResponse> -> response.result}
     }
 
+    override suspend fun postCommentHoneyTip(
+        honeyTipId: Int,
+        request: HoneyTipCommentRequest
+    ): NetworkResult<CreateHoneyTipResponse> {
+        return handleApi({api.postCommentHoneyTip(honeyTipId, request)}) { response: ResponseBody<CreateHoneyTipResponse> -> response.result}
+    }
+
+    override suspend fun postReportCommentHoneyTip(commentId: Int, request: ReportRequest): NetworkResult<CreateHoneyTipResponse> {
+        return handleApi({api.postReportCommentHoneyTip(commentId, request)}) { response: ResponseBody<CreateHoneyTipResponse> -> response.result}
+    }
+
+    override suspend fun deleteCommentHoneyTip(commentId: Int): NetworkResult<CreateHoneyTipResponse> {
+        return handleApi({api.deleteCommentHoneyTip(commentId)}) { response: ResponseBody<CreateHoneyTipResponse> -> response.result}
+    }
+
+
     //질문
 
     override suspend fun createQuestion(
@@ -108,4 +127,29 @@ class HoneyTipRepositoryImpl @Inject constructor(
         })
         { response: ResponseBody<CreateHoneyTipResponse> -> response.result }
     }
+
+    override suspend fun postCommentQuestion(
+        questionId: Int,
+        request: HoneyTipCommentRequest
+    ): NetworkResult<CreateHoneyTipResponse> {
+        return handleApi({api.postCommentQuestion(questionId, request)}) { response: ResponseBody<CreateHoneyTipResponse> -> response.result}
+    }
+
+    override suspend fun postReportCommentQuestion(commentId: Int, request: ReportRequest): NetworkResult<CreateHoneyTipResponse> {
+        return handleApi({api.postReportCommentQuestion(commentId, request)}) { response: ResponseBody<CreateHoneyTipResponse> -> response.result}
+    }
+
+    override suspend fun deleteCommentQuestion(commentId: Int): NetworkResult<CreateHoneyTipResponse> {
+        return handleApi({api.deleteCommentQuestion(commentId)}) { response: ResponseBody<CreateHoneyTipResponse> -> response.result}
+    }
+
+    override suspend fun postLikeAtQuestionComment(commentId: Int): NetworkResult<CreateHoneyTipResponse> {
+        return handleApi({api.postLikeAtQuestionComment(commentId)}) { response: ResponseBody<CreateHoneyTipResponse> -> response.result}
+    }
+
+    override suspend fun deleteLikeAtQuestionComment(commentId: Int): NetworkResult<CreateHoneyTipResponse> {
+        return handleApi({api.deleteLikeAtQuestionComment(commentId)}) { response: ResponseBody<CreateHoneyTipResponse> -> response.result}
+    }
+
+
 }

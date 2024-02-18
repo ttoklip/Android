@@ -35,7 +35,7 @@ class WelfareQuestionListFragment :
     override fun initObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.houseworkQuestion.collect {
+                viewModel.welfareQuestion.collect {
                     questionListRVA.submitList(it)
                 }
             }

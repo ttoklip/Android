@@ -37,7 +37,7 @@ class RecipeQuestionListFragment :
     override fun initObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.houseworkQuestion.collect {
+                viewModel.recipeQuestion.collect {
                     questionListRVA.submitList(it)
                 }
             }

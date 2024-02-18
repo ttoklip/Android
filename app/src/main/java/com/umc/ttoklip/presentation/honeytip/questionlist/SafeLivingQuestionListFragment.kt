@@ -35,7 +35,7 @@ class SafeLivingQuestionListFragment :
     override fun initObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.houseworkQuestion.collect {
+                viewModel.safeLivingQuestion.collect {
                     questionListRVA.submitList(it)
                 }
             }
