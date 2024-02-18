@@ -31,6 +31,7 @@ class HouseWorkHoneyTipListFragment :
     private val viewModel: HoneyTipViewModel by viewModels(
         ownerProducer = { requireParentFragment().requireParentFragment() }
     )
+
     override fun initObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -62,5 +63,10 @@ class HouseWorkHoneyTipListFragment :
         Log.d("Clicked honeyTip", honeyTip.toString())
         Log.d("postId", honeyTip.id.toString())
         startActivity(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.root.requestLayout()
     }
 }

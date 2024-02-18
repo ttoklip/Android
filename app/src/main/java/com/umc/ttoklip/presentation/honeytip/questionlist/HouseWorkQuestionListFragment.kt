@@ -66,4 +66,9 @@ class HouseWorkQuestionListFragment :
         Log.d("postId", honeyTip.id.toString())
         startActivity(intent)
     }
+
+    override fun onResume() {
+        super.onResume()
+        binding.root.requestLayout()
+    }
 }

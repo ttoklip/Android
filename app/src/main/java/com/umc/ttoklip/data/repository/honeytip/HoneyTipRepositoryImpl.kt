@@ -63,6 +63,22 @@ class HoneyTipRepositoryImpl @Inject constructor(
         }) { response: ResponseBody<CreateHoneyTipResponse> -> response.result }
     }
 
+    override suspend fun scrapHoneyTip(honeyTipId: Int): NetworkResult<CreateHoneyTipResponse> {
+        return handleApi({api.postHoneyTipScrap(honeyTipId)}) { response: ResponseBody<CreateHoneyTipResponse> -> response.result}
+    }
+
+    override suspend fun deleteScrapHoneyTip(honeyTipId: Int): NetworkResult<CreateHoneyTipResponse> {
+        return handleApi({api.deleteHoneyTipScrap(honeyTipId)}) { response: ResponseBody<CreateHoneyTipResponse> -> response.result}
+    }
+
+    override suspend fun likeHoneyTip(honeyTipId: Int): NetworkResult<CreateHoneyTipResponse> {
+        return handleApi({api.postLikeHoneyTip(honeyTipId)}) { response: ResponseBody<CreateHoneyTipResponse> -> response.result}
+    }
+
+    override suspend fun deleteLikeHoneyTip(honeyTipId: Int): NetworkResult<CreateHoneyTipResponse> {
+        return handleApi({api.deleteLikeHoneyTip(honeyTipId)}) { response: ResponseBody<CreateHoneyTipResponse> -> response.result}
+    }
+
     //질문
 
     override suspend fun createQuestion(
