@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
 
+        <variable
+            name="vm"
+            type="com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -149,7 +154,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="똑똑이"
                     android:textAppearance="@style/TextAppearance.App.14sp_700"
                     app:layout_constraintBottom_toBottomOf="@id/profileImg"
                     app:layout_constraintStart_toEndOf="@id/profileImg"
@@ -173,7 +177,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="24dp"
-                    android:text="뉴스제목"
                     android:textAppearance="@style/TextAppearance.App.20sp_500"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/profileImg"
@@ -196,7 +199,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:lineSpacingExtra="4dp"
-                    android:text="화장실은 곰팡이가 번식하기 좋은 환경을 제공합니다. 습기, 따뜻함, 열악한 환기의 세 가지 요소는 곰팡이 포자의 안식처를 만듭니다. 샤워나 목욕에서 나오는 증기가 공기 중에 남아 있으면 표면에 침전되어 곰팡이가 자라게 됩니다."
                     android:textAppearance="@style/TextAppearance.App.10sp_400"
                     android:textColor="@color/black"
                     android:textSize="14sp"
@@ -209,7 +211,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:src="@drawable/ic_bookmark_off_20"
+                    android:src="@{vm.isScrap ? @drawable/ic_bookmark_on_20 : @drawable/ic_bookmark_off_20}"
                     app:layout_constraintStart_toStartOf="@id/contentT"
                     app:layout_constraintTop_toBottomOf="@id/link_layout" />
 
@@ -218,20 +220,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
-                    android:text="00"
                     android:textAppearance="@style/TextAppearance.App.8sp_400"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
                     app:layout_constraintStart_toEndOf="@id/bookmarkImg"
-                    app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
+                    app:layout_constraintTop_toTopOf="@id/bookmarkImg"
+                    bind:textInt="@{vm.honeyTip.scrapCount}" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/likeImg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
-                    android:src="@drawable/ic_heart_off_20"
+                    android:src="@{vm.isLike() ? @drawable/ic_heart_on_20 : @drawable/ic_heart_off_20}"
                     app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
                     app:layout_constraintStart_toEndOf="@id/bookmarkT"
                     app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
@@ -241,13 +243,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
-                    android:text="00"
                     android:textAppearance="@style/TextAppearance.App.8sp_400"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
                     app:layout_constraintStart_toEndOf="@id/likeImg"
-                    app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
+                    app:layout_constraintTop_toTopOf="@id/bookmarkImg"
+                    bind:textInt="@{vm.honeyTip.likeCount}" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/commitImg"
@@ -264,7 +266,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
-                    android:text="00"
                     android:textAppearance="@style/TextAppearance.App.8sp_400"
                     android:textColor="@color/black"
                     android:textSize="12sp"
@@ -278,7 +279,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/rectangle_corner_4"
-                    android:backgroundTint="@color/gray20"
+                    android:backgroundTint="@{vm.isScrap ? @color/yellow : @color/gray20}"
+                    android:onClick="@{()-> vm.isScrap ? vm.deleteScrap() : vm.postScrap() }"
                     app:layout_constraintStart_toStartOf="@id/bookmarkImg"
                     app:layout_constraintTop_toBottomOf="@id/bookmarkImg">
 
@@ -288,7 +290,7 @@
                         android:layout_height="16dp"
                         android:layout_margin="4dp"
                         android:src="@drawable/ic_bookmark_off_20"
-                        android:tint="@color/gray60"
+                        android:tint="@{vm.isScrap ? @color/black : @color/gray60}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -301,11 +303,10 @@
                         android:paddingEnd="6dp"
                         android:text="스크랩"
                         android:textAppearance="@style/TextAppearance.App.10sp_500"
-                        android:textColor="@color/gray60"
+                        android:textColor="@{vm.isScrap ? @color/black : @color/gray60}"
                         app:layout_constraintBottom_toBottomOf="@id/scrapBtnImg"
                         app:layout_constraintStart_toEndOf="@id/scrapBtnImg"
                         app:layout_constraintTop_toTopOf="@id/scrapBtnImg" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -315,7 +316,8 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/rectangle_corner_4"
-                    android:backgroundTint="@color/gray20"
+                    android:onClick="@{()-> vm.isLike() ? vm.deleteLike() : vm.postLike()}"
+                    android:backgroundTint="@{vm.isLike ? @color/yellow : @color/gray20}"
                     app:layout_constraintStart_toEndOf="@id/scrapBtn"
                     app:layout_constraintTop_toBottomOf="@id/bookmarkImg">
 
@@ -325,7 +327,7 @@
                         android:layout_height="16dp"
                         android:layout_margin="4dp"
                         android:src="@drawable/ic_heart_off_20"
-                        android:tint="@color/gray60"
+                        android:tint="@{vm.isLike() ? @color/black : @color/gray60}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -338,23 +340,24 @@
                         android:paddingEnd="6dp"
                         android:text="좋아요"
                         android:textAppearance="@style/TextAppearance.App.10sp_500"
-                        android:textColor="@color/gray60"
+                        android:textColor="@{vm.isLike ? @color/black : @color/gray60}"
                         app:layout_constraintBottom_toBottomOf="@id/likeBtnImg"
                         app:layout_constraintStart_toEndOf="@id/likeBtnImg"
                         app:layout_constraintTop_toTopOf="@id/likeBtnImg" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/link_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="12dp"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="5dp"
                     android:background="@drawable/rectangle_corner_10_strok_1"
                     android:gravity="start"
-                    android:layout_marginHorizontal="24dp"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="5dp"
                     app:layout_constraintTop_toBottomOf="@id/image_rv">
 
                     <androidx.appcompat.widget.AppCompatImageView
@@ -364,9 +367,9 @@
                         android:layout_marginStart="6dp"
                         android:src="@drawable/ic_link_24"
                         android:tint="@color/blue"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/linkT"
@@ -374,17 +377,16 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:autoLink="web"
-                        android:linksClickable="true"
                         android:ellipsize="end"
                         android:lines="1"
-                        android:textColorLink="@color/blue"
-                        android:text="https://www.bing.com/?FORM=Z9FD1"
+                        android:linksClickable="true"
                         android:textAppearance="@style/TextAppearance.App.18sp_700"
                         android:textColor="@color/blue"
+                        android:textColorLink="@color/blue"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@id/linkImg"
-                        app:layout_constraintStart_toEndOf="@id/linkImg"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/linkImg"
                         app:layout_constraintTop_toTopOf="@id/linkImg" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -459,6 +461,7 @@
                 android:layout_marginEnd="8dp"
                 android:background="@null"
                 android:hint="댓글을 입력해주세요."
+                android:text="@={vm.commentContent}"
                 android:textAppearance="@style/TextAppearance.App.12sp_400"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/cardView"

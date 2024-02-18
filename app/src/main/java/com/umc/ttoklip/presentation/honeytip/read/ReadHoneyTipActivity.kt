@@ -42,6 +42,8 @@ class ReadHoneyTipActivity :
         ReadImageRVA(this, this@ReadHoneyTipActivity)
     }
     private var isShowMenu = false
+
+    // 수정 시 필요
     private var postId = 0
     private var category = ""
 
@@ -49,36 +51,61 @@ class ReadHoneyTipActivity :
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.readEvent.collect {
-                    handleEvent(it)
+                    handleReadEvent(it)
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.menuEvent.collect {
+                    handleMenuEvent(it)
                 }
             }
         }
     }
 
-    private fun handleEvent(event: ReadHoneyTipViewModel.ReadEvent) {
+    private fun handleReadEvent(event: ReadHoneyTipViewModel.ReadEvent) {
         when (event) {
             is ReadHoneyTipViewModel.ReadEvent.ReadHoneyTipEvent -> {
-                binding.titleTv.text = event.inquireHoneyTipResponse.title
-                binding.writerTv.text = event.inquireHoneyTipResponse.writer
-                binding.contentT.text = event.inquireHoneyTipResponse.content
-                binding.linkT.text = event.inquireHoneyTipResponse.urlResponses?.firstOrNull()?.urls
-                imageAdapter.submitList(event.inquireHoneyTipResponse.imageUrls)
-                category = event.inquireHoneyTipResponse.category
+                val honeyTip = event.inquireHoneyTipResponse
+                with(binding){
+                    titleTv.text = honeyTip.title
+                    writerTv.text = honeyTip.writer
+                    contentT.text = honeyTip.content
+                    linkT.text = honeyTip.urlResponses?.firstOrNull()?.urls
+                    likeT.text = honeyTip.likeCount.toString()
+                    bookmarkT.text = honeyTip.scrapCount.toString()
+                    commitT.text = honeyTip.commentCount.toString()
+                }
+                imageAdapter.submitList(honeyTip.imageUrls)
+                category = honeyTip.category
                 val writer = TtoklipApplication.prefs.getString("nickname", "")
-                if (event.inquireHoneyTipResponse.writer == writer) {
+                if (honeyTip.writer == writer) {
                     showHoneyTipWriterMenu()
                 } else {
                     showReportBtn()
                 }
             }
-
-            else -> {
-                Toast.makeText(this, "신고가 완료되었습니다.", Toast.LENGTH_SHORT).show()
-            }
+            else -> {}
         }
     }
 
+    private fun handleMenuEvent(event: ReadHoneyTipViewModel.MenuEvent){
+        val toastText =
+        when(event) {
+            ReadHoneyTipViewModel.MenuEvent.DeleteLike -> "좋아요 취소"
+            ReadHoneyTipViewModel.MenuEvent.DeleteScrap -> "스크랩 취소"
+            ReadHoneyTipViewModel.MenuEvent.PostLike -> "좋아요"
+            ReadHoneyTipViewModel.MenuEvent.PostScrap -> "스크랩"
+            ReadHoneyTipViewModel.MenuEvent.ReportHoneyTip -> "해당 게시글에 대한 신고가 접수되었습니다."
+            else -> {}
+        }
+        Toast.makeText(this, "$toastText", Toast.LENGTH_SHORT)
+    }
+
     override fun initView() {
+        binding.vm = viewModel
         postId = intent.getIntExtra("postId", 0)
         Log.d("read postid", postId.toString())
         binding.boardTitleTv.text = "꿀팁 공유하기"
@@ -150,36 +177,6 @@ class ReadHoneyTipActivity :
             finish()
         }
     }
-
-    /*private fun editHoneyTip() {
-        binding.editBtn.setOnClickListener {
-            val intent = Intent(this, WriteHoneyTipActivity::class.java)
-            val intentImages =
-                imageAdapter.currentList.filterIsInstance<Image>()?.map { it.uri.toString() }
-                    ?.toTypedArray()
-            val title = binding.titleTv.text.toString()
-            val content = binding.contentT.text.toString()
-            val url = binding.linkT.text.toString()
-            val honeyTip = HoneyTip(title, content, intentImages, url, category)
-
-            intent.putExtra("honeyTip", honeyTip)
-            editDone(intent)
-        }
-    }*/
-
-    /*private fun editQuestion() {
-        binding.editBtn.setOnClickListener {
-            val intent = Intent(this, WriteHoneyTipActivity::class.java)
-            val intentImages =
-                imageAdapter.currentList.filterIsInstance<Image>()?.map { it.uri.toString() }
-                    ?.toTypedArray()
-            val title = binding.titleTv.text.toString()
-            val content = binding.contentT.text.toString()
-            val question = Question(title, content, intentImages, category)
-            intent.putExtra("question", question)
-            editDone(intent)
-        }
-    }*/
 
     private fun showReportDialog() {
         binding.reportBtn.setOnClickListener {
