@@ -12,6 +12,4 @@ interface SignupRepository {
                             info:MutableMap<String, RequestBody>
                             ,cate:List<MultipartBody.Part>)
     : NetworkResult<SignupResponse>
-//    suspend fun savePrivacy(userInfo:SignupRequest)
-//            : NetworkResult<SignupResponse>
 }

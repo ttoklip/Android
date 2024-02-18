@@ -21,8 +21,9 @@
         <ImageView
             android:id="@+id/item_intro_appimage_iv"
             android:layout_width="350dp"
-            android:layout_height="490dp"
+            android:layout_height="400dp"
             android:layout_marginTop="20dp"
+            android:background="@color/gray20"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/item_intro_title_tv" />

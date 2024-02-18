@@ -17,7 +17,6 @@ class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_s
     var locationAgree: Boolean = false
 
     override fun initObserver() {
-
     }
 
     override fun initView() {

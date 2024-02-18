@@ -1,14 +1,9 @@
 package com.umc.ttoklip.presentation.signup
 
-import android.app.Application
-import android.content.res.AssetManager
 import android.net.Uri
-import android.provider.MediaStore
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.signup.SignupRequest
 import com.umc.ttoklip.data.repository.signup.SignupRepositoryImpl
@@ -16,10 +11,8 @@ import com.umc.ttoklip.module.onError
 import com.umc.ttoklip.module.onFail
 import com.umc.ttoklip.module.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -29,14 +22,13 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import java.io.File
-import java.io.InputStream
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @HiltViewModel
 class SignupViewModel @Inject constructor(
-    private val signupRepository: SignupRepositoryImpl, application: Application
-) : AndroidViewModel(application) {
+    private val signupRepository: SignupRepositoryImpl
+) : ViewModel() {
 
     private val _nickcheckbtn=MutableStateFlow<Boolean>(false)
     val nickcheckbtn:StateFlow<Boolean>
@@ -119,18 +111,10 @@ class SignupViewModel @Inject constructor(
 
     fun savePrivacy() {
         viewModelScope.launch {
-            var fileToUpload:MultipartBody.Part
-            if(profileImage.value.isEmpty()){
-                fileToUpload=MultipartBody.Part.createFormData("profileImage","defaultImage",
-                    RequestBody.create(
-                        "image/*".toMediaTypeOrNull(),
-                        getApplication<TtoklipApplication>().resources.openRawResource(
-                            R.raw.profile_image_default).readBytes()))
-            }else{
-                val file = File(profileImage.value)
-                val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
-                fileToUpload = MultipartBody.Part.createFormData("profileImage", file.name, requestBody)
-            }
+            val file = File(profileImage.value)
+            val requestBody = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+            val fileToUpload =
+                MultipartBody.Part.createFormData("profileImage", file.name+".jpg", requestBody)
 
             val cate=ArrayList<MultipartBody.Part>()
             for (c in categories.value) {
@@ -143,10 +127,6 @@ class SignupViewModel @Inject constructor(
             requestMap["independentYear"] = independenctYear.value.toString().toRequestBody("text/plain".toMediaTypeOrNull())
             requestMap["independentMonth"] = independenctMonth.value.toString().toRequestBody("text/plain".toMediaTypeOrNull())
             signupRepository.savePrivacy(fileToUpload, requestMap,cate)
-
-//            signupRepository.savePrivacy(SignupRequest(
-//                street,nickname.value,categories.value,profileImage.value,independenctYear.value,independenctMonth.value
-//            ))
                 .onSuccess {
                     Log.i("USERSAVE", "성공")
                 }.onFail {
@@ -154,8 +134,6 @@ class SignupViewModel @Inject constructor(
                 }.onError {
                     Log.d("USERSAVE ERROR", it.toString())
                 }
-
         }
     }
 }
-

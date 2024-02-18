@@ -1,6 +1,5 @@
 package com.umc.ttoklip.presentation.intro
 
-import android.graphics.BitmapFactory
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Spannable
@@ -10,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentIntroBinding
 
 class IntroFragment(val position:Int): Fragment() {
@@ -26,18 +24,13 @@ class IntroFragment(val position:Int): Fragment() {
             0->{val spannable=SpannableStringBuilder("어려움과 도움을 함께\n독립생활의 꿀팁공유")
                 spannable.setSpan(StyleSpan(Typeface.BOLD),11,22, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
                 binding.itemIntroTitleTv.text=spannable
-                binding.itemIntroAppimageIv.setImageBitmap(
-                    BitmapFactory.decodeStream(resources.openRawResource(R.raw.intro_image_1st)))}
+                /**인앱화면 연결 필요**/}
             1->{val spannable=SpannableStringBuilder("자취에 도움되는\n최신뉴스를 한눈에")
                 spannable.setSpan(StyleSpan(Typeface.BOLD),8,13, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
-                binding.itemIntroTitleTv.text=spannable
-                binding.itemIntroAppimageIv.setImageBitmap(
-                    BitmapFactory.decodeStream(resources.openRawResource(R.raw.intro_image_2nd)))}
+                binding.itemIntroTitleTv.text=spannable}
             else->{val spannable=SpannableStringBuilder("혼자서는 비싸,\n동네친구들과 함께")
                 spannable.setSpan(StyleSpan(Typeface.BOLD),15,18, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
-                binding.itemIntroTitleTv.text=spannable
-                binding.itemIntroAppimageIv.setImageBitmap(
-                    BitmapFactory.decodeStream(resources.openRawResource(R.raw.intro_image_3rd)))}
+                binding.itemIntroTitleTv.text=spannable}
         }
 
         return binding.root

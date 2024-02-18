@@ -28,7 +28,7 @@ class DirectLocationActivity :
                     response: Response<KakaoResponse.ResultSearchKeyword>
                 ) {
                     kakao.value = response.body()
-                    Log.i("KAKAO SEARCH", "${kakao.value!!.documents[0].address_name}")
+                    Log.i("kakao", "${kakao.value!!.documents[0].address_name}")
                 }
 
                 override fun onFailure(
