@@ -14,6 +14,7 @@ import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.honeytip.ImageUrl
 import com.umc.ttoklip.data.model.honeytip.request.ReportRequest
 import com.umc.ttoklip.databinding.ActivityReadHoneyTipBinding
+import com.umc.ttoklip.databinding.ActivityReadQuestionBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.BOARD
 import com.umc.ttoklip.presentation.honeytip.HONEY_TIP
@@ -28,7 +29,7 @@ import kotlinx.coroutines.launch
 import org.w3c.dom.Comment
 
 @AndroidEntryPoint
-class ReadQuestionActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.activity_read_honey_tip),
+class ReadQuestionActivity : BaseActivity<ActivityReadQuestionBinding>(R.layout.activity_read_question),
     OnReadImageClickListener {
     private val viewModel: ReadHoneyTipViewModel by viewModels()
 
@@ -50,33 +51,50 @@ class ReadQuestionActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
                 }
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.menuEvent.collect{
+                    handleMenuEvent(it)
+                }
+            }
+        }
     }
 
     private fun handleEvent(event: ReadHoneyTipViewModel.ReadEvent){
         when(event){
             is ReadHoneyTipViewModel.ReadEvent.ReadQuestionEvent -> {
-                binding.titleTv.text = event.inquireQuestionResponse.title
-                binding.writerTv.text = event.inquireQuestionResponse.writer
-                binding.contentT.text = event.inquireQuestionResponse.content
-                binding.linkT.text = event.inquireQuestionResponse.urlResponses?.firstOrNull()
-                imageAdapter.submitList(event.inquireQuestionResponse.imageUrls)
+                val question = event.inquireQuestionResponse
+                with(binding) {
+                    titleTv.text = question.title
+                    writerTv.text = question.writer
+                    contentT.text = question.content
+                    commitT.text = question.commentCount.toString()
+                }
+                if (question.imageUrls.isNotEmpty()){
+                    binding.imageRv.visibility = View.VISIBLE
+                    imageAdapter.submitList(question.imageUrls)
+                }
                 val writer = TtoklipApplication.prefs.getString("nickname", "")
-                if(event.inquireQuestionResponse.writer == writer){
-                } else {
+                if(question.writer != writer){
                     showReportBtn()
                 }
             }
+           else -> {}
+        }
+    }
 
-            else -> {
-                Toast.makeText(this, "신고가 완료되었습니다.", Toast.LENGTH_SHORT).show()}
+    private fun handleMenuEvent(event: ReadHoneyTipViewModel.MenuEvent){
+        when(event){
+            ReadHoneyTipViewModel.MenuEvent.ReportQuestion ->
+            Toast.makeText(this, "해당 게시글에 대한 신고가 접수되었습니다.", Toast.LENGTH_SHORT).show()
+            else -> {}
         }
     }
     override fun initView() {
         postId = intent.getIntExtra("postId", 0)
         Log.d("read postid", postId.toString())
 
-        binding.boardTitleTv.text = "질문하기"
-        binding.linkLayout.visibility = View.GONE
         viewModel.inquireQuestion(postId)
 
         binding.backBtn.setOnClickListener {
@@ -84,7 +102,7 @@ class ReadQuestionActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
         }
 
         initImageRVA()
-        showDeleteDialog()
+        //showDeleteDialog()
         showReportDialog()
 
         binding.commentRv.adapter = commentRVA
@@ -108,52 +126,6 @@ class ReadQuestionActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
             }
         }
     }
-
-    private fun showHoneyTipWriterMenu() {
-        binding.dotBtn.setOnClickListener {
-            if (!isShowMenu) {
-                binding.honeyTipMenu.bringToFront()
-                binding.honeyTipMenu.visibility = View.VISIBLE
-                isShowMenu = true
-            } else {
-                binding.honeyTipMenu.visibility = View.GONE
-                isShowMenu = false
-            }
-        }
-    }
-
-    //private fun editHoneyTip()
-
-    /*private fun editHoneyTip() {
-        binding.editBtn.setOnClickListener {
-            val intent = Intent(this, WriteHoneyTipActivity::class.java)
-            val intentImages =
-                imageAdapter.currentList.filterIsInstance<Image>()?.map { it.uri.toString() }
-                    ?.toTypedArray()
-            val title = binding.titleTv.text.toString()
-            val content = binding.contentT.text.toString()
-            val url = binding.linkT.text.toString()
-            val honeyTip = HoneyTip(title, content, intentImages, url, category)
-
-            intent.putExtra("honeyTip", honeyTip)
-            editDone(intent)
-        }
-    }*/
-
-    /*private fun editQuestion() {
-        binding.editBtn.setOnClickListener {
-            val intent = Intent(this, WriteHoneyTipActivity::class.java)
-            val intentImages =
-                imageAdapter.currentList.filterIsInstance<Image>()?.map { it.uri.toString() }
-                    ?.toTypedArray()
-            val title = binding.titleTv.text.toString()
-            val content = binding.contentT.text.toString()
-            val question = Question(title, content, intentImages, category)
-            intent.putExtra("question", question)
-            editDone(intent)
-        }
-    }*/
-
     private fun showReportDialog() {
         binding.reportBtn.setOnClickListener {
             val reportDialog = ReportDialogFragment()
@@ -169,7 +141,7 @@ class ReadQuestionActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
         }
     }
 
-    private fun showDeleteDialog() {
+ /*   private fun showDeleteDialog() {
         binding.deleteBtn.setOnClickListener {
             val deleteDialog = DeleteDialogFragment()
             deleteDialog.setDialogClickListener(object : DeleteDialogFragment.DialogClickListener {
@@ -179,17 +151,9 @@ class ReadQuestionActivity : BaseActivity<ActivityReadHoneyTipBinding>(R.layout.
             })
             deleteDialog.show(supportFragmentManager, deleteDialog.tag)
         }
-    }
+    }*/
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        //Log.d("event", isTouchInside(binding.dotBtn, ev?.x!!, ev?.y!!).toString())
-        if (isShowMenu && !isTouchInside(binding.dotBtn, ev?.x!!, ev?.y!!)) {
-            if (!isTouchInside(binding.honeyTipMenu, ev?.x!!, ev?.y!!)) {
-                binding.honeyTipMenu.visibility = View.GONE
-                isShowMenu = false
-            }
-        }
-
         if (isShowMenu && !isTouchInside(binding.dotBtn, ev?.x!!, ev?.y!!)) {
             if (!isTouchInside(binding.reportBtn, ev?.x!!, ev?.y!!)) {
                 binding.reportBtn.visibility = View.GONE

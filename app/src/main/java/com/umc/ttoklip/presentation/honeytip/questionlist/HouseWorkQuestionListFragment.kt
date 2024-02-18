@@ -2,8 +2,6 @@ package com.umc.ttoklip.presentation.honeytip.questionlist
 
 import android.content.Intent
 import android.util.Log
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -14,23 +12,20 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
 import com.umc.ttoklip.databinding.FragmentHoneyTipListBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
-import com.umc.ttoklip.presentation.honeytip.ASK
-import com.umc.ttoklip.presentation.honeytip.BOARD
-import com.umc.ttoklip.presentation.honeytip.HONEY_TIP
 import com.umc.ttoklip.presentation.honeytip.HoneyTipViewModel
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipListRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
-import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
+import com.umc.ttoklip.presentation.honeytip.adapter.OnQuestionClickListener
+import com.umc.ttoklip.presentation.honeytip.adapter.QuestionListRVA
 import com.umc.ttoklip.presentation.honeytip.read.ReadQuestionActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HouseWorkQuestionListFragment :
-    BaseFragment<FragmentHoneyTipListBinding>(R.layout.fragment_honey_tip_list),
-    OnItemClickListener {
-    private val honeyTipListRVA by lazy {
-        HoneyTipListRVA(this)
+    BaseFragment<FragmentHoneyTipListBinding>(R.layout.fragment_honey_tip_list), OnQuestionClickListener {
+    private val questionListRVA by lazy {
+        QuestionListRVA(this)
     }
     private val viewModel: HoneyTipViewModel by viewModels(
         ownerProducer = { requireParentFragment().requireParentFragment() }
@@ -39,7 +34,7 @@ class HouseWorkQuestionListFragment :
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.houseworkQuestion.collect {
-                    honeyTipListRVA.submitList(it)
+                    questionListRVA.submitList(it)
                 }
             }
         }
@@ -56,7 +51,7 @@ class HouseWorkQuestionListFragment :
                 LinearLayoutManager.VERTICAL
             )
         )
-        binding.rv.adapter = honeyTipListRVA
+        binding.rv.adapter = questionListRVA
     }
 
     override fun onClick(honeyTip: HoneyTipMain) {

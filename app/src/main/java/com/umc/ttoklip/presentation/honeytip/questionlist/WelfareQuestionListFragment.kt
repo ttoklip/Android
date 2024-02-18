@@ -17,15 +17,17 @@ import com.umc.ttoklip.presentation.honeytip.BOARD
 import com.umc.ttoklip.presentation.honeytip.HoneyTipViewModel
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipListRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
+import com.umc.ttoklip.presentation.honeytip.adapter.OnQuestionClickListener
+import com.umc.ttoklip.presentation.honeytip.adapter.QuestionListRVA
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.honeytip.read.ReadQuestionActivity
 import kotlinx.coroutines.launch
 
 class WelfareQuestionListFragment :
     BaseFragment<FragmentHoneyTipListBinding>(R.layout.fragment_honey_tip_list),
-    OnItemClickListener {
-    private val honeyTipListRVA by lazy {
-        HoneyTipListRVA(this)
+    OnQuestionClickListener {
+    private val questionListRVA by lazy {
+        QuestionListRVA(this)
     }
     private val viewModel: HoneyTipViewModel by viewModels(
         ownerProducer = { requireParentFragment().requireParentFragment() }
@@ -33,8 +35,8 @@ class WelfareQuestionListFragment :
     override fun initObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.welfareQuestion.collect {
-                    honeyTipListRVA.submitList(it)
+                viewModel.houseworkQuestion.collect {
+                    questionListRVA.submitList(it)
                 }
             }
         }
@@ -51,7 +53,7 @@ class WelfareQuestionListFragment :
                 LinearLayoutManager.VERTICAL
             )
         )
-        binding.rv.adapter = honeyTipListRVA
+        binding.rv.adapter = questionListRVA
     }
 
     override fun onClick(honeyTip: HoneyTipMain) {

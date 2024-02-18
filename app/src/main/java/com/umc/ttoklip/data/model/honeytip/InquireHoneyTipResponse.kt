@@ -11,9 +11,9 @@ data class InquireHoneyTipResponse(
     var likeCount: Int,
     var scrapCount: Int,
     var commentCount: Int,
-    val imageUrls: List<ImageUrl>?,
-    val commentResponse: List<CommentResponse>?,
+    val imageUrls: List<ImageUrl>,
+    val commentResponse: List<CommentResponse>,
     val likedByCurrentUser: Boolean,
     val scrapedByCurrentUser: Boolean,
-    val urlResponses: List<Urls>?,
+    val urlResponses: List<Urls>,
 )

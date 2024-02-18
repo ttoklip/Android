@@ -28,66 +28,12 @@
             android:id="@+id/board_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="꿀팁 공유하기"
+            android:text="질문하기"
             android:textAppearance="@style/TextAppearance.App.16sp_600"
             app:layout_constraintBottom_toBottomOf="@id/backBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/backBtn" />
-
-        <LinearLayout
-            android:id="@+id/honey_tip_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:background="@drawable/rectangle_corner_10_strok_1"
-            android:orientation="vertical"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="12dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dotBtn"
-            tools:visibility="visible">
-
-            <LinearLayout
-                android:id="@+id/edit_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_edit" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="수정하기"
-                    android:textAppearance="@style/TextAppearance.App.12sp_500" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/delete_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_delete" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="삭제하기"
-                    android:textAppearance="@style/TextAppearance.App.12sp_500" />
-            </LinearLayout>
-        </LinearLayout>
 
         <TextView
             android:id="@+id/report_btn"
@@ -205,59 +151,14 @@
                     app:layout_constraintTop_toBottomOf="@id/line" />
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/bookmarkImg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:src="@drawable/ic_bookmark_off_20"
-                    app:layout_constraintStart_toStartOf="@id/contentT"
-                    app:layout_constraintTop_toBottomOf="@id/link_layout" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/bookmarkT"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
-                    android:text="00"
-                    android:textAppearance="@style/TextAppearance.App.8sp_400"
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
-                    app:layout_constraintStart_toEndOf="@id/bookmarkImg"
-                    app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/likeImg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:src="@drawable/ic_heart_off_20"
-                    app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
-                    app:layout_constraintStart_toEndOf="@id/bookmarkT"
-                    app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/likeT"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
-                    android:text="00"
-                    android:textAppearance="@style/TextAppearance.App.8sp_400"
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
-                    app:layout_constraintStart_toEndOf="@id/likeImg"
-                    app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
-
-                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/commitImg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
                     android:src="@drawable/ic_message_24"
-                    app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
-                    app:layout_constraintStart_toEndOf="@id/likeT"
-                    app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/image_rv" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/commitT"
@@ -268,126 +169,9 @@
                     android:textAppearance="@style/TextAppearance.App.8sp_400"
                     android:textColor="@color/black"
                     android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="@id/bookmarkImg"
+                    app:layout_constraintBottom_toBottomOf="@id/commitImg"
                     app:layout_constraintStart_toEndOf="@id/commitImg"
-                    app:layout_constraintTop_toTopOf="@id/bookmarkImg" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/scrapBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/rectangle_corner_4"
-                    android:backgroundTint="@color/gray20"
-                    app:layout_constraintStart_toStartOf="@id/bookmarkImg"
-                    app:layout_constraintTop_toBottomOf="@id/bookmarkImg">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/scrapBtnImg"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_margin="4dp"
-                        android:src="@drawable/ic_bookmark_off_20"
-                        android:tint="@color/gray60"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/scrapBtnT"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:paddingEnd="6dp"
-                        android:text="스크랩"
-                        android:textAppearance="@style/TextAppearance.App.10sp_500"
-                        android:textColor="@color/gray60"
-                        app:layout_constraintBottom_toBottomOf="@id/scrapBtnImg"
-                        app:layout_constraintStart_toEndOf="@id/scrapBtnImg"
-                        app:layout_constraintTop_toTopOf="@id/scrapBtnImg" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/likeBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/rectangle_corner_4"
-                    android:backgroundTint="@color/gray20"
-                    app:layout_constraintStart_toEndOf="@id/scrapBtn"
-                    app:layout_constraintTop_toBottomOf="@id/bookmarkImg">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/likeBtnImg"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_margin="4dp"
-                        android:src="@drawable/ic_heart_off_20"
-                        android:tint="@color/gray60"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/likeBtnT"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:paddingEnd="6dp"
-                        android:text="좋아요"
-                        android:textAppearance="@style/TextAppearance.App.10sp_500"
-                        android:textColor="@color/gray60"
-                        app:layout_constraintBottom_toBottomOf="@id/likeBtnImg"
-                        app:layout_constraintStart_toEndOf="@id/likeBtnImg"
-                        app:layout_constraintTop_toTopOf="@id/likeBtnImg" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/link_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="5dp"
-                    android:background="@drawable/rectangle_corner_10_strok_1"
-                    android:gravity="start"
-                    android:layout_marginHorizontal="24dp"
-                    app:layout_constraintTop_toBottomOf="@id/image_rv">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/linkImg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:src="@drawable/ic_link_24"
-                        android:tint="@color/blue"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/linkT"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:autoLink="web"
-                        android:linksClickable="true"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:textColorLink="@color/blue"
-                        android:text="https://www.bing.com/?FORM=Z9FD1"
-                        android:textAppearance="@style/TextAppearance.App.18sp_700"
-                        android:textColor="@color/blue"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="@id/linkImg"
-                        app:layout_constraintStart_toEndOf="@id/linkImg"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/linkImg" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    app:layout_constraintTop_toTopOf="@id/commitImg" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/image_rv"
@@ -396,6 +180,8 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="28dp"
                     android:orientation="horizontal"
+                    android:visibility="gone"
+                    tools:visibility="visible"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -411,7 +197,7 @@
                     android:background="@color/gray20"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/scrapBtn" />
+                    app:layout_constraintTop_toBottomOf="@id/commitImg" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/comment_rv"

@@ -43,7 +43,7 @@ class ReadHoneyTipActivity :
     }
     private var isShowMenu = false
 
-    // 수정 시 필요
+    // 꿀팁 수정 시 필요
     private var postId = 0
     private var category = ""
 
@@ -73,12 +73,15 @@ class ReadHoneyTipActivity :
                     titleTv.text = honeyTip.title
                     writerTv.text = honeyTip.writer
                     contentT.text = honeyTip.content
-                    linkT.text = honeyTip.urlResponses?.firstOrNull()?.urls
+                    linkT.text = honeyTip.urlResponses.firstOrNull()?.urls
                     likeT.text = honeyTip.likeCount.toString()
                     bookmarkT.text = honeyTip.scrapCount.toString()
                     commitT.text = honeyTip.commentCount.toString()
                 }
-                imageAdapter.submitList(honeyTip.imageUrls)
+                if (honeyTip.imageUrls.isNotEmpty()){
+                    binding.imageRv.visibility = View.VISIBLE
+                    imageAdapter.submitList(honeyTip.imageUrls)
+                }
                 category = honeyTip.category
                 val writer = TtoklipApplication.prefs.getString("nickname", "")
                 if (honeyTip.writer == writer) {
@@ -108,7 +111,6 @@ class ReadHoneyTipActivity :
         binding.vm = viewModel
         postId = intent.getIntExtra("postId", 0)
         Log.d("read postid", postId.toString())
-        binding.boardTitleTv.text = "꿀팁 공유하기"
         viewModel.inquireHoneyTip(postId)
 
         binding.backBtn.setOnClickListener {
