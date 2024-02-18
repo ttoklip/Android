@@ -1,9 +1,15 @@
 package com.umc.ttoklip.presentation.signup.fragments
 
+import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.database.Cursor
+import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -11,6 +17,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -28,7 +35,14 @@ import com.umc.ttoklip.presentation.signup.SignupViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.BufferedReader
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.net.URI
+
 
 @AndroidEntryPoint
 class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_signup4) {
@@ -39,14 +53,12 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
     private var independentCareerYear: Int? = null
     private var independentCareerMonth: Int? = null
 
-    private var nickcheckbtn: Boolean = false
-
     override fun initObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.nickcheckbtn.collect{
-                        if(it){
+                    viewModel.nickcheckbtn.collect {
+                        if (it) {
                             delay(100)
                             viewModel.nickok.collect {
                                 if (it) {
@@ -150,12 +162,11 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
                     chip.setChipStrokeColorResource(R.color.yellow)
                     binding.signup4InterestGroup.addView(chip)
 
-                    val interestType=
-                        if (interest.equals("집안일"))"HOUSEWORK"
-                    else if(interest.equals("요리"))"RECIPE"
-                    else if(interest.equals("안전한 생활"))"SAFE_LIVING"
-                    else if(interest.equals("사기"))"FRAUD"
-                    else "WELFARE_POLICY"
+                    val interestType =
+                        if (interest.equals("집안일")) "HOUSEWORK"
+                        else if (interest.equals("요리")) "RECIPE"
+                        else if (interest.equals("안전한 생활")) "SAFE_LIVING"
+                        else "WELFARE_POLICY"
                     interestArray.add(interestType)
                 }
                 if (interests.isNotEmpty()) viewModel.interestCheck(true)
@@ -177,29 +188,56 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
                 viewModel.interestok.value &&
                 viewModel.nickok.value
             ) {
-                val bundle= Bundle()
-                bundle.putString("nickname",binding.signup4NicknameEt.text.toString())
-                bundle.putStringArrayList("interest",interestArray)
-                bundle.putString("imageUri",imageSource)
-                bundle.putInt("independentCareerYear",independentCareerYear!!)
-                bundle.putInt("independentCareerMonth",independentCareerMonth!!)
+                val bundle = Bundle()
+                bundle.putString("nickname", binding.signup4NicknameEt.text.toString())
+                bundle.putStringArrayList("interest", interestArray)
+                bundle.putString(
+                    "imageUri",
+                    if (imageSource.isNotEmpty()) imageSource
+                    else ""
+//                        Uri.fromFile(File("//android_asset/profile_image_default.png")).toString()
+                )
+                bundle.putInt("independentCareerYear", independentCareerYear!!)
+                bundle.putInt("independentCareerMonth", independentCareerMonth!!)
 
-                findNavController().navigate(R.id.action_signup4_fragment_to_signup5_fragment,bundle)
+                findNavController().navigate(
+                    R.id.action_signup4_fragment_to_signup5_fragment,
+                    bundle
+                )
             }
         }
     }
 
-    private lateinit var imageSource:String
-    private val pickMedia= registerForActivityResult(ActivityResultContracts.PickVisualMedia()){ uri ->
-        if (uri!=null) {
-            Glide.with(this).load(uri)
-                .circleCrop()
-                .into(binding.signup4ProfileImageIv)
-            imageSource=getRealPathFromUri(uri,requireContext())
-        } else {
-            Log.d("PhotoPicker", "No media selected")
-        }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        this.context = context
     }
+
+    private var imageSource: String = ""
+    private lateinit var context: Context
+    private val pickMedia =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri != null) {
+                Glide.with(this).load(uri)
+                    .circleCrop()
+                    .into(binding.signup4ProfileImageIv)
+                imageSource = getRealPathFromUri(uri, context)
+//            val bitmap=MediaStore.Images.Media.getBitmap(context.contentResolver,uri)
+//            val resizeBitmap= Bitmap.createScaledBitmap(bitmap,bitmap.width/2,bitmap.height/2,true)
+//            val byteArrayOutputStream=ByteArrayOutputStream()
+//            resizeBitmap.compress(Bitmap.CompressFormat.JPEG,90,byteArrayOutputStream)
+//            val tempFile=File.createTempFile("resized_image",".jpg",context.cacheDir)
+//            val fileOutputStream=FileOutputStream(tempFile)
+//            fileOutputStream.write(byteArrayOutputStream.toByteArray())
+//            fileOutputStream.close()
+//            imageSource=Uri.fromFile(tempFile).toString()
+//            Log.i("PhotoPicker", imageSource)
+//            imageSource=uri.toString()
+            } else {
+                Log.d("PhotoPicker", "No media selected")
+            }
+        }
+
     private fun setProfileImage(activity: SignupActivity) {
         val imageDialog = ImageDialogFragment()
         imageDialog.setDialogClickListener(object : ImageDialogFragment.DialogClickListener {
@@ -209,12 +247,16 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
         })
         imageDialog.show(activity.supportFragmentManager, imageDialog.toString())
     }
+
     fun getRealPathFromUri(contentUri: Uri, context: Context): String {
+        val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        context.contentResolver.takePersistableUriPermission(contentUri, flag)
         var cursor: Cursor? = null
         try {
-            val proj = arrayOf(MediaStore.Video.Media.DATA)
+            val proj = arrayOf(MediaStore.Images.Media.DATA)
             cursor = context.contentResolver.query(contentUri, proj, null, null, null)
-            val columnIndex = cursor?.getColumnIndexOrThrow(MediaStore.Video.Media.DATA)
+            val columnIndex = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            Log.i("ColumnIndex", columnIndex.toString())
             if (cursor != null && cursor.moveToFirst()) {
                 return cursor.getString(columnIndex!!)
             }
@@ -223,6 +265,62 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
         }
         return ""
     }
+//    fun getPath(context: Context, uri: Uri): String? {
+//        val isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+//                if (isExternalStorageDocument(uri)) {
+//                    val docId = DocumentsContract.getDocumentId(uri)
+//                    val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }
+//                        .toTypedArray()
+//                    val type = split[0]
+//                    if ("primary".equals(type, ignoreCase = true)) {
+//                        return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
+//                    }
+//                } else if (isMediaDocument(uri)) {
+//                    val docId = DocumentsContract.getDocumentId(uri)
+//                    val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }
+//                        .toTypedArray()
+//                    val type = split[0]
+//                    var contentUri: Uri? = null
+//                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+//                    val selection = "_id=?"
+//                    val selectionArgs = arrayOf(
+//                        split[1]
+//                    )
+//                    return getDataColumn(context, contentUri, selection, selectionArgs)
+//                }
+//            }
+//        }
+//        return null
+//    }
+//    fun isExternalStorageDocument(uri: Uri): Boolean {
+//        return "com.android.externalstorage.documents" == uri.authority
+//    }
+//    fun getDataColumn(
+//        context: Context,
+//        uri: Uri?,
+//        selection: String?,
+//        selectionArgs: Array<String>?
+//    ): String? {
+//        var cursor: Cursor? = null
+//        val column = "_data"
+//        val projection = arrayOf(column)
+//        try {
+//            cursor =
+//                context.contentResolver.query(uri!!, projection, selection, selectionArgs, null)
+//            if (cursor != null && cursor.moveToFirst()) {
+//                val column_index = cursor.getColumnIndexOrThrow(column)
+//                return cursor.getString(column_index)
+//            }
+//        } finally {
+//            cursor?.close()
+//        }
+//        return null
+//    }
+//    fun isMediaDocument(uri: Uri): Boolean {
+//        return "com.android.providers.media.documents" == uri.authority
+//    }
 
     private fun nextok() {
         if (viewModel.nickok.value &&
