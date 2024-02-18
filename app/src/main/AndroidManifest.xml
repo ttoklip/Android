@@ -189,6 +189,11 @@
             android:name=".presentation.search.SearchActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
+        <activity
+            android:name=".presentation.search2.SearchActivity2"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+
         <activity android:name="com.umc.ttoklip.presentation.honeytip.ImageViewActivity" />
 
         <activity android:name=".presentation.news.detail.PostImageActivity"
