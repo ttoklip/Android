@@ -8,9 +8,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
 
     <application
         android:name=".TtoklipApplication"
@@ -23,7 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ttoklip"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        android:requestLegacyExternalStorage="true">
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
@@ -34,10 +32,11 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".presentation.honeytip.read.ReadActivity"
+            android:name=".presentation.honeytip.read.ReadHoneyTipActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
+            
             android:name=".presentation.honeytip.write.WriteHoneyTipActivity"
             android:screenOrientation="portrait"
             android:exported="false"
@@ -48,6 +47,7 @@
             android:exported="false" />
         <activity
             android:name=".presentation.news.detail.ArticleActivity"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
@@ -154,15 +154,18 @@
             android:name=".presentation.intro.SplashActivity"
             android:screenOrientation="portrait"
             android:exported="true">
+        </activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".presentation.MainActivity"
+            android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:screenOrientation="portrait"
-            android:name=".presentation.MainActivity"
-            android:exported="false"/>
+
 
         <service
             android:name="com.google.android.gms.metadata.ModuleDependencies"
@@ -182,6 +185,13 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity android:name="com.umc.ttoklip.presentation.honeytip.ImageViewActivity" />
+
+        <activity android:name=".presentation.news.detail.PostImageActivity"
+            android:screenOrientation="portrait"
+            android:exported="false"/>
+
+        <activity android:name=".presentation.honeytip.read.ReadQuestionActivity" />
+
     </application>
 
 </manifest>

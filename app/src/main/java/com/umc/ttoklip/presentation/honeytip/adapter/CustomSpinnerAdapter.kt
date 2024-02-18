@@ -1,15 +1,13 @@
-import android.R
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.TextView
 import com.umc.ttoklip.databinding.SpinnerInnerFirstBinding
 import com.umc.ttoklip.databinding.SpinnerInnerViewBinding
 import com.umc.ttoklip.databinding.SpinnerOuterViewBinding
 
-class CustomSpinnerAdapter(context: Context, private val list: List<String>?) :
+class CustomSpinnerAdapter(context: Context, private val list: List<String>?, private val listener: GetSpinnerTextListener) :
     BaseAdapter() {
 
     private val inflater: LayoutInflater
@@ -42,6 +40,7 @@ class CustomSpinnerAdapter(context: Context, private val list: List<String>?) :
         if (list != null) {
             item = list[position]
             binding.spinnerOuterTv.text = item
+            listener.getText(item?:"")
         }
         return convertView
     }
@@ -63,5 +62,9 @@ class CustomSpinnerAdapter(context: Context, private val list: List<String>?) :
             binding.spinnerInnerTv.text = item
         }
         return convertView
+    }
+
+    interface GetSpinnerTextListener{
+        fun getText(text: String)
     }
 }

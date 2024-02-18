@@ -76,7 +76,6 @@
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/titleT"
-                            app:layout_goneMarginTop="8dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="32dp"
@@ -84,7 +83,8 @@
                             android:textAppearance="@style/TextAppearance.App.20sp_600"
                             android:textColor="@color/blue"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_goneMarginTop="8dp" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/title2T"
@@ -118,7 +118,6 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/vp"
-                            app:progressMode="true"
                             app:selectedDotColor="@color/yellow" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -131,8 +130,8 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:overScrollMode="never"
             android:fillViewport="true"
+            android:overScrollMode="never"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -179,7 +178,7 @@
                     app:tabIndicatorHeight="1dp"
                     app:tabRippleColor="@android:color/white"
                     app:tabSelectedTextColor="@color/black"
-                    app:tabTextAppearance="@style/TextAppearance.App.16sp_500"
+                    app:tabTextAppearance="@style/TextAppearance.App.14sp_500"
                     app:tabTextColor="@color/gray80" />
 
                 <androidx.viewpager2.widget.ViewPager2

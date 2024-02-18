@@ -10,6 +10,7 @@ import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import com.umc.ttoklip.R
+import com.umc.ttoklip.data.model.honeytip.request.ReportRequest
 import com.umc.ttoklip.databinding.ActivityReadTogetherBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
@@ -59,8 +60,10 @@ class ReadTogetherActivity :
         binding.reportBtn.setOnClickListener {
             val reportDialog = ReportDialogFragment()
             reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
-                override fun onClick() {
+                override fun onClick(type: String, content: String) {
+
                 }
+
             })
             reportDialog.show(supportFragmentManager, reportDialog.tag)
         }

@@ -71,13 +71,13 @@
         app:layout_constraintTop_toBottomOf="@id/body_tv">
 
         <ImageView
-            android:id="@+id/star_iv"
+            android:id="@+id/scrap_iv"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:src="@drawable/ic_bookmark_off_20" />
 
         <TextView
-            android:id="@+id/star_count_tv"
+            android:id="@+id/scrap_count_tv"
             style="@style/TextAppearance.App.10sp_400"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

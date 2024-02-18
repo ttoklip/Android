@@ -54,7 +54,7 @@ class WriteTogetherActivity :
             }
         }
     private val imageAdapter by lazy {
-        ImageRVA(null)
+        ImageRVA( null)
     }
 
     private val pickMultipleMedia = registerForActivityResult(

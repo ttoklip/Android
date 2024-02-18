@@ -15,7 +15,6 @@ import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
-import com.umc.ttoklip.data.model.CreateHoneyTipRequest
 import com.umc.ttoklip.data.model.login.LoginRequest
 import com.umc.ttoklip.databinding.ActivityLoginBinding
 import com.umc.ttoklip.presentation.MainActivity
@@ -83,7 +82,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                         Log.i("카카오로그인", "카카오톡으로 로그인 성공")
                         val loginRequest = LoginRequest("${token.accessToken}", "kakao")
                         //임시 토큰확인용
-//                        Log.i("KAKAO-LOGIN","${token.accessToken}")
+                        Log.i("KAKAO-LOGIN","${token.accessToken}")
                         viewModel.postLogin(loginRequest)
                     }
                 }

@@ -1,12 +1,15 @@
 package com.umc.ttoklip.di
 
 import com.umc.ttoklip.data.api.NewsApi
+import com.umc.ttoklip.data.api.SearchApi
 import com.umc.ttoklip.data.api.ReadCommsApi
 import com.umc.ttoklip.data.api.ReadTogetherApi
 import com.umc.ttoklip.data.api.WriteCommsApi
 import com.umc.ttoklip.data.api.WriteTogetherApi
 import com.umc.ttoklip.data.repository.news.NewsRepository
 import com.umc.ttoklip.data.repository.news.NewsRepositoryImpl
+import com.umc.ttoklip.data.repository.search.SearchRepository
+import com.umc.ttoklip.data.repository.search.SearchRepositoryImpl
 import com.umc.ttoklip.data.repository.town.ReadCommsRepository
 import com.umc.ttoklip.data.repository.town.ReadCommsRepositoryImpl
 import com.umc.ttoklip.data.repository.town.ReadTogetherRepository
@@ -52,5 +55,10 @@ object RepositoryModule {
     fun providesWriteTogetherRepository(api: WriteTogetherApi): WriteTogetherRepository =
         WriteTogetherRepositoryImpl(api)
 
+
+    @Provides
+    @Singleton
+    fun providesSearchRepository(api: SearchApi): SearchRepository =
+        SearchRepositoryImpl(api)
 
 }

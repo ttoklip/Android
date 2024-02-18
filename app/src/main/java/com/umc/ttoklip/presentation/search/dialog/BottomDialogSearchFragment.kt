@@ -84,7 +84,6 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
                 R.id.category2 -> {}
                 R.id.category3 -> {}
                 R.id.category4 -> {}
-                R.id.category5 -> {}
                 else -> {}
             }
         }
@@ -109,7 +108,6 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
             category2.text = "레시피"
             category3.text = "안전한 생활"
             category4.text = "복지·정책"
-            category5.isGone = true
         }
     }
 
@@ -120,11 +118,13 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
             category1.text = "집안일"
             category2.text = "요리"
             category3.text = "안전한 생활"
-            category4.text = "사기"
-            category5.text = "복지·정책"
-            category5.isVisible = true
+            category4.text = "복지·정책"
         }
     }
+    //1:최신 2:인기 3:댓많
+    //1:뉴스 2:질문해요 3:꿀팁공유 4:함께해요 5:소통해요
+    //1-1:집안일 2:레시피 3:안전한생활 4:복지정책
+    //3-1:집안일 2:요리 3:안전한생활 4:사기 5:복지정책
 
     private fun getResult() : List<Int>{
         with(binding){
@@ -147,7 +147,6 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
                 R.id.category2 -> 2
                 R.id.category3 -> 3
                 R.id.category4 -> 4
-                R.id.category5 -> 5
                 else -> {0}
             }
 

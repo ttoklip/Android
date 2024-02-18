@@ -4,17 +4,20 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.ttoklip.data.db.HistoryEntity
 import com.umc.ttoklip.databinding.ItemSerachHistoryBinding
 
-class HistoryRVA :
-    ListAdapter<HistoryModel, HistoryRVA.DetailViewHolder>(diff) {
+class HistoryRVA(private val onClick : (String) -> Unit):
+    ListAdapter<HistoryEntity, HistoryRVA.DetailViewHolder>(diff) {
     inner class DetailViewHolder(
         private val binding: ItemSerachHistoryBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: HistoryModel) {
-
-            binding.historyT.text = data.string
+        fun bind(data: HistoryEntity) {
+            binding.historyT.text = data.history
+            binding.root.setOnClickListener {
+                onClick(data.history)
+            }
         }
     }
 
@@ -33,17 +36,17 @@ class HistoryRVA :
     }
 
     companion object {
-        val diff = object : DiffUtil.ItemCallback<HistoryModel>() {
+        val diff = object : DiffUtil.ItemCallback<HistoryEntity>() {
             override fun areItemsTheSame(
-                oldItem: HistoryModel,
-                newItem: HistoryModel
+                oldItem: HistoryEntity,
+                newItem: HistoryEntity
             ): Boolean {
-                return oldItem.string == newItem.string
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
-                oldItem: HistoryModel,
-                newItem: HistoryModel
+                oldItem: HistoryEntity,
+                newItem: HistoryEntity
             ): Boolean {
                 return oldItem == newItem
             }
