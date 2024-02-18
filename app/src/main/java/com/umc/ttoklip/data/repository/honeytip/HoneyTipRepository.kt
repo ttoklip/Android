@@ -39,14 +39,6 @@ interface HoneyTipRepository {
         request: ReportRequest
     ): NetworkResult<CreateHoneyTipResponse>
 
-    suspend fun scrapHoneyTip(honeyTipId: Int): NetworkResult<CreateHoneyTipResponse>
-
-    suspend fun deleteScrapHoneyTip(honeyTipId: Int): NetworkResult<CreateHoneyTipResponse>
-
-    suspend fun likeHoneyTip(honeyTipId: Int): NetworkResult<CreateHoneyTipResponse>
-
-    suspend fun deleteLikeHoneyTip(honeyTipId: Int): NetworkResult<CreateHoneyTipResponse>
-
     //질문
     suspend fun createQuestion(
         title: RequestBody,
