@@ -86,6 +86,8 @@ class ReadHoneyTipViewModel @Inject constructor(
         }
     }
 
+
+
     fun inquireQuestion(questionId: Int){
         viewModelScope.launch(Dispatchers.IO){
             repository.inquireQuestion(questionId).onSuccess {
