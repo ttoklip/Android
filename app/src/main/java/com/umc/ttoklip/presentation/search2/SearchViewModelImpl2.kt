@@ -1,4 +1,4 @@
-package com.umc.ttoklip.presentation.search
+package com.umc.ttoklip.presentation.search2
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -7,22 +7,20 @@ import com.umc.ttoklip.data.db.HistoryDao
 import com.umc.ttoklip.data.db.HistoryEntity
 import com.umc.ttoklip.data.model.search.SearchModel
 import com.umc.ttoklip.data.repository.search.SearchRepository
-import com.umc.ttoklip.data.repository.search.SearchRepositoryImpl
 import com.umc.ttoklip.module.onException
 import com.umc.ttoklip.module.onFail
 import com.umc.ttoklip.module.onSuccess
+import com.umc.ttoklip.presentation.search.SearchViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.annotation.meta.When
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModelImpl @Inject constructor(
+class SearchViewModelImpl2 @Inject constructor(
     private val historyDao: HistoryDao,
     private val searchRepository: SearchRepository
 ) : ViewModel(), SearchViewModel {

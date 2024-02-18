@@ -91,5 +91,9 @@ class NewsViewModelImpl @Inject constructor(
         }
     }
 
+    override fun getNewsPage(category: String) {
+
+    }
+
 
 }

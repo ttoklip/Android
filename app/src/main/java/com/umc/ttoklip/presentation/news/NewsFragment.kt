@@ -55,6 +55,8 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(R.layout.fragment_news) {
 
     override fun initView() {
 
+        //TtoklipApplication.prefs.getString("nickname","god2")
+
         binding.vm = viewModel
         viewModel.getMainNews()
         binding.vp.adapter = vpRVA

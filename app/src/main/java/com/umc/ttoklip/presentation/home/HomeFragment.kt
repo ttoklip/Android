@@ -6,6 +6,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
+import com.umc.ttoklip.data.model.home.Weather
 import com.umc.ttoklip.databinding.FragmentHomeBinding
 import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.alarm.AlarmActivity
@@ -108,6 +109,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             val intent = Intent(requireContext(), TogetherActivity::class.java)
             startActivity(intent)
         }
+        //테스트
+        binding.weatherImg.setImageResource(Weather.RAIN.resId)
+        binding.weatherTitle.text = Weather.RAIN.label
+
         binding.newsRV.adapter = newsRVA
         binding.groupBuyRV.adapter = townRVA
         townRVA.submitList(
