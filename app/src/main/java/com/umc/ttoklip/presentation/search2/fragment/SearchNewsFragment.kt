@@ -1,5 +1,7 @@
 package com.umc.ttoklip.presentation.search2.fragment
 
+import android.view.View
+import android.widget.AdapterView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -9,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentItemSearchBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
+import com.umc.ttoklip.presentation.mypage.SortSpinnerAdapter
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
 import com.umc.ttoklip.presentation.search.adapter.SearchRVA
 import com.umc.ttoklip.presentation.search2.SearchViewModel2
@@ -36,6 +39,14 @@ class SearchNewsFragment() :
         }
     }
 
+    private val spinnerA by lazy {
+        val sortFilters = listOf(
+            "최신순",
+            "인기순",
+        )
+        SortSpinnerAdapter(requireContext(), sortFilters)
+    }
+
     override fun initObserver() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -47,6 +58,23 @@ class SearchNewsFragment() :
     }
 
     override fun initView() {
+        binding.filterSpinner.adapter = spinnerA
+        binding.filterSpinner.setSelection(0)
+        binding.filterSpinner.onItemSelectedListener = object :AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                viewModel.reset(1)
+                if (spinnerA.item == "최신순"){
+                    viewModel.getNewsSearch("latest")
+                } else{
+                    viewModel.getNewsSearch("popularity")
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+        }
+
         binding.communicationRv.adapter = searchRVA
         binding.communicationRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -58,7 +86,11 @@ class SearchNewsFragment() :
                 if (newState == 2 && !recyclerView.canScrollVertically(1)
                     && lastVisibleItemPosition == totalItemViewCount
                 ) {
-                    viewModel.getNewsSearch("latest")
+                    if (spinnerA.item == "최신순"){
+                        viewModel.getNewsSearch("latest")
+                    } else{
+                        viewModel.getNewsSearch("popularity")
+                    }
                 }
             }
 

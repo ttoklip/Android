@@ -26,6 +26,7 @@ interface SearchViewModel2 {
     fun getTourSearch(sort: String)
     fun getNewsSearch(sort: String)
     fun getTipSearch(sort: String)
+    fun reset(id : Int)
 
 
 

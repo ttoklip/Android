@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.onEmpty
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -86,7 +87,8 @@ class SearchViewModelImpl2 @Inject constructor(
                         sort = sort,
                         page = tourPage.value
                     ).onSuccess {
-                        _searchTourList.emit(it.communities.map { response ->
+                        _searchTourList.emit(searchTourList.value +
+                            it.communities.map { response ->
                             response.toModel(
                                 "",
                                 5
@@ -116,7 +118,8 @@ class SearchViewModelImpl2 @Inject constructor(
                         sort = sort,
                         page = newsPage.value
                     ).onSuccess {
-                        _searchNewsList.emit(it.newsletters.map { response ->
+                        _searchNewsList.emit(searchNewsList.value +
+                            it.newsletters.map { response ->
                             response.toModel(1)
                         })
                         newsPage.value = newsPage.value + 1
@@ -144,10 +147,11 @@ class SearchViewModelImpl2 @Inject constructor(
                         sort = sort,
                         page = tipPage.value
                     ).onSuccess {
-                        _searchTipList.emit(it.honeyTips.map { response ->
-                            response.toModel(3)
-                        })
-                        tipPage.value = tipPage.value +1
+                        _searchTipList.emit(searchTipList.value +
+                                it.honeyTips.map { response ->
+                                    response.toModel(3)
+                                })
+                        tipPage.value = tipPage.value + 1
                         isTipEnd.value = it.isLast
                     }.onFail {
 
@@ -158,6 +162,29 @@ class SearchViewModelImpl2 @Inject constructor(
                     e.printStackTrace()
                     Log.d("예외", "$e")
                 }
+            }
+        }
+    }
+
+    override fun reset(id:Int) {
+        viewModelScope.launch {
+            when(id){
+                1->{
+                    _searchNewsList.emit(listOf())
+                    isNewsEnd.value = false
+                    newsPage.value = 0
+                }
+                2->{
+                    _searchTipList.emit(listOf())
+                    isTipEnd.value = false
+                    tipPage.value = 0
+                }
+                3 -> {
+                    _searchTourList.emit(listOf())
+                    isTourEnd.value = false
+                    tourPage.value = 0
+                }
+                else ->{}
             }
         }
     }
@@ -177,6 +204,9 @@ class SearchViewModelImpl2 @Inject constructor(
     override fun goSearchBefore() {
         viewModelScope.launch {
             _searchAfter.emit(false)
+            _searchTourList.emit(listOf())
+            _searchTipList.emit(listOf())
+            _searchNewsList.emit(listOf())
             isNewsEnd.value = false
             isTipEnd.value = false
             isTourEnd.value = false

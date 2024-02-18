@@ -18,6 +18,7 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivitySearch2Binding
 import com.umc.ttoklip.databinding.ActivitySearchBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
+import com.umc.ttoklip.presentation.mypage.SortSpinnerAdapter
 import com.umc.ttoklip.presentation.news.NewsFragment
 import com.umc.ttoklip.presentation.news.adapter.NewsTabAdapter
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
