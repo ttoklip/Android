@@ -85,6 +85,7 @@
                         app:layout_constraintTop_toTopOf="@id/weatherImg" />
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/weatherTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="지금은 맑아요"

@@ -3,6 +3,7 @@ package com.umc.ttoklip.data.api
 import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.signup.SignupResponse
 import com.umc.ttoklip.data.model.signup.SignupRequest
+import com.umc.ttoklip.data.model.signup.TermResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -23,9 +24,19 @@ interface SignupApi {
     @Multipart
     @POST("/api/v1/privacy/insert")
     suspend fun savePrivacy(
-        @Part profileImage: MultipartBody.Part,
+        @Part profileImage: MultipartBody.Part?,
         @Part categories:List<MultipartBody.Part>,
         @PartMap params:MutableMap<String,RequestBody>
     )
             :Response<ResponseBody<SignupResponse>>
+
+    @GET("/api/v1/term")
+    suspend fun getTerm(
+        @Query("page")page:Int
+    ):Response<ResponseBody<TermResponse>>
+
+//    @POST("/api/v1/privacy/insert")
+//    suspend fun savePrivacy(
+//        @Body userInfo:SignupRequest
+//    ):Response<ResponseBody<SignupResponse>>
 }
