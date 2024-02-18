@@ -3,6 +3,7 @@ package com.umc.ttoklip.data.api
 import com.umc.ttoklip.data.model.CommonResponse
 import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.news.MainNewsResponse
+import com.umc.ttoklip.data.model.news.NewsPageResponse
 import com.umc.ttoklip.data.model.news.ReportRequest
 import com.umc.ttoklip.data.model.news.comment.NewsCommentRequest
 import com.umc.ttoklip.data.model.news.detail.NewsDetailResponse
@@ -19,6 +20,12 @@ interface NewsApi {
 
     @GET("/api/v1/newsletters/posts")
     suspend fun getNewsMainApi(): Response<ResponseBody<MainNewsResponse>>
+
+    @GET("/api/v1/newsletter/posts")
+    suspend fun getNewsPageApi(
+        @Query("category") category: String,
+        @Query("page") page: Int
+    ): Response<ResponseBody<NewsPageResponse>>
 
     @GET("/api/v1/newsletter/posts/{postId}")
     suspend fun getDetailNewsApi(

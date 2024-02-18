@@ -4,6 +4,7 @@ import com.umc.ttoklip.data.api.NewsApi
 import com.umc.ttoklip.data.model.CommonResponse
 import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.news.MainNewsResponse
+import com.umc.ttoklip.data.model.news.NewsPageResponse
 import com.umc.ttoklip.data.model.news.ReportRequest
 import com.umc.ttoklip.data.model.news.comment.NewsCommentRequest
 import com.umc.ttoklip.data.model.news.detail.NewsDetailResponse
@@ -17,6 +18,10 @@ class NewsRepositoryImpl @Inject constructor(
 
     override suspend fun getNewsMain(): NetworkResult<MainNewsResponse> {
         return handleApi({api.getNewsMainApi()}) {response: ResponseBody<MainNewsResponse> -> response.result}
+    }
+
+    override suspend fun getNewsPage(category: String, page: Int): NetworkResult<NewsPageResponse> {
+        return handleApi({api.getNewsPageApi(category = category, page = page)}) {response: ResponseBody<NewsPageResponse> -> response.result}
     }
 
     override suspend fun getDetailNews(postId: Int): NetworkResult<NewsDetailResponse> {
