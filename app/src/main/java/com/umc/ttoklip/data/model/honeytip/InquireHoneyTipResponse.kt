@@ -10,5 +10,7 @@ data class InquireHoneyTipResponse(
     val category: String,
     val imageUrls: List<ImageUrl>?,
     val commentResponse: List<CommentResponse>?,
-    val urlResponses: List<Urls>?
+    val urlResponses: List<Urls>?,
+    val likedByCurrentUser: Boolean,
+    val scrapedByCurrentUser: Boolean
 )
