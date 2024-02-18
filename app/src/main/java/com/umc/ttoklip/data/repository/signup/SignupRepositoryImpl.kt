@@ -21,4 +21,8 @@ class SignupRepositoryImpl @Inject constructor(
     override suspend fun savePrivacy(photo:MultipartBody.Part,info:MutableMap<String, RequestBody>,cate:List<MultipartBody.Part>): NetworkResult<SignupResponse> {
         return handleApi({api.savePrivacy(photo,cate,info)}) {response: ResponseBody<SignupResponse> ->response.result}
     }
+
+//    override suspend fun savePrivacy(userInfo:SignupRequest): NetworkResult<SignupResponse> {
+//        return handleApi({api.savePrivacy(userInfo)}) {response: ResponseBody<SignupResponse> ->response.result}
+//    }
 }
