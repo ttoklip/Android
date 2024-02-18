@@ -13,9 +13,13 @@ import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.material.tabs.TabLayoutMediator
 import com.umc.ttoklip.R
+import com.umc.ttoklip.databinding.ActivitySearch2Binding
 import com.umc.ttoklip.databinding.ActivitySearchBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
+import com.umc.ttoklip.presentation.news.NewsFragment
+import com.umc.ttoklip.presentation.news.adapter.NewsTabAdapter
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
 import com.umc.ttoklip.presentation.search.SearchActivity
 import com.umc.ttoklip.presentation.search.SearchViewModel
@@ -23,19 +27,24 @@ import com.umc.ttoklip.presentation.search.SearchViewModelImpl
 import com.umc.ttoklip.presentation.search.adapter.HistoryRVA
 import com.umc.ttoklip.presentation.search.adapter.SearchRVA
 import com.umc.ttoklip.presentation.search.dialog.BottomDialogSearchFragment
+import com.umc.ttoklip.presentation.search2.adapter.SearchTabAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SearchActivity2 : BaseActivity<ActivitySearchBinding>(R.layout.activity_search) {
+class SearchActivity2 : BaseActivity<ActivitySearch2Binding>(R.layout.activity_search2) {
 
-    private val viewModel: SearchViewModel by viewModels<SearchViewModelImpl>()
+    private val viewModel: SearchViewModel2 by viewModels<SearchViewModelImpl2>()
 
     private val historyRVA by lazy {
-        HistoryRVA{ title ->
+        HistoryRVA { title ->
             binding.appBarTitleT.setText(title)
             viewModel.clickHistory(title)
         }
+    }
+
+    private val vpFA by lazy {
+        SearchTabAdapter(this)
     }
 
     private val searchRVA by lazy {
@@ -100,7 +109,11 @@ class SearchActivity2 : BaseActivity<ActivitySearchBinding>(R.layout.activity_se
                 binding.appBarTitleT.setText("")
             }
         }
-        binding.searchRV.adapter = searchRVA
+
+        binding.vp.adapter = vpFA
+        TabLayoutMediator(binding.tabLayout, binding.vp) { tab, position ->
+            tab.text = tabArray[position]
+        }.attach()
 
     }
 
@@ -108,7 +121,7 @@ class SearchActivity2 : BaseActivity<ActivitySearchBinding>(R.layout.activity_se
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.historyList.collect {
-                   historyRVA.submitList(it)
+                    historyRVA.submitList(it)
                 }
             }
         }
@@ -126,100 +139,80 @@ class SearchActivity2 : BaseActivity<ActivitySearchBinding>(R.layout.activity_se
             }
         }
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.filterSort.collect {
-                    when (it) {
-                        1 -> {
-                            binding.sortfilterT.text = "최신순"
-                        }
 
-                        2 -> {
-                            binding.sortfilterT.text = "인기순"
-                        }
+//        lifecycleScope.launch {
+//            repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                viewModel.filterBoard.collect {
+//                    when (it) {
+//                        1 -> {
+//                            binding.boardFilterT.text = "뉴스레터"
+//                        }
+//
+//                        2 -> {
+//                            binding.boardFilterT.text = "질문해요"
+//                        }
+//
+//                        3 -> {
+//                            binding.boardFilterT.text = "꿀팁 공유해요"
+//                        }
+//
+//                        4 -> {
+//                            binding.boardFilterT.text = "함께해요"
+//                        }
+//
+//                        5 -> {
+//                            binding.boardFilterT.text = "소통해요"
+//                        }
+//
+//                        else -> {}
+//                    }
+//                }
+//            }
+//        }
+//
+//        lifecycleScope.launch {
+//            repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                viewModel.filterCategory.collect {
+//                    when (it) {
+//                        1 -> {
+//                            if (viewModel.filterBoard.value == 1) {
+//                                binding.categoryFilterT.text = "집안일"
+//                            } else {
+//                                binding.categoryFilterT.text = "집안일"
+//                            }
+//
+//                        }
+//
+//                        2 -> {
+//                            if (viewModel.filterBoard.value == 1) {
+//                                binding.categoryFilterT.text = "레시피"
+//                            } else {
+//                                binding.categoryFilterT.text = "요리"
+//                            }
+//                        }
+//
+//                        3 -> {
+//                            if (viewModel.filterBoard.value == 1) {
+//                                binding.categoryFilterT.text = "안전한 생활"
+//                            } else {
+//                                binding.categoryFilterT.text = "안전한 생활"
+//                            }
+//                        }
+//
+//                        4 -> {
+//                            if (viewModel.filterBoard.value == 1) {
+//                                binding.categoryFilterT.text = "복지•정책"
+//                            } else {
+//                                binding.categoryFilterT.text = "복지•정책"
+//                            }
+//                        }
+//
+//                        else -> {}
+//                    }
+//                }
+//            }
+//        }
 
-                        3 -> {
-                            binding.sortfilterT.text = "댓글많은순"
-                        }
-
-                        else -> {}
-                    }
-                }
-            }
-        }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.filterBoard.collect {
-                    when (it) {
-                        1 -> {
-                            binding.boardFilterT.text = "뉴스레터"
-                        }
-
-                        2 -> {
-                            binding.boardFilterT.text = "질문해요"
-                        }
-
-                        3 -> {
-                            binding.boardFilterT.text = "꿀팁 공유해요"
-                        }
-
-                        4 -> {
-                            binding.boardFilterT.text = "함께해요"
-                        }
-
-                        5 -> {
-                            binding.boardFilterT.text = "소통해요"
-                        }
-
-                        else -> {}
-                    }
-                }
-            }
-        }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.filterCategory.collect {
-                    when (it) {
-                        1 -> {
-                            if (viewModel.filterBoard.value == 1) {
-                                binding.categoryFilterT.text = "집안일"
-                            } else {
-                                binding.categoryFilterT.text = "집안일"
-                            }
-
-                        }
-
-                        2 -> {
-                            if (viewModel.filterBoard.value == 1) {
-                                binding.categoryFilterT.text = "레시피"
-                            } else {
-                                binding.categoryFilterT.text = "요리"
-                            }
-                        }
-
-                        3 -> {
-                            if (viewModel.filterBoard.value == 1) {
-                                binding.categoryFilterT.text = "안전한 생활"
-                            } else {
-                                binding.categoryFilterT.text = "안전한 생활"
-                            }
-                        }
-
-                        4 -> {
-                            if (viewModel.filterBoard.value == 1) {
-                                binding.categoryFilterT.text = "복지•정책"
-                            } else {
-                                binding.categoryFilterT.text = "복지•정책"
-                            }
-                        }
-
-                        else -> {}
-                    }
-                }
-            }
-        }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.searchAfter.collect {
@@ -248,7 +241,12 @@ class SearchActivity2 : BaseActivity<ActivitySearchBinding>(R.layout.activity_se
     }
 
     companion object {
-        const val SEARCH_ACTIVITY = "search"
-        fun newIntent(context: Context) = Intent(context, SearchActivity::class.java)
+        const val SEARCH2_ACTIVITY = "search2"
+        fun newIntent(context: Context) = Intent(context, SearchActivity2::class.java)
+        val tabArray = arrayOf(
+            "꿀팁 공유해요",
+            "뉴스레터",
+            "우리동네",
+        )
     }
 }

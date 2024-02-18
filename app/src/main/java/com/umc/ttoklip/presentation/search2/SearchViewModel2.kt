@@ -16,6 +16,19 @@ interface SearchViewModel2 {
     val searchList : StateFlow<List<SearchModel>>
     val historyList : StateFlow<List<HistoryEntity>>
 
+
+    //--------new---//
+
+    val searchTipList : StateFlow<List<SearchModel>>
+    val searchNewsList : StateFlow<List<SearchModel>>
+    val searchTourList : StateFlow<List<SearchModel>>
+
+    fun getTourSearch(sort: String)
+    fun getNewsSearch(sort: String)
+    fun getTipSearch(sort: String)
+
+
+
     fun goSearchAfter()
     fun goSearchBefore()
     fun clickSearchAfter()
