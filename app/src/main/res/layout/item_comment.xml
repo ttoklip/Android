@@ -52,7 +52,7 @@
             android:text="LV.새싹이" />
 
         <LinearLayout
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/rectangle_corner_4"
@@ -65,8 +65,8 @@
 
             <ImageView
                 android:id="@+id/replyBtn"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:src="@drawable/ic_message_24"
                 app:tint="@color/gray60"
                 android:layout_marginEnd="4dp" />
@@ -80,8 +80,8 @@
             <ImageView
                 android:id="@+id/deleteBtn"
                 android:layout_marginStart="1dp"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:src="@drawable/ic_dots_vertical_24"
                 app:tint="@color/gray60" />
         </LinearLayout>
