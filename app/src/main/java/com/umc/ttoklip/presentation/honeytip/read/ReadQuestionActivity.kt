@@ -1,5 +1,6 @@
 package com.umc.ttoklip.presentation.honeytip.read
 
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.MotionEvent
@@ -241,5 +242,13 @@ class ReadQuestionActivity : BaseActivity<ActivityReadQuestionBinding>(R.layout.
         val intent = Intent(this, ImageViewActivity::class.java)
         intent.putExtra("images", images)
         startActivity(intent)
+    }
+
+    companion object {
+        const val QUESTION = "postId"
+        fun newIntent(context: Context, id: Int) =
+            Intent(context, ReadHoneyTipActivity::class.java).apply {
+                putExtra(QUESTION, id)
+            }
     }
 }

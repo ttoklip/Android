@@ -14,6 +14,7 @@ import com.umc.ttoklip.data.model.mypage.ScrapResponse
 import com.umc.ttoklip.databinding.ActivitySavedHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
+import com.umc.ttoklip.presentation.honeytip.read.ReadQuestionActivity
 import com.umc.ttoklip.presentation.mypage.adapter.HoneyTip
 import com.umc.ttoklip.presentation.mypage.adapter.OnSpinnerItemClickListener
 import com.umc.ttoklip.presentation.mypage.adapter.SavedHoneyTipAdapter
@@ -97,7 +98,7 @@ class SavedHoneyTipActivity :
 
             }
             "꿀팁 공유" -> {
-
+                startActivity(ReadHoneyTipActivity.newIntent(this, honeyTip.id))
             }
             "뉴스레터" -> {
                 startActivity(ArticleActivity.newIntent(this, honeyTip.id))

@@ -1,61 +1,25 @@
 package com.umc.ttoklip.presentation.mypage
 
+import android.app.Activity
 import android.content.Intent
 import android.widget.SeekBar
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityMyHomtownAddressBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.hometown.MyHometownFragment
-import com.umc.ttoklip.presentation.hometown.PlaceActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MyHometownAddressActivity :
     BaseActivity<ActivityMyHomtownAddressBinding>(R.layout.activity_my_homtown_address) {
     private lateinit var range: String
-    private val activityResultLauncher: ActivityResultLauncher<Intent> =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            val addressIntent = it.data
-            addressIntent?.let { aIntent ->
-                val address = aIntent.getStringExtra("address")
-                val addressDetail = aIntent.getStringExtra("addressDetail")
-                address?.let { place ->
-                    binding.currentPlaceTv.text = if (!addressDetail.isNullOrBlank()) {
-                        StringBuilder().append(address).append(" (").append(addressDetail)
-                            .append(")")
-                            .toString()
-                    } else {
-                        StringBuilder().append(address).toString()
-                    }
-                }
-            }
-        }
-
     override fun initView() {
         range = getString(R.string.range_500m)
-        binding.gpsBaseSettingFrame.setOnClickListener {
-            val intent = Intent(this, PlaceActivity::class.java)
-            intent.putExtra("place", "town")
-            activityResultLauncher.launch(intent)
-        }
         binding.rangeSettingExplainTv.text =
             getString(R.string.range_setting_format, range)
-
         binding.myHometownAddressBackBtn.setOnClickListener {
-            val intent = Intent(this, MyHometownFragment::class.java)
-            intent.putExtra("address", binding.currentPlaceTv.text.toString())
-            setResult(1, intent)
             finish()
         }
 
-        binding.finishAddressBtn.setOnClickListener {
-            val intent = Intent(this, MyHometownFragment::class.java)
-            intent.putExtra("address", binding.currentPlaceTv.text.toString())
-            setResult(1, intent)
-            finish()
-        }
         binding.range500mTv.setOnClickListener {
             setRange500m()
         }
@@ -95,6 +59,39 @@ class MyHometownAddressActivity :
             }
 
         })
+
+        binding.gpsBtn.setOnClickListener {
+            val intent= Intent(this,MyInfoLocationActivity::class.java)
+            val Location_Type=2
+            startActivityForResult(intent,Location_Type)
+        }
+
+        binding.finishAddressBtn.setOnClickListener {
+            val intent=Intent()
+            intent.putExtra("location",address)
+            intent.putExtra("locationX",locationX)
+            intent.putExtra("locationY",locationY)
+            setResult(Activity.RESULT_OK,intent)
+            finish()
+        }
+    }
+
+    private var address:String=""
+    private var locationX:Int=0
+    private var locationY:Int=0
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode!= Activity.RESULT_OK){
+            return
+        }
+        if(requestCode==2){
+            if (data != null) {
+                binding.currentPlaceTv.text=data.getStringExtra("location")
+                address= data.getStringExtra("location").toString()
+                locationX=data.getIntExtra("locationX",0)
+                locationY=data.getIntExtra("locationY",0)
+            }
+        }
     }
 
     private fun setRange15km() {

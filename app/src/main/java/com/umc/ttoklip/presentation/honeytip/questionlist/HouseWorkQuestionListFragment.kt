@@ -1,7 +1,13 @@
 package com.umc.ttoklip.presentation.honeytip.questionlist
 
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -23,14 +29,37 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HouseWorkQuestionListFragment :
-    BaseFragment<FragmentHoneyTipListBinding>(R.layout.fragment_honey_tip_list), OnQuestionClickListener {
+    Fragment(), OnQuestionClickListener {
     private val questionListRVA by lazy {
         QuestionListRVA(this)
     }
     private val viewModel: HoneyTipViewModel by viewModels(
         ownerProducer = { requireParentFragment().requireParentFragment() }
     )
-    override fun initObserver() {
+
+    lateinit var binding: FragmentHoneyTipListBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = DataBindingUtil.inflate(
+            layoutInflater,
+            R.layout.fragment_honey_tip_list,
+            null,
+            false
+        )
+        binding.lifecycleOwner = this.viewLifecycleOwner
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        initObserver()
+    }
+    fun initObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.houseworkQuestion.collect {
@@ -40,7 +69,7 @@ class HouseWorkQuestionListFragment :
         }
     }
 
-    override fun initView() {
+    fun initView() {
         initRV()
     }
 
@@ -65,5 +94,11 @@ class HouseWorkQuestionListFragment :
     override fun onResume() {
         super.onResume()
         binding.root.requestLayout()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("stop", "stop")
+        viewModel.resetQuestionList("HOUSEWORK")
     }
 }

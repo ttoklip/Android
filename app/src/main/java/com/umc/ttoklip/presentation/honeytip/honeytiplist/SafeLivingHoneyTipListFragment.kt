@@ -65,4 +65,15 @@ class SafeLivingHoneyTipListFragment: BaseFragment<FragmentHoneyTipListBinding>(
         super.onResume()
         binding.root.requestLayout()
     }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("pause", "pause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("stop", "stop")
+        viewModel.resetHoneyTipList("SAFE_LIVING")
+    }
 }
