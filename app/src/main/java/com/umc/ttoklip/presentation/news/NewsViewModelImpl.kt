@@ -170,7 +170,7 @@ class NewsViewModelImpl @Inject constructor(
         if (!isWelfEnd.value) {
             viewModelScope.launch(Dispatchers.IO) {
                 try {
-                    newsRepository.getNewsPage("RECIPE", welfPage.value)
+                    newsRepository.getNewsPage("WELFARE_POLICY", welfPage.value)
                         .onSuccess {
                             _welfarePolicyList.emit(_welfarePolicyList.value + it.newsletterThumbnailRespons)
                             welfPage.value = welfPage.value + 1
