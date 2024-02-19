@@ -1,20 +1,17 @@
 package com.umc.ttoklip.presentation.news.fragment
 
-import android.util.Log
+import android.view.View
+import android.view.ViewTreeObserver.OnScrollChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentItemNewsBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
-import com.umc.ttoklip.presentation.news.NewsViewModel
 import com.umc.ttoklip.presentation.news.NewsViewModelImpl
 import com.umc.ttoklip.presentation.news.adapter.NewsRVA
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 
@@ -40,20 +37,13 @@ class HouseWorkFragment() : BaseFragment<FragmentItemNewsBinding>(R.layout.fragm
 
     override fun initView() {
         binding.rv.adapter = newsRVA
-        binding.rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                val lastVisibleItemPosition =
-                    (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
-                val totalItemViewCount = recyclerView.adapter!!.itemCount - 1
-
-                if (newState == 2 && !recyclerView.canScrollVertically(1)
-                    && lastVisibleItemPosition == totalItemViewCount
-                ) {
-                   //viewModel.getSecretCapsulePage()
-                }
+        binding.sv.getViewTreeObserver().addOnScrollChangedListener(OnScrollChangedListener {
+            val view = binding.sv.getChildAt(binding.sv.getChildCount() - 1) as View
+            val diff: Int = view.bottom - (binding.sv.getHeight() + binding.sv
+                .getScrollY())
+            if (diff == 0) {
+                parentViewModel.getHousePage()
             }
-
         })
     }
 }
