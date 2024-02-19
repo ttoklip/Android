@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Rect
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -139,7 +140,7 @@ class ReadTogetherActivity :
                                     imageUrl = url.imageUrl
                                 )
                             })
-                            commentRVA.submitList(response.commentResponse)
+                            commentRVA.submitList(response.commentResponses)
                             val spannableAmount =
                                 SpannableString(
                                     getString(

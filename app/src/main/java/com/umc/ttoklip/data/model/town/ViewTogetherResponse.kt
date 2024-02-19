@@ -11,6 +11,6 @@ data class ViewTogetherResponse(
     val partyCnt: Long,
     val partyMax: Long,
     val currentPrice: Long,
-    val commentResponse: List<CommentResponse>,
+    val commentResponses: List<CommentResponse>,
     val status: String
 )
