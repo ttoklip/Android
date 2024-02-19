@@ -115,7 +115,7 @@ class QuestionFragment: BaseFragment<FragmentShareHoneyTipBinding>(R.layout.frag
     }
 
     private fun initCategoryViewPager() {
-        val tabTitles = listOf("집안일", "레시피", "안전한 생활", "복지 \u00b7 정책")
+        val tabTitles = listOf("집안일", "레시피", "안전한생활", "복지\u00b7정책")
         binding.categoryVp.adapter = CategoryVPA(this, ASK, tabTitles.size)
         TabLayoutMediator(binding.categoryTablayout, binding.categoryVp) { tab, position ->
             tab.text = tabTitles[position]
@@ -126,7 +126,7 @@ class QuestionFragment: BaseFragment<FragmentShareHoneyTipBinding>(R.layout.frag
         return when (string) {
             "집안일" -> WriteHoneyTipActivity.Category.HOUSEWORK.toString()
             "레시피" -> WriteHoneyTipActivity.Category.RECIPE.toString()
-            "안전한 생활" -> WriteHoneyTipActivity.Category.SAFE_LIVING.toString()
+            "안전한생활" -> WriteHoneyTipActivity.Category.SAFE_LIVING.toString()
             else -> WriteHoneyTipActivity.Category.WELFARE_POLICY.toString()
         }
     }

@@ -64,7 +64,7 @@
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/category_tablayout"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="24dp"
@@ -72,15 +72,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/indicator"
                 app:tabBackground="@color/white"
-                app:tabGravity="center"
                 app:tabIndicatorColor="@color/black"
                 app:tabIndicatorFullWidth="true"
                 app:tabIndicatorHeight="1dp"
-                app:tabMode="scrollable"
-                app:tabPaddingEnd="20dp"
-                app:tabPaddingStart="20dp"
                 app:tabRippleColor="@null"
-                app:tabTextAppearance="@style/TextAppearance.App.16sp_500"
+                app:tabTextAppearance="@style/TextAppearance.App.14sp_500"
                 app:tabTextColor="@color/tab_text_color_selector" />
 
             <androidx.viewpager2.widget.ViewPager2
