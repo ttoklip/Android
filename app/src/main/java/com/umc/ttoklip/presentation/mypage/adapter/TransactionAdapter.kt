@@ -12,79 +12,83 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.R
+import com.umc.ttoklip.data.model.town.Togethers
 import com.umc.ttoklip.databinding.ItemTransactionHistoryBinding
 
-class TransactionAdapter(private val context: Context) :
-    ListAdapter<Transaction, TransactionAdapter.TransactionViewHolder>(diff) {
+class TransactionAdapter(
+    private val context: Context,
+    private val listener: OnTogetherItemClickListener
+) :
+    ListAdapter<Togethers, TransactionAdapter.TransactionViewHolder>(diff) {
 
     inner class TransactionViewHolder(
         private val binding: ItemTransactionHistoryBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: Transaction, pos: Int) {
+        fun bind(data: Togethers, pos: Int) {
             with(binding) {
+                root.setOnClickListener {
+                    listener.onClick(data)
+                }
                 if (pos == itemCount - 1) {
                     binding.itemSeparator.isGone = true
                 }
                 transactionTitleTv.text = data.title
-                transactionDateTv.text = data.date
-                data.icon?.let {
+                transactionDateTv.isGone = true
+                transactionOwnerIdTv.text = data.writer
+                transactionOwnerAddressTv.text = data.location
 
-                }
-                transactionOwnerIdTv.text = data.ownerId
-                transactionOwnerAddressTv.text = data.address
-                if (data.closureReason != null) {
-                    transactionTitleTv.paintFlags =
-                        transactionTitleTv.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                    transactionTitleTv.setTextColor(context.getColor(R.color.gray60))
-                    closureReasonChip.text = data.closureReason
-                } else {
-                    closureReasonChip.isGone = true
-                }
-
-                val currentAmount = AMOUNT_FORMAT.format(data.currentAmount)
-                val targetAmount = AMOUNT_FORMAT.format(data.targetAmount)
+                val currentAmount = AMOUNT_FORMAT.format(data.currentPrice)
+                val targetAmount = AMOUNT_FORMAT.format(data.totalPrice)
                 val amount =
                     context.getString(R.string.amount_format, currentAmount, targetAmount)
                 val spannableAmount = SpannableString(amount)
                 if (currentAmount == targetAmount) {
                     spannableAmount.setSpan(
                         ForegroundColorSpan(context.getColor(R.color.blue)), AMOUNT_STRING_START,
-                        data.currentAmount.toString().length + AMOUNT_STRING_LENGTH,
+                        data.currentPrice.toString().length + AMOUNT_STRING_LENGTH,
                         SPANNABLE_FLAG_ZERO
                     )
+                    transactionTitleTv.paintFlags =
+                        transactionTitleTv.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    transactionTitleTv.setTextColor(context.getColor(R.color.gray60))
                 } else {
                     spannableAmount.setSpan(
                         ForegroundColorSpan(context.getColor(R.color.orange)), AMOUNT_STRING_START,
-                        data.currentAmount.toString().length + AMOUNT_STRING_LENGTH,
+                        data.currentPrice.toString().length + AMOUNT_STRING_LENGTH,
                         SPANNABLE_FLAG_ZERO
                     )
+                    closureReasonChip.isGone = true
                 }
                 amountChip.text = spannableAmount
 
                 val member =
-                    context.getString(R.string.member_format, data.currentMember, data.targetMember)
+                    context.getString(R.string.member_format, data.partyCnt, data.partyMax)
                 val spannableMember = SpannableString(member)
-                if (data.currentMember == data.targetMember) {
+                if (data.partyCnt == data.partyMax) {
                     spannableMember.setSpan(
                         ForegroundColorSpan(context.getColor(R.color.blue)), AMOUNT_STRING_START,
-                        data.currentMember.toString().length,
+                        data.partyCnt.toString().length,
                         SPANNABLE_FLAG_ZERO
                     )
+                    transactionTitleTv.paintFlags =
+                        transactionTitleTv.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    transactionTitleTv.setTextColor(context.getColor(R.color.gray60))
                 } else {
+                    closureReasonChip.isGone = true
                     spannableMember.setSpan(
                         ForegroundColorSpan(context.getColor(R.color.orange)), AMOUNT_STRING_START,
-                        data.targetMember.toString().length,
+                        data.partyMax.toString().length,
                         SPANNABLE_FLAG_ZERO
                     )
                 }
                 numberOfMembersChip.text = spannableMember
 
-                if (data.commentAmount < COMMENT_LENGTH_STANDARD) {
+                if (data.commentCount < COMMENT_LENGTH_STANDARD) {
                     commentAmountTv.text =
-                        context.getString(R.string.comment_format, data.commentAmount)
+                        context.getString(R.string.comment_format, data.commentCount)
                 } else {
-                    commentAmountTv.text = data.commentAmount.toString()
+                    commentAmountTv.text = data.commentCount.toString()
                 }
             }
         }
@@ -110,20 +114,24 @@ class TransactionAdapter(private val context: Context) :
         private const val AMOUNT_STRING_START = 0
         private const val SPANNABLE_FLAG_ZERO = 0
         private const val AMOUNT_STRING_LENGTH = 1
-        private val diff = object : DiffUtil.ItemCallback<Transaction>() {
+        private val diff = object : DiffUtil.ItemCallback<Togethers>() {
             override fun areItemsTheSame(
-                oldItem: Transaction,
-                newItem: Transaction
+                oldItem: Togethers,
+                newItem: Togethers
             ): Boolean {
-                return oldItem.ownerId == newItem.ownerId
+                return oldItem.writer == newItem.writer
             }
 
             override fun areContentsTheSame(
-                oldItem: Transaction,
-                newItem: Transaction
+                oldItem: Togethers,
+                newItem: Togethers
             ): Boolean {
                 return oldItem == newItem
             }
         }
     }
+}
+
+interface OnTogetherItemClickListener {
+    fun onClick(together: Togethers)
 }
