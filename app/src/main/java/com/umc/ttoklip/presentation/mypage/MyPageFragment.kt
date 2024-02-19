@@ -1,10 +1,13 @@
 package com.umc.ttoklip.presentation.mypage
 
 import android.content.Intent
+import android.util.Log
 import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.databinding.FragmentMyPageBinding
 import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
+import com.umc.ttoklip.presentation.login.LoginActivity
 import com.umc.ttoklip.presentation.mypage.dialog.LogoutDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -54,7 +57,13 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
 
         binding.logoutFrame.setOnClickListener {
-            val dialog = LogoutDialog()
+            val dialog = LogoutDialog {
+                TtoklipApplication.prefs.setString("jwt", "")
+                Log.d("token", TtoklipApplication.prefs.getString("jwt", ""))
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                startActivity(intent)
+                requireActivity().finish()
+            }
             dialog.show(parentFragmentManager, dialog.tag)
         }
 

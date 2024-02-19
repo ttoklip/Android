@@ -2,11 +2,22 @@ package com.umc.ttoklip.di
 
 import com.umc.ttoklip.data.api.MainCommsApi
 import com.umc.ttoklip.data.api.MainTogethersApi
+import com.umc.ttoklip.data.api.MyAccountRestrictApi
+import com.umc.ttoklip.data.api.MyBlockUserApi
+import com.umc.ttoklip.data.api.MyPostApi
 import com.umc.ttoklip.data.api.NewsApi
 import com.umc.ttoklip.data.api.ReadCommsApi
 import com.umc.ttoklip.data.api.ReadTogetherApi
 import com.umc.ttoklip.data.api.Search2Api
 import com.umc.ttoklip.data.api.SearchApi
+import com.umc.ttoklip.data.repository.mypage.MyAccountRestrictRepository
+import com.umc.ttoklip.data.repository.mypage.MyAccountRestrictRepositoryImpl
+import com.umc.ttoklip.data.repository.mypage.MyBlockUserRepository
+import com.umc.ttoklip.data.repository.mypage.MyBlockUserRepositoryImpl
+import com.umc.ttoklip.data.repository.mypage.MyPostRepository
+import com.umc.ttoklip.data.repository.mypage.MyPostRepositoryImpl
+import com.umc.ttoklip.data.api.ReadCommsApi
+import com.umc.ttoklip.data.api.ReadTogetherApi
 import com.umc.ttoklip.data.api.WriteCommsApi
 import com.umc.ttoklip.data.api.WriteTogetherApi
 import com.umc.ttoklip.data.repository.news.NewsRepository
@@ -88,4 +99,18 @@ object RepositoryModule {
         MainTogethersRepositoryImpl(api)
 
 
+    @Provides
+    @Singleton
+    fun providesMyAccountRestrictRepository(api: MyAccountRestrictApi): MyAccountRestrictRepository =
+        MyAccountRestrictRepositoryImpl(api)
+
+    @Provides
+    @Singleton
+    fun providesMyPostRepository(api: MyPostApi): MyPostRepository =
+        MyPostRepositoryImpl(api)
+
+    @Provides
+    @Singleton
+    fun providesMyBlockUserRepository(api: MyBlockUserApi): MyBlockUserRepository =
+        MyBlockUserRepositoryImpl(api)
 }

@@ -6,6 +6,9 @@ import com.umc.ttoklip.data.api.HoneyTipApi
 import com.umc.ttoklip.data.api.LoginApi
 import com.umc.ttoklip.data.api.MainCommsApi
 import com.umc.ttoklip.data.api.MainTogethersApi
+import com.umc.ttoklip.data.api.MyAccountRestrictApi
+import com.umc.ttoklip.data.api.MyBlockUserApi
+import com.umc.ttoklip.data.api.MyPostApi
 import com.umc.ttoklip.data.api.NewsApi
 import com.umc.ttoklip.data.api.ReadCommsApi
 import com.umc.ttoklip.data.api.ReadTogetherApi
@@ -116,6 +119,24 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideSignupApi(retrofit: Retrofit): SignupApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun providesAccountRestrictApi(retrofit: Retrofit): MyAccountRestrictApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun providesMyPostApi(retrofit: Retrofit): MyPostApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun providesMyBlockUserApi(retrofit: Retrofit): MyBlockUserApi {
         return retrofit.buildService()
     }
 
