@@ -4,6 +4,7 @@ import com.umc.ttoklip.data.api.HoneyTipApi
 import com.umc.ttoklip.data.model.honeytip.CreateHoneyTipResponse
 import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.honeytip.HoneyTipMainResponse
+import com.umc.ttoklip.data.model.honeytip.HoneyTipPagingResponse
 import com.umc.ttoklip.data.model.honeytip.InquireHoneyTipResponse
 import com.umc.ttoklip.data.model.honeytip.InquireQuestionResponse
 import com.umc.ttoklip.data.model.honeytip.request.HoneyTipCommentRequest
@@ -22,6 +23,20 @@ class HoneyTipRepositoryImpl @Inject constructor(
 ) : HoneyTipRepository {
     override suspend fun getHoneyTipMain(): NetworkResult<HoneyTipMainResponse> {
         return handleApi({ api.getHoneyTipMain() }) { response: ResponseBody<HoneyTipMainResponse> -> response.result }
+    }
+
+    override suspend fun getQuestionByCategory(
+        category: String,
+        page: Int
+    ): NetworkResult<HoneyTipPagingResponse> {
+        return handleApi({ api.getQuestionByCategory(category, page) }) { response: ResponseBody<HoneyTipPagingResponse> -> response.result }
+    }
+
+    override suspend fun getHoneyTipByCategory(
+        category: String,
+        page: Int
+    ): NetworkResult<HoneyTipPagingResponse> {
+        return handleApi({ api.getHoneyTipByCategory(category, page) }) { response: ResponseBody<HoneyTipPagingResponse> -> response.result }
     }
 
     //꿀팁

@@ -7,4 +7,6 @@ data class HoneyTipPagingResponse(
     val totalElements: Int,
     val isFirst: Boolean,
     val isLast: Boolean,
-)
+) {
+    constructor(): this(listOf(), "", 0, 0, true, false)
+}

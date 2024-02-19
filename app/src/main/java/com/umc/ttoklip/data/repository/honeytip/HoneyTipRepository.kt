@@ -3,6 +3,7 @@ package com.umc.ttoklip.data.repository.honeytip
 import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.honeytip.CreateHoneyTipResponse
 import com.umc.ttoklip.data.model.honeytip.HoneyTipMainResponse
+import com.umc.ttoklip.data.model.honeytip.HoneyTipPagingResponse
 import com.umc.ttoklip.data.model.honeytip.InquireHoneyTipResponse
 import com.umc.ttoklip.data.model.honeytip.InquireQuestionResponse
 import com.umc.ttoklip.data.model.honeytip.request.HoneyTipCommentRequest
@@ -14,12 +15,18 @@ import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface HoneyTipRepository {
     //꿀팁
     suspend fun getHoneyTipMain(): NetworkResult<HoneyTipMainResponse>
+
+    suspend fun getQuestionByCategory(category: String, page: Int): NetworkResult<HoneyTipPagingResponse>
+
+    suspend fun getHoneyTipByCategory(category: String, page: Int): NetworkResult<HoneyTipPagingResponse>
     suspend fun createHoneyTip(
         title: RequestBody,
         content: RequestBody,
