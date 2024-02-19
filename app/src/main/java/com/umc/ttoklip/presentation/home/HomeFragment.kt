@@ -16,6 +16,7 @@ import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.home.adapter.HomeTipRVA
 import com.umc.ttoklip.presentation.hometown.CommunicationActivity
+import com.umc.ttoklip.presentation.hometown.ReadTogetherActivity
 import com.umc.ttoklip.presentation.hometown.TogetherActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
@@ -82,6 +83,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
                 viewModel.mainData.collect {
                     newsRVA.submitList(it.newsLetters)
                     tipRVA.submitList(it.honeyTips)
+                    townRVA.submitList(it.carts)
                 }
             }
         }
@@ -118,6 +120,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
     }
 
     override fun onClick(together: Togethers) {
-
+        val intent = Intent(requireContext(), ReadTogetherActivity::class.java)
+        intent.putExtra("postId", together.id)
+        startActivity(intent)
     }
 }
