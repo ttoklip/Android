@@ -22,9 +22,16 @@ class SavedHoneyTipActivity :
             getString(R.string.sort_most_comments),
             getString(R.string.sort_most_scrap)
         )
+        val typeFilters = listOf(
+            "꿀팁 공유", "뉴스레터", "소통해요"
+        )
         binding.honeyTipFilterSpinner.adapter =
             SortSpinnerAdapter(this@SavedHoneyTipActivity, sortFilters)
         binding.honeyTipFilterSpinner.setSelection(0)
+
+        binding.honeyTipTypeSpinner.adapter =
+            SortSpinnerAdapter(this@SavedHoneyTipActivity, typeFilters)
+        binding.honeyTipTypeSpinner.setSelection(0)
 
         val honeyTipList = listOf(
             HoneyTip("똑똑이", "음식물 쓰레기 냄새 방지!!", "집에 가끔씩이지만 나타나는 바퀴벌레, 잘못 처리하면 알깐다고도...", "1일전", 0),
