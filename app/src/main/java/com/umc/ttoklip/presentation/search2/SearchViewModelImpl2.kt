@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.data.db.HistoryDao
 import com.umc.ttoklip.data.db.HistoryEntity
 import com.umc.ttoklip.data.model.search.SearchModel
+import com.umc.ttoklip.data.repository.search.Search2Repository
 import com.umc.ttoklip.data.repository.search.SearchRepository
 import com.umc.ttoklip.module.onException
 import com.umc.ttoklip.module.onFail
@@ -16,14 +17,15 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.onEmpty
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModelImpl2 @Inject constructor(
     private val historyDao: HistoryDao,
-    private val searchRepository: SearchRepository
-) : ViewModel(), SearchViewModel {
+    private val searchRepository: Search2Repository
+) : ViewModel(), SearchViewModel2 {
 
     override val searchText: MutableStateFlow<String> = MutableStateFlow("")
     private val _searchAfter = MutableStateFlow(false)
@@ -51,32 +53,166 @@ class SearchViewModelImpl2 @Inject constructor(
 
     private val fSearchList = MutableStateFlow(mutableListOf<SearchModel>())
 
+    //-------refact ---------
+
+    private val isTourEnd = MutableStateFlow(false)
+    private val tourPage = MutableStateFlow(0)
+
+    private val isTipEnd = MutableStateFlow(false)
+    private val tipPage = MutableStateFlow(0)
+
+    private val isNewsEnd = MutableStateFlow(false)
+    private val newsPage = MutableStateFlow(0)
+
+    private val _searchTipList = MutableStateFlow(listOf<SearchModel>())
+    override val searchTipList: StateFlow<List<SearchModel>>
+        get() = _searchTipList
+
+    private val _searchNewsList = MutableStateFlow(listOf<SearchModel>())
+
+    override val searchNewsList: StateFlow<List<SearchModel>>
+        get() = _searchNewsList
+    private val _searchTourList = MutableStateFlow(listOf<SearchModel>())
+
+    override val searchTourList: StateFlow<List<SearchModel>>
+        get() = _searchTourList
+
+
+    override fun getTourSearch(sort: String) {
+        if (!isTourEnd.value) {
+            viewModelScope.launch {
+                try {
+                    searchRepository.getTownSearch(
+                        title = searchText.value,
+                        sort = sort,
+                        page = tourPage.value
+                    ).onSuccess {
+                        _searchTourList.emit(searchTourList.value +
+                            it.communities.map { response ->
+                            response.toModel(
+                                "",
+                                5
+                            )
+                        })
+                        tourPage.value = tourPage.value + 1
+                        isTourEnd.value = it.isLast
+                    }.onFail {
+
+                    }.onException {
+                        throw it
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.d("예외", "$e")
+                }
+            }
+        }
+    }
+
+    override fun getNewsSearch(sort: String) {
+        if (!isNewsEnd.value) {
+            viewModelScope.launch {
+                try {
+                    searchRepository.getNewsSearch(
+                        title = searchText.value,
+                        sort = sort,
+                        page = newsPage.value
+                    ).onSuccess {
+                        _searchNewsList.emit(searchNewsList.value +
+                            it.newsletters.map { response ->
+                            response.toModel(1)
+                        })
+                        newsPage.value = newsPage.value + 1
+                        isNewsEnd.value = it.isLast
+                        //addHistory()
+                    }.onFail {
+
+                    }.onException {
+                        throw it
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.d("예외", "$e")
+                }
+            }
+        }
+    }
+
+    override fun getTipSearch(sort: String) {
+        if (!isTipEnd.value) {
+            viewModelScope.launch {
+                try {
+                    searchRepository.getTipSearch(
+                        title = searchText.value,
+                        sort = sort,
+                        page = tipPage.value
+                    ).onSuccess {
+                        _searchTipList.emit(searchTipList.value +
+                                it.honeyTips.map { response ->
+                                    response.toModel(3)
+                                })
+                        tipPage.value = tipPage.value + 1
+                        isTipEnd.value = it.isLast
+                    }.onFail {
+
+                    }.onException {
+                        throw it
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.d("예외", "$e")
+                }
+            }
+        }
+    }
+
+    override fun reset(id:Int) {
+        viewModelScope.launch {
+            when(id){
+                1->{
+                    _searchNewsList.emit(listOf())
+                    isNewsEnd.value = false
+                    newsPage.value = 0
+                }
+                2->{
+                    _searchTipList.emit(listOf())
+                    isTipEnd.value = false
+                    tipPage.value = 0
+                }
+                3 -> {
+                    _searchTourList.emit(listOf())
+                    isTourEnd.value = false
+                    tourPage.value = 0
+                }
+                else ->{}
+            }
+        }
+    }
+
+
+    //---------------------------
     override fun goSearchAfter() {
         viewModelScope.launch {
             _searchAfter.emit(true)
-            try {
-                searchRepository.getNewsSearch(title = searchText.value, sort = "latest").onSuccess {
-                    _searchList.emit(it)
-                    fSearchList.emit(it.toMutableList())
-                    addHistory()
-                    searchTip()
-                    searchTown()
-                }.onFail {
-
-                }.onException {
-                    throw it
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.d("예외", "$e")
-            }
-
+            getTipSearch("latest")
+            getNewsSearch("latest")
+            getTourSearch("latest")
+            addHistory()
         }
     }
 
     override fun goSearchBefore() {
         viewModelScope.launch {
             _searchAfter.emit(false)
+            _searchTourList.emit(listOf())
+            _searchTipList.emit(listOf())
+            _searchNewsList.emit(listOf())
+            isNewsEnd.value = false
+            isTipEnd.value = false
+            isTourEnd.value = false
+            tourPage.value = 0
+            tipPage.value = 0
+            newsPage.value = 0
         }
     }
 
@@ -100,22 +236,10 @@ class SearchViewModelImpl2 @Inject constructor(
     override fun clickHistory(title: String) {
         viewModelScope.launch {
             _searchAfter.emit(true)
-            try {
-                searchRepository.getNewsSearch(title = title, sort = "latest").onSuccess {
-                    _searchList.emit(it)
-                    fSearchList.emit(it.toMutableList())
-                    searchTip()
-                    searchTown()
-                }.onFail {
-
-                }.onException {
-                    throw it
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.d("예외", "$e")
-            }
-
+            searchText.value = title
+            getTipSearch("latest")
+            getNewsSearch("latest")
+            getTourSearch("latest")
         }
     }
 
@@ -128,46 +252,53 @@ class SearchViewModelImpl2 @Inject constructor(
         }
     }
 
-    private fun searchTip() {
-        viewModelScope.launch {
-            try {
-                searchRepository.getTipSearch(title = searchText.value, sort = "latest").onSuccess {
-                    _searchList.emit(searchList.value + it)
-                    fSearchList.emit((fSearchList.value + it.toMutableList()) as MutableList<SearchModel>)
-                }.onFail {
+//    private fun searchTip() {
+//        viewModelScope.launch {
+//            try {
+//                searchRepository.getTipSearch(title = searchText.value, sort = "latest").onSuccess {
+//                    _searchList.emit(searchList.value + it)
+//                    fSearchList.emit((fSearchList.value + it.toMutableList()) as MutableList<SearchModel>)
+//                }.onFail {
+//
+//                }.onException {
+//                    throw it
+//                }
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//                Log.d("예외", "$e")
+//            }
+//        }
+//    }
 
-                }.onException {
-                    throw it
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.d("예외", "$e")
-            }
-        }
-    }
-
-    private fun searchTown() {
-        viewModelScope.launch {
-            try {
-                searchRepository.getTownSearch(title = searchText.value, sort = "latest").onSuccess {
-                    _searchList.emit(searchList.value + it)
-                    fSearchList.emit((fSearchList.value + it.toMutableList()) as MutableList<SearchModel>)
-                }.onFail {
-
-                }.onException {
-                    throw it
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.d("예외", "$e")
-            }
-        }
-    }
+//    private fun searchTown() {
+//        viewModelScope.launch {
+//            try {
+//                searchRepository.getTownSearch(title = searchText.value, sort = "latest").onSuccess {
+//                    _searchList.emit(searchList.value + it)
+//                    fSearchList.emit((fSearchList.value + it.toMutableList()) as MutableList<SearchModel>)
+//                }.onFail {
+//
+//                }.onException {
+//                    throw it
+//                }
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//                Log.d("예외", "$e")
+//            }
+//        }
+//    }
 
     suspend fun addHistory() {
         historyDao.addHistory(HistoryEntity(historyList.value.size, searchText.value))
         viewModelScope.launch {
-            _historyList.emit(listOf( HistoryEntity(historyList.value.size, searchText.value)) + historyList.value)
+            _historyList.emit(
+                listOf(
+                    HistoryEntity(
+                        historyList.value.size,
+                        searchText.value
+                    )
+                ) + historyList.value
+            )
         }
     }
 
@@ -178,12 +309,13 @@ class SearchViewModelImpl2 @Inject constructor(
         }
     }
 
-    override fun deleteAllHistory(){
+    override fun deleteAllHistory() {
         viewModelScope.launch {
             historyDao.deleteAll()
             _historyList.emit(listOf())
         }
     }
+
     private suspend fun filterSort(sort: Int) {
         when (sort) {
             1 -> {
