@@ -2,6 +2,8 @@ package com.umc.ttoklip.presentation.hometown
 
 import android.content.Intent
 import android.util.Log
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
@@ -18,6 +20,16 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.fragment_my_hometown),
     OnTogetherClickListener {
+    private val activityResultLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            val addressIntent = it.data
+            addressIntent?.let { aIntent ->
+                val address = aIntent.getStringExtra("address")
+                address?.let { place ->
+                    binding.myHometownFilterTv.text = address
+                }
+            }
+        }
     private val togetherAdapter by lazy {
         TogetherAdapter(
             this,
@@ -54,8 +66,7 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
         }
         binding.myHometownFilterTv.setOnClickListener {
             val intent = Intent(requireContext(), MyHometownAddressActivity::class.java)
-            startActivity(intent)
-            true
+            activityResultLauncher.launch(intent)
         }
         binding.writeTogetherBtn.setOnClickListener {
             val intent = Intent(requireContext(), WriteTogetherActivity::class.java)

@@ -10,9 +10,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class AddressDetailActivity :
     BaseActivity<ActivityAddressDetailBinding>(R.layout.activity_address_detail) {
     override fun initView() {
+        val type = intent.getStringExtra("place")
         val address = intent.getStringExtra("address")
         address?.let {
             binding.dealPlaceTv.text = address
+        }
+        type?.let {
+            binding.titleTv.text = getString(R.string.my_hometown_address_title)
         }
         binding.locationNextBtn.setOnClickListener {
             val intent = Intent(this, PlaceActivity::class.java)

@@ -24,6 +24,7 @@ import java.util.Locale
 @AndroidEntryPoint
 class PlaceActivity : BaseActivity<ActivityPlaceBinding>(R.layout.activity_place),
     OnMapReadyCallback {
+    private var type = ""
     private lateinit var naverMap: NaverMap
     private var address: String = ""
     private val LOCATION_PERMISSION_REQUEST_CODE: Int = 5000
@@ -51,6 +52,10 @@ class PlaceActivity : BaseActivity<ActivityPlaceBinding>(R.layout.activity_place
         }
 
     override fun initView() {
+        intent.getStringExtra("place")?.let {
+            type = it
+            binding.locationTitleTv.text = getString(R.string.my_hometown_address_title)
+        }
         if (!hasPermission()) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, LOCATION_PERMISSION_REQUEST_CODE)
         }
@@ -58,6 +63,7 @@ class PlaceActivity : BaseActivity<ActivityPlaceBinding>(R.layout.activity_place
 
         binding.locationNextBtn.setOnClickListener {
             val intent = Intent(this, AddressDetailActivity::class.java)
+            intent.putExtra("place", "town")
             intent.putExtra("address", address)
             activityResultLauncher.launch(intent)
         }
