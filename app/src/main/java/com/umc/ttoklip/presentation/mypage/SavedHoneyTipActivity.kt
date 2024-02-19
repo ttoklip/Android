@@ -77,8 +77,7 @@ class SavedHoneyTipActivity :
 
         binding.savedHoneyTipRv.layoutManager = LinearLayoutManager(this@SavedHoneyTipActivity)
         binding.savedHoneyTipRv.adapter = scrapRVA
-        viewModel.getTipScrap()
-
+       
         binding.savedHoneyTipBackBtn.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
