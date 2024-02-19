@@ -23,6 +23,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.myPageInfo.collect{
+                    Log.d("mypage", it.toString())
                     binding.addressTv.text = it.street ?: "주소"
                     binding.nicknameTv.text = it.nickname
                     Glide.with(this@MyPageFragment)
@@ -36,6 +37,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     override fun onResume() {
         super.onResume()
         Log.d("resume", "resume")
+
     }
 
     override fun initView() {
