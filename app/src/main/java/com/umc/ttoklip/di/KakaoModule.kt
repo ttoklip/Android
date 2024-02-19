@@ -20,14 +20,14 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object KakaoModule {
 
-    private val BASE_URL = R.string.kakao.toString()
-    @Provides
-    @Singleton
-    fun kakaoApiRetrofitClient(keyword: String) {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val api = retrofit.create(KakaoApi::class.java)
-    }
+//    private val BASE_URL = R.string.kakao.toString()
+//    @Provides
+//    @Singleton
+//    fun kakaoApiRetrofitClient(keyword: String) {
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl(BASE_URL)
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
+//        val api = retrofit.create(KakaoApi::class.java)
+//    }
 }

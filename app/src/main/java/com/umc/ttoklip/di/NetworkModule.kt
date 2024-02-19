@@ -3,6 +3,7 @@ package com.umc.ttoklip.di
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.api.HoneyTipApi
+import com.umc.ttoklip.data.api.KakaoApi
 import com.umc.ttoklip.data.api.LoginApi
 import com.umc.ttoklip.data.api.NewsApi
 import com.umc.ttoklip.data.api.SearchApi
@@ -20,6 +21,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import retrofit2.create
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
@@ -98,7 +100,7 @@ object NetworkModule {
         gsonConverterFactory: GsonConverterFactory
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("")
+            .baseUrl(R.string.kakao.toString())
             .addConverterFactory(gsonConverterFactory)
             .client(client)
             .build()
@@ -143,6 +145,12 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideTermApi(retrofit: Retrofit): TermApi{
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun providesKakaoService(@Named("kakao") retrofit: Retrofit):KakaoApi{
         return retrofit.buildService()
     }
 

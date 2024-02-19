@@ -1,15 +1,9 @@
 package com.umc.ttoklip.data.repository.location
 
-import android.util.Log
 import com.umc.ttoklip.R
 import com.umc.ttoklip.data.api.KakaoApi
-import com.umc.ttoklip.data.api.SignupApi
 import com.umc.ttoklip.data.model.KakaoResponse
-import com.umc.ttoklip.data.repository.signup.SignupRepository
-import com.umc.ttoklip.di.KakaoModule
 import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 class DirectLocationRepositoryImpl @Inject constructor(
