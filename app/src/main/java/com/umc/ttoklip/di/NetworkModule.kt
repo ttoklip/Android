@@ -8,10 +8,14 @@ import com.umc.ttoklip.data.api.MyAccountRestrictApi
 import com.umc.ttoklip.data.api.MyBlockUserApi
 import com.umc.ttoklip.data.api.MyPostApi
 import com.umc.ttoklip.data.api.NewsApi
+import com.umc.ttoklip.data.api.ReadCommsApi
+import com.umc.ttoklip.data.api.ReadTogetherApi
 import com.umc.ttoklip.data.api.Search2Api
 import com.umc.ttoklip.data.api.SearchApi
 import com.umc.ttoklip.data.api.SignupApi
 import com.umc.ttoklip.data.api.TestApi
+import com.umc.ttoklip.data.api.WriteCommsApi
+import com.umc.ttoklip.data.api.WriteTogetherApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -133,6 +137,31 @@ object NetworkModule {
     fun providesMyBlockUserApi(retrofit: Retrofit): MyBlockUserApi {
         return retrofit.buildService()
     }
+
+    @Provides
+    @Singleton
+    fun provideReadCommsApi(retrofit: Retrofit): ReadCommsApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideReadTogetherApi(retrofit: Retrofit): ReadTogetherApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideWriteCommsApi(retrofit: Retrofit): WriteCommsApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideWriteTogetherApi(retrofit: Retrofit): WriteTogetherApi {
+        return retrofit.buildService()
+    }
+
 
     private inline fun <reified T> Retrofit.buildService(): T {
         return this.create(T::class.java)
