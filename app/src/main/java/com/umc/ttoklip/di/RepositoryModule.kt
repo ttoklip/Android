@@ -1,10 +1,12 @@
 package com.umc.ttoklip.di
 
+import com.umc.ttoklip.data.api.MainCommsApi
+import com.umc.ttoklip.data.api.MainTogethersApi
 import com.umc.ttoklip.data.api.NewsApi
-import com.umc.ttoklip.data.api.Search2Api
-import com.umc.ttoklip.data.api.SearchApi
 import com.umc.ttoklip.data.api.ReadCommsApi
 import com.umc.ttoklip.data.api.ReadTogetherApi
+import com.umc.ttoklip.data.api.Search2Api
+import com.umc.ttoklip.data.api.SearchApi
 import com.umc.ttoklip.data.api.WriteCommsApi
 import com.umc.ttoklip.data.api.WriteTogetherApi
 import com.umc.ttoklip.data.repository.news.NewsRepository
@@ -13,6 +15,10 @@ import com.umc.ttoklip.data.repository.search.Search2Repository
 import com.umc.ttoklip.data.repository.search.Search2RepositoryImpl
 import com.umc.ttoklip.data.repository.search.SearchRepository
 import com.umc.ttoklip.data.repository.search.SearchRepositoryImpl
+import com.umc.ttoklip.data.repository.town.MainCommsRepository
+import com.umc.ttoklip.data.repository.town.MainCommsRepositoryImpl
+import com.umc.ttoklip.data.repository.town.MainTogethersRepository
+import com.umc.ttoklip.data.repository.town.MainTogethersRepositoryImpl
 import com.umc.ttoklip.data.repository.town.ReadCommsRepository
 import com.umc.ttoklip.data.repository.town.ReadCommsRepositoryImpl
 import com.umc.ttoklip.data.repository.town.ReadTogetherRepository
@@ -68,6 +74,18 @@ object RepositoryModule {
     @Singleton
     fun providesSearch2Repository(api: Search2Api): Search2Repository =
         Search2RepositoryImpl(api)
+
+
+    @Provides
+    @Singleton
+    fun providesMainCommsRepository(api: MainCommsApi): MainCommsRepository =
+        MainCommsRepositoryImpl(api)
+
+
+    @Provides
+    @Singleton
+    fun providesMainTogethersRepository(api: MainTogethersApi): MainTogethersRepository =
+        MainTogethersRepositoryImpl(api)
 
 
 }

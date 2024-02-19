@@ -1,5 +1,6 @@
 package com.umc.ttoklip.presentation.hometown
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.data.model.town.CommentResponse
@@ -61,6 +62,8 @@ class ReadCommunicationViewModelImpl @Inject constructor(
         viewModelScope.launch {
             repository.viewComms(postId).onSuccess {
                 _postContent.value = it
+                _like.value = it.likedByCurrentUser
+                _scrap.value = it.scrapedByCurrentUser
             }.onError {
 
             }
@@ -71,9 +74,13 @@ class ReadCommunicationViewModelImpl @Inject constructor(
         _like.value = _like.value.not()
         viewModelScope.launch {
             if (_like.value) {
-                repository.addCommsLike(postId.value)
+                repository.addCommsLike(postId.value).onSuccess {
+                    Log.d("change", "스크랩")
+                }
             } else {
-                repository.cancelCommsLike(postId.value)
+                repository.cancelCommsLike(postId.value).onSuccess {
+                    Log.d("change", "스크랩")
+                }
             }
         }
     }
@@ -82,9 +89,13 @@ class ReadCommunicationViewModelImpl @Inject constructor(
         _scrap.value = _scrap.value.not()
         viewModelScope.launch {
             if (_scrap.value) {
-                repository.addCommsScrap(postId.value)
+                repository.addCommsScrap(postId.value).onSuccess {
+                    Log.d("change", "좋아요")
+                }
             } else {
-                repository.cancelCommsScrap(postId.value)
+                repository.cancelCommsScrap(postId.value).onSuccess {
+                    Log.d("change", "좋아요")
+                }
             }
         }
     }

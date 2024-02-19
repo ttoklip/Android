@@ -4,6 +4,8 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.api.HoneyTipApi
 import com.umc.ttoklip.data.api.LoginApi
+import com.umc.ttoklip.data.api.MainCommsApi
+import com.umc.ttoklip.data.api.MainTogethersApi
 import com.umc.ttoklip.data.api.NewsApi
 import com.umc.ttoklip.data.api.ReadCommsApi
 import com.umc.ttoklip.data.api.ReadTogetherApi
@@ -107,7 +109,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideLoginApi(retrofit: Retrofit): LoginApi{
+    fun provideLoginApi(retrofit: Retrofit): LoginApi {
         return retrofit.buildService()
     }
 
@@ -138,6 +140,18 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideWriteTogetherApi(retrofit: Retrofit): WriteTogetherApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMainCommsApi(retrofit: Retrofit): MainCommsApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMainTogethersApi(retrofit: Retrofit): MainTogethersApi {
         return retrofit.buildService()
     }
 

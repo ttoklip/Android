@@ -2,6 +2,7 @@ package com.umc.ttoklip.presentation.hometown
 
 import android.content.Context
 import android.graphics.Rect
+import android.util.Log
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -104,10 +105,9 @@ class ReadCommunicationActivity :
                             writerTv.text = response.writer
                             titleTv.text = response.title
                             contentT.text = response.content
+                            Log.d("image", response.imageUrls.toString())
                             imageAdapter.submitList(response.imageUrls.map { url ->
-                                ImageUrl(
-                                    imageUrl = url.postImageUrl
-                                )
+                                ImageUrl(url.imageUrl)
                             })
                             if (response.likedByCurrentUser) {
                                 likeImg.setImageDrawable(getDrawable(R.drawable.ic_heart_on_20))
