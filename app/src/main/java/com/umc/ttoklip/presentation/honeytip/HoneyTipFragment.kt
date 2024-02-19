@@ -2,8 +2,6 @@ package com.umc.ttoklip.presentation.honeytip
 
 import android.content.Intent
 import android.util.Log
-import android.view.View
-import android.view.View.OnScrollChangeListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -53,26 +51,22 @@ class HoneyTipFragment: BaseFragment<FragmentShareHoneyTipBinding>(R.layout.frag
                 }
             }
         }
-
-        lifecycleScope.launch{
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.isLast.collect{
-                    isLast = it
-                }
-            }
-        }
     }
 
     override fun initView() {
         initCategoryViewPager()
         initPopularHoneyTipsViewPager(65, 30)
-        /*binding.scrollV.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+        binding.scrollV.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             if ((!v.canScrollVertically(1))) {
-                if(!isLast) {
-                    viewModel.getHoneyTipByCategory(category, page++)
+                Log.d("end", "end")
+                when(category){
+                    WriteHoneyTipActivity.Category.HOUSEWORK.toString() -> viewModel.getHouseHoneyTipPage()
+                    WriteHoneyTipActivity.Category.RECIPE.toString() -> viewModel.getRecipeHoneyTipPage()
+                    WriteHoneyTipActivity.Category.SAFE_LIVING.toString() -> viewModel.getSafeLivingHoneyTipPage()
+                    WriteHoneyTipActivity.Category.WELFARE_POLICY.toString() -> viewModel.getWelFareHoneyTipPage()
                 }
             }
-        }*/
+        }
 
         binding.categoryTablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {

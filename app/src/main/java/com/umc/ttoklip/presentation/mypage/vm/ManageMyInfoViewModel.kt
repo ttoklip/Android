@@ -9,12 +9,14 @@ import com.umc.ttoklip.data.model.mypage.MyPageInfoResponse
 import com.umc.ttoklip.data.repository.mypage.MyPageRepository2
 import com.umc.ttoklip.data.repository.mypage.MyPageRepository2Impl
 import com.umc.ttoklip.module.onError
+import com.umc.ttoklip.module.onFail
 import com.umc.ttoklip.module.onSuccess
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -38,6 +40,9 @@ class ManageMyInfoViewModel @Inject constructor(
     val myPageEvent = _myPageEvent.asSharedFlow()
 
     val independentDuration = MutableStateFlow("")
+
+    private val _nickok = MutableSharedFlow<Boolean>()
+    val nickok = _nickok.asSharedFlow()
 
     sealed class Event {
         object EditMyPageInfo : Event()
@@ -64,14 +69,16 @@ class ManageMyInfoViewModel @Inject constructor(
 
     fun editMyPageInfo(
         street: String,
+        locationX:Int,
+        locationY:Int,
         nickname: String,
-        categories: List<String>,
-        profileImage: MultipartBody.Part,
+        categories: List<String>?,
+        profileImage: MultipartBody.Part?,
         independentYear: Int,
         independentMonth: Int
     ) {
         val cate=ArrayList<MultipartBody.Part>()
-        categories.forEach {
+        categories?.forEach {
             cate.add(MultipartBody.Part.createFormData("categories",it))
         }
 
@@ -91,6 +98,19 @@ class ManageMyInfoViewModel @Inject constructor(
             }.onError {
                 Log.d("error", it.toString())
             }
+        }
+    }
+
+    fun nickCheck(nick: String) {
+        viewModelScope.launch {
+            repository.checkNickname(nick)
+                .onSuccess {
+                    Log.i("nick check", "성공")
+                    _nickok.emit(true)
+                }.onFail {
+                    Log.d("nick check", "실패")
+                    _nickok.emit(false)
+                }
         }
     }
 }

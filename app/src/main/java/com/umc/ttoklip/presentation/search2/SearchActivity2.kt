@@ -18,6 +18,8 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivitySearch2Binding
 import com.umc.ttoklip.databinding.ActivitySearchBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
+import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
+import com.umc.ttoklip.presentation.honeytip.read.ReadQuestionActivity
 import com.umc.ttoklip.presentation.mypage.SortSpinnerAdapter
 import com.umc.ttoklip.presentation.news.NewsFragment
 import com.umc.ttoklip.presentation.news.adapter.NewsTabAdapter
@@ -54,8 +56,12 @@ class SearchActivity2 : BaseActivity<ActivitySearch2Binding>(R.layout.activity_s
                 1 -> {
                     startActivity(ArticleActivity.newIntent(this, id))
                 }
-                2 -> {}
-                3 -> {}
+                2 -> {
+                    startActivity(ReadQuestionActivity.newIntent(this, id))
+                }
+                3 -> {
+                    startActivity(ReadHoneyTipActivity.newIntent(this, id))
+                }
                 4 -> {}
                 5 -> {}
                 else -> {}

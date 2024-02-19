@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="10dp"
-                android:text="@string/comment_notice_title"
+                android:text="스크랩 알림"
                 android:textAppearance="@style/TextAppearance.App.14sp_600"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -32,12 +32,11 @@ import kotlinx.coroutines.launch
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
     OnItemClickListener, OnTogetherItemClickListener {
 
+
     private val viewModel: HomeViewModel by viewModels<HomeViewModelImpl>()
     private val newsRVA by lazy {
-        NewsRVA(onClick = {
-            NewsRVA { news ->
-                startActivity(ArticleActivity.newIntent(requireContext(), news.newsletterId))
-            }
+        NewsRVA(onClick = { news ->
+            startActivity(ArticleActivity.newIntent(requireContext(), news.newsletterId))
         }
         )
     }
@@ -83,7 +82,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
                 viewModel.mainData.collect {
                     newsRVA.submitList(it.newsLetters)
                     tipRVA.submitList(it.honeyTips)
-                    townRVA.submitList(it.carts)
+                    //townRVA.submitList(it.carts)
                 }
             }
         }
@@ -103,8 +102,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
             startActivity(intent)
         }
         //테스트
-        binding.weatherImg.setImageResource(Weather.RAIN.resId)
-        binding.weatherTitle.text = Weather.RAIN.label
+        binding.weatherImg.setImageResource(Weather.CLOUD.resId)
+        binding.weatherTitle.text = Weather.CLOUD.label
 
         binding.newsRV.adapter = newsRVA
         binding.groupBuyRV.adapter = townRVA

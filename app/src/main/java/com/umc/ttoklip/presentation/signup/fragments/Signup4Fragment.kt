@@ -25,6 +25,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.databinding.FragmentSignup4Binding
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
@@ -172,6 +173,8 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
                 if (interests.isNotEmpty()) viewModel.interestCheck(true)
                 nextok()
             }
+            // 마이페이지에서 관심사 불러오기 위해 작성
+            TtoklipApplication.prefs.setString("interest", interestArray.toString())
             bottomSheet.show(activity.supportFragmentManager, bottomSheet.tag)
         }
 
