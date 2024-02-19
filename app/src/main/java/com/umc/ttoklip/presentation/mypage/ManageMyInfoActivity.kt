@@ -12,12 +12,14 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -31,6 +33,7 @@ import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.mypage.vm.ManageMyInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -49,9 +52,9 @@ class ManageMyInfoActivity :
     private var independentYear = 0
     private var independentMonth = 0
     private val category = mutableListOf<String>()
-    private var address=""
-    private var locationX=0
-    private var locationY=0
+    private var address = ""
+    private var locationX = 0
+    private var locationY = 0
 
     private val pickMultipleMedia = registerForActivityResult(
         ActivityResultContracts.PickVisualMedia(
@@ -102,9 +105,13 @@ class ManageMyInfoActivity :
         }
 
         binding.findAddressBtn.setOnClickListener {
-            val intent= Intent(this,MyHometownAddressActivity::class.java)
-            val Location_Type=1
-            startActivityForResult(intent,Location_Type)
+            val intent = Intent(this, MyHometownAddressActivity::class.java)
+            val Location_Type = 1
+            startActivityForResult(intent, Location_Type)
+        }
+
+        binding.checkDuplicationBtn.setOnClickListener {
+            viewModel.nickCheck(binding.inputNicknameEt.text.toString())
         }
 
         binding.mainInterestGroup.setOnClickListener {
@@ -152,15 +159,15 @@ class ManageMyInfoActivity :
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode!= Activity.RESULT_OK){
+        if (resultCode != Activity.RESULT_OK) {
             return
         }
-        if(requestCode==1){
+        if (requestCode == 1) {
             if (data != null) {
-                binding.inputAddressTv.text= data.getStringExtra("location")
-                address=data.getStringExtra("location").toString()
-                locationX=data.getIntExtra("locationX",0)
-                locationY=data.getIntExtra("locationY",0)
+                binding.inputAddressTv.text = data.getStringExtra("location")
+                address = data.getStringExtra("location").toString()
+                locationX = data.getIntExtra("locationX", 0)
+                locationY = data.getIntExtra("locationY", 0)
             }
         }
     }
@@ -171,7 +178,8 @@ class ManageMyInfoActivity :
                 viewModel.myPageInfo.collect {
                     with(binding) {
                         inputNicknameEt.setText(it.nickname)
-                        inputIndependentCareerEt.text = "${it.independentYear}년 ${it.independentMonth}개월"
+                        inputIndependentCareerEt.text =
+                            "${it.independentYear}년 ${it.independentMonth}개월"
                         addressTitleTv.text = it.street
                         independentYear = it.independentYear
                         independentMonth = it.independentMonth
@@ -179,6 +187,20 @@ class ManageMyInfoActivity :
                         Glide.with(this@ManageMyInfoActivity)
                             .load(it.profileImage)
                             .into(binding.manageProfileImg)
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.nickok.collect {
+                    if (it) {
+                        binding.signup4NickokTv.visibility = View.VISIBLE
+                        binding.signup4NicknotokTv.visibility = View.GONE
+                    } else {
+                        binding.signup4NickokTv.visibility = View.GONE
+                        binding.signup4NicknotokTv.visibility = View.VISIBLE
                     }
                 }
             }

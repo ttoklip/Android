@@ -132,8 +132,12 @@ class HouseWorkHoneyTipListFragment : Fragment(),
 
     override fun onPause() {
         super.onPause()
-        viewModel.isHouseEnd.value = false
-        viewModel.housePage.value = 1
-        //viewModel.resetHouseHoneyTipList()
+        Log.d("pause", "pause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("stop", "stop")
+        viewModel.resetHoneyTipList("HOUSEWORK")
     }
 }

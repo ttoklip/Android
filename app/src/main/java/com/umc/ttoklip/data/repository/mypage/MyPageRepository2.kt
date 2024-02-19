@@ -3,6 +3,7 @@ package com.umc.ttoklip.data.repository.mypage
 import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.honeytip.CreateHoneyTipResponse
 import com.umc.ttoklip.data.model.mypage.MyPageInfoResponse
+import com.umc.ttoklip.data.model.signup.SignupResponse
 import com.umc.ttoklip.module.NetworkResult
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -15,4 +16,6 @@ interface MyPageRepository2 {
         photo: MultipartBody.Part?,
         info: MutableMap<String, RequestBody>, cate: List<MultipartBody.Part>?
     ): NetworkResult<CreateHoneyTipResponse>
+
+    suspend fun checkNickname(nick:String): NetworkResult<SignupResponse>
 }

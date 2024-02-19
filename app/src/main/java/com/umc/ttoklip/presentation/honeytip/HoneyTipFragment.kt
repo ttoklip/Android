@@ -51,14 +51,6 @@ class HoneyTipFragment: BaseFragment<FragmentShareHoneyTipBinding>(R.layout.frag
                 }
             }
         }
-
-        lifecycleScope.launch{
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.isLast.collect{
-                    isLast = it
-                }
-            }
-        }
     }
 
     override fun initView() {
