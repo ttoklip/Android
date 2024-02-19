@@ -22,7 +22,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/saved_honey_tip_title"
+                android:text="내가 스크랩한 글"
                 android:textAppearance="@style/TextAppearance.App.16sp_600"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"

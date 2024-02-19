@@ -73,6 +73,7 @@ class HoneyTipFragment: BaseFragment<FragmentShareHoneyTipBinding>(R.layout.frag
                 }
             }
         }
+
         binding.categoryTablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 category = tabTextToCategory(tab?.text.toString())
