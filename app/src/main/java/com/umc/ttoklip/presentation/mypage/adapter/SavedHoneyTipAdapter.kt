@@ -6,28 +6,28 @@ import androidx.core.view.isGone
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.ttoklip.data.model.mypage.ScrapResponse
 import com.umc.ttoklip.databinding.ItemSavedHoneyTipBinding
 
 class SavedHoneyTipAdapter(private var listener: OnSpinnerItemClickListener) :
-    ListAdapter<HoneyTip, SavedHoneyTipAdapter.HoneyTipListViewHolder>(object :
-        DiffUtil.ItemCallback<HoneyTip>() {
-        override fun areItemsTheSame(oldItem: HoneyTip, newItem: HoneyTip): Boolean {
+    ListAdapter<ScrapResponse, SavedHoneyTipAdapter.HoneyTipListViewHolder>(object :
+        DiffUtil.ItemCallback<ScrapResponse>() {
+        override fun areItemsTheSame(oldItem: ScrapResponse, newItem: ScrapResponse): Boolean {
             return oldItem.writer == newItem.writer && oldItem.title == newItem.title
         }
 
-        override fun areContentsTheSame(oldItem: HoneyTip, newItem: HoneyTip): Boolean {
+        override fun areContentsTheSame(oldItem: ScrapResponse, newItem: ScrapResponse): Boolean {
             return oldItem == newItem
         }
 
     }) {
     inner class HoneyTipListViewHolder(private val binding: ItemSavedHoneyTipBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(honeyTips: HoneyTip, pos: Int) {
-            binding.titleTv.text = honeyTips.title
-            binding.writerTv.text = honeyTips.writer
-            binding.dateTv.text = honeyTips.date
-            binding.bodyTv.text = honeyTips.body
-            binding.commentCountTv.text = honeyTips.chatCnt.toString()
+        fun bind(honeyTips: ScrapResponse, pos: Int) {
+            binding.item = honeyTips
+            binding.commentCountTv.text = honeyTips.commentCount.toString()
+            binding.likeCountTv.text = honeyTips.likeCount.toString()
+            binding.starCountTv.text = honeyTips.scrapCount.toString()
 
             if (pos == itemCount - 1) {
                 binding.itemSeparator.isGone = true
@@ -53,5 +53,5 @@ class SavedHoneyTipAdapter(private var listener: OnSpinnerItemClickListener) :
 }
 
 interface OnSpinnerItemClickListener {
-    fun onClick(honeyTip: HoneyTip)
+    fun onClick(honeyTip: ScrapResponse)
 }

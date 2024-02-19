@@ -1,6 +1,6 @@
 package com.umc.ttoklip.data.model.mypage
 
-data class ScrapListResponse(
+data class ScrapListNewsResponse(
     val isFirst: Boolean,
     val isLast: Boolean,
     val newsletters: List<ScrapResponse>,

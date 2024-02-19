@@ -101,7 +101,7 @@ class WriteTogetherViewModelImpl @Inject constructor(
             chatUrl = openLink.value,
             party = totalMember.value,
             itemUrls = listOf(extraUrl.value),
-            images = WriteHoneyTipUtil(context).convertUriToMultiBody(images.value.map { it.uri })
+            images = WriteHoneyTipUtil(context).convertUriListToMultiBody(images.value.map { it.uri })
                 .toList()
         )
         Log.d("request", request.toString())

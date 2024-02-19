@@ -1,5 +1,7 @@
 package com.umc.ttoklip.presentation.news.fragment
 
+import android.view.View
+import android.view.ViewTreeObserver
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -40,20 +42,13 @@ class SafeLifeFragment() : BaseFragment<FragmentItemNewsBinding>(R.layout.fragme
 
     override fun initView() {
         binding.rv.adapter = newsRVA
-        binding.rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                val lastVisibleItemPosition =
-                    (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
-                val totalItemViewCount = recyclerView.adapter!!.itemCount - 1
-
-                if (newState == 2 && !recyclerView.canScrollVertically(1)
-                    && lastVisibleItemPosition == totalItemViewCount
-                ) {
-                    //viewModel.getSecretCapsulePage()
-                }
+        binding.sv.viewTreeObserver.addOnScrollChangedListener(ViewTreeObserver.OnScrollChangedListener {
+            val view = binding.sv.getChildAt(binding.sv.childCount - 1) as View
+            val diff: Int = view.bottom - (binding.sv.height + binding.sv
+                .scrollY)
+            if (diff == 0) {
+                parentViewModel.getSafePage()
             }
-
         })
     }
 }

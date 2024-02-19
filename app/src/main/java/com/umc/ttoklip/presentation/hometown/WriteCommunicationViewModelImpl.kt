@@ -60,7 +60,7 @@ class WriteCommunicationViewModelImpl @Inject constructor(
                 body = CreateCommunicationsRequest(
                     title = title.value,
                     content = content.value,
-                    images = WriteHoneyTipUtil(context).convertUriToMultiBody(images.value.map { it.uri })
+                    images = WriteHoneyTipUtil(context).convertUriListToMultiBody(images.value.map { it.uri })
                         .toList()
                 )
             ).onSuccess {

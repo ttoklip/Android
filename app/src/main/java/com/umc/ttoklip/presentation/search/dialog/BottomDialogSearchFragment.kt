@@ -52,10 +52,7 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
                     checkedNews()
                 }
 
-                R.id.board2 -> {
-                    binding.categoryG.isGone = true
-                    binding.categoryChipG.clearCheck()
-                }
+
 
                 R.id.board3 -> {
                     checkedTip()
@@ -66,10 +63,7 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
                     binding.categoryChipG.clearCheck()
                 }
 
-                R.id.board5 -> {
-                    binding.categoryG.isGone = true
-                    binding.categoryChipG.clearCheck()
-                }
+
 
                 else -> {
                     binding.categoryG.isGone = true
@@ -136,10 +130,8 @@ class BottomDialogSearchFragment(private val completeClick: (List<Int>) -> Unit)
             }
             val board = when (boardChipG.checkedChipId ){
                 R.id.board1 -> 1
-                R.id.board2 -> 2
                 R.id.board3 -> 3
                 R.id.board4 -> 4
-                R.id.board5 -> 5
                 else -> {0}
             }
             val category = when (categoryChipG.checkedChipId ){
