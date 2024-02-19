@@ -2,6 +2,7 @@ package com.umc.ttoklip.data.model.home
 
 import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
 import com.umc.ttoklip.data.model.news.News
+import com.umc.ttoklip.data.model.town.Togethers
 
 data class HomeResponse(
     val currentMemberNickname: String,
@@ -11,5 +12,5 @@ data class HomeResponse(
     val todayToDoList: String,
     val street : String
 ){
-    constructor() : this("", listOf(), listOf(), listOf(),"","")
+    constructor() : this("", listOf(), listOf(), listOf(),"", "")
 }

@@ -7,6 +7,10 @@ data class ViewTogetherResponse(
     val imageUrls: List<ImageUrl>,
     val title: String,
     val writtenTime: String,
+    val totalPrice: Long,
+    val partyCnt: Long,
+    val partyMax: Long,
+    val currentPrice: Long,
     val commentResponse: List<CommentResponse>,
     val status: String
 )

@@ -23,8 +23,10 @@ import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
 import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.Random
 
 @AndroidEntryPoint
 class ReadTogetherActivity :
@@ -81,20 +83,20 @@ class ReadTogetherActivity :
             })
             reportDialog.show(supportFragmentManager, reportDialog.tag)
         }
-        val random = Random().nextInt(5)
-        val amount = getString(R.string.join_stat_format, random, random + 1)
-        val spannableAmount = SpannableString(amount)
-        spannableAmount.setSpan(
-            ForegroundColorSpan(getColor(R.color.blue)),
-            AMOUNT_STRING_START,
-            random.toString().length + AMOUNT_STRING_LENGTH,
-            SPANNABLE_FLAG_ZERO
-        )
-        binding.currentJoinStatTv.text = spannableAmount
+
 
         binding.cardView.setOnClickListener {
-            if (binding.commentEt.text.toString().isNotBlank()) {
-                viewModel.createComment(CreateCommentRequest(binding.commentEt.text.toString(), 0L))
+            CoroutineScope(Dispatchers.IO).launch {
+                if (binding.commentEt.text.toString().isNotBlank()) {
+                    viewModel.createComment(
+                        CreateCommentRequest(
+                            binding.commentEt.text.toString(),
+                            0L
+                        )
+                    )
+                    delay(500)
+                    viewModel.readTogether(postId)
+                }
             }
         }
 
@@ -138,7 +140,21 @@ class ReadTogetherActivity :
                                 )
                             })
                             commentRVA.submitList(response.commentResponse)
-
+                            val spannableAmount =
+                                SpannableString(
+                                    getString(
+                                        R.string.join_stat_format,
+                                        response.partyCnt,
+                                        response.partyMax
+                                    )
+                                )
+                            spannableAmount.setSpan(
+                                ForegroundColorSpan(getColor(R.color.blue)),
+                                AMOUNT_STRING_START,
+                                response.partyCnt.toString().length + AMOUNT_STRING_LENGTH,
+                                SPANNABLE_FLAG_ZERO
+                            )
+                            binding.currentJoinStatTv.text = spannableAmount
                         }
                     }
                 }
@@ -180,6 +196,6 @@ class ReadTogetherActivity :
     }
 
     override fun onClick(imageUrl: String) {
-        TODO("Not yet implemented")
+
     }
 }
