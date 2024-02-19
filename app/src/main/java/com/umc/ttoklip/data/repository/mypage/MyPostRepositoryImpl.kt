@@ -11,19 +11,19 @@ import com.umc.ttoklip.module.handleApi
 import javax.inject.Inject
 
 class MyPostRepositoryImpl @Inject constructor(private val api: MyPostApi) : MyPostRepository {
-    override suspend fun getBMyQuestions(): NetworkResult<MyQuestionResponse> {
-        return handleApi({ api.getMyQuestions() }) { response: ResponseBody<MyQuestionResponse> -> response.result }
+    override suspend fun getMyQuestions(page: Int): NetworkResult<MyQuestionResponse> {
+        return handleApi({ api.getMyQuestions(page) }) { response: ResponseBody<MyQuestionResponse> -> response.result }
     }
 
-    override suspend fun getMyTogethers(): NetworkResult<MyTogetherResponse> {
-        return handleApi({ api.getMyTogethers() }) { response: ResponseBody<MyTogetherResponse> -> response.result }
+    override suspend fun getMyTogethers(page: Int): NetworkResult<MyTogetherResponse> {
+        return handleApi({ api.getMyTogethers(page) }) { response: ResponseBody<MyTogetherResponse> -> response.result }
     }
 
-    override suspend fun getMyHoneyTips(): NetworkResult<MyHoneyTipsResponse> {
-        return handleApi({ api.getMyHoneyTips() }) { response: ResponseBody<MyHoneyTipsResponse> -> response.result }
+    override suspend fun getMyHoneyTips(page: Int): NetworkResult<MyHoneyTipsResponse> {
+        return handleApi({ api.getMyHoneyTips(page) }) { response: ResponseBody<MyHoneyTipsResponse> -> response.result }
     }
 
-    override suspend fun getMyCommunications(): NetworkResult<MyCommunitiesResponse> {
-        return handleApi({ api.getMyCommunications() }) { response: ResponseBody<MyCommunitiesResponse> -> response.result }
+    override suspend fun getMyCommunications(page: Int): NetworkResult<MyCommunitiesResponse> {
+        return handleApi({ api.getMyCommunications(page) }) { response: ResponseBody<MyCommunitiesResponse> -> response.result }
     }
 }

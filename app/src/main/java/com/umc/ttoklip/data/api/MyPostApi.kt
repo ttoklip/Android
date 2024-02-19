@@ -7,18 +7,19 @@ import com.umc.ttoklip.data.model.mypage.MyQuestionResponse
 import com.umc.ttoklip.data.model.mypage.MyTogetherResponse
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface MyPostApi {
     @GET("/api/v1/my-page/question")
-    suspend fun getMyQuestions(): Response<ResponseBody<MyQuestionResponse>>
+    suspend fun getMyQuestions(@Query("page") page: Int): Response<ResponseBody<MyQuestionResponse>>
 
     @GET("/api/v1/my-page/participate-deals")
-    suspend fun getMyTogethers(): Response<ResponseBody<MyTogetherResponse>>
+    suspend fun getMyTogethers(@Query("page") page: Int): Response<ResponseBody<MyTogetherResponse>>
 
     @GET("/api/v1/my-page/honeytip")
-    suspend fun getMyHoneyTips(): Response<ResponseBody<MyHoneyTipsResponse>>
+    suspend fun getMyHoneyTips(@Query("page") page: Int): Response<ResponseBody<MyHoneyTipsResponse>>
 
     @GET("/api/v1/my-page/community")
-    suspend fun getMyCommunications(): Response<ResponseBody<MyCommunitiesResponse>>
+    suspend fun getMyCommunications(@Query("page") page: Int): Response<ResponseBody<MyCommunitiesResponse>>
 
 }
