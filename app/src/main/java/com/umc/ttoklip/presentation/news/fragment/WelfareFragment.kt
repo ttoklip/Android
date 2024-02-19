@@ -61,7 +61,14 @@ class WelfareFragment() : Fragment() {
         binding.lifecycleOwner = this.viewLifecycleOwner
         return binding.root
     }
-    
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        initObserver()
+    }
+
+
     fun initView() {
         binding.rv.adapter = newsRVA
         binding.sv.viewTreeObserver.addOnScrollChangedListener(ViewTreeObserver.OnScrollChangedListener {
@@ -71,6 +78,7 @@ class WelfareFragment() : Fragment() {
             if (diff == 0) {
                 parentViewModel.getWelfPage()
             }
+
         })
     }
 }

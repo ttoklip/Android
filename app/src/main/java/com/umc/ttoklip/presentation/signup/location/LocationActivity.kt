@@ -191,15 +191,22 @@ class LocationActivity :
                 val address: Address = addressList[0]
                 val spliteAddr = address.getAddressLine(0).split(" ")
                 this.address = spliteAddr[1] + " " + spliteAddr[2] + " " + spliteAddr[3]
+            }else{
+                this.address = ""
             }
         } else {
             val addresses = geocoder.getFromLocation(latitude, longitude, 1)
             if (addresses != null) {
                 val spliteAddr = addresses[0].getAddressLine(0).split(" ")
                 this.address = spliteAddr[1] + " " + spliteAddr[2] + " " + spliteAddr[3]
+            }else{
+                this.address = ""
             }
+
         }
-        binding.locationMytownDetailTv.text = address
+        if (::address.isInitialized){
+            binding.locationMytownDetailTv.text = address ?:""
+        }
     }
 
     override fun initObserver() {

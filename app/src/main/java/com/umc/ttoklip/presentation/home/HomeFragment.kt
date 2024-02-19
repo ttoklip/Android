@@ -29,14 +29,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), OnItemClickListener {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
+    OnItemClickListener {
 
     private val viewModel: HomeViewModel by viewModels<HomeViewModelImpl>()
     private val newsRVA by lazy {
-        NewsRVA(onClick = {
-            NewsRVA { news ->
-                startActivity(ArticleActivity.newIntent(requireContext(), news.newsletterId))
-            }
+        NewsRVA(onClick = { news ->
+            startActivity(ArticleActivity.newIntent(requireContext(), news.newsletterId))
         }
         )
     }
