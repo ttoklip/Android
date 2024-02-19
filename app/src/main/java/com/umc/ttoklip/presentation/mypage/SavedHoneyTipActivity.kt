@@ -18,6 +18,7 @@ import com.umc.ttoklip.presentation.mypage.adapter.HoneyTip
 import com.umc.ttoklip.presentation.mypage.adapter.OnSpinnerItemClickListener
 import com.umc.ttoklip.presentation.mypage.adapter.SavedHoneyTipAdapter
 import com.umc.ttoklip.presentation.mypage.vm.ScrapViewModel
+import com.umc.ttoklip.presentation.news.detail.ArticleActivity
 import com.umc.ttoklip.presentation.search.adapter.HistoryRVA
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -95,8 +96,18 @@ class SavedHoneyTipActivity :
     }
 
     override fun onClick(honeyTip: ScrapResponse) {
-        val intent = Intent(this, ReadHoneyTipActivity::class.java)
-        startActivity(intent)
+        when (binding.boardFilterSpinner.selectedItem.toString()) {
+            "소통해요" -> {
+
+            }
+            "꿀팁 공유" -> {
+
+            }
+            "뉴스레터" -> {
+                startActivity(ArticleActivity.newIntent(this, honeyTip.id))
+            }
+            else -> {}
+        }
     }
 
 }
