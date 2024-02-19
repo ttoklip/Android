@@ -173,7 +173,7 @@
                                 android:id="@+id/whatDoTodayT"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="오늘은 화장실 청소하는 날!"
+                                android:text="@{vm.mainData.todayToDoList }"
                                 android:textAppearance="@style/TextAppearance.App.12sp_400"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toStartOf="@id/checkBox"
@@ -294,7 +294,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:text="(닉네임)님을 위한 꿀팁"
+                    android:text="@{@string/userTip(vm.mainData.currentMemberNickname)}"
                     android:textAppearance="@style/TextAppearance.App.18sp_700"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/layout" />
@@ -334,7 +334,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="18dp"
-                    android:text="(닉네임)님! 속보에요"
+                    android:text="@{@string/userNews(vm.mainData.currentMemberNickname)}"
                     android:textAppearance="@style/TextAppearance.App.18sp_700"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tipRV" />
@@ -374,7 +374,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="18dp"
-                    android:text="(닉네임)님! 마감임박"
+                    android:text="@{@string/userTown(vm.mainData.currentMemberNickname)}"
                     android:textAppearance="@style/TextAppearance.App.18sp_700"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/newsRV" />
