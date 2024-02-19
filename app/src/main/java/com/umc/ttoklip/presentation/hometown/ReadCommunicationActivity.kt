@@ -23,6 +23,9 @@ import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
 import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -41,7 +44,7 @@ class ReadCommunicationActivity :
     private val imageAdapter: ReadImageRVA by lazy {
         ReadImageRVA(this, this@ReadCommunicationActivity)
     }
-    private val viewModel: ReadCommunicationVIewModel by viewModels<ReadCommunicationViewModelImpl>()
+    private val viewModel: ReadCommunicationViewModel by viewModels<ReadCommunicationViewModelImpl>()
     private var postId = 0L
 
     override fun initView() {
@@ -82,7 +85,31 @@ class ReadCommunicationActivity :
 
         binding.cardView.setOnClickListener {
             if (binding.commentEt.text.toString().isNotBlank()) {
-                viewModel.createComment(CreateCommentRequest(binding.commentEt.text.toString(), 0L))
+                CoroutineScope(Dispatchers.IO).launch {
+                    viewModel.createComment(
+                        CreateCommentRequest(
+                            binding.commentEt.text.toString(),
+                            0L
+                        )
+                    )
+                    delay(500)
+                    viewModel.readCommunication(postId)
+                }
+            }
+        }
+
+        binding.scrapBtn.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                viewModel.changeScrap()
+                delay(500)
+                viewModel.readCommunication(postId)
+            }
+        }
+        binding.likeBtn.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                viewModel.changeLike()
+                delay(500)
+                viewModel.readCommunication(postId)
             }
         }
     }
@@ -109,6 +136,9 @@ class ReadCommunicationActivity :
                             imageAdapter.submitList(response.imageUrls.map { url ->
                                 ImageUrl(url.imageUrl)
                             })
+                            likeT.text = response.likeCount.toString()
+                            bookmarkT.text = response.scrapCount.toString()
+                            commitT.text = response.commentCount.toString()
                             if (response.likedByCurrentUser) {
                                 likeImg.setImageDrawable(getDrawable(R.drawable.ic_heart_on_20))
                             } else {
@@ -119,7 +149,8 @@ class ReadCommunicationActivity :
                             } else {
                                 bookmarkImg.setImageDrawable(getDrawable(R.drawable.ic_bookmark_off_20))
                             }
-                            commentRVA.submitList(response.commentResponse)
+//                            Log.d("comment", response.commentResponse.toString())
+                            commentRVA.submitList(response.commentResponses)
                         }
                     }
                 }

@@ -55,6 +55,7 @@ class CommunicationActivity :
         viewModel.getCommunities()
     }
 
+
     override fun initObserver() {
         with(lifecycleScope) {
             launch {

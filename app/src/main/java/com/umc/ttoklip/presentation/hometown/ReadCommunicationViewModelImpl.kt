@@ -20,7 +20,7 @@ import javax.inject.Inject
 class ReadCommunicationViewModelImpl @Inject constructor(
     private val repository: ReadCommsRepository
 ) : ViewModel(),
-    ReadCommunicationVIewModel {
+    ReadCommunicationViewModel {
     private val _postContent: MutableStateFlow<ViewCommunicationResponse> =
         MutableStateFlow<ViewCommunicationResponse>(
             ViewCommunicationResponse(
@@ -71,14 +71,14 @@ class ReadCommunicationViewModelImpl @Inject constructor(
     }
 
     override fun changeScrap() {
-        _like.value = _like.value.not()
+        Log.d("change", "스크랩")
+        _scrap.value = _scrap.value.not()
         viewModelScope.launch {
-            if (_like.value) {
-                repository.addCommsLike(postId.value).onSuccess {
-                    Log.d("change", "스크랩")
+            if (_scrap.value) {
+                repository.addCommsScrap(postId.value).onSuccess {
                 }
             } else {
-                repository.cancelCommsLike(postId.value).onSuccess {
+                repository.cancelCommsScrap(postId.value).onSuccess {
                     Log.d("change", "스크랩")
                 }
             }
@@ -86,14 +86,14 @@ class ReadCommunicationViewModelImpl @Inject constructor(
     }
 
     override fun changeLike() {
-        _scrap.value = _scrap.value.not()
+        Log.d("change", "좋아요")
+        _like.value = _like.value.not()
         viewModelScope.launch {
-            if (_scrap.value) {
-                repository.addCommsScrap(postId.value).onSuccess {
-                    Log.d("change", "좋아요")
+            if (_like.value) {
+                repository.addCommsLike(postId.value).onSuccess {
                 }
             } else {
-                repository.cancelCommsScrap(postId.value).onSuccess {
+                repository.cancelCommsLike(postId.value).onSuccess {
                     Log.d("change", "좋아요")
                 }
             }
