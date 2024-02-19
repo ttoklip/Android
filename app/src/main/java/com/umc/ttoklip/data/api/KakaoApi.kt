@@ -11,6 +11,7 @@ interface KakaoApi {
     @GET("v2/local/search/keyword.json")
     fun getSearchKeyword(
         @Header("Authorization") key: String,
-        @Query("query") query:String
+        @Query("query") query:String,
+        @Query("page") page:Int
     ): Call<KakaoResponse.ResultSearchKeyword>
 }

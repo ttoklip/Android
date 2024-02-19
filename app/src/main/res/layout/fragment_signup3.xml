@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -88,111 +89,113 @@
                 android:layout_marginTop="20dp"
                 android:background="@color/gray20" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp">
-
-                <ImageView
-                    android:id="@+id/signup3_agreeService_iv"
-                    android:layout_width="17dp"
-                    android:layout_height="17dp"
-                    android:src="@drawable/oval_stroke_1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/signup3_agreeService_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="서비스 이용약관 (필수)"
-                    android:textAppearance="@style/TextAppearance.App.14sp_400"
-                    app:layout_constraintBottom_toBottomOf="@id/signup3_agreeService_iv"
-                    app:layout_constraintStart_toEndOf="@id/signup3_agreeService_iv"
-                    app:layout_constraintTop_toTopOf="@id/signup3_agreeService_iv" />
-                <ImageView
-                    android:id="@+id/signup3_agreeService_btn"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_arrow_black_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp">
-
-                <ImageView
-                    android:id="@+id/signup3_agreePrivacy_iv"
-                    android:layout_width="17dp"
-                    android:layout_height="17dp"
-                    android:src="@drawable/oval_stroke_1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/signup3_agreePrivacy_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="개인정보 처리방침 (필수)"
-                    android:textAppearance="@style/TextAppearance.App.14sp_400"
-                    app:layout_constraintBottom_toBottomOf="@id/signup3_agreePrivacy_iv"
-                    app:layout_constraintStart_toEndOf="@id/signup3_agreePrivacy_iv"
-                    app:layout_constraintTop_toTopOf="@id/signup3_agreePrivacy_iv" />
-                <ImageView
-                    android:id="@+id/signup3_agreePrivacy_btn"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_arrow_black_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <ImageView
-                    android:id="@+id/signup3_agreeLocation_iv"
-                    android:layout_width="17dp"
-                    android:layout_height="17dp"
-                    android:src="@drawable/oval_stroke_1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/signup3_agreeLocation_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="위치서비스 이용약관 (선택)"
-                    android:textAppearance="@style/TextAppearance.App.14sp_400"
-                    app:layout_constraintBottom_toBottomOf="@id/signup3_agreeLocation_iv"
-                    app:layout_constraintStart_toEndOf="@id/signup3_agreeLocation_iv"
-                    app:layout_constraintTop_toTopOf="@id/signup3_agreeLocation_iv" />
-                <ImageView
-                    android:id="@+id/signup3_agreeLocation_btn"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_arrow_black_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="wrap_content"-->
-<!--                tools:listitem="@layout/item_term" />-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:layout_marginBottom="10dp">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/signup3_agreeService_iv"-->
+<!--                    android:layout_width="17dp"-->
+<!--                    android:layout_height="17dp"-->
+<!--                    android:src="@drawable/oval_stroke_1"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/signup3_agreeService_tv"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="10dp"-->
+<!--                    android:text="서비스 이용약관 (필수)"-->
+<!--                    android:textAppearance="@style/TextAppearance.App.14sp_400"-->
+<!--                    app:layout_constraintBottom_toBottomOf="@id/signup3_agreeService_iv"-->
+<!--                    app:layout_constraintStart_toEndOf="@id/signup3_agreeService_iv"-->
+<!--                    app:layout_constraintTop_toTopOf="@id/signup3_agreeService_iv" />-->
+<!--                <ImageView-->
+<!--                    android:id="@+id/signup3_agreeService_btn"-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    android:src="@drawable/ic_arrow_black_24"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"/>-->
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_marginBottom="10dp">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/signup3_agreePrivacy_iv"-->
+<!--                    android:layout_width="17dp"-->
+<!--                    android:layout_height="17dp"-->
+<!--                    android:src="@drawable/oval_stroke_1"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/signup3_agreePrivacy_tv"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="10dp"-->
+<!--                    android:text="개인정보 처리방침 (필수)"-->
+<!--                    android:textAppearance="@style/TextAppearance.App.14sp_400"-->
+<!--                    app:layout_constraintBottom_toBottomOf="@id/signup3_agreePrivacy_iv"-->
+<!--                    app:layout_constraintStart_toEndOf="@id/signup3_agreePrivacy_iv"-->
+<!--                    app:layout_constraintTop_toTopOf="@id/signup3_agreePrivacy_iv" />-->
+<!--                <ImageView-->
+<!--                    android:id="@+id/signup3_agreePrivacy_btn"-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    android:src="@drawable/ic_arrow_black_24"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"/>-->
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/signup3_agreeLocation_iv"-->
+<!--                    android:layout_width="17dp"-->
+<!--                    android:layout_height="17dp"-->
+<!--                    android:src="@drawable/oval_stroke_1"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/signup3_agreeLocation_tv"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="10dp"-->
+<!--                    android:text="위치서비스 이용약관 (선택)"-->
+<!--                    android:textAppearance="@style/TextAppearance.App.14sp_400"-->
+<!--                    app:layout_constraintBottom_toBottomOf="@id/signup3_agreeLocation_iv"-->
+<!--                    app:layout_constraintStart_toEndOf="@id/signup3_agreeLocation_iv"-->
+<!--                    app:layout_constraintTop_toTopOf="@id/signup3_agreeLocation_iv" />-->
+<!--                <ImageView-->
+<!--                    android:id="@+id/signup3_agreeLocation_btn"-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    android:src="@drawable/ic_arrow_black_24"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"/>-->
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/signup3_terms_RV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_term"
+                android:layout_marginTop="10dp"/>
 
         </LinearLayout>
 

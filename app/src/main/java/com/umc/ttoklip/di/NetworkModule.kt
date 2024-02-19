@@ -7,6 +7,7 @@ import com.umc.ttoklip.data.api.LoginApi
 import com.umc.ttoklip.data.api.NewsApi
 import com.umc.ttoklip.data.api.SearchApi
 import com.umc.ttoklip.data.api.SignupApi
+import com.umc.ttoklip.data.api.TermApi
 import com.umc.ttoklip.data.api.TestApi
 import dagger.Module
 import dagger.Provides
@@ -103,6 +104,12 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideSignupApi(retrofit: Retrofit): SignupApi{
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideTermApi(retrofit: Retrofit): TermApi{
         return retrofit.buildService()
     }
 
