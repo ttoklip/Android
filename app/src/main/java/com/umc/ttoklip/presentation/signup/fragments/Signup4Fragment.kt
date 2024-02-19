@@ -164,7 +164,7 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
 
                     val interestType =
                         if (interest.equals("집안일")) "HOUSEWORK"
-                        else if (interest.equals("요리")) "RECIPE"
+                        else if (interest.equals("레시피")) "RECIPE"
                         else if (interest.equals("안전한 생활")) "SAFE_LIVING"
                         else "WELFARE_POLICY"
                     interestArray.add(interestType)
