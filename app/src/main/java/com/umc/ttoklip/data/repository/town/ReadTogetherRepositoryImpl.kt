@@ -1,6 +1,7 @@
 package com.umc.ttoklip.data.repository.town
 
 import com.umc.ttoklip.data.api.ReadTogetherApi
+import com.umc.ttoklip.data.model.CommonResponse
 import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.StandardResponse
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
@@ -54,5 +55,13 @@ class ReadTogetherRepositoryImpl @Inject constructor(private val api: ReadTogeth
                 body = body
             )
         }) { response: ResponseBody<Unit> -> response.result }
+    }
+
+    override suspend fun joinTogether(postId: Long): NetworkResult<CommonResponse> {
+        return handleApi({ api.joinTogether(postId) }) { response: ResponseBody<CommonResponse> -> response.result }
+    }
+
+    override suspend fun cancelTogether(postId: Long): NetworkResult<CommonResponse> {
+        return handleApi({ api.cancelTogether(postId) }) { response: ResponseBody<CommonResponse> -> response.result }
     }
 }

@@ -1,5 +1,6 @@
 package com.umc.ttoklip.data.api
 
+import com.umc.ttoklip.data.model.CommonResponse
 import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.StandardResponse
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
@@ -46,4 +47,14 @@ interface ReadTogetherApi {
         @Body body: ReportRequest,
         @Path("commentId") commentId: Long
     ): Response<ResponseBody<Unit>>
+
+    @POST("/api/v1/town/carts/participants/{cartId}")
+    suspend fun joinTogether(
+        @Path("cartId") postId: Long
+    ): Response<ResponseBody<CommonResponse>>
+
+    @DELETE("/api/v1/town/carts/participants/{cartId}")
+    suspend fun cancelTogether(
+        @Path("cartId") postId: Long
+    ): Response<ResponseBody<CommonResponse>>
 }

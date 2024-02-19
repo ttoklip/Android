@@ -19,4 +19,6 @@ interface ReadTogetherViewModel {
     fun reportComment(commentId: Long, reportRequest: ReportRequest)
     fun deleteComment(commentId: Long)
     fun createComment(body: CreateCommentRequest)
+    fun joinTogether()
+    fun cancelTogether()
 }
