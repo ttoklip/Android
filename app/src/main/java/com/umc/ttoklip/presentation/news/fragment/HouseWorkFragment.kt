@@ -1,6 +1,7 @@
 package com.umc.ttoklip.presentation.news.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,6 +74,7 @@ class HouseWorkFragment() :Fragment() {
                 val diff: Int = view.bottom - (binding.sv.height + binding.sv
                     .scrollY)
                 if (diff == 0) {
+                    Log.d("end", "end")
                     parentViewModel.getHousePage()
                 }
             }

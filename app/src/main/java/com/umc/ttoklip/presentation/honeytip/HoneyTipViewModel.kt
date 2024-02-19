@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -69,6 +68,11 @@ class HoneyTipViewModel @Inject constructor(
     val safePage = MutableStateFlow<Int>(1)
     val welfPage = MutableStateFlow<Int>(1)
 
+    fun resetHouseHoneyTipList(){
+        Log.d("reset", "reset")
+        _houseworkHoneyTip.value = listOf()
+    }
+
     //질문 리스트
     private val _houseworkQuestion = MutableStateFlow<List<HoneyTipMain>>(listOf())
     val houseworkQuestion = _houseworkQuestion.asStateFlow()
@@ -105,15 +109,86 @@ class HoneyTipViewModel @Inject constructor(
         }
     }
 
-    fun getHoneyTipByCategory() {
+    fun getHouseHoneyTipPage() {
         if (!isHouseEnd.value) {
             viewModelScope.launch(Dispatchers.IO) {
                 try {
                     repository.getHoneyTipByCategory("HOUSEWORK", housePage.value)
                         .onSuccess {
                             _houseworkHoneyTip.emit(_houseworkHoneyTip.value + it.data)
+                            Log.d("housework", _houseworkHoneyTip.value.toString())
+                            Log.d("housework", _houseworkHoneyTip.value.size.toString())
                             housePage.value = housePage.value + 1
                             isHouseEnd.value = it.isLast
+                        }.onFail {
+
+                        }.onException {
+                            throw it
+                        }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.d("예외", "$e")
+                }
+            }
+        }
+    }
+
+    fun getRecipeHoneyTipPage() {
+        if (!isRecipeEnd.value) {
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    repository.getHoneyTipByCategory("RECIPE", recipePage.value)
+                        .onSuccess {
+                            _recipeHoneyTip.emit(_recipeHoneyTip.value + it.data)
+                            Log.d("housework", _houseworkHoneyTip.value.toString())
+                            recipePage.value = recipePage.value + 1
+                            isRecipeEnd.value = it.isLast
+                        }.onFail {
+
+                        }.onException {
+                            throw it
+                        }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.d("예외", "$e")
+                }
+            }
+        }
+    }
+
+    fun getSafeLivingHoneyTipPage() {
+        if (!isSafeEnd.value) {
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    repository.getHoneyTipByCategory("SAFE_LIVING", safePage.value)
+                        .onSuccess {
+                            _safeLivingHoneyTip.emit(_safeLivingHoneyTip.value + it.data)
+                            Log.d("housework", _safeLivingHoneyTip.value.toString())
+                            safePage.value = safePage.value + 1
+                            isSafeEnd.value = it.isLast
+                        }.onFail {
+
+                        }.onException {
+                            throw it
+                        }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.d("예외", "$e")
+                }
+            }
+        }
+    }
+
+    fun getWelFareHoneyTipPage() {
+        if (!isWelfEnd.value) {
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    repository.getHoneyTipByCategory("WELFARE_POLICY", welfPage.value)
+                        .onSuccess {
+                            _welfareHoneyTip.emit(_welfareHoneyTip.value + it.data)
+                            Log.d("housework", _houseworkHoneyTip.value.toString())
+                            welfPage.value = welfPage.value + 1
+                            isWelfEnd.value = it.isLast
                         }.onFail {
 
                         }.onException {
