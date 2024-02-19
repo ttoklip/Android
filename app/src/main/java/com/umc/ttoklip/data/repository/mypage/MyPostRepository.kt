@@ -7,8 +7,8 @@ import com.umc.ttoklip.data.model.mypage.MyTogetherResponse
 import com.umc.ttoklip.module.NetworkResult
 
 interface MyPostRepository {
-    suspend fun getBMyQuestions(): NetworkResult<MyQuestionResponse>
-    suspend fun getMyTogethers(): NetworkResult<MyTogetherResponse>
-    suspend fun getMyHoneyTips(): NetworkResult<MyHoneyTipsResponse>
-    suspend fun getMyCommunications(): NetworkResult<MyCommunitiesResponse>
+    suspend fun getMyQuestions(page: Int): NetworkResult<MyQuestionResponse>
+    suspend fun getMyTogethers(page: Int): NetworkResult<MyTogetherResponse>
+    suspend fun getMyHoneyTips(page: Int): NetworkResult<MyHoneyTipsResponse>
+    suspend fun getMyCommunications(page: Int): NetworkResult<MyCommunitiesResponse>
 }
