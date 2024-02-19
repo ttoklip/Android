@@ -2,6 +2,9 @@ package com.umc.ttoklip.data.model.mypage
 
 data class Community(
     val content: String,
-    val questionId: Long,
-    val title: String
+    val id: Int,
+    val title: String,
+    val writer: String,
+    val category: String,
+    val commentCount: Int
 )
