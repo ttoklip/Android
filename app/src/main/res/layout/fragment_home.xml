@@ -78,7 +78,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:text="-9º"
+                        android:text="9º"
                         android:textAppearance="@style/TextAppearance.App.12sp_400"
                         app:layout_constraintBottom_toBottomOf="@id/weatherImg"
                         app:layout_constraintStart_toEndOf="@id/weatherImg"
