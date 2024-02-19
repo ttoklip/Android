@@ -250,6 +250,12 @@ object NetworkModule {
         return retrofit.buildService()
     }
 
+    @Provides
+    @Singleton
+    fun provideTownMain(retrofit: Retrofit): TownMainApi {
+        return retrofit.buildService()
+    }
+
 
     private inline fun <reified T> Retrofit.buildService(): T {
         return this.create(T::class.java)
