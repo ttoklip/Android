@@ -1,5 +1,6 @@
 package com.umc.ttoklip.presentation.search2.fragment
 
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import androidx.fragment.app.activityViewModels
@@ -60,9 +61,12 @@ class SearchNewsFragment() :
     override fun initView() {
         binding.filterSpinner.adapter = spinnerA
         binding.filterSpinner.setSelection(0)
+        Log.d("왜안","${spinnerA.item}")
+
         binding.filterSpinner.onItemSelectedListener = object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 viewModel.reset(1)
+                Log.d("왜안","${spinnerA.item}")
                 if (spinnerA.item == "최신순"){
                     viewModel.getNewsSearch("latest")
                 } else{

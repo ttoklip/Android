@@ -1,5 +1,6 @@
 package com.umc.ttoklip.presentation.mypage
 
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
@@ -8,11 +9,16 @@ import com.umc.ttoklip.databinding.ActivityMyHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipListRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
+import com.umc.ttoklip.presentation.mypage.vm.ScrapViewModel
+import com.umc.ttoklip.presentation.search.SearchViewModel
+import com.umc.ttoklip.presentation.search.SearchViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MyHoneyTipActivity : BaseActivity<ActivityMyHoneyTipBinding>(R.layout.activity_my_honey_tip),
     OnItemClickListener {
+    private val viewModel: ScrapViewModel by viewModels<ScrapViewModel>()
+
     override fun initView() {
         val sortFilters = listOf(
             getString(R.string.sort_most_recent),

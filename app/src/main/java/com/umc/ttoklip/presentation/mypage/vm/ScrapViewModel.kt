@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.data.model.mypage.ScrapResponse
-import com.umc.ttoklip.data.model.search.SearchModel
 import com.umc.ttoklip.data.repository.scrap.ScrapRepository
 import com.umc.ttoklip.module.onException
 import com.umc.ttoklip.module.onFail
@@ -19,50 +18,87 @@ import javax.inject.Inject
 class ScrapViewModel @Inject constructor(
     val scrapRepository: ScrapRepository
 ) : ViewModel() {
-    private val isTourEnd = MutableStateFlow(false)
-    private val tourPage = MutableStateFlow(0)
+    private val isEnd = MutableStateFlow(false)
+    private val page = MutableStateFlow(0)
 
-    private val isTipEnd = MutableStateFlow(false)
-    private val tipPage = MutableStateFlow(0)
+    private val _scrapList = MutableStateFlow(listOf<ScrapResponse>())
+    val scrapList: StateFlow<List<ScrapResponse>>
+        get() = _scrapList
 
-    private val isNewsEnd = MutableStateFlow(false)
-    private val newsPage = MutableStateFlow(0)
+    fun getTownScrap() {
+        if (!isEnd.value) {
+            viewModelScope.launch {
+                try {
+                    scrapRepository.getTownScrap(
+                        page = page.value
+                    ).onSuccess {
+                        _scrapList.emit(scrapList.value + it.communities)
+                        page.value = page.value + 1
+                        isEnd.value = it.isLast
+                    }.onFail {
 
-    private val _searchTipList = MutableStateFlow(listOf<ScrapResponse>())
-    val searchTipList: StateFlow<List<ScrapResponse>>
-        get() = _searchTipList
-
-    private val _searchNewsList = MutableStateFlow(listOf<ScrapResponse>())
-
-    val searchNewsList: StateFlow<List<ScrapResponse>>
-        get() = _searchNewsList
-    private val _searchTourList = MutableStateFlow(listOf<ScrapResponse>())
-
-    val searchTourList: StateFlow<List<ScrapResponse>>
-        get() = _searchTourList
-
-    fun getNewsTown() {
-        viewModelScope.launch {
-            if (!isTourEnd.value) {
-                viewModelScope.launch {
-                    try {
-                        scrapRepository.getTownScrap(
-                            page = tourPage.value
-                        ).onSuccess {
-                            _searchTourList.emit(searchTourList.value + it.communities)
-                            tourPage.value = tourPage.value + 1
-                            isTourEnd.value = it.isLast
-                        }.onFail {
-
-                        }.onException {
-                            throw it
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        Log.d("예외", "$e")
+                    }.onException {
+                        throw it
                     }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.d("예외", "$e")
                 }
             }
+        }
+    }
+
+    fun getNewsScrap() {
+        if (!isEnd.value) {
+            viewModelScope.launch {
+                try {
+                    scrapRepository.getNewsScrap(
+                        page = page.value
+                    ).onSuccess {
+                        _scrapList.emit(scrapList.value + it.newsletters)
+                        page.value = page.value + 1
+                        isEnd.value = it.isLast
+                    }.onFail {
+
+                    }.onException {
+                        throw it
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.d("예외", "$e")
+                }
+            }
+        }
+    }
+
+    fun getTipScrap() {
+        if (!isEnd.value) {
+            viewModelScope.launch {
+                try {
+                    scrapRepository.getTipScrap(
+                        page = page.value
+                    ).onSuccess {
+                        _scrapList.emit(scrapList.value + it.honeyTips)
+                        page.value = page.value + 1
+                        isEnd.value = it.isLast
+                    }.onFail {
+
+                    }.onException {
+                        throw it
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.d("예외", "$e")
+                }
+            }
+        }
+    }
+
+    fun reset() {
+        viewModelScope.launch {
+            _scrapList.emit(listOf())
+            isEnd.value = false
+            page.value = 0
         }
     }
 }
