@@ -17,6 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -46,6 +47,7 @@ import com.umc.ttoklip.util.WriteHoneyTipUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
+import java.io.File
 
 
 @AndroidEntryPoint
@@ -285,6 +287,16 @@ class WriteHoneyTipActivity :
             val images =
                 imageAdapter.currentList.filterIsInstance<Image>().map { it.uri }.toList()
             val imageParts = WriteHoneyTipUtil(this).convertUriListToMultiBody(images)
+            imageParts.forEach {
+                Log.d("용량", "${it.body.contentLength().toDouble() / (1024 * 1024)}")
+                if(it.body.contentLength().toDouble() / (1024 * 1024) > 10){
+                    Toast.makeText(this, "사진 용량은 10MB로 제한되어있습니다.", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+            }
+            /*val temp = imageParts[0].body.contentLength()
+            val dataSizeInMB: Double = temp.toDouble() / (1024 * 1024)
+            Log.d("용량","${dataSizeInMB}")*/
 
             val title = binding.titleEt.text.toString()
             val content = binding.bodyEt.text.toString()
@@ -301,11 +313,24 @@ class WriteHoneyTipActivity :
                 }
             } else {
                 if (board == HONEY_TIP) {
-                    viewModel.createHoneyTip(title, content, category, imageParts, url)
+                    //viewModel.createHoneyTip(title, content, category, imageParts, url)
                 } else {
-                    viewModel.createQuestion(title, content, category, imageParts)
+                    //viewModel.createQuestion(title, content, category, imageParts)
                 }
             }
+        }
+    }
+
+    fun getFileSize(filePath: String): Long {
+        val file = File(filePath)
+
+        // 파일이 존재하는지 확인
+        if (file.exists()) {
+            // 파일 크기를 바이트 단위로 반환
+            return file.length()
+        } else {
+            // 파일이 존재하지 않으면 -1 또는 다른 값으로 처리
+            return -1
         }
     }
 
