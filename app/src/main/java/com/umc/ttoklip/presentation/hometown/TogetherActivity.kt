@@ -35,11 +35,11 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
         binding.backBtn.setOnClickListener {
             finish()
         }
+        viewModel.get()
 
         binding.noticeBtn.setOnClickListener {
             startActivity(AlarmActivity.newIntent(this))
         }
-
 
         binding.togetherRv.adapter = adapter
         binding.togetherRv.layoutManager = LinearLayoutManager(this)
@@ -56,6 +56,13 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
                             }
                             sheet.show(supportFragmentManager, sheet.tag)
                         }
+                    }
+                }
+            }
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.mainData.collect {
+                        adapter.submitList(it.carts)
                     }
                 }
             }
