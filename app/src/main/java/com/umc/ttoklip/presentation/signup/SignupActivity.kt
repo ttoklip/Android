@@ -16,8 +16,9 @@ class SignupActivity:BaseActivity<ActivitySignupBinding>(R.layout.activity_signu
         
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.signup_frm)as NavHostFragment
         var navController=navHostFragment.findNavController()
+
         binding.signupBackIb.setOnClickListener {
-            if(!navController.popBackStack()){
+            if(navHostFragment.childFragmentManager.backStackEntryCount==0){
                 finish()
             }else{
                 navController.popBackStack()
