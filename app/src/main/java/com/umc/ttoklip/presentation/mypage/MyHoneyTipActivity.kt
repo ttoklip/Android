@@ -160,7 +160,7 @@ class MyHoneyTipActivity : BaseActivity<ActivityMyHoneyTipBinding>(R.layout.acti
         when (binding.honeyTipFilterSpinner.selectedItem.toString()) {
             "소통해요" -> {
                 val intent = Intent(this, ReadCommunicationActivity::class.java)
-                intent.putExtra("postId", honeyTip.id)
+                intent.putExtra("postId", honeyTip.id.toLong())
                 startActivity(intent)
             }
 
