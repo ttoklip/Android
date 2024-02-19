@@ -1,4 +1,4 @@
-package com.umc.ttoklip.presentation.signup
+package com.umc.ttoklip.presentation.signup.location
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData

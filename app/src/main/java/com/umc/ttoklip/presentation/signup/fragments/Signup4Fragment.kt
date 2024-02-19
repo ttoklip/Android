@@ -59,7 +59,7 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
                 launch {
                     viewModel.nickcheckbtn.collect {
                         if (it) {
-                            delay(100)
+                            delay(200)
                             viewModel.nickok.collect {
                                 if (it) {
                                     binding.signup4NickokTv.visibility = View.VISIBLE

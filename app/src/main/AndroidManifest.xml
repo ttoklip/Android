@@ -133,10 +133,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             android:exported="false" />
-        <activity android:name=".presentation.signup.LocationActivity"
+        <activity android:name=".presentation.signup.location.LocationActivity"
             android:screenOrientation="portrait"
             android:exported="false"/>
-        <activity android:name=".presentation.signup.DirectLocationActivity"
+        <activity android:name=".presentation.signup.location.DirectLocationActivity"
             android:screenOrientation="portrait"
             android:exported="false"/>
         <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
