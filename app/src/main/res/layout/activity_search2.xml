@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.umc.ttoklip.presentation.search.SearchViewModel2" />
+            type="com.umc.ttoklip.presentation.search2.SearchViewModel2" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -7,14 +7,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
-import com.umc.ttoklip.databinding.ItemListHoneyTipBinding
-import java.io.Serializable
+import com.umc.ttoklip.databinding.ItemQuestionListBinding
 import java.text.SimpleDateFormat
 import java.util.Date
-import kotlin.String
 
-class HoneyTipListRVA(private var listener: OnItemClickListener) :
-    ListAdapter<HoneyTipMain, HoneyTipListRVA.HoneyTipListViewHolder>(object :
+class QuestionListRVA(private var listener: OnQuestionClickListener) :
+    ListAdapter<HoneyTipMain, QuestionListRVA.QuestionListViewHolder>(object :
         DiffUtil.ItemCallback<HoneyTipMain>() {
         override fun areItemsTheSame(
             oldItem: HoneyTipMain,
@@ -46,7 +44,7 @@ class HoneyTipListRVA(private var listener: OnItemClickListener) :
         return if (daysDifference == 0.toLong()) "오늘" else "${daysDifference}일전"
     }
 
-    inner class HoneyTipListViewHolder(private val binding: ItemListHoneyTipBinding) :
+    inner class QuestionListViewHolder(private val binding: ItemQuestionListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(honeyTip: HoneyTipMain) {
             binding.titleTv.text = honeyTip.title
@@ -54,36 +52,26 @@ class HoneyTipListRVA(private var listener: OnItemClickListener) :
             binding.dateTv.text = calculateDate(honeyTip.writtenTime)
             binding.bodyTv.text = honeyTip.content
             binding.commentCountTv.text = honeyTip.commentCount.toString()
-            binding.likeCountTv.text = honeyTip.likeCount.toString()
-            binding.scrapCountTv.text = honeyTip.scrapCount.toString()
+
             binding.root.setOnClickListener {
                 listener.onClick(honeyTip)
             }
         }
     }
 
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HoneyTipListViewHolder {
-        return HoneyTipListViewHolder(
-            ItemListHoneyTipBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionListViewHolder {
+        return QuestionListViewHolder(
+            ItemQuestionListBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
         )
     }
 
-    override fun onBindViewHolder(holder: HoneyTipListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: QuestionListViewHolder, position: Int) {
         holder.bind(currentList[position])
     }
 }
 
-interface OnItemClickListener {
+interface OnQuestionClickListener {
     fun onClick(honeyTip: HoneyTipMain)
 }
-
-data class HoneyTips(
-    var writer: String,
-    var title: String,
-    var body: String,
-    var date: String,
-    var chatCnt: Int = 0,
-) : Serializable
