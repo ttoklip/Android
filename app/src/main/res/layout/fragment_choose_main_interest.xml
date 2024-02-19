@@ -24,11 +24,12 @@
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/main_interest_items_group"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="48dp"
-            app:chipSpacingHorizontal="24dp"
+            app:chipSpacingHorizontal="12dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/main_interest_title_text">
 
 
@@ -62,18 +63,6 @@
                 android:layout_height="wrap_content"
                 android:tag="NO"
                 android:text="@string/safe_life_text"
-                android:textAppearance="@style/TextAppearance.App.12sp_700"
-                app:chipBackgroundColor="@color/white"
-                app:chipStrokeColor="@color/gray40"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/fraud_chip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:tag="NO"
-                android:text="@string/fraud_text"
                 android:textAppearance="@style/TextAppearance.App.12sp_700"
                 app:chipBackgroundColor="@color/white"
                 app:chipStrokeColor="@color/gray40"
