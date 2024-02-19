@@ -65,7 +65,7 @@ class SearchTownFragment() :
         binding.filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 viewModel.reset(1)
-                if (spinnerA.item == "최신순"){
+                if (binding.filterSpinner.selectedItem == "최신순"){
                     viewModel.getTourSearch("latest")
                 } else{
                     viewModel.getTourSearch("popularity")
@@ -88,7 +88,7 @@ class SearchTownFragment() :
                 if (newState == 2 && !recyclerView.canScrollVertically(1)
                     && lastVisibleItemPosition == totalItemViewCount
                 ) {
-                    if (spinnerA.item == "최신순"){
+                    if (binding.filterSpinner.selectedItem == "최신순"){
                         viewModel.getTourSearch("latest")
                     } else{
                         viewModel.getTourSearch("popularity")
