@@ -14,6 +14,8 @@ import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.hometown.ReadCommunicationActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipListRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
+import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
+import com.umc.ttoklip.presentation.honeytip.read.ReadQuestionActivity
 import com.umc.ttoklip.presentation.mypage.vm.MyHoneyTipViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -163,18 +165,15 @@ class MyHoneyTipActivity : BaseActivity<ActivityMyHoneyTipBinding>(R.layout.acti
             }
 
             "꿀팁 공유" -> {
-//                val intent = Intent(this, HoneyTipActivity::class.java)
-//                intent.putExtra("postId", honeyTip.id)
-//                startActivity(intent)
+                val intent = Intent(this, ReadHoneyTipActivity::class.java)
+                intent.putExtra("postId", honeyTip.id)
+                startActivity(intent)
             }
 
             "질문해요" -> {
-                /*
-                val intent = Intent(this, HoneyTips::class.java)
+                val intent = Intent(this, ReadQuestionActivity::class.java)
                 intent.putExtra("postId", honeyTip.id)
                 startActivity(intent)
-
-                 */
             }
 
             else -> {}
