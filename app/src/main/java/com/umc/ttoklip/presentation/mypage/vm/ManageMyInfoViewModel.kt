@@ -64,6 +64,8 @@ class ManageMyInfoViewModel @Inject constructor(
 
     fun editMyPageInfo(
         street: String,
+        locationX:Int,
+        locationY:Int,
         nickname: String,
         categories: List<String>?,
         profileImage: MultipartBody.Part?,

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <ImageButton
+            android:id="@+id/location_back_ib"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:background="#00000000"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_arrow_back_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/location_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="우리동네 설정"
+            android:textAppearance="@style/TextAppearance.App.20sp_600"
+            app:layout_constraintBottom_toBottomOf="@id/location_back_ib"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/location_back_ib" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/location_map"
+            android:name="com.naver.maps.map.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="480dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/gray40"
+            app:layout_constraintTop_toBottomOf="@id/location_title_tv" />
+
+        <com.naver.maps.map.widget.LocationButtonView
+            android:id="@+id/location_nowLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toTopOf="@id/location_mytown_cl"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/location_mytown_cl"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="@drawable/rectangle_corner_30_0"
+            android:backgroundTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:id="@+id/location_mytownTitle_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="30dp"
+                android:text="우리동네"
+                android:textAppearance="@style/TextAppearance.App.16sp_600"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/location_mytown_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="나의 동네"
+                android:textAppearance="@style/TextAppearance.App.14sp_700"
+                app:layout_constraintStart_toStartOf="@id/location_mytownTitle_tv"
+                app:layout_constraintTop_toBottomOf="@id/location_mytownTitle_tv" />
+
+            <TextView
+                android:id="@+id/location_mytownDetail_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:text="나의 동네 상세 위치"
+                android:textAppearance="@style/TextAppearance.App.14sp_500"
+                app:layout_constraintBottom_toBottomOf="@id/location_mytown_tv"
+                app:layout_constraintStart_toEndOf="@id/location_mytown_tv"
+                app:layout_constraintTop_toTopOf="@id/location_mytown_tv" />
+
+            <TextView
+                android:id="@+id/location_mytownRange_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="우리동네범위설정"
+                android:textAppearance="@style/TextAppearance.App.14sp_700"
+                app:layout_constraintStart_toStartOf="@id/location_mytown_tv"
+                app:layout_constraintTop_toBottomOf="@id/location_mytown_tv" />
+
+            <SeekBar
+                android:id="@+id/location_range_bar"
+                android:layout_width="385dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="-16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="-16dp"
+                android:background="@null"
+                android:backgroundTint="@color/white"
+                android:max="100"
+                android:progress="33"
+                android:progressDrawable="@drawable/level_bar_background"
+                android:thumb="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/location_mytownRange_tv" />
+
+            <TextView
+                android:id="@+id/location_range1_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="10dp"
+                android:text="500m"
+                android:textColor="@color/black"
+                android:textAppearance="@style/TextAppearance.App.14sp_700"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/location_range_bar" />
+
+            <TextView
+                android:id="@+id/location_range2_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="1km"
+                android:textColor="@color/gray40"
+                android:textAppearance="@style/TextAppearance.App.14sp_700"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/location_range_bar" />
+
+            <TextView
+                android:id="@+id/location_range3_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="60dp"
+                android:text="1.5km"
+                android:textColor="@color/gray40"
+                android:textAppearance="@style/TextAppearance.App.14sp_700"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/location_range_bar" />
+
+            <TextView
+                android:id="@+id/location_rangeDesc_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="우리집 500m 주변으로 동네를 설정합니다."
+                android:textAppearance="@style/TextAppearance.App.8sp_400"
+                android:textSize="12dp"
+                app:layout_constraintStart_toStartOf="@id/location_mytownRange_tv"
+                app:layout_constraintTop_toBottomOf="@id/location_range1_tv" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

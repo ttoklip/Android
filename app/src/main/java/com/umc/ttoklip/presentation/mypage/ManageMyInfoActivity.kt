@@ -1,5 +1,6 @@
 package com.umc.ttoklip.presentation.mypage
 
+import android.app.Activity
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
@@ -48,6 +49,9 @@ class ManageMyInfoActivity :
     private var independentYear = 0
     private var independentMonth = 0
     private val category = mutableListOf<String>()
+    private var address=""
+    private var locationX=0
+    private var locationY=0
 
     private val pickMultipleMedia = registerForActivityResult(
         ActivityResultContracts.PickVisualMedia(
@@ -98,8 +102,9 @@ class ManageMyInfoActivity :
         }
 
         binding.findAddressBtn.setOnClickListener {
-            val intent = Intent(this, MyHometownAddressActivity::class.java)
-            startActivity(intent)
+            val intent= Intent(this,MyHometownAddressActivity::class.java)
+            val Location_Type=1
+            startActivityForResult(intent,Location_Type)
         }
 
         binding.mainInterestGroup.setOnClickListener {
@@ -127,7 +132,9 @@ class ManageMyInfoActivity :
             Log.d("categories", categories.toString())
             Log.d("imageRequest", imageRequest.toString())
             viewModel.editMyPageInfo(
-                "",
+                address,
+                locationX,
+                locationY,
                 binding.inputNicknameEt.text.toString(),
                 categories,
                 imageRequest,
@@ -140,6 +147,21 @@ class ManageMyInfoActivity :
 
         binding.manageProfileImg.setOnClickListener {
             pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode!= Activity.RESULT_OK){
+            return
+        }
+        if(requestCode==1){
+            if (data != null) {
+                binding.inputAddressTv.text= data.getStringExtra("location")
+                address=data.getStringExtra("location").toString()
+                locationX=data.getIntExtra("locationX",0)
+                locationY=data.getIntExtra("locationY",0)
+            }
         }
     }
 
