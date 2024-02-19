@@ -1,5 +1,6 @@
 package com.umc.ttoklip.presentation.hometown
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.data.model.town.CommentResponse
@@ -19,7 +20,7 @@ import javax.inject.Inject
 class ReadCommunicationViewModelImpl @Inject constructor(
     private val repository: ReadCommsRepository
 ) : ViewModel(),
-    ReadCommunicationVIewModel {
+    ReadCommunicationViewModel {
     private val _postContent: MutableStateFlow<ViewCommunicationResponse> =
         MutableStateFlow<ViewCommunicationResponse>(
             ViewCommunicationResponse(
@@ -61,6 +62,8 @@ class ReadCommunicationViewModelImpl @Inject constructor(
         viewModelScope.launch {
             repository.viewComms(postId).onSuccess {
                 _postContent.value = it
+                _like.value = it.likedByCurrentUser
+                _scrap.value = it.scrapedByCurrentUser
             }.onError {
 
             }
@@ -68,23 +71,31 @@ class ReadCommunicationViewModelImpl @Inject constructor(
     }
 
     override fun changeScrap() {
-        _like.value = _like.value.not()
+        Log.d("change", "스크랩")
+        _scrap.value = _scrap.value.not()
         viewModelScope.launch {
-            if (_like.value) {
-                repository.addCommsLike(postId.value)
+            if (_scrap.value) {
+                repository.addCommsScrap(postId.value).onSuccess {
+                }
             } else {
-                repository.cancelCommsLike(postId.value)
+                repository.cancelCommsScrap(postId.value).onSuccess {
+                    Log.d("change", "스크랩")
+                }
             }
         }
     }
 
     override fun changeLike() {
-        _scrap.value = _scrap.value.not()
+        Log.d("change", "좋아요")
+        _like.value = _like.value.not()
         viewModelScope.launch {
-            if (_scrap.value) {
-                repository.addCommsScrap(postId.value)
+            if (_like.value) {
+                repository.addCommsLike(postId.value).onSuccess {
+                }
             } else {
-                repository.cancelCommsScrap(postId.value)
+                repository.cancelCommsLike(postId.value).onSuccess {
+                    Log.d("change", "좋아요")
+                }
             }
         }
     }
