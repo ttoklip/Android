@@ -1,12 +1,14 @@
 package com.umc.ttoklip.presentation.home
 
 import android.content.Intent
+import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.home.Weather
+import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
 import com.umc.ttoklip.databinding.FragmentHomeBinding
 import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.alarm.AlarmActivity
@@ -15,6 +17,8 @@ import com.umc.ttoklip.presentation.home.adapter.HomeTipRVA
 import com.umc.ttoklip.presentation.hometown.CommunicationActivity
 import com.umc.ttoklip.presentation.hometown.TogetherActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTips
+import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
+import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.mypage.adapter.Transaction
 import com.umc.ttoklip.presentation.mypage.adapter.TransactionAdapter
 import com.umc.ttoklip.presentation.news.adapter.NewsRVA
@@ -25,21 +29,22 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), OnItemClickListener {
 
     private val viewModel: HomeViewModel by viewModels<HomeViewModelImpl>()
     private val newsRVA by lazy {
         NewsRVA(onClick = {
             NewsRVA { news ->
                 startActivity(ArticleActivity.newIntent(requireContext(), news.newsletterId))
-            } }
+            }
+        }
         )
     }
     private val townRVA by lazy {
         TransactionAdapter(requireContext())
     }
     private val tipRVA by lazy {
-        HomeTipRVA({})
+        HomeTipRVA(this)
     }
 
     override fun initObserver() {
@@ -72,36 +77,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 }
             }
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.mainData.collect {
+                    newsRVA.submitList(it.newsLetters)
+                    tipRVA.submitList(it.honeyTips)
+                }
+            }
+        }
     }
 
     override fun initView() {
         binding.vm = viewModel
         binding.tipRV.adapter = tipRVA
-        tipRVA.submitList(
-            listOf(
-                HoneyTips(
-                    "똑똑이",
-                    "음식물 쓰레기 냄새 방지!!",
-                    "집에 가끔씩이지만 나타나는 바퀴벌레, 잘못 처리하면 알깐다고도...",
-                    "1일전",
-                    0
-                ),
-                HoneyTips(
-                    "똑똑이",
-                    "음식물 쓰레기 냄새 방지!!",
-                    "집에 가끔씩이지만 나타나는 바퀴벌레, 잘못 처리하면 알깐다고도...",
-                    "1일전",
-                    0
-                ),
-                HoneyTips(
-                    "똑똑이",
-                    "음식물 쓰레기 냄새 방지!!",
-                    "집에 가끔씩이지만 나타나는 바퀴벌레, 잘못 처리하면 알깐다고도...",
-                    "1일전",
-                    0
-                )
-            )
-        )
+        viewModel.getMain()
+
         binding.chatImg.setOnClickListener {
             val intent = Intent(requireContext(), CommunicationActivity::class.java)
             startActivity(intent)
@@ -158,4 +148,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         )
     }
 
+    override fun onClick(honeyTip: HoneyTipMain) {
+        val intent = Intent(activity, ReadHoneyTipActivity::class.java)
+        intent.putExtra("postId", honeyTip.id)
+        Log.d("Clicked honeyTip", honeyTip.toString())
+        Log.d("postId", honeyTip.id.toString())
+        startActivity(intent)
+    }
 }

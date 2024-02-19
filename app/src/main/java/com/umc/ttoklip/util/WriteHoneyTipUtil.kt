@@ -7,16 +7,14 @@ import android.provider.MediaStore
 import android.util.Log
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 
 class WriteHoneyTipUtil(private val context: Context) {
-    fun convertUriToMultiBody(images: List<Uri>): Array<MultipartBody.Part> {
+    fun convertUriListToMultiBody(images: List<Uri>): Array<MultipartBody.Part> {
         val imageParts: MutableList<MultipartBody.Part> = mutableListOf()
         if (images.isNotEmpty()) {
             for (i in images.indices) {
@@ -24,7 +22,8 @@ class WriteHoneyTipUtil(private val context: Context) {
                 val imagePath = images[i]
                 val path = convertResizeImage(imagePath)
                 Log.d("path", imagePath.lastPathSegment.toString())
-                val imageFile = convertUriToJpegFile(context, imagePath, imagePath.lastPathSegment.toString())
+                val imageFile =
+                    convertUriToJpegFile(context, imagePath, imagePath.lastPathSegment.toString())
                 if (imageFile == null) {
                     null
                 } else {
@@ -40,6 +39,22 @@ class WriteHoneyTipUtil(private val context: Context) {
             }
         }
         return imageParts.toTypedArray()
+    }
+
+    fun convertUriToMultiBody(imageUri: Uri): MultipartBody.Part {
+        val imagePart: MultipartBody.Part?
+        val imageFile = convertUriToJpegFile(context, imageUri, imageUri.lastPathSegment.toString())
+        if (imageFile == null) {
+            imagePart = null
+        } else {
+            val imageRequestBody = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
+            imagePart = MultipartBody.Part.createFormData(
+                "images",
+                imageFile.name,
+                imageRequestBody
+            )
+        }
+        return imagePart!!
     }
 
     private fun convertResizeImage(imageUri: Uri): Uri {
@@ -58,7 +73,11 @@ class WriteHoneyTipUtil(private val context: Context) {
         return Uri.fromFile(tempFile)
     }
 
-    private fun convertUriToJpegFile(context: Context, uri: Uri, targetFilename: kotlin.String): File? {
+    private fun convertUriToJpegFile(
+        context: Context,
+        uri: Uri,
+        targetFilename: kotlin.String
+    ): File? {
         val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
         val outputFile = File(context.cacheDir, "$targetFilename.jpeg")
         Log.d("outfile", outputFile.toString())
@@ -78,5 +97,5 @@ class WriteHoneyTipUtil(private val context: Context) {
         return if (outputFile.exists()) outputFile else null
     }
 
-    //수정하기 관련
+//수정하기 관련
 }
