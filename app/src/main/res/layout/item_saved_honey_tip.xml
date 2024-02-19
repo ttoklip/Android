@@ -78,7 +78,7 @@
             app:layout_constraintTop_toBottomOf="@id/body_tv">
 
             <ImageView
-                android:id="@+id/star_iv"
+                android:id="@+id/scrap_iv"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:src="@drawable/ic_bookmark_on_20" />

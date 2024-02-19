@@ -85,6 +85,7 @@
                         app:layout_constraintTop_toTopOf="@id/weatherImg" />
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/weatherTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="지금은 맑아요"
@@ -190,6 +191,7 @@
                         android:layout_height="40dp"
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="24dp"
+                        android:onClick="@{()-> vm.clickMoreTip()}"
                         android:src="@drawable/idea_img"
                         app:layout_constraintEnd_toStartOf="@id/chatImg"
                         app:layout_constraintStart_toStartOf="parent"
@@ -220,6 +222,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:src="@drawable/help_img"
+                        android:onClick="@{()-> vm.clickMoreTip()}"
                         app:layout_constraintEnd_toStartOf="@id/groupButImg"
                         app:layout_constraintStart_toEndOf="@id/newsImg"
                         app:layout_constraintTop_toTopOf="@+id/tipImg" />

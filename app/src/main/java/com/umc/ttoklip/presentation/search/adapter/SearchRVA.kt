@@ -5,17 +5,32 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.ttoklip.data.model.search.SearchModel
 import com.umc.ttoklip.databinding.ItemSearchBinding
-import com.umc.ttoklip.presentation.news.adapter.Dummy
 
-class SearchRVA(val onClick: () -> Unit) : ListAdapter<Dummy, SearchRVA.ItemViewHolder>(differ) {
+class SearchRVA(val onClick: (Int,Int) -> Unit) :
+    ListAdapter<SearchModel, SearchRVA.ItemViewHolder>(differ) {
 
     inner class ItemViewHolder(
         private val binding: ItemSearchBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: Dummy) {
-
+        fun bind(data: SearchModel) {
+            binding.item = data
+            binding.commentCountTv.text = data.commentCount.toString()
+            binding.likeCountTv.text = data.likeCount.toString()
+            binding.starCountTv.text = data.scrapCount.toString()
+            binding.boardT.text = when (data.bigCategory) {
+                1 -> "뉴스레터"
+                2 -> "질문해요"
+                3 -> "꿀팁 공유해요"
+                4 -> "함께해요"
+                5 -> "소통해요"
+                else -> ""
+            }
+            binding.root.setOnClickListener {
+                onClick(data.bigCategory, data.id)
+            }
         }
     }
 
@@ -37,12 +52,12 @@ class SearchRVA(val onClick: () -> Unit) : ListAdapter<Dummy, SearchRVA.ItemView
     }
 
     companion object {
-        val differ = object : DiffUtil.ItemCallback<Dummy>() {
-            override fun areItemsTheSame(oldItem: Dummy, newItem: Dummy): Boolean {
-                return oldItem.name == newItem.name
+        val differ = object : DiffUtil.ItemCallback<SearchModel>() {
+            override fun areItemsTheSame(oldItem: SearchModel, newItem: SearchModel): Boolean {
+                return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Dummy, newItem: Dummy): Boolean {
+            override fun areContentsTheSame(oldItem: SearchModel, newItem: SearchModel): Boolean {
                 return oldItem == newItem
             }
         }

@@ -1,31 +1,25 @@
 package com.umc.ttoklip.di
 
-import android.content.SharedPreferences
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.api.HoneyTipApi
 import com.umc.ttoklip.data.api.LoginApi
 import com.umc.ttoklip.data.api.NewsApi
+import com.umc.ttoklip.data.api.Search2Api
+import com.umc.ttoklip.data.api.SearchApi
 import com.umc.ttoklip.data.api.SignupApi
 import com.umc.ttoklip.data.api.TestApi
-import com.umc.ttoklip.data.repository.news.NewsRepository
-import com.umc.ttoklip.data.repository.news.NewsRepositoryImpl
-import com.umc.ttoklip.module.HttpRequestInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
-import okio.IOException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
@@ -92,6 +86,18 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideNewsApi(retrofit: Retrofit): NewsApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearchApi(retrofit: Retrofit): SearchApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearch2Api(retrofit: Retrofit): Search2Api {
         return retrofit.buildService()
     }
 

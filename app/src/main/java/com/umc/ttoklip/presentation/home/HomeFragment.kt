@@ -1,22 +1,26 @@
 package com.umc.ttoklip.presentation.home
 
+import android.content.Intent
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
+import com.umc.ttoklip.data.model.home.Weather
 import com.umc.ttoklip.databinding.FragmentHomeBinding
 import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.home.adapter.HomeTipRVA
+import com.umc.ttoklip.presentation.hometown.CommunicationActivity
+import com.umc.ttoklip.presentation.hometown.TogetherActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTips
 import com.umc.ttoklip.presentation.mypage.adapter.Transaction
 import com.umc.ttoklip.presentation.mypage.adapter.TransactionAdapter
-import com.umc.ttoklip.presentation.news.adapter.Dummy
 import com.umc.ttoklip.presentation.news.adapter.NewsRVA
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
 import com.umc.ttoklip.presentation.search.SearchActivity
+import com.umc.ttoklip.presentation.search2.SearchActivity2
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -26,8 +30,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val viewModel: HomeViewModel by viewModels<HomeViewModelImpl>()
     private val newsRVA by lazy {
         NewsRVA(onClick = {
-            startActivity(ArticleActivity.newIntent(requireContext()))
-        }
+            NewsRVA { news ->
+                startActivity(ArticleActivity.newIntent(requireContext(), news.newsletterId))
+            } }
         )
     }
     private val townRVA by lazy {
@@ -43,7 +48,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 viewModel.activityBus.collect {
                     when (it) {
                         HomeViewModel.ActivityEventBus.SEARCH -> {
-                            startActivity(SearchActivity.newIntent(requireContext()))
+                            startActivity(SearchActivity2.newIntent(requireContext()))
                         }
 
                         HomeViewModel.ActivityEventBus.NEWS_DETAIL -> {
@@ -97,12 +102,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 )
             )
         )
+        binding.chatImg.setOnClickListener {
+            val intent = Intent(requireContext(), CommunicationActivity::class.java)
+            startActivity(intent)
+        }
+        binding.groupButImg.setOnClickListener {
+            val intent = Intent(requireContext(), TogetherActivity::class.java)
+            startActivity(intent)
+        }
+        //테스트
+        binding.weatherImg.setImageResource(Weather.RAIN.resId)
+        binding.weatherTitle.text = Weather.RAIN.label
+
         binding.newsRV.adapter = newsRVA
-        newsRVA.submitList(
-            listOf(
-                Dummy("1"), Dummy("2"), Dummy("3")
-            )
-        )
         binding.groupBuyRV.adapter = townRVA
         townRVA.submitList(
             listOf(

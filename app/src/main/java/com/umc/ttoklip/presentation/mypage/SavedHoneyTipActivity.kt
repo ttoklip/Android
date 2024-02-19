@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivitySavedHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.honeytip.read.ReadActivity
+import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.mypage.adapter.HoneyTip
 import com.umc.ttoklip.presentation.mypage.adapter.OnSpinnerItemClickListener
 import com.umc.ttoklip.presentation.mypage.adapter.SavedHoneyTipAdapter
@@ -16,11 +16,11 @@ class SavedHoneyTipActivity :
     BaseActivity<ActivitySavedHoneyTipBinding>(R.layout.activity_saved_honey_tip),
     OnSpinnerItemClickListener {
     override fun initView() {
-        val sortFilters = listOf(
-            getString(R.string.sort_most_recent),
-            getString(R.string.sort_popularity),
-            getString(R.string.sort_most_comments),
-            getString(R.string.sort_most_scrap)
+
+        val boardFilters = listOf(
+            "꿀팁 공유",
+            "뉴스레터",
+            "소통해요"
         )
         val typeFilters = listOf(
             "꿀팁 공유", "뉴스레터", "소통해요"
@@ -59,7 +59,7 @@ class SavedHoneyTipActivity :
     override fun initObserver() = Unit
 
     override fun onClick(honeyTip: HoneyTip) {
-        val intent = Intent(this, ReadActivity::class.java)
+        val intent = Intent(this, ReadHoneyTipActivity::class.java)
         startActivity(intent)
     }
 

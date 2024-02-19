@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.core.view.isVisible
 import com.umc.ttoklip.R
+import com.umc.ttoklip.data.model.honeytip.request.ReportRequest
 import com.umc.ttoklip.databinding.ActivityReadCommunicationBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.DetailHoneyTipFragment
@@ -32,8 +33,10 @@ class ReadCommunicationActivity :
         binding.reportBtn.setOnClickListener {
             val reportDialog = ReportDialogFragment()
             reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
-                override fun onClick() {
+                override fun onClick(type: String, content: String) {
+
                 }
+
             })
             reportDialog.show(supportFragmentManager, reportDialog.tag)
         }

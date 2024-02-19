@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,7 +9,7 @@
 
         <variable
             name="item"
-            type="com.umc.ttoklip.presentation.news.adapter.Dummy" />
+            type="com.umc.ttoklip.presentation.news.adapter.NewsCard" />
 
     </data>
 
@@ -30,7 +31,9 @@
                 android:id="@+id/news1Img"
                 android:layout_width="0dp"
                 android:layout_height="142dp"
-                android:src="@color/blue"
+                android:scaleType="center"
+                bind:url="@{item.newsList[0].mainImageUrl}"
+                bind:baseImg="@{@drawable/news_img}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
-                android:text="레시피"
+                android:text="@{item.category}"
                 android:textAppearance="@style/TextAppearance.App.14sp_500"
                 android:textColor="@color/orange"
                 app:layout_constraintBottom_toTopOf="@id/newsTitle1T"
@@ -54,7 +57,7 @@
                 android:layout_marginBottom="20dp"
                 android:ellipsize="end"
                 android:lines="1"
-                android:text="맛있는 감자뇨끼 만들기!! 맛있는 감자뇨끼 만들기!! 맛있는 감자뇨끼 만들기!!"
+                android:text="@{item.newsList[0].title}"
                 android:textAppearance="@style/TextAppearance.App.18sp_700"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@id/news1Img"
@@ -70,7 +73,7 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:paddingVertical="8dp"
-                android:text="간단한 재료로 맛깔나게 쪽파김치 만들기"
+                android:text="@{item.newsList[1].title}"
                 android:textAppearance="@style/TextAppearance.App.14sp_500"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -95,7 +98,7 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:paddingVertical="8dp"
-                android:text="간단한 재료로 맛깔나게 쪽파김치 만들기"
+                android:text="@{item.newsList[2].title}"
                 android:textAppearance="@style/TextAppearance.App.14sp_500"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -121,7 +124,7 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:paddingVertical="8dp"
-                android:text="간단한 재료로 맛깔나게 쪽파김치 만들기"
+                android:text="@{item.newsList[3].title}"
                 android:textAppearance="@style/TextAppearance.App.14sp_500"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

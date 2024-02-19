@@ -15,7 +15,6 @@ import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
-import com.umc.ttoklip.data.model.CreateHoneyTipRequest
 import com.umc.ttoklip.data.model.login.LoginRequest
 import com.umc.ttoklip.databinding.ActivityLoginBinding
 import com.umc.ttoklip.presentation.MainActivity
@@ -32,6 +31,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     private val viewModel: LoginViewModel by viewModels()
 
     override fun initView() {
+        loginActivity=this
+
         viewModel.initIsLogin()
         binding.loginNaverBtn.setOnClickListener {
             val oauthLoginCallback = object : OAuthLoginCallback {
@@ -80,6 +81,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                     } else if (token != null) {
                         Log.i("카카오로그인", "카카오톡으로 로그인 성공")
                         val loginRequest = LoginRequest("${token.accessToken}", "kakao")
+                        //임시 토큰확인용
+                        Log.i("KAKAO-LOGIN","${token.accessToken}")
                         viewModel.postLogin(loginRequest)
                     }
                 }
@@ -89,10 +92,15 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         }
     }
 
+    companion object{
+        var loginActivity:LoginActivity?=null
+    }
+
     private fun startactivity() {
-            //회원가입 만들기용 임시
+//            회원가입 만들기용 임시
 //            val intent = Intent(this, SignupActivity::class.java)
 //            startActivity(intent)
+//            Log.i("JWT",TtoklipApplication.prefs.getString("jwt",""))
 
             //이쪽이 진짜
         if (viewModel.isFirstLogin.value) {
@@ -100,8 +108,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             startActivity(intent)
         } else {
             startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
-        finish()
     }
 
     override fun onBackPressed() {
