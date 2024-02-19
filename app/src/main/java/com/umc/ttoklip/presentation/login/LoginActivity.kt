@@ -33,7 +33,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     override fun initView() {
         loginActivity=this
 
-        viewModel.initIsLogin()
         binding.loginNaverBtn.setOnClickListener {
             val oauthLoginCallback = object : OAuthLoginCallback {
                 override fun onError(errorCode: Int, message: String) {
@@ -115,7 +114,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     }
 
     override fun onBackPressed() {
-        //super.onBackPressed()
+        super.onBackPressed()
+    }
+
+    fun cancelLogin(){
+        viewModel.initIsLogin()
     }
 
     override fun initObserver() {

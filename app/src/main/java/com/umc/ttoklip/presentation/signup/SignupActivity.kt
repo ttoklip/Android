@@ -11,14 +11,18 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SignupActivity:BaseActivity<ActivitySignupBinding>(R.layout.activity_signup) {
+    private lateinit var navHostFragment:NavHostFragment
+
     override fun initView() {
         signupActivity=this
         
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.signup_frm)as NavHostFragment
+        navHostFragment = supportFragmentManager.findFragmentById(R.id.signup_frm)as NavHostFragment
         var navController=navHostFragment.findNavController()
 
         binding.signupBackIb.setOnClickListener {
             if(navHostFragment.childFragmentManager.backStackEntryCount==0){
+                val loginactivity=LoginActivity.loginActivity!!
+                loginactivity.cancelLogin()
                 finish()
             }else{
                 navController.popBackStack()
@@ -28,6 +32,16 @@ class SignupActivity:BaseActivity<ActivitySignupBinding>(R.layout.activity_signu
             binding.signupBackIb.visibility= View.VISIBLE
             binding.signupCancelIb.visibility= View.INVISIBLE
             navController.popBackStack()
+        }
+    }
+
+    override fun onBackPressed() {
+        if(navHostFragment.childFragmentManager.backStackEntryCount==0){
+            val loginactivity=LoginActivity.loginActivity!!
+            loginactivity.cancelLogin()
+            finish()
+        }else{
+            super.onBackPressed()
         }
     }
 
