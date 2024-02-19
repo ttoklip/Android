@@ -66,13 +66,13 @@ class HoneyTipFragment: BaseFragment<FragmentShareHoneyTipBinding>(R.layout.frag
     override fun initView() {
         initCategoryViewPager()
         initPopularHoneyTipsViewPager(65, 30)
-        binding.scrollV.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+        /*binding.scrollV.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             if ((!v.canScrollVertically(1))) {
                 if(!isLast) {
                     viewModel.getHoneyTipByCategory(category, page++)
                 }
             }
-        }
+        }*/
 
         binding.categoryTablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {

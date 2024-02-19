@@ -34,6 +34,7 @@ class QuestionCommentRVA (val replyComment: (Int) -> Unit, val ReportOrDelete: (
                 )
             }
             binding.likeBtn.setOnClickListener {
+                Log.d("commentId", data.commentId.toString())
                 like(data.commentId, data.writer == TtoklipApplication.prefs.getString("nickname", ""))
             }
         }
