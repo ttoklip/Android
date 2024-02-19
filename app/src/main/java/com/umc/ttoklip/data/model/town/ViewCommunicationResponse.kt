@@ -1,7 +1,7 @@
 package com.umc.ttoklip.data.model.town
 
 data class ViewCommunicationResponse(
-    val author: String,
+    val writer: String,
     val communityId: Long,
     val content: String,
     val imageUrls: List<ImageUrl>,
@@ -10,7 +10,7 @@ data class ViewCommunicationResponse(
     val scrapCount: Long,
     val likeCount: Long,
     val commentCount: Int,
-    val commentResponse: CommentResponse,
+    val commentResponse: List<CommentResponse>,
     val likedByCurrentUser: Boolean,
     val scrapedByCurrentUser: Boolean
 )

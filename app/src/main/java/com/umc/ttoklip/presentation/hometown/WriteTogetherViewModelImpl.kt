@@ -9,7 +9,7 @@ import com.umc.ttoklip.data.repository.town.WriteTogetherRepository
 import com.umc.ttoklip.module.onError
 import com.umc.ttoklip.module.onSuccess
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
-import com.umc.ttoklip.util.ConvertImageToJpg
+import com.umc.ttoklip.util.WriteHoneyTipUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -93,19 +93,20 @@ class WriteTogetherViewModelImpl @Inject constructor(
     }
 
     override fun writeTogether() {
+        val request = CreateTogethersRequest(
+            title = title.value,
+            content = content.value,
+            totalPrice = totalPrice.value,
+            location = dealPlace.value,
+            chatUrl = openLink.value,
+            party = totalMember.value,
+            itemUrls = listOf(extraUrl.value),
+            images = WriteHoneyTipUtil(context).convertUriToMultiBody(images.value.map { it.uri })
+                .toList()
+        )
+        Log.d("request", request.toString())
         viewModelScope.launch {
-            repository.createTogether(
-                body = CreateTogethersRequest(
-                    title = title.value,
-                    content = content.value,
-                    totalPrice = totalPrice.value,
-                    location = dealPlace.value,
-                    chatUrl = openLink.value,
-                    party = totalMember.value,
-                    itemUrls = listOf(extraUrl.value),
-                    images = ConvertImageToJpg(context).convertUriToMultiBody(images.value.map { it.uri })
-                )
-            ).onSuccess {
+            repository.createTogether(request).onSuccess {
                 _closePage.value = true
             }.onError {
                 Log.d("writetogethererror", it.toString())

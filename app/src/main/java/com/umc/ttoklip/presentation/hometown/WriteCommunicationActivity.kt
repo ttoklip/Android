@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 class WriteCommunicationActivity :
     BaseActivity<ActivityWriteCommunicationBinding>(R.layout.activity_write_communication) {
     private val imageAdapter by lazy {
-        ImageRVA( null)
+        ImageRVA(null)
     }
     private val viewModel: WriteCommunicationViewModel by viewModels<WriteCommunicationViewModelImpl>()
     private val pickMultipleMedia = registerForActivityResult(
@@ -93,6 +93,7 @@ class WriteCommunicationActivity :
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.closePage.collect {
+                        Log.d("close page", it.toString())
                         if (it) finish()
                     }
                 }

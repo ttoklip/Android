@@ -9,7 +9,7 @@ import com.umc.ttoklip.data.repository.town.WriteCommsRepository
 import com.umc.ttoklip.module.onError
 import com.umc.ttoklip.module.onSuccess
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
-import com.umc.ttoklip.util.ConvertImageToJpg
+import com.umc.ttoklip.util.WriteHoneyTipUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -60,7 +60,8 @@ class WriteCommunicationViewModelImpl @Inject constructor(
                 body = CreateCommunicationsRequest(
                     title = title.value,
                     content = content.value,
-                    images = ConvertImageToJpg(context).convertUriToMultiBody(images.value.map { it.uri })
+                    images = WriteHoneyTipUtil(context).convertUriToMultiBody(images.value.map { it.uri })
+                        .toList()
                 )
             ).onSuccess {
                 _closePage.value = true

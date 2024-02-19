@@ -21,7 +21,7 @@ interface WriteTogetherApi {
         @Part("totalPrice") totalPrice: Long,
         @Part("location") location: String,
         @Part("chatUrl") chatUrl: String,
-        @Part("party") party: Long,
+        @Part("partyMax") party: Long,
         @Part images: List<MultipartBody.Part>,
         @Part("itemUrls") itemUrls: List<String>
     ): Response<ResponseBody<CreateTogethersResponse>>

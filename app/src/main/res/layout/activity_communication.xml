@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="vm"
+            type="com.umc.ttoklip.presentation.hometown.CommunicationViewModelImpl" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
