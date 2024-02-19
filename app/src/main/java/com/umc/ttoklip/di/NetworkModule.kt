@@ -20,6 +20,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -42,6 +44,23 @@ object NetworkModule {
             .retryOnConnectionFailure(false)
             .build()
     }
+
+    @Provides
+    @Singleton
+    @Named("kakaoClient")
+    fun providesKOkHttpClient(): OkHttpClient {
+        val interceptor = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+        return OkHttpClient.Builder().apply {
+
+            addInterceptor (interceptor)
+            connectTimeout(5, TimeUnit.SECONDS)
+            readTimeout(5, TimeUnit.SECONDS)
+            writeTimeout(5, TimeUnit.SECONDS)
+        }.build()
+    }
+
 
     @Provides
     @Singleton
@@ -69,6 +88,20 @@ object NetworkModule {
                 .build()
             proceed(newRequest)
         }
+    }
+
+    @Provides
+    @Singleton
+    @Named("kakao")
+    fun providesKakaoRetrofit(
+        @Named("kakaoClient") client: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("")
+            .addConverterFactory(gsonConverterFactory)
+            .client(client)
+            .build()
     }
 
     @Provides
