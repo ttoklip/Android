@@ -1,5 +1,6 @@
 package com.umc.ttoklip.di
 
+import com.umc.ttoklip.data.api.HomeApi
 import com.umc.ttoklip.data.api.MyPage2Api
 import com.umc.ttoklip.data.api.MyPageApi
 import com.umc.ttoklip.data.api.NewsApi
@@ -11,6 +12,8 @@ import com.umc.ttoklip.data.api.ReadCommsApi
 import com.umc.ttoklip.data.api.ReadTogetherApi
 import com.umc.ttoklip.data.api.WriteCommsApi
 import com.umc.ttoklip.data.api.WriteTogetherApi
+import com.umc.ttoklip.data.repository.home.HomeRepository
+import com.umc.ttoklip.data.repository.home.HomeRepositoryImpl
 import com.umc.ttoklip.data.repository.news.NewsRepository
 import com.umc.ttoklip.data.repository.news.NewsRepositoryImpl
 import com.umc.ttoklip.data.repository.scrap.ScrapRepository
@@ -80,6 +83,11 @@ object RepositoryModule {
     @Singleton
     fun providesScrapRepository(api: MyPageApi): ScrapRepository =
         ScrapRepositoryImpl(api)
+
+    @Provides
+    @Singleton
+    fun providesHomeRepository(api: HomeApi): HomeRepository =
+        HomeRepositoryImpl(api)
 
     @Provides
     @Singleton
