@@ -61,7 +61,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/ad_frame"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -72,14 +72,12 @@
                         android:id="@+id/my_hometown_filter_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginEnd="4dp"
+                        android:paddingHorizontal="12dp"
                         android:background="@drawable/rectangle_corner_10_strok_1"
-                        android:text="수도권 어딘가"
                         android:drawablePadding="4dp"
                         android:paddingVertical="7dp"
-                        android:drawableEnd="@drawable/ic_arrow_down"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="6dp"
+                        android:text="수도권 어딘가"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 

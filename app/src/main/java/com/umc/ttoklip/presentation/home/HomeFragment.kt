@@ -83,7 +83,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
                 viewModel.mainData.collect {
                     newsRVA.submitList(it.newsLetters)
                     tipRVA.submitList(it.honeyTips)
-                    //townRVA.submitList(it.carts)
+                    townRVA.submitList(it.carts)
                 }
             }
         }
