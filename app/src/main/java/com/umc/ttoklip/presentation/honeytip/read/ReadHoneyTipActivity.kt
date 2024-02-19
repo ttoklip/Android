@@ -1,5 +1,6 @@
 package com.umc.ttoklip.presentation.honeytip.read
 
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.MotionEvent
@@ -27,6 +28,7 @@ import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
+import com.umc.ttoklip.presentation.news.detail.ArticleActivity.Companion.ARTICLE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -100,7 +102,15 @@ class ReadHoneyTipActivity :
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.comments.collect {
-                    val list = it.map { it -> NewsCommentResponse(it.commentContent, it.commentId, it.parentId, it.writer, it.writtenTime) }
+                    val list = it.map { it ->
+                        NewsCommentResponse(
+                            it.commentContent,
+                            it.commentId,
+                            it.parentId,
+                            it.writer,
+                            it.writtenTime
+                        )
+                    }
                     commentRVA.submitList(list)
                 }
             }
@@ -304,5 +314,13 @@ class ReadHoneyTipActivity :
         val intent = Intent(this, ImageViewActivity::class.java)
         intent.putExtra("images", images)
         startActivity(intent)
+    }
+
+    companion object {
+        const val HONEY_TIP = "postId"
+        fun newIntent(context: Context, id: Int) =
+            Intent(context, ReadHoneyTipActivity::class.java).apply {
+                putExtra(HONEY_TIP, id)
+            }
     }
 }

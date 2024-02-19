@@ -27,10 +27,8 @@ import com.google.android.material.chip.Chip
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityManageMyInfoBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.mypage.vm.ManageMyInfoViewModel
-import com.umc.ttoklip.util.WriteHoneyTipUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -45,8 +43,8 @@ import java.io.InputStream
 class ManageMyInfoActivity :
     BaseActivity<ActivityManageMyInfoBinding>(R.layout.activity_manage_my_info) {
     private val viewModel: ManageMyInfoViewModel by viewModels()
-    private var profileImage: Uri? = null
-    private var prevImage: Uri? = null
+    private lateinit var profileImage: Uri
+    private lateinit var tempImage: Uri
     private var independentYear = 0
     private var independentMonth = 0
     private val category = mutableListOf<String>()
@@ -122,7 +120,7 @@ class ManageMyInfoActivity :
         }
 
         binding.finishUpdateProfileBtn.setOnClickListener {
-            val imageList = listOf(profileImage!!)
+            val imageList = listOf(profileImage)
             val image = convertUriListToMultiBody(imageList)
             val imageRequest = image[0]
             val categories = category.map { it -> tabTextToCategory(it) }
@@ -135,8 +133,8 @@ class ManageMyInfoActivity :
                 imageRequest,
                 independentYear, independentMonth
             )
-            val delete = deleteImage(prevImage!!)
-            Log.d("delete", delete.toString())
+            val delete = deleteImage(tempImage)
+            //Log.d("delete", delete.toString())
             //finish()
         }
 
@@ -151,8 +149,10 @@ class ManageMyInfoActivity :
                 viewModel.myPageInfo.collect {
                     with(binding) {
                         inputNicknameEt.setText(it.nickname)
-                        inputIndependentCareerEt.setText("${it.independentYear}년 ${it.independentMonth}개월")
+                        inputIndependentCareerEt.text = "${it.independentYear}년 ${it.independentMonth}개월"
                         addressTitleTv.text = it.street
+                        independentYear = it.independentYear
+                        independentMonth = it.independentMonth
                         convertURLtoURI(it.profileImage)
                         Glide.with(this@ManageMyInfoActivity)
                             .load(it.profileImage)
@@ -196,7 +196,8 @@ class ManageMyInfoActivity :
                     transition: Transition<in Bitmap>?
                 ) {
                     Log.d("bittmap", resource.toString())
-                    prevImage = getImageUri(this@ManageMyInfoActivity, resource)
+                    profileImage = getImageUri(this@ManageMyInfoActivity, resource)
+                    tempImage = profileImage
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {

@@ -37,11 +37,11 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     override fun onResume() {
         super.onResume()
         Log.d("resume", "resume")
-
+        viewModel.getMyPageInfo()
     }
 
     override fun initView() {
-        viewModel.getMyPageInfo()
+        //viewModel.getMyPageInfo()
         binding.userExpBar.isEnabled = false
         binding.noticeBtn.setOnClickListener {
             startActivity(AlarmActivity.newIntent(requireContext()))

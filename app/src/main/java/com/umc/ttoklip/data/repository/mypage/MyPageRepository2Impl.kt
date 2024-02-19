@@ -18,8 +18,8 @@ class MyPageRepository2Impl @Inject constructor(
     }
 
     override suspend fun editMyPageInfo(
-        photo: MultipartBody.Part,
-        info: MutableMap<String, RequestBody>, cate: List<MultipartBody.Part>
+        photo: MultipartBody.Part?,
+        info: MutableMap<String, RequestBody>, cate: List<MultipartBody.Part>?
     ): NetworkResult<CreateHoneyTipResponse> {
         return handleApi({
             api.editMyPageInfo(

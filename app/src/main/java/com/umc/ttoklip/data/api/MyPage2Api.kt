@@ -21,7 +21,7 @@ interface MyPage2Api {
     @PATCH("/api/v1/my-page/edit")
     suspend fun editMyPageInfo(
         @Part profileImage: MultipartBody.Part?,
-        @Part categories:List<MultipartBody.Part>,
+        @Part categories:List<MultipartBody.Part>?,
         @PartMap params:MutableMap<String,RequestBody>
     ): Response<ResponseBody<CreateHoneyTipResponse>>
 }

@@ -65,13 +65,13 @@ class ManageMyInfoViewModel @Inject constructor(
     fun editMyPageInfo(
         street: String,
         nickname: String,
-        categories: List<String>,
-        profileImage: MultipartBody.Part,
+        categories: List<String>?,
+        profileImage: MultipartBody.Part?,
         independentYear: Int,
         independentMonth: Int
     ) {
         val cate=ArrayList<MultipartBody.Part>()
-        categories.forEach {
+        categories?.forEach {
             cate.add(MultipartBody.Part.createFormData("categories",it))
         }
 
@@ -84,7 +84,7 @@ class ManageMyInfoViewModel @Inject constructor(
             repository.editMyPageInfo(
                 profileImage,
                 requestMap,
-                cate
+                null
             ).onSuccess {
                 Log.d("edit info", it.toString())
                 event(Event.EditMyPageInfo)
