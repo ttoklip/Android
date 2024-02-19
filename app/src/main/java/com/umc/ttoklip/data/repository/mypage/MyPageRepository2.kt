@@ -12,11 +12,7 @@ import retrofit2.http.Part
 interface MyPageRepository2 {
     suspend fun getMyPageInfo(): NetworkResult<MyPageInfoResponse>
     suspend fun editMyPageInfo(
-        street: RequestBody,
-        nickname: RequestBody,
-        categories: RequestBody,
-        profileImage: MultipartBody.Part,
-        independentYear: RequestBody,
-        independentMonth: RequestBody
+        photo: MultipartBody.Part,
+        info: MutableMap<String, RequestBody>, cate: List<MultipartBody.Part>
     ): NetworkResult<CreateHoneyTipResponse>
 }
