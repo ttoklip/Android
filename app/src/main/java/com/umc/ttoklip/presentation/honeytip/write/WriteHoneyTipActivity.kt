@@ -17,14 +17,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -46,13 +42,10 @@ import com.umc.ttoklip.presentation.honeytip.adapter.OnImageClickListener
 import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.honeytip.read.ReadQuestionActivity
-import com.umc.ttoklip.presentation.mypage.adapter.HoneyTip
 import com.umc.ttoklip.util.WriteHoneyTipUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
-import java.io.File
-import java.lang.Exception
 
 
 @AndroidEntryPoint
@@ -291,7 +284,7 @@ class WriteHoneyTipActivity :
         binding.writeDoneBtn.setOnClickListener {
             val images =
                 imageAdapter.currentList.filterIsInstance<Image>().map { it.uri }.toList()
-            val imageParts = WriteHoneyTipUtil(this).convertUriToMultiBody(images)
+            val imageParts = WriteHoneyTipUtil(this).convertUriListToMultiBody(images)
 
             val title = binding.titleEt.text.toString()
             val content = binding.bodyEt.text.toString()
