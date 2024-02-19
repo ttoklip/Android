@@ -6,18 +6,28 @@ import android.graphics.Rect
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityManageMyInfoBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
+import com.umc.ttoklip.presentation.mypage.vm.ManageMyInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ManageMyInfoActivity :
     BaseActivity<ActivityManageMyInfoBinding>(R.layout.activity_manage_my_info) {
+        private val viewModel: ManageMyInfoViewModel by viewModels()
     override fun initView() {
+        binding.vm = viewModel
         initViewListener()
+        viewModel.getMyPageInfo()
     }
 
     private fun initViewListener() {
@@ -67,7 +77,22 @@ class ManageMyInfoActivity :
         }
     }
 
-    override fun initObserver() = Unit
+    override fun initObserver(){
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.myPageInfo.collect{
+                    with(binding){
+                        inputNicknameEt.setText(it.nickname)
+                        inputIndependentCareerEt.setText("${it.independentYear}년 ${it.independentMonth}개월")
+                        addressTitleTv.text = it.street
+                        Glide.with(this@ManageMyInfoActivity)
+                            .load(it.profileImage)
+                            .into(binding.manageProfileImg)
+                    }
+                }
+            }
+        }
+    }
 
     companion object {
         private const val ZERO_CAREER = 0
