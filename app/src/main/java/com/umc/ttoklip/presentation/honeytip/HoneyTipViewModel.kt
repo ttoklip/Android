@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
+import com.umc.ttoklip.data.model.honeytip.HoneyTipPagingResponse
 import com.umc.ttoklip.data.repository.honeytip.HoneyTipRepositoryImpl
 import com.umc.ttoklip.module.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,6 +30,13 @@ class HoneyTipViewModel @Inject constructor(
     fun setBoardLiveData(board: String) {
         _boardLiveData.value = board
     }
+
+    private val _honeyTipPaging = MutableStateFlow(HoneyTipPagingResponse())
+    val honeyTipPaging = _honeyTipPaging.asStateFlow()
+
+    private val _isLast = MutableStateFlow(false)
+    val isLast = _isLast.asStateFlow()
+
 
     private val _honeyTipMainEvent = MutableSharedFlow<Boolean>()
     val honeyTipMainEvent = _honeyTipMainEvent.asSharedFlow()
@@ -65,24 +73,32 @@ class HoneyTipViewModel @Inject constructor(
     fun getHoneyTipMain() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.getHoneyTipMain().onSuccess {
-                withContext(Dispatchers.Main) {
-                    //Top 5
-                    _topFiveQuestions.emit(it.topFiveQuestions)
+                //Top 5
+                _topFiveQuestions.emit(it.topFiveQuestions)
 
-                    //꿀팁
-                    _houseworkHoneyTip.emit(it.honeyTipCategory.housework)
-                    _recipeHoneyTip.emit(it.honeyTipCategory.cooking)
-                    _safeLivingHoneyTip.emit(it.honeyTipCategory.safeLiving)
-                    _welfareHoneyTip.emit(it.honeyTipCategory.welfarePolicy)
+                //꿀팁
+                _houseworkHoneyTip.emit(it.honeyTipCategory.housework)
+                _recipeHoneyTip.emit(it.honeyTipCategory.cooking)
+                _safeLivingHoneyTip.emit(it.honeyTipCategory.safeLiving)
+                _welfareHoneyTip.emit(it.honeyTipCategory.welfarePolicy)
 
-                    //질문
-                    _houseworkQuestion.emit(it.questionCategory.housework)
-                    _recipeQuestion.emit(it.questionCategory.cooking)
-                    _safeLivingQuestion.emit(it.questionCategory.safeLiving)
-                    _welfareQuestion.emit(it.questionCategory.welfarePolicy)
-                    _honeyTipMainEvent.emit(true)
-                    Log.d("HoneyTipMain api", it.toString())
-                }
+                //질문
+                _houseworkQuestion.emit(it.questionCategory.housework)
+                _recipeQuestion.emit(it.questionCategory.cooking)
+                _safeLivingQuestion.emit(it.questionCategory.safeLiving)
+                _welfareQuestion.emit(it.questionCategory.welfarePolicy)
+                _honeyTipMainEvent.emit(true)
+                Log.d("HoneyTipMain api", it.toString())
+            }
+        }
+    }
+
+    fun getHoneyTipByCategory(category: String, page: Int) {
+        viewModelScope.launch(Dispatchers.IO){
+            repository.getHoneyTipByCategory(category, page).onSuccess {
+                Log.d("paging", it.toString())
+                _honeyTipPaging.emit(it)
+                _isLast.emit(it.isLast)
             }
         }
     }
