@@ -41,6 +41,7 @@ class HouseWorkHoneyTipListFragment : Fragment(),
     )
 
     lateinit var binding: FragmentHoneyTipListBinding
+    private var list = listOf<HoneyTipMain>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,6 +58,11 @@ class HouseWorkHoneyTipListFragment : Fragment(),
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+        Log.d("House start", "start")
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
@@ -67,7 +73,11 @@ class HouseWorkHoneyTipListFragment : Fragment(),
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.houseworkHoneyTip.collect {
+                    if(it.size==0){
+
+                    }
                     honeyTipListRVA.submitList(it)
+                    list = it
                     /*if(honeyTipListRVA.currentList.size != it.size) {
                         honeyTipListRVA.submitList(it)
                     }*/
@@ -133,11 +143,12 @@ class HouseWorkHoneyTipListFragment : Fragment(),
     override fun onPause() {
         super.onPause()
         Log.d("pause", "pause")
+        viewModel.resetHoneyTipList("HOUSEWORK")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("stop", "stop")
-        viewModel.resetHoneyTipList("HOUSEWORK")
+        Log.d("HOUSEWORK stop", "stop")
+        //viewModel.resetHoneyTipList("HOUSEWORK")
     }
 }

@@ -294,9 +294,6 @@ class WriteHoneyTipActivity :
                     return@setOnClickListener
                 }
             }
-            /*val temp = imageParts[0].body.contentLength()
-            val dataSizeInMB: Double = temp.toDouble() / (1024 * 1024)
-            Log.d("용량","${dataSizeInMB}")*/
 
             val title = binding.titleEt.text.toString()
             val content = binding.bodyEt.text.toString()
@@ -313,9 +310,9 @@ class WriteHoneyTipActivity :
                 }
             } else {
                 if (board == HONEY_TIP) {
-                    //viewModel.createHoneyTip(title, content, category, imageParts, url)
+                    viewModel.createHoneyTip(title, content, category, imageParts, url)
                 } else {
-                    //viewModel.createQuestion(title, content, category, imageParts)
+                    viewModel.createQuestion(title, content, category, imageParts)
                 }
             }
         }
