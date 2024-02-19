@@ -5,7 +5,7 @@ import com.umc.ttoklip.data.model.town.ReportRequest
 import com.umc.ttoklip.data.model.town.ViewCommunicationResponse
 import kotlinx.coroutines.flow.StateFlow
 
-interface ReadCommunicationVIewModel {
+interface ReadCommunicationViewModel {
     val postId: StateFlow<Long>
     val postContent: StateFlow<ViewCommunicationResponse>
     val like: StateFlow<Boolean>

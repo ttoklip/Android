@@ -10,7 +10,7 @@ data class ViewCommunicationResponse(
     val scrapCount: Long,
     val likeCount: Long,
     val commentCount: Int,
-    val commentResponse: List<CommentResponse>,
+    val commentResponses: List<CommentResponse>,
     val likedByCurrentUser: Boolean,
     val scrapedByCurrentUser: Boolean
 )

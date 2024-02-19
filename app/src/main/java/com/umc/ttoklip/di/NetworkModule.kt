@@ -8,6 +8,8 @@ import com.umc.ttoklip.data.api.KakaoApi
 import com.umc.ttoklip.data.api.LoginApi
 import com.umc.ttoklip.data.api.MyPage2Api
 import com.umc.ttoklip.data.api.MyPageApi
+import com.umc.ttoklip.data.api.MainCommsApi
+import com.umc.ttoklip.data.api.MainTogethersApi
 import com.umc.ttoklip.data.api.MyAccountRestrictApi
 import com.umc.ttoklip.data.api.MyBlockUserApi
 import com.umc.ttoklip.data.api.MyPostApi
@@ -228,6 +230,19 @@ object NetworkModule {
     fun provideWriteTogetherApi(retrofit: Retrofit): WriteTogetherApi {
         return retrofit.buildService()
     }
+
+    @Provides
+    @Singleton
+    fun provideMainCommsApi(retrofit: Retrofit): MainCommsApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMainTogethersApi(retrofit: Retrofit): MainTogethersApi {
+        return retrofit.buildService()
+    }
+
 
     private inline fun <reified T> Retrofit.buildService(): T {
         return this.create(T::class.java)
