@@ -1,8 +1,12 @@
 package com.umc.ttoklip.presentation.hometown
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.ttoklip.data.model.town.Togethers
 import com.umc.ttoklip.data.repository.town.MainTogethersRepository
+import com.umc.ttoklip.module.onError
+import com.umc.ttoklip.module.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,6 +30,14 @@ class TogetherViewModelImpl @Inject constructor(private val repository: MainToge
     override val showDialog: SharedFlow<Boolean>
         get() = _showDialog
 
+    private val _page: MutableStateFlow<Long> = MutableStateFlow(0L)
+    override val page: StateFlow<Long>
+        get() = _page
+
+    private val _togethers: MutableStateFlow<List<Togethers>> = MutableStateFlow(emptyList())
+    override val togethers: StateFlow<List<Togethers>>
+        get() = _togethers
+
     override fun onFilterClick() {
         viewModelScope.launch {
             _showDialog.emit(true)
@@ -36,6 +48,73 @@ class TogetherViewModelImpl @Inject constructor(private val repository: MainToge
         viewModelScope.launch {
             _filterRequiredAmount.value = requiredAmount
             _filterMaxMember.value = maxMember
+            var require = when (requiredAmount) {
+                1L -> {
+                    10000L
+                }
+
+                2L -> {
+                    20000L
+                }
+
+                3L -> {
+                    30000L
+                }
+
+                4L -> {
+                    40000L
+                }
+
+                5L -> {
+                    50000L
+                }
+
+                else -> {
+                    0L
+                }
+            }
+            var min = 0L
+            var max = 0L
+            when (maxMember) {
+                1L -> {
+                    min = 2L
+                    max = 4L
+                }
+
+                2L -> {
+                    min = 5L
+                    max = 7L
+                }
+
+                3L -> {
+                    min = 8L
+                    max = 10L
+                }
+
+                4L -> {
+                    min = 11L
+                    max = 13L
+                }
+
+                5L -> {
+                    min = 14L
+                    max = 17L
+                }
+
+                6L -> {
+                    min = 18L
+                    max = 20L
+                }
+
+                else -> {
+
+                }
+            }
+            repository.getTogethers(page.value, require, null, min, max).onSuccess {
+                _togethers.value = it.carts
+            }.onError {
+                Log.d("error", it.printStackTrace().toString())
+            }
         }
     }
 }

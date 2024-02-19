@@ -112,6 +112,10 @@ class ReadCommunicationActivity :
                 viewModel.readCommunication(postId)
             }
         }
+
+        binding.editBtn.setOnClickListener {
+            
+        }
     }
 
     override fun initObserver() {
@@ -136,6 +140,9 @@ class ReadCommunicationActivity :
                             imageAdapter.submitList(response.imageUrls.map { url ->
                                 ImageUrl(url.imageUrl)
                             })
+                            if (response.writer == "  1") {
+                                communityMenu.bringToFront()
+                            }
                             likeT.text = response.likeCount.toString()
                             bookmarkT.text = response.scrapCount.toString()
                             commitT.text = response.commentCount.toString()
