@@ -49,12 +49,16 @@ class WriteTogetherActivity :
                             PorterDuffColorFilter(getColor(R.color.black), PorterDuff.Mode.SRC_IN)
                     }
                 }
-                binding.tradingPlaceTv.text =
-                    StringBuilder().append(address).append(" ").append(addressDetail).toString()
+                binding.tradingPlaceTv.text = if (!addressDetail.isNullOrBlank()) {
+                    StringBuilder().append(address).append(" (").append(addressDetail).append(")")
+                        .toString()
+                } else {
+                    StringBuilder().append(address).toString()
+                }
             }
         }
     private val imageAdapter by lazy {
-        ImageRVA( null)
+        ImageRVA(null)
     }
 
     private val pickMultipleMedia = registerForActivityResult(
