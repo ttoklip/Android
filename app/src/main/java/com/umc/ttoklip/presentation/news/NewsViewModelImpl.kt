@@ -67,10 +67,10 @@ class NewsViewModelImpl @Inject constructor(
             try {
                 newsRepository.getNewsMain()
                     .onSuccess {
-                        _houseWorkList.emit(it.categoryResponses.houseWork)
-                        _recipeList.emit(it.categoryResponses.recipe)
-                        _safeLivingList.emit(it.categoryResponses.safeLiving)
-                        _welfarePolicyList.emit(it.categoryResponses.welfarePolicy)
+                        _houseWorkList.emit(it.newsletterThumbnailResponse.houseWork)
+                        _recipeList.emit(it.newsletterThumbnailResponse.recipe)
+                        _safeLivingList.emit(it.newsletterThumbnailResponse.safeLiving)
+                        _welfarePolicyList.emit(it.newsletterThumbnailResponse.welfarePolicy)
 
                         _randomNews.value =
                         listOf(
@@ -89,6 +89,10 @@ class NewsViewModelImpl @Inject constructor(
                 Log.d("예외", "$e")
             }
         }
+    }
+
+    override fun getNewsPage(category: String) {
+
     }
 
 

@@ -1,8 +1,5 @@
 package com.umc.ttoklip.presentation.news
 
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -12,12 +9,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.umc.ttoklip.R
-import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.databinding.FragmentNewsBinding
 import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
-import com.umc.ttoklip.presentation.news.adapter.Dummy
 import com.umc.ttoklip.presentation.news.adapter.NewsCardRVA
 import com.umc.ttoklip.presentation.news.adapter.NewsTabAdapter
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
@@ -54,6 +49,8 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(R.layout.fragment_news) {
     }
 
     override fun initView() {
+
+        //TtoklipApplication.prefs.getString("nickname","god2")
 
         binding.vm = viewModel
         viewModel.getMainNews()

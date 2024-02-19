@@ -56,12 +56,12 @@ class HoneyTipListRVA(private var listener: OnItemClickListener) :
             binding.commentCountTv.text = honeyTip.commentCount.toString()
             binding.likeCountTv.text = honeyTip.likeCount.toString()
             binding.scrapCountTv.text = honeyTip.scrapCount.toString()
-
             binding.root.setOnClickListener {
                 listener.onClick(honeyTip)
             }
         }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HoneyTipListViewHolder {
         return HoneyTipListViewHolder(

@@ -202,6 +202,7 @@ class SearchViewModelImpl @Inject constructor(
         }
     }
 
+
     private suspend fun filterCategory(sort: Int, board: Int, category: Int) {
         val copy: MutableList<SearchModel> = mutableListOf()
         copy.addAll(fSearchList.value)

@@ -4,6 +4,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentItemNewsBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
@@ -38,5 +40,20 @@ class SafeLifeFragment() : BaseFragment<FragmentItemNewsBinding>(R.layout.fragme
 
     override fun initView() {
         binding.rv.adapter = newsRVA
+        binding.rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                val lastVisibleItemPosition =
+                    (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
+                val totalItemViewCount = recyclerView.adapter!!.itemCount - 1
+
+                if (newState == 2 && !recyclerView.canScrollVertically(1)
+                    && lastVisibleItemPosition == totalItemViewCount
+                ) {
+                    //viewModel.getSecretCapsulePage()
+                }
+            }
+
+        })
     }
 }
