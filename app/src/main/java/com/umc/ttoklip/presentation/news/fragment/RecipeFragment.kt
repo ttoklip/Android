@@ -1,7 +1,12 @@
 package com.umc.ttoklip.presentation.news.fragment
 
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -19,17 +24,40 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class RecipeFragment() : BaseFragment<FragmentItemNewsBinding>(R.layout.fragment_item_news) {
+class RecipeFragment() : Fragment() {
     private val parentViewModel: NewsViewModelImpl by viewModels(
         ownerProducer = { requireParentFragment() }
     )
+    lateinit var binding: FragmentItemNewsBinding
+
     private val newsRVA by lazy {
         NewsRVA { news ->
             startActivity(ArticleActivity.newIntent(requireContext(), news.newsletterId))
         }
     }
 
-    override fun initObserver() {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = DataBindingUtil.inflate(
+            layoutInflater,
+            R.layout.fragment_item_news,
+            null,
+            false
+        )
+        binding.lifecycleOwner = this.viewLifecycleOwner
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        initObserver()
+    }
+
+    fun initObserver() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 parentViewModel.recipeList.collect {
@@ -39,7 +67,7 @@ class RecipeFragment() : BaseFragment<FragmentItemNewsBinding>(R.layout.fragment
         }
     }
 
-    override fun initView() {
+    fun initView() {
         binding.rv.adapter = newsRVA
         binding.sv.viewTreeObserver.addOnScrollChangedListener(ViewTreeObserver.OnScrollChangedListener {
             val view = binding.sv.getChildAt(binding.sv.childCount - 1) as View
