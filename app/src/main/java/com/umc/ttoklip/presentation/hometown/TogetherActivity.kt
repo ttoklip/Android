@@ -1,5 +1,6 @@
 package com.umc.ttoklip.presentation.hometown
 
+import android.content.Intent
 import androidx.activity.viewModels
 import androidx.core.view.isGone
 import androidx.lifecycle.Lifecycle
@@ -25,6 +26,10 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
 
     override fun initView() {
         binding.vm = viewModel
+        binding.writeFab.setOnClickListener {
+            val intent = Intent(this, WriteTogetherActivity::class.java)
+            startActivity(intent)
+        }
         binding.backBtn.setOnClickListener {
             finish()
         }
@@ -144,75 +149,9 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
                     viewModel.showDialog.collect {
                         if (it) {
                             val sheet = TogetherBottomSheetDialogFragment { filter ->
-                                viewModel.getFilters(filter[0], filter[1], filter[2], filter[3])
+                                viewModel.getFilters(filter[0], filter[1])
                             }
                             sheet.show(supportFragmentManager, sheet.tag)
-                        }
-                    }
-                }
-            }
-
-            launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.filterSort.collect {
-                        binding.sortfilterTv.isGone = false
-                        when (it) {
-                            1 -> {
-                                binding.sortfilterTv.text = "최신순"
-                            }
-
-                            2 -> {
-                                binding.sortfilterTv.text = "인기순"
-                            }
-
-                            3 -> {
-                                binding.sortfilterTv.text = "댓글많은순"
-                            }
-
-                            else -> {
-                                binding.sortfilterTv.isGone = true
-                            }
-                        }
-                    }
-                }
-            }
-
-            launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.filterDuration.collect {
-                        binding.durationFilter.isGone = false
-                        when (it) {
-                            1 -> {
-                                binding.durationFilter.text = "1시간"
-                            }
-
-                            2 -> {
-                                binding.durationFilter.text = "3시간"
-                            }
-
-                            3 -> {
-                                binding.durationFilter.text = "6시간"
-                            }
-
-                            4 -> {
-                                binding.durationFilter.text = "12시간"
-                            }
-
-                            5 -> {
-                                binding.durationFilter.text = "1일"
-                            }
-
-                            6 -> {
-                                binding.durationFilter.text = "3일"
-                            }
-
-                            7 -> {
-                                binding.durationFilter.text = "1주일"
-                            }
-
-                            else -> {
-                                binding.durationFilter.isGone = true
-                            }
                         }
                     }
                 }
@@ -223,23 +162,23 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
                     viewModel.filterRequiredAmount.collect {
                         binding.requiredAmount.isGone = false
                         when (it) {
-                            1 -> {
+                            1L -> {
                                 binding.requiredAmount.text = "10,000"
                             }
 
-                            2 -> {
+                            2L -> {
                                 binding.requiredAmount.text = "20,000"
                             }
 
-                            3 -> {
+                            3L -> {
                                 binding.requiredAmount.text = "30,000"
                             }
 
-                            4 -> {
+                            4L -> {
                                 binding.requiredAmount.text = "40,000"
                             }
 
-                            5 -> {
+                            5L -> {
                                 binding.requiredAmount.text = "50,000 이상"
                             }
 
@@ -256,27 +195,27 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
                     viewModel.filterMaxMember.collect {
                         binding.maxMemberSizeTv.isGone = false
                         when (it) {
-                            1 -> {
+                            1L -> {
                                 binding.maxMemberSizeTv.text = "2~4"
                             }
 
-                            2 -> {
+                            2L -> {
                                 binding.maxMemberSizeTv.text = "5~7"
                             }
 
-                            3 -> {
+                            3L -> {
                                 binding.maxMemberSizeTv.text = "8~10"
                             }
 
-                            4 -> {
+                            4L -> {
                                 binding.maxMemberSizeTv.text = "11~13"
                             }
 
-                            5 -> {
+                            5L -> {
                                 binding.maxMemberSizeTv.text = "14~17"
                             }
 
-                            6 -> {
+                            6L -> {
                                 binding.maxMemberSizeTv.text = "18~20"
                             }
 

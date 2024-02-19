@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="vm"
+            type="com.umc.ttoklip.presentation.hometown.WriteCommunicationViewModelImpl" />
+
     </data>
 
 
@@ -46,11 +50,11 @@
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:text="작성완료"
+                android:onClick="@{()->vm.doneButtonClick()}"
                 android:textAppearance="@style/TextAppearance.App.12sp_400"
                 android:textColor="@color/write_btn_selector"
                 app:layout_constraintBottom_toBottomOf="@id/title_tv"
                 app:layout_constraintEnd_toEndOf="parent"
-
                 app:layout_constraintTop_toTopOf="@id/title_tv" />
 
 
@@ -62,6 +66,7 @@
                 android:background="@null"
                 android:hint="제목 입력"
                 android:inputType="text"
+                android:text="@={vm._title}"
                 android:textAppearance="@style/TextAppearance.App.20sp_500"
                 android:textColorHint="@color/gray80"
                 app:layout_constraintStart_toStartOf="parent"
@@ -86,6 +91,7 @@
                 android:hint="우리 동네 사람들과 어떤 이야기를 나누고 싶나요?\n(최대 500자) "
                 android:maxLength="1000"
                 android:maxLines="100"
+                android:text="@={vm._content}"
                 android:nestedScrollingEnabled="true"
                 android:orientation="vertical"
                 android:textAppearance="@style/TextAppearance.App.12sp_400"
