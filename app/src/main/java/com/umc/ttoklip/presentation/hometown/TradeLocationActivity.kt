@@ -1,6 +1,8 @@
 package com.umc.ttoklip.presentation.hometown
 
 import android.content.Intent
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityTradeLocationBinding
@@ -17,6 +19,21 @@ class TradeLocationActivity :
     private val adapter by lazy {
         RecentlyUsedPlaceAdapter(this)
     }
+    private val activityResultLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            val addressIntent = it.data
+            addressIntent?.let { aIntent ->
+                val address = aIntent.getStringExtra("address")
+                val addressDetail = aIntent.getStringExtra("addressDetail")
+                address?.let { place ->
+                    binding.tradeLocationTv.text = place
+                    addressDetail?.let { detail ->
+                        binding.tradeLocationDetailTv.text = detail
+                    }
+                }
+
+            }
+        }
 
     override fun initView() {
         binding.backBtn.setOnClickListener {
@@ -34,6 +51,11 @@ class TradeLocationActivity :
         binding.recentlyUsedPlacesRv.adapter = adapter
         binding.recentlyUsedPlacesRv.layoutManager = LinearLayoutManager(this)
         adapter.submitList(places)
+
+        binding.gpsBaseSettingFrame.setOnClickListener {
+            val intent = Intent(this, PlaceActivity::class.java)
+            activityResultLauncher.launch(intent)
+        }
     }
 
     override fun initObserver() {

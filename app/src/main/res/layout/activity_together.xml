@@ -88,34 +88,6 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/sortfilter_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="12dp"
-                        android:background="@drawable/rectangle_corner_10"
-                        android:backgroundTint="@color/yellow"
-                        android:gravity="center"
-                        android:paddingHorizontal="15dp"
-                        android:text="최신순"
-                        android:textAppearance="@style/TextAppearance.App.12sp_700"
-                        android:textColor="@color/black"
-                        android:visibility="gone" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/duration_filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="12dp"
-                        android:background="@drawable/rectangle_corner_10"
-                        android:backgroundTint="@color/yellow"
-                        android:gravity="center"
-                        android:paddingHorizontal="15dp"
-                        android:text="1일"
-                        android:textAppearance="@style/TextAppearance.App.12sp_700"
-                        android:textColor="@color/black"
-                        android:visibility="gone" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/required_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="32dp"
@@ -159,6 +131,18 @@
             app:layout_constraintTop_toBottomOf="@id/together_top_frame"
             tools:listitem="@layout/item_transaction_history" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/write_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_write_24"
+            android:backgroundTint="@color/yellow"
+            android:elevation="0dp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlayExtended"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

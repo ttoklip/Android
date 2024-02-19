@@ -5,11 +5,19 @@ import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.api.HoneyTipApi
 import com.umc.ttoklip.data.api.KakaoApi
 import com.umc.ttoklip.data.api.LoginApi
+import com.umc.ttoklip.data.api.MyAccountRestrictApi
+import com.umc.ttoklip.data.api.MyBlockUserApi
+import com.umc.ttoklip.data.api.MyPostApi
 import com.umc.ttoklip.data.api.NewsApi
+import com.umc.ttoklip.data.api.ReadCommsApi
+import com.umc.ttoklip.data.api.ReadTogetherApi
+import com.umc.ttoklip.data.api.Search2Api
 import com.umc.ttoklip.data.api.SearchApi
 import com.umc.ttoklip.data.api.SignupApi
 import com.umc.ttoklip.data.api.TermApi
 import com.umc.ttoklip.data.api.TestApi
+import com.umc.ttoklip.data.api.WriteCommsApi
+import com.umc.ttoklip.data.api.WriteTogetherApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,11 +42,11 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOKHttpClient (): OkHttpClient {
+    fun provideOKHttpClient(): OkHttpClient {
         val interceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
-        val authIntercepter=AuthIntercepter()
+        val authIntercepter = AuthIntercepter()
 
         return OkHttpClient.Builder()
             .addInterceptor(interceptor)
@@ -76,17 +84,17 @@ object NetworkModule {
             .build()
     }
 
-    class AuthIntercepter:Interceptor{
-        override fun intercept(chain: Interceptor.Chain): Response= with(chain) {
+    class AuthIntercepter : Interceptor {
+        override fun intercept(chain: Interceptor.Chain): Response = with(chain) {
 //            if(request().headers["Auth"]=="false"){
 //                val newRequest = request().newBuilder()
 //                    .removeHeader("Auth")
 //                    .build()
 //                return chain.proceed(newRequest)
 //            }
-            val token=("Bearer "+TtoklipApplication.prefs.getString("jwt",""))
-            val newRequest=request().newBuilder()
-                .addHeader("Authorization",token)
+            val token = ("Bearer " + TtoklipApplication.prefs.getString("jwt", ""))
+            val newRequest = request().newBuilder()
+                .addHeader("Authorization", token)
                 .build()
             proceed(newRequest)
         }
@@ -132,13 +140,13 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideLoginApi(retrofit: Retrofit): LoginApi{
+    fun provideSearch2Api(retrofit: Retrofit): Search2Api {
         return retrofit.buildService()
     }
 
     @Provides
     @Singleton
-    fun provideSignupApi(retrofit: Retrofit): SignupApi{
+    fun provideLoginApi(retrofit: Retrofit): LoginApi {
         return retrofit.buildService()
     }
 
@@ -147,10 +155,57 @@ object NetworkModule {
     fun provideTermApi(retrofit: Retrofit): TermApi{
         return retrofit.buildService()
     }
+    @Provides
+    @Singleton
+    fun provideSignupApi(retrofit: Retrofit): SignupApi {
+        return retrofit.buildService()
+    }
 
     @Provides
     @Singleton
     fun providesKakaoService(@Named("kakao") retrofit: Retrofit):KakaoApi{
+        return retrofit.buildService()
+    }
+
+        @Provides
+        @Singleton
+    fun providesAccountRestrictApi(retrofit: Retrofit): MyAccountRestrictApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun providesMyPostApi(retrofit: Retrofit): MyPostApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun providesMyBlockUserApi(retrofit: Retrofit): MyBlockUserApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideReadCommsApi(retrofit: Retrofit): ReadCommsApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideReadTogetherApi(retrofit: Retrofit): ReadTogetherApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideWriteCommsApi(retrofit: Retrofit): WriteCommsApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideWriteTogetherApi(retrofit: Retrofit): WriteTogetherApi {
         return retrofit.buildService()
     }
 

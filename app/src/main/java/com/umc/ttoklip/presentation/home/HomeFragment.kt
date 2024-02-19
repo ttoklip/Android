@@ -6,6 +6,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
+import com.umc.ttoklip.data.model.home.Weather
 import com.umc.ttoklip.databinding.FragmentHomeBinding
 import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.alarm.AlarmActivity
@@ -19,6 +20,7 @@ import com.umc.ttoklip.presentation.mypage.adapter.TransactionAdapter
 import com.umc.ttoklip.presentation.news.adapter.NewsRVA
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
 import com.umc.ttoklip.presentation.search.SearchActivity
+import com.umc.ttoklip.presentation.search2.SearchActivity2
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -46,7 +48,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 viewModel.activityBus.collect {
                     when (it) {
                         HomeViewModel.ActivityEventBus.SEARCH -> {
-                            startActivity(SearchActivity.newIntent(requireContext()))
+                            startActivity(SearchActivity2.newIntent(requireContext()))
                         }
 
                         HomeViewModel.ActivityEventBus.NEWS_DETAIL -> {
@@ -108,6 +110,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             val intent = Intent(requireContext(), TogetherActivity::class.java)
             startActivity(intent)
         }
+        //테스트
+        binding.weatherImg.setImageResource(Weather.RAIN.resId)
+        binding.weatherTitle.text = Weather.RAIN.label
+
         binding.newsRV.adapter = newsRVA
         binding.groupBuyRV.adapter = townRVA
         townRVA.submitList(

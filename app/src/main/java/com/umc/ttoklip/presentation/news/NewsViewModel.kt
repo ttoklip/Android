@@ -17,6 +17,7 @@ interface NewsViewModel {
     fun collapsedAppBar()
 
     fun getMainNews()
+    fun getNewsPage(category: String)
 
     enum class NewsFilter{
         HOUSE_WORK,
