@@ -37,10 +37,10 @@ class HouseWorkFragment() : BaseFragment<FragmentItemNewsBinding>(R.layout.fragm
 
     override fun initView() {
         binding.rv.adapter = newsRVA
-        binding.sv.getViewTreeObserver().addOnScrollChangedListener(OnScrollChangedListener {
-            val view = binding.sv.getChildAt(binding.sv.getChildCount() - 1) as View
-            val diff: Int = view.bottom - (binding.sv.getHeight() + binding.sv
-                .getScrollY())
+        binding.sv.viewTreeObserver.addOnScrollChangedListener(OnScrollChangedListener {
+            val view = binding.sv.getChildAt(binding.sv.childCount - 1) as View
+            val diff: Int = view.bottom - (binding.sv.height + binding.sv
+                .scrollY)
             if (diff == 0) {
                 parentViewModel.getHousePage()
             }
