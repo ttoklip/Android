@@ -3,22 +3,15 @@ package com.umc.ttoklip.presentation.signup.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.widget.SeekBar
-import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.umc.ttoklip.R
-import com.umc.ttoklip.data.model.signup.SignupRequest
 import com.umc.ttoklip.databinding.FragmentSignup5Binding
 import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.login.LoginActivity
-import com.umc.ttoklip.presentation.signup.DirectLocationActivity
-import com.umc.ttoklip.presentation.signup.LocationActivity
+import com.umc.ttoklip.presentation.signup.location.DirectLocationActivity
+import com.umc.ttoklip.presentation.signup.location.LocationActivity
 import com.umc.ttoklip.presentation.signup.SignupActivity
-import com.umc.ttoklip.presentation.signup.SignupViewModel
-import dagger.hilt.android.AndroidEntryPoint
 
 class Signup5Fragment: BaseFragment<FragmentSignup5Binding>(R.layout.fragment_signup5) {
 
