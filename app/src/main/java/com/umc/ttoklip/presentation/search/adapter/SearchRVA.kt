@@ -19,7 +19,7 @@ class SearchRVA(val onClick: (Int,Int) -> Unit) :
             binding.item = data
             binding.commentCountTv.text = data.commentCount.toString()
             binding.likeCountTv.text = data.likeCount.toString()
-            binding.starCountTv.text = data.likeCount.toString()
+            binding.starCountTv.text = data.scrapCount.toString()
             binding.boardT.text = when (data.bigCategory) {
                 1 -> "뉴스레터"
                 2 -> "질문해요"

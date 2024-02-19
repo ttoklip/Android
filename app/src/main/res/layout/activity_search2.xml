@@ -10,6 +10,7 @@
         <variable
             name="vm"
             type="com.umc.ttoklip.presentation.search2.SearchViewModel2" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="@{vm.searchAfter ? View.VISIBLE : View.GONE}"
-            app:constraint_referenced_ids="" />
+            app:constraint_referenced_ids="vp,tabLayout" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/backBtn"

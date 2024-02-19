@@ -20,6 +20,7 @@ import com.umc.ttoklip.presentation.mypage.adapter.TransactionAdapter
 import com.umc.ttoklip.presentation.news.adapter.NewsRVA
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
 import com.umc.ttoklip.presentation.search.SearchActivity
+import com.umc.ttoklip.presentation.search2.SearchActivity2
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -47,7 +48,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 viewModel.activityBus.collect {
                     when (it) {
                         HomeViewModel.ActivityEventBus.SEARCH -> {
-                            startActivity(SearchActivity.newIntent(requireContext()))
+                            startActivity(SearchActivity2.newIntent(requireContext()))
                         }
 
                         HomeViewModel.ActivityEventBus.NEWS_DETAIL -> {
