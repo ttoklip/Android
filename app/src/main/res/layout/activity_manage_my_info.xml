@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="vm"
+            type="com.umc.ttoklip.presentation.mypage.vm.ManageMyInfoViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -99,7 +101,7 @@
                         android:background="@drawable/round_input_background"
                         android:padding="16dp"
                         android:textColor="@color/black"
-                        android:text="posite"
+                        android:text=""
                         android:textAppearance="@style/TextAppearance.App.12sp_400"
                         app:layout_constraintEnd_toStartOf="@id/check_duplication_btn"
                         app:layout_constraintHorizontal_weight="2"
@@ -153,7 +155,7 @@
                         android:background="@drawable/round_input_background"
                         android:padding="16dp"
                         android:textColor="@color/black"
-                        android:text="yy년 mm개월"
+                        android:text=""
                         android:textAppearance="@style/TextAppearance.App.12sp_400"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -192,7 +194,7 @@
                         android:layout_height="50dp"
                         android:background="@drawable/round_input_background"
                         android:padding="16dp"
-                        android:text="yy년 mm개월"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textAppearance="@style/TextAppearance.App.12sp_400"
                         app:layout_constraintEnd_toEndOf="parent"

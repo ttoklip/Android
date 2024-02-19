@@ -2,8 +2,11 @@ package com.umc.ttoklip.di
 
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
+import com.umc.ttoklip.data.api.HomeApi
 import com.umc.ttoklip.data.api.HoneyTipApi
 import com.umc.ttoklip.data.api.LoginApi
+import com.umc.ttoklip.data.api.MyPage2Api
+import com.umc.ttoklip.data.api.MyPageApi
 import com.umc.ttoklip.data.api.MainCommsApi
 import com.umc.ttoklip.data.api.MainTogethersApi
 import com.umc.ttoklip.data.api.MyAccountRestrictApi
@@ -112,9 +115,22 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideLoginApi(retrofit: Retrofit): LoginApi {
+    fun provideMyPageApi(retrofit: Retrofit): MyPageApi {
         return retrofit.buildService()
     }
+
+    @Provides
+    @Singleton
+    fun provideHomeApi(retrofit: Retrofit): HomeApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideLoginApi(retrofit: Retrofit): LoginApi{
+        return retrofit.buildService()
+    }
+
 
     @Provides
     @Singleton
@@ -124,6 +140,11 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    fun provideMyPage2Api(retrofit: Retrofit): MyPage2Api{
+        return retrofit.buildService()
+    }
+        @Provides
+        @Singleton
     fun providesAccountRestrictApi(retrofit: Retrofit): MyAccountRestrictApi {
         return retrofit.buildService()
     }

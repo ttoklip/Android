@@ -2,6 +2,11 @@ package com.umc.ttoklip.di
 
 import com.umc.ttoklip.data.api.MainCommsApi
 import com.umc.ttoklip.data.api.MainTogethersApi
+import com.umc.ttoklip.data.api.HomeApi
+import com.umc.ttoklip.data.api.MyPage2Api
+import com.umc.ttoklip.data.api.MyPageApi
+import com.umc.ttoklip.data.repository.mypage.MyPageRepository2
+import com.umc.ttoklip.data.repository.mypage.MyPageRepository2Impl
 import com.umc.ttoklip.data.api.MyAccountRestrictApi
 import com.umc.ttoklip.data.api.MyBlockUserApi
 import com.umc.ttoklip.data.api.MyPostApi
@@ -18,8 +23,14 @@ import com.umc.ttoklip.data.repository.mypage.MyBlockUserRepository
 import com.umc.ttoklip.data.repository.mypage.MyBlockUserRepositoryImpl
 import com.umc.ttoklip.data.repository.mypage.MyPostRepository
 import com.umc.ttoklip.data.repository.mypage.MyPostRepositoryImpl
+import com.umc.ttoklip.data.api.ReadCommsApi
+import com.umc.ttoklip.data.api.ReadTogetherApi
+import com.umc.ttoklip.data.api.WriteCommsApi
+import com.umc.ttoklip.data.api.WriteTogetherApi
 import com.umc.ttoklip.data.repository.news.NewsRepository
 import com.umc.ttoklip.data.repository.news.NewsRepositoryImpl
+import com.umc.ttoklip.data.repository.scrap.ScrapRepository
+import com.umc.ttoklip.data.repository.scrap.ScrapRepositoryImpl
 import com.umc.ttoklip.data.repository.search.Search2Repository
 import com.umc.ttoklip.data.repository.search.Search2RepositoryImpl
 import com.umc.ttoklip.data.repository.search.SearchRepository
@@ -99,6 +110,21 @@ object RepositoryModule {
 
     @Provides
     @Singleton
+    fun providesScrapRepository(api: MyPageApi): ScrapRepository =
+        ScrapRepositoryImpl(api)
+
+    @Provides
+    @Singleton
+    fun providesHomeRepository(api: HomeApi): HomeRepository =
+        HomeRepositoryImpl(api)
+
+    @Provides
+    @Singleton
+    fun providesMyPage2Repository(api: MyPage2Api): MyPageRepository2 =
+        MyPageRepository2Impl(api)
+
+    @Provides
+    @Singleton
     fun providesMyAccountRestrictRepository(api: MyAccountRestrictApi): MyAccountRestrictRepository =
         MyAccountRestrictRepositoryImpl(api)
 
@@ -111,4 +137,5 @@ object RepositoryModule {
     @Singleton
     fun providesMyBlockUserRepository(api: MyBlockUserApi): MyBlockUserRepository =
         MyBlockUserRepositoryImpl(api)
+
 }

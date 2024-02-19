@@ -3,7 +3,6 @@ package com.umc.ttoklip.presentation.search2.fragment
 import android.view.View
 import android.widget.AdapterView
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -13,7 +12,6 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentItemSearchBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.mypage.SortSpinnerAdapter
-import com.umc.ttoklip.presentation.news.NewsViewModelImpl
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
 import com.umc.ttoklip.presentation.search.adapter.SearchRVA
 import com.umc.ttoklip.presentation.search2.SearchViewModel2
@@ -65,7 +63,7 @@ class SearchTownFragment() :
         binding.filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 viewModel.reset(1)
-                if (spinnerA.item == "최신순"){
+                if (binding.filterSpinner.selectedItem == "최신순"){
                     viewModel.getTourSearch("latest")
                 } else{
                     viewModel.getTourSearch("popularity")
@@ -88,7 +86,7 @@ class SearchTownFragment() :
                 if (newState == 2 && !recyclerView.canScrollVertically(1)
                     && lastVisibleItemPosition == totalItemViewCount
                 ) {
-                    if (spinnerA.item == "최신순"){
+                    if (binding.filterSpinner.selectedItem == "최신순"){
                         viewModel.getTourSearch("latest")
                     } else{
                         viewModel.getTourSearch("popularity")

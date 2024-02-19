@@ -1,9 +1,12 @@
 package com.umc.ttoklip.presentation.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.ttoklip.data.model.home.HomeResponse
+import com.umc.ttoklip.data.repository.home.HomeRepository
 import com.umc.ttoklip.module.NetworkResult
 import com.umc.ttoklip.module.onException
 import com.umc.ttoklip.module.onFail
@@ -20,20 +23,25 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModelImpl @Inject constructor(
-
-): ViewModel(),HomeViewModel {
+    private val homeRepository: HomeRepository
+) : ViewModel(), HomeViewModel {
 
     private val _haveWork: MutableStateFlow<Boolean> = MutableStateFlow(true)
     override val haveWork: StateFlow<Boolean>
         get() = _haveWork
 
-    private val _doneWork : MutableStateFlow<Boolean> = MutableStateFlow(false)
+    private val _doneWork: MutableStateFlow<Boolean> = MutableStateFlow(false)
     override val doneWork: StateFlow<Boolean>
         get() = _doneWork
 
     private val _activityBus = MutableSharedFlow<HomeViewModel.ActivityEventBus>()
     override val activityBus: SharedFlow<HomeViewModel.ActivityEventBus>
         get() = _activityBus.asSharedFlow()
+
+    private val _mainData = MutableStateFlow(HomeResponse())
+    override val mainData: StateFlow<HomeResponse>
+        get() = _mainData
+
     override fun clickDelayWork() {
         viewModelScope.launch {
             _haveWork.emit(haveWork.value.not())
@@ -76,4 +84,21 @@ class HomeViewModelImpl @Inject constructor(
         }
     }
 
+    override fun getMain() {
+        viewModelScope.launch {
+            try {
+                homeRepository.getHomeMain()
+                    .onSuccess {
+                        _mainData.emit(it)
+                    }.onFail {
+
+                }.onException {
+                    throw it
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.d("예외", "$e")
+            }
+        }
+    }
 }
