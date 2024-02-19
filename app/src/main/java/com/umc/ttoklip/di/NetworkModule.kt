@@ -4,6 +4,7 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.api.HoneyTipApi
 import com.umc.ttoklip.data.api.LoginApi
+import com.umc.ttoklip.data.api.MyPageApi
 import com.umc.ttoklip.data.api.NewsApi
 import com.umc.ttoklip.data.api.Search2Api
 import com.umc.ttoklip.data.api.SearchApi
@@ -98,6 +99,12 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideSearch2Api(retrofit: Retrofit): Search2Api {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMyPageApi(retrofit: Retrofit): MyPageApi {
         return retrofit.buildService()
     }
 
