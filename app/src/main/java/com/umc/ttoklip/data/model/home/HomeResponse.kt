@@ -8,4 +8,6 @@ data class HomeResponse(
     val honeyTips: List<HoneyTipMain>,
     val newsLetters: List<News>,
     val todayToDoList: String
-)
+){
+    constructor() : this("", listOf(), listOf(),"")
+}
