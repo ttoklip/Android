@@ -4,6 +4,7 @@ import com.umc.ttoklip.data.api.MyPage2Api
 import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.honeytip.CreateHoneyTipResponse
 import com.umc.ttoklip.data.model.mypage.MyPageInfoResponse
+import com.umc.ttoklip.data.model.signup.SignupResponse
 import com.umc.ttoklip.module.NetworkResult
 import com.umc.ttoklip.module.handleApi
 import okhttp3.MultipartBody
@@ -28,5 +29,9 @@ class MyPageRepository2Impl @Inject constructor(
                 info
             )
         }) { response: ResponseBody<CreateHoneyTipResponse> -> response.result }
+    }
+
+    override suspend fun checkNickname(nick: String): NetworkResult<SignupResponse> {
+        return handleApi({api.nickCheck(nick)}) {response: ResponseBody<SignupResponse> ->response.result}
     }
 }
