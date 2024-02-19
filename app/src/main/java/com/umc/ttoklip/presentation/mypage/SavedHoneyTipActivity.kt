@@ -19,7 +19,6 @@ import com.umc.ttoklip.presentation.mypage.adapter.OnSpinnerItemClickListener
 import com.umc.ttoklip.presentation.mypage.adapter.SavedHoneyTipAdapter
 import com.umc.ttoklip.presentation.mypage.vm.ScrapViewModel
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
-import com.umc.ttoklip.presentation.search.adapter.HistoryRVA
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -108,5 +107,4 @@ class SavedHoneyTipActivity :
             else -> {}
         }
     }
-
 }

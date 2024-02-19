@@ -11,7 +11,6 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentMyPageBinding
 import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
-import com.umc.ttoklip.presentation.mypage.dialog.LogoutDialog
 import com.umc.ttoklip.presentation.mypage.vm.ManageMyInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -81,8 +80,8 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
 
         binding.logoutFrame.setOnClickListener {
-            val dialog = LogoutDialog()
-            dialog.show(parentFragmentManager, dialog.tag)
+//            val dialog = LogoutDialog()
+//            dialog.show(parentFragmentManager, dialog.tag)
         }
 
         binding.transactionHistoryBtn.setOnClickListener {
@@ -100,5 +99,4 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             startActivity(intent)
         }
     }
-
 }
