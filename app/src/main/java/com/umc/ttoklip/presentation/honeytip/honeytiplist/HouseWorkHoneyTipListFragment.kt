@@ -72,6 +72,22 @@ class HouseWorkHoneyTipListFragment :
             )
         )
         binding.rv.adapter = honeyTipListRVA
+        binding.rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                val lastVisibleItemPosition =
+                    (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
+                val totalItemViewCount = recyclerView.adapter!!.itemCount - 1
+
+                if (newState == 2 && !recyclerView.canScrollVertically(1)
+                    && lastVisibleItemPosition == totalItemViewCount
+                ) {
+                    Log.d("end", "end")
+                   //viewModel.getHoneyTipByCategory("HOUSE", page++)
+                }
+            }
+
+        })
     }
 
     override fun onClick(honeyTip: HoneyTipMain) {
