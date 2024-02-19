@@ -17,7 +17,6 @@
             android:src="@drawable/oval_stroke_1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:visibility="visible"/>
 
         <ImageView
@@ -27,7 +26,6 @@
             android:src="@drawable/oval_double"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:visibility="invisible"/>
 
         <TextView
@@ -46,8 +44,29 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_arrow_black_24"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/term_detail_sv"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@drawable/rectangle_corner_10"
+            android:backgroundTint="@color/gray20"
+            android:layout_marginStart="27dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/term_agreeService_tv"
+            app:layout_constraintStart_toStartOf="@id/term_agreeService_tv"
+            android:visibility="gone">
+            <TextView
+                android:id="@+id/term_detail_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="약관 내용\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n내용내용\n\n\n\n\n"
+                android:textAppearance="@style/TextAppearance.App.12sp_400"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
+                app:layout_constraintStart_toStartOf="@id/term_agreeService_tv"
+                app:layout_constraintTop_toBottomOf="@id/term_agreeService_tv"/>
+        </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

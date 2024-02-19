@@ -36,13 +36,23 @@ class TermRVAdapter(private val termList: ArrayList<TermViewModel.Term>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(termList[position])
-        holder.itemView.setOnClickListener { mItemClickListener.onItemClick(termList[position].termId-1) }
+        holder.itemView.setOnClickListener {
+            mItemClickListener.onItemClick(termList[position].termId-1)
+        }
+        holder.binding.termAgreeServiceBtn.setOnClickListener {
+            if(holder.binding.termDetailSv.visibility.equals(View.VISIBLE)){
+                holder.binding.termDetailSv.visibility=View.GONE
+            }else{
+                holder.binding.termDetailSv.visibility=View.VISIBLE
+            }
+            checkTerm()
+        }
         holder.binding.termAgreeServiceOnIv.setOnClickListener {
-            mItemClickListener.onCheckTermOff(termList[position].termId-1)
+            mItemClickListener.onCheckTermOff(termList[position].termId)
             checkTerm()
         }
         holder.binding.termAgreeServiceOffIv.setOnClickListener {
-            mItemClickListener.onCheckTermOn(termList[position].termId-1)
+            mItemClickListener.onCheckTermOn(termList[position].termId)
             checkTerm()
         }
     }
@@ -50,6 +60,7 @@ class TermRVAdapter(private val termList: ArrayList<TermViewModel.Term>) :
     inner class ViewHolder(val binding: ItemTermBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(term: TermViewModel.Term) {
             binding.termAgreeServiceTv.text = term.title
+            binding.termDetailTv.text=term.content
             if (term.check) {
                 binding.termAgreeServiceOnIv.visibility = View.VISIBLE
                 binding.termAgreeServiceOffIv.visibility = View.INVISIBLE

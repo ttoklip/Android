@@ -20,30 +20,33 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/signup1_desc1_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="똑립 이용을 위해"
                     android:textAppearance="@style/TextAppearance.App.22sp_400"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:id="@+id/signup1_desc2_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="가입약관"
                     android:textAppearance="@style/TextAppearance.App.22sp_600"
-                    app:layout_constraintTop_toBottomOf="@id/signup1_desc1_tv"
-                    app:layout_constraintStart_toStartOf="@id/signup1_desc1_tv"/>
+                    app:layout_constraintStart_toStartOf="@id/signup1_desc1_tv"
+                    app:layout_constraintTop_toBottomOf="@id/signup1_desc1_tv" />
+
                 <TextView
                     android:id="@+id/signup_desc3_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="을 확인해주세요"
                     android:textAppearance="@style/TextAppearance.App.22sp_400"
-                    app:layout_constraintTop_toTopOf="@id/signup1_desc2_tv"
-                    app:layout_constraintStart_toEndOf="@id/signup1_desc2_tv"/>
+                    app:layout_constraintStart_toEndOf="@id/signup1_desc2_tv"
+                    app:layout_constraintTop_toTopOf="@id/signup1_desc2_tv" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -52,13 +55,23 @@
                 android:layout_marginTop="20dp">
 
                 <ImageView
-                    android:id="@+id/signup3_agreeAll_iv"
+                    android:id="@+id/signup3_deagreeAll_iv"
                     android:layout_width="17dp"
                     android:layout_height="17dp"
                     android:src="@drawable/oval_stroke_1"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/signup3_agreeAll_iv"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:src="@drawable/oval_double"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/signup3_agreeAll_tv"
@@ -70,6 +83,7 @@
                     app:layout_constraintBottom_toTopOf="@id/signup3_agreeAllDesc_tv"
                     app:layout_constraintStart_toEndOf="@id/signup3_agreeAll_iv"
                     app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:id="@+id/signup3_agreeAllDesc_tv"
                     android:layout_width="wrap_content"
@@ -77,9 +91,9 @@
                     android:text="(선택) 광고 수신을 포함하여 동의합니다"
                     android:textAppearance="@style/TextAppearance.App.12sp_400"
                     android:textColor="@color/gray40"
-                    app:layout_constraintTop_toBottomOf="@id/signup3_agreeAll_tv"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/signup3_agreeAll_tv"/>
+                    app:layout_constraintStart_toStartOf="@id/signup3_agreeAll_tv"
+                    app:layout_constraintTop_toBottomOf="@id/signup3_agreeAll_tv" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
@@ -89,114 +103,113 @@
                 android:layout_marginTop="20dp"
                 android:background="@color/gray20" />
 
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:layout_marginBottom="10dp">-->
+            <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="20dp"-->
+            <!--                android:layout_marginBottom="10dp">-->
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/signup3_agreeService_iv"-->
-<!--                    android:layout_width="17dp"-->
-<!--                    android:layout_height="17dp"-->
-<!--                    android:src="@drawable/oval_stroke_1"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+            <!--                <ImageView-->
+            <!--                    android:id="@+id/signup3_agreeService_iv"-->
+            <!--                    android:layout_width="17dp"-->
+            <!--                    android:layout_height="17dp"-->
+            <!--                    android:src="@drawable/oval_stroke_1"-->
+            <!--                    app:layout_constraintStart_toStartOf="parent"-->
+            <!--                    app:layout_constraintTop_toTopOf="parent" />-->
 
-<!--                <TextView-->
-<!--                    android:id="@+id/signup3_agreeService_tv"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="10dp"-->
-<!--                    android:text="서비스 이용약관 (필수)"-->
-<!--                    android:textAppearance="@style/TextAppearance.App.14sp_400"-->
-<!--                    app:layout_constraintBottom_toBottomOf="@id/signup3_agreeService_iv"-->
-<!--                    app:layout_constraintStart_toEndOf="@id/signup3_agreeService_iv"-->
-<!--                    app:layout_constraintTop_toTopOf="@id/signup3_agreeService_iv" />-->
-<!--                <ImageView-->
-<!--                    android:id="@+id/signup3_agreeService_btn"-->
-<!--                    android:layout_width="24dp"-->
-<!--                    android:layout_height="24dp"-->
-<!--                    android:src="@drawable/ic_arrow_black_24"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"/>-->
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+            <!--                <TextView-->
+            <!--                    android:id="@+id/signup3_agreeService_tv"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="10dp"-->
+            <!--                    android:text="서비스 이용약관 (필수)"-->
+            <!--                    android:textAppearance="@style/TextAppearance.App.14sp_400"-->
+            <!--                    app:layout_constraintBottom_toBottomOf="@id/signup3_agreeService_iv"-->
+            <!--                    app:layout_constraintStart_toEndOf="@id/signup3_agreeService_iv"-->
+            <!--                    app:layout_constraintTop_toTopOf="@id/signup3_agreeService_iv" />-->
+            <!--                <ImageView-->
+            <!--                    android:id="@+id/signup3_agreeService_btn"-->
+            <!--                    android:layout_width="24dp"-->
+            <!--                    android:layout_height="24dp"-->
+            <!--                    android:src="@drawable/ic_arrow_black_24"-->
+            <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                    app:layout_constraintTop_toTopOf="parent"-->
+            <!--                    app:layout_constraintBottom_toBottomOf="parent"/>-->
+            <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:layout_marginBottom="10dp">-->
+            <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="10dp"-->
+            <!--                android:layout_marginBottom="10dp">-->
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/signup3_agreePrivacy_iv"-->
-<!--                    android:layout_width="17dp"-->
-<!--                    android:layout_height="17dp"-->
-<!--                    android:src="@drawable/oval_stroke_1"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+            <!--                <ImageView-->
+            <!--                    android:id="@+id/signup3_agreePrivacy_iv"-->
+            <!--                    android:layout_width="17dp"-->
+            <!--                    android:layout_height="17dp"-->
+            <!--                    android:src="@drawable/oval_stroke_1"-->
+            <!--                    app:layout_constraintStart_toStartOf="parent"-->
+            <!--                    app:layout_constraintTop_toTopOf="parent" />-->
 
-<!--                <TextView-->
-<!--                    android:id="@+id/signup3_agreePrivacy_tv"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="10dp"-->
-<!--                    android:text="개인정보 처리방침 (필수)"-->
-<!--                    android:textAppearance="@style/TextAppearance.App.14sp_400"-->
-<!--                    app:layout_constraintBottom_toBottomOf="@id/signup3_agreePrivacy_iv"-->
-<!--                    app:layout_constraintStart_toEndOf="@id/signup3_agreePrivacy_iv"-->
-<!--                    app:layout_constraintTop_toTopOf="@id/signup3_agreePrivacy_iv" />-->
-<!--                <ImageView-->
-<!--                    android:id="@+id/signup3_agreePrivacy_btn"-->
-<!--                    android:layout_width="24dp"-->
-<!--                    android:layout_height="24dp"-->
-<!--                    android:src="@drawable/ic_arrow_black_24"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"/>-->
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+            <!--                <TextView-->
+            <!--                    android:id="@+id/signup3_agreePrivacy_tv"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="10dp"-->
+            <!--                    android:text="개인정보 처리방침 (필수)"-->
+            <!--                    android:textAppearance="@style/TextAppearance.App.14sp_400"-->
+            <!--                    app:layout_constraintBottom_toBottomOf="@id/signup3_agreePrivacy_iv"-->
+            <!--                    app:layout_constraintStart_toEndOf="@id/signup3_agreePrivacy_iv"-->
+            <!--                    app:layout_constraintTop_toTopOf="@id/signup3_agreePrivacy_iv" />-->
+            <!--                <ImageView-->
+            <!--                    android:id="@+id/signup3_agreePrivacy_btn"-->
+            <!--                    android:layout_width="24dp"-->
+            <!--                    android:layout_height="24dp"-->
+            <!--                    android:src="@drawable/ic_arrow_black_24"-->
+            <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                    app:layout_constraintTop_toTopOf="parent"-->
+            <!--                    app:layout_constraintBottom_toBottomOf="parent"/>-->
+            <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="10dp">-->
+            <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="10dp">-->
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/signup3_agreeLocation_iv"-->
-<!--                    android:layout_width="17dp"-->
-<!--                    android:layout_height="17dp"-->
-<!--                    android:src="@drawable/oval_stroke_1"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+            <!--                <ImageView-->
+            <!--                    android:id="@+id/signup3_agreeLocation_iv"-->
+            <!--                    android:layout_width="17dp"-->
+            <!--                    android:layout_height="17dp"-->
+            <!--                    android:src="@drawable/oval_stroke_1"-->
+            <!--                    app:layout_constraintStart_toStartOf="parent"-->
+            <!--                    app:layout_constraintTop_toTopOf="parent" />-->
 
-<!--                <TextView-->
-<!--                    android:id="@+id/signup3_agreeLocation_tv"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="10dp"-->
-<!--                    android:text="위치서비스 이용약관 (선택)"-->
-<!--                    android:textAppearance="@style/TextAppearance.App.14sp_400"-->
-<!--                    app:layout_constraintBottom_toBottomOf="@id/signup3_agreeLocation_iv"-->
-<!--                    app:layout_constraintStart_toEndOf="@id/signup3_agreeLocation_iv"-->
-<!--                    app:layout_constraintTop_toTopOf="@id/signup3_agreeLocation_iv" />-->
-<!--                <ImageView-->
-<!--                    android:id="@+id/signup3_agreeLocation_btn"-->
-<!--                    android:layout_width="24dp"-->
-<!--                    android:layout_height="24dp"-->
-<!--                    android:src="@drawable/ic_arrow_black_24"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"/>-->
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+            <!--                <TextView-->
+            <!--                    android:id="@+id/signup3_agreeLocation_tv"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="10dp"-->
+            <!--                    android:text="위치서비스 이용약관 (선택)"-->
+            <!--                    android:textAppearance="@style/TextAppearance.App.14sp_400"-->
+            <!--                    app:layout_constraintBottom_toBottomOf="@id/signup3_agreeLocation_iv"-->
+            <!--                    app:layout_constraintStart_toEndOf="@id/signup3_agreeLocation_iv"-->
+            <!--                    app:layout_constraintTop_toTopOf="@id/signup3_agreeLocation_iv" />-->
+            <!--                <ImageView-->
+            <!--                    android:id="@+id/signup3_agreeLocation_btn"-->
+            <!--                    android:layout_width="24dp"-->
+            <!--                    android:layout_height="24dp"-->
+            <!--                    android:src="@drawable/ic_arrow_black_24"-->
+            <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                    app:layout_constraintTop_toTopOf="parent"-->
+            <!--                    app:layout_constraintBottom_toBottomOf="parent"/>-->
+            <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/signup3_terms_RV"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:listitem="@layout/item_term"
-                android:layout_marginTop="10dp"/>
-
+                android:layout_height="430dp"
+                android:layout_marginTop="10dp"
+                tools:listitem="@layout/item_term"/>
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -207,9 +220,9 @@
             android:stateListAnimator="@null"
             android:text="다음"
             android:textAppearance="@style/TextAppearance.App.16sp_600"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

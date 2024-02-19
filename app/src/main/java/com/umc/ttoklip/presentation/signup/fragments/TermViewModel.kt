@@ -40,6 +40,9 @@ class TermViewModel @Inject constructor(
             _termDatas.value[term.termId-1].check=check
         }
     }
+    fun setTermCheck(position:Int,check:Boolean){
+        _termDatas.value[position].check=check
+    }
     fun getTerm() {
         viewModelScope.launch {
             termRepository.getTerm(0)
@@ -47,12 +50,17 @@ class TermViewModel @Inject constructor(
                     for(term in it.terms){
                         _termDatas.value.add(Term(term.termId,term.title,term.content))
                     }
+                    _termCount.value=it.totalElements
                     Log.i("TERM","term 불러오기 성공")
                 }.onFail {
                     Log.d("TERM","term 불러오기 실패")
                 }
         }
     }
+
+    private val _termCount=MutableStateFlow<Int>(0)
+    val termCount:StateFlow<Int>
+        get() = _termCount
 
     data class Term(
         val termId: Int,

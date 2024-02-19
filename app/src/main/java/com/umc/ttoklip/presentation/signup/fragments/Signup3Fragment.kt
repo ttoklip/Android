@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -24,48 +25,41 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_signup3) {
 
-    private val viewModel: TermViewModel by viewModels()
-    private lateinit var termRVAdapter:TermRVAdapter
+    private val viewModel: TermViewModel by activityViewModels()
+    private lateinit var termRVAdapter: TermRVAdapter
 
     override fun initObserver() {
-        val activity = activity as SignupActivity
-        activity?.setProg(1)
-
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     delay(300)
                     viewModel.termDatas.collect {
-                        termRVAdapter = TermRVAdapter(viewModel.termDatas.value)
-                        binding.signup3TermsRV.adapter = termRVAdapter
-                        binding.signup3TermsRV.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                        termRVAdapter.setMyItemClickListener(object : TermRVAdapter.MyItemClickListener {
-
-                            override fun onItemClick(termId: Int) {
-                                //fragment 이동
-                                activity.updateButtonForTerm()
-                                val bundle = Bundle()
-                                bundle.putString("title", viewModel.termDatas.value[termId].title)
-                                bundle.putString("content", viewModel.termDatas.value[termId].content)
-                                findNavController().navigate(R.id.action_signup3_fragment_to_signupTerm_fragment, bundle)
-                            }
-                            override fun onCheckTermOn(termId: Int) {
-                                viewModel.termDatas.value[termId].check = true
-                                nextcheck() }
-                            override fun onCheckTermOff(termId: Int) {
-                                viewModel.termDatas.value[termId].check = false
-                                nextcheck() }
-                        })
-                        viewModel.nextok.collect{
-                            if(it){
-                                binding.signup3NextBtn.isClickable = true
-                                binding.signup3NextBtn.setBackgroundResource(R.drawable.rectangle_corner_10_yellow)
-                                binding.signup3NextBtn.setTextAppearance(R.style.TextAppearance_App_16sp_700)
-                            }else{
-                                binding.signup3NextBtn.isClickable = false
-                                binding.signup3NextBtn.setBackgroundResource(R.drawable.rectangle_corner_10_strok_1_black)
-                                binding.signup3NextBtn.setTextAppearance(R.style.TextAppearance_App_16sp_500)
-                            }
+                        termRVAdapter.notifyDataSetChanged()
+                    }
+                }
+                launch {
+                    viewModel.nextok.collect {
+                        if (it) {
+                            binding.signup3NextBtn.isClickable = true
+                            binding.signup3NextBtn.setBackgroundResource(R.drawable.rectangle_corner_10_yellow)
+                            binding.signup3NextBtn.setTextAppearance(R.style.TextAppearance_App_16sp_700)
+                        } else {
+                            binding.signup3NextBtn.isClickable = false
+                            binding.signup3NextBtn.setBackgroundResource(R.drawable.rectangle_corner_10_strok_1_black)
+                            binding.signup3NextBtn.setTextAppearance(R.style.TextAppearance_App_16sp_500)
+                        }
+                    }
+                }
+                launch{
+                    viewModel.allCheck.collect{
+                        if(it){
+                            binding.signup3AgreeAllIv.visibility=View.VISIBLE
+                            binding.signup3DeagreeAllIv.visibility=View.INVISIBLE
+                            termRVAdapter.notifyDataSetChanged()
+                        }else{
+                            binding.signup3AgreeAllIv.visibility=View.INVISIBLE
+                            binding.signup3DeagreeAllIv.visibility=View.VISIBLE
+                            termRVAdapter.notifyDataSetChanged()
                         }
                     }
                 }
@@ -74,25 +68,57 @@ class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_s
     }
 
     override fun initView() {
+        val activity = activity as SignupActivity
+        activity?.setProg(1)
+
+        //약관 불러오기
         viewModel.getTerm()
-        binding.signup3AgreeAllIv.setOnClickListener {
-            if(viewModel.allCheck.value){
-                binding.signup3AgreeAllIv.setImageResource(R.drawable.oval_stroke_1)
-                viewModel.allcheck(false)
-                viewModel.setTermsCheck(false)
-                nextcheck()
-                termRVAdapter.notifyDataSetChanged()
-            }else{
-                binding.signup3AgreeAllIv.setImageResource(R.drawable.oval_double)
-                viewModel.allcheck(true)
-                viewModel.setTermsCheck(true)
-                nextcheck()
-                termRVAdapter.notifyDataSetChanged()
+        //약관 rv 초기화하고 넣기-업데이트는 ovserve에서
+        termRVAdapter = TermRVAdapter(viewModel.termDatas.value)
+        binding.signup3TermsRV.adapter = termRVAdapter
+        binding.signup3TermsRV.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+
+        //term rv click listener
+        termRVAdapter.setMyItemClickListener(object : TermRVAdapter.MyItemClickListener {
+            //fragment 이동
+            override fun onItemClick(termId: Int) {
             }
 
+            //off인 term을 누름
+            override fun onCheckTermOn(termId: Int) {
+                val id=viewModel.termCount.value-termId
+                viewModel.setTermCheck(id, true)
+                nextcheck()
+            }
+
+            //on인 term을 누름
+            override fun onCheckTermOff(termId: Int) {
+                val id=viewModel.termCount.value-termId
+                viewModel.setTermCheck(id, false)
+                nextcheck()
+            }
+        })
+
+        //all check off
+        binding.signup3AgreeAllIv.setOnClickListener {
+            viewModel.setTermsCheck(false)
+            viewModel.allcheck(false)
+            termRVAdapter.notifyDataSetChanged()
+            nextcheck()
         }
+        //all check on
+        binding.signup3DeagreeAllIv.setOnClickListener {
+            viewModel.setTermsCheck(true)
+            viewModel.allcheck(true)
+            termRVAdapter.notifyDataSetChanged()
+            nextcheck()
+        }
+
+
         binding.signup3NextBtn.setOnClickListener {
-            if(viewModel.nextok.value){
+            if (viewModel.nextok.value) {
                 findNavController().navigate(R.id.action_signup3_fragment_to_signup4_fragment)
             }
         }
@@ -100,11 +126,13 @@ class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_s
 
     private fun nextcheck() {
         for (term in viewModel.termDatas.value) {
-            if (term.check==false) {
+            if (term.check == false) {
+                viewModel.allcheck(false)
                 viewModel.nextcheck(false)
                 return
             }
         }
+        viewModel.allcheck(true)
         viewModel.nextcheck(true)
     }
 }
