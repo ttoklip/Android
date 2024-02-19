@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="vm"
+            type="com.umc.ttoklip.presentation.hometown.CommunicationViewModelImpl" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -66,5 +69,18 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/item_list_honey_tip" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/write_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_write_24"
+            android:backgroundTint="@color/yellow"
+            android:elevation="0dp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlayExtended"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

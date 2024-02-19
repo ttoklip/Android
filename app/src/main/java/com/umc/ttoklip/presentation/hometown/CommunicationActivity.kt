@@ -1,5 +1,7 @@
 package com.umc.ttoklip.presentation.hometown
 
+import android.content.Intent
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityCommunicationBinding
@@ -14,7 +16,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class CommunicationActivity :
     BaseActivity<ActivityCommunicationBinding>(R.layout.activity_communication),
     OnItemClickListener {
+    private val viewModel: CommunicationViewModel by viewModels<CommunicationViewModelImpl>()
     override fun initView() {
+        binding.vm = viewModel as CommunicationViewModelImpl
+        binding.writeFab.setOnClickListener {
+            val intent = Intent(this, WriteCommunicationActivity::class.java)
+            startActivity(intent)
+        }
         val sortFilters = listOf(
             getString(R.string.sort_most_recent),
             getString(R.string.sort_popularity),
