@@ -42,10 +42,6 @@ class HouseWorkHoneyTipListFragment : Fragment(),
 
     lateinit var binding: FragmentHoneyTipListBinding
 
-    private var totalPage = 0
-    private var page = 0
-    private var isLast = false
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -72,11 +68,14 @@ class HouseWorkHoneyTipListFragment : Fragment(),
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.houseworkHoneyTip.collect {
                     honeyTipListRVA.submitList(it)
+                    /*if(honeyTipListRVA.currentList.size != it.size) {
+                        honeyTipListRVA.submitList(it)
+                    }*/
                 }
             }
         }
 
-        lifecycleScope.launch {
+        /*lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.honeyTipPaging.collect {
                     Log.d("it", it.toString())
@@ -84,22 +83,28 @@ class HouseWorkHoneyTipListFragment : Fragment(),
                     isLast = it.isLast
                 }
             }
-        }
+        }*/
     }
 
     fun initView() {
-        //viewModel.getHoneyTipByCategory("HOUSEWORK", 0)
         initRV()
-        binding.sv.viewTreeObserver.addOnScrollChangedListener(ViewTreeObserver.OnScrollChangedListener {
+        /*binding.sv.viewTreeObserver.addOnScrollChangedListener(ViewTreeObserver.OnScrollChangedListener {
             val view: View? = binding.sv.getChildAt(binding.sv.childCount - 1)
             if (view != null) {
                 val diff: Int = view.bottom - (binding.sv.height + binding.sv
                     .scrollY)
                 if (diff == 0) {
+                    Log.d("end", "end")
                     viewModel.getHoneyTipByCategory()
                 }
             }
-        })
+        })*/
+        /*binding.sv.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if ((!v.canScrollVertically(1))) {
+                Log.d("end", "end")
+                viewModel.getHoneyTipByCategory()
+            }
+        }*/
     }
 
     private fun initRV() {
@@ -123,5 +128,12 @@ class HouseWorkHoneyTipListFragment : Fragment(),
     override fun onResume() {
         super.onResume()
         binding.root.requestLayout()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.isHouseEnd.value = false
+        viewModel.housePage.value = 1
+        //viewModel.resetHouseHoneyTipList()
     }
 }
