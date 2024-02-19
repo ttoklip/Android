@@ -4,9 +4,12 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.api.HomeApi
 import com.umc.ttoklip.data.api.HoneyTipApi
+import com.umc.ttoklip.data.api.KakaoApi
 import com.umc.ttoklip.data.api.LoginApi
 import com.umc.ttoklip.data.api.MyPage2Api
 import com.umc.ttoklip.data.api.MyPageApi
+import com.umc.ttoklip.data.api.MainCommsApi
+import com.umc.ttoklip.data.api.MainTogethersApi
 import com.umc.ttoklip.data.api.MyAccountRestrictApi
 import com.umc.ttoklip.data.api.MyBlockUserApi
 import com.umc.ttoklip.data.api.MyPostApi
@@ -16,6 +19,7 @@ import com.umc.ttoklip.data.api.ReadTogetherApi
 import com.umc.ttoklip.data.api.Search2Api
 import com.umc.ttoklip.data.api.SearchApi
 import com.umc.ttoklip.data.api.SignupApi
+import com.umc.ttoklip.data.api.TermApi
 import com.umc.ttoklip.data.api.TestApi
 import com.umc.ttoklip.data.api.WriteCommsApi
 import com.umc.ttoklip.data.api.WriteTogetherApi
@@ -30,6 +34,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import retrofit2.create
+import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -52,6 +59,23 @@ object NetworkModule {
             .retryOnConnectionFailure(false)
             .build()
     }
+
+    @Provides
+    @Singleton
+    @Named("kakaoClient")
+    fun providesKOkHttpClient(): OkHttpClient {
+        val interceptor = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+        return OkHttpClient.Builder().apply {
+
+            addInterceptor (interceptor)
+            connectTimeout(5, TimeUnit.SECONDS)
+            readTimeout(5, TimeUnit.SECONDS)
+            writeTimeout(5, TimeUnit.SECONDS)
+        }.build()
+    }
+
 
     @Provides
     @Singleton
@@ -79,6 +103,20 @@ object NetworkModule {
                 .build()
             proceed(newRequest)
         }
+    }
+
+    @Provides
+    @Singleton
+    @Named("kakao")
+    fun providesKakaoRetrofit(
+        @Named("kakaoClient") client: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(R.string.kakao.toString())
+            .addConverterFactory(gsonConverterFactory)
+            .client(client)
+            .build()
     }
 
     @Provides
@@ -119,6 +157,11 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    fun provideTermApi(retrofit: Retrofit): TermApi{
+        return retrofit.buildService()
+    }
+    @Provides
+    @Singleton
     fun provideHomeApi(retrofit: Retrofit): HomeApi {
         return retrofit.buildService()
     }
@@ -129,10 +172,15 @@ object NetworkModule {
         return retrofit.buildService()
     }
 
-
     @Provides
     @Singleton
     fun provideSignupApi(retrofit: Retrofit): SignupApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun providesKakaoService(@Named("kakao") retrofit: Retrofit):KakaoApi{
         return retrofit.buildService()
     }
 
@@ -182,6 +230,19 @@ object NetworkModule {
     fun provideWriteTogetherApi(retrofit: Retrofit): WriteTogetherApi {
         return retrofit.buildService()
     }
+
+    @Provides
+    @Singleton
+    fun provideMainCommsApi(retrofit: Retrofit): MainCommsApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMainTogethersApi(retrofit: Retrofit): MainTogethersApi {
+        return retrofit.buildService()
+    }
+
 
     private inline fun <reified T> Retrofit.buildService(): T {
         return this.create(T::class.java)

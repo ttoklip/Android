@@ -76,12 +76,10 @@ class SavedHoneyTipActivity :
 
         binding.savedHoneyTipRv.layoutManager = LinearLayoutManager(this@SavedHoneyTipActivity)
         binding.savedHoneyTipRv.adapter = scrapRVA
-
         binding.savedHoneyTipBackBtn.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
     }
-
     override fun initObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

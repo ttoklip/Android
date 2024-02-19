@@ -134,7 +134,7 @@ class ReadTogetherActivity :
                             contentT.text = response.content
                             imageAdapter.submitList(response.imageUrls.map { url ->
                                 ImageUrl(
-                                    imageUrl = url.postImageUrl
+                                    imageUrl = url.imageUrl
                                 )
                             })
                             commentRVA.submitList(response.commentResponse)
