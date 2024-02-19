@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
 import com.umc.ttoklip.data.model.honeytip.HoneyTipPagingResponse
 import com.umc.ttoklip.data.repository.honeytip.HoneyTipRepositoryImpl
+import com.umc.ttoklip.module.onException
+import com.umc.ttoklip.module.onFail
 import com.umc.ttoklip.module.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -57,6 +59,16 @@ class HoneyTipViewModel @Inject constructor(
     private val _welfareHoneyTip = MutableStateFlow<List<HoneyTipMain>>(listOf())
     val welfareHoneyTip = _welfareHoneyTip.asStateFlow()
 
+    val isHouseEnd = MutableStateFlow<Boolean>(false)
+    val isRecipeEnd = MutableStateFlow<Boolean>(false)
+    val isSafeEnd = MutableStateFlow<Boolean>(false)
+    val isWelfEnd = MutableStateFlow<Boolean>(false)
+
+    val housePage = MutableStateFlow<Int>(1)
+    val recipePage = MutableStateFlow<Int>(1)
+    val safePage = MutableStateFlow<Int>(1)
+    val welfPage = MutableStateFlow<Int>(1)
+
     //질문 리스트
     private val _houseworkQuestion = MutableStateFlow<List<HoneyTipMain>>(listOf())
     val houseworkQuestion = _houseworkQuestion.asStateFlow()
@@ -93,12 +105,24 @@ class HoneyTipViewModel @Inject constructor(
         }
     }
 
-    fun getHoneyTipByCategory(category: String, page: Int) {
-        viewModelScope.launch(Dispatchers.IO){
-            repository.getHoneyTipByCategory(category, page).onSuccess {
-                Log.d("paging", it.toString())
-                _honeyTipPaging.emit(it)
-                _isLast.emit(it.isLast)
+    fun getHoneyTipByCategory() {
+        if (!isHouseEnd.value) {
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    repository.getHoneyTipByCategory("HOUSEWORK", housePage.value)
+                        .onSuccess {
+                            _houseworkHoneyTip.emit(_houseworkHoneyTip.value + it.data)
+                            housePage.value = housePage.value + 1
+                            isHouseEnd.value = it.isLast
+                        }.onFail {
+
+                        }.onException {
+                            throw it
+                        }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.d("예외", "$e")
+                }
             }
         }
     }

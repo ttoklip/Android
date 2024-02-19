@@ -1,8 +1,15 @@
 package com.umc.ttoklip.presentation.honeytip.honeytiplist
 
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import androidx.core.content.ContextCompat.startActivity
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -24,8 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HouseWorkHoneyTipListFragment :
-    BaseFragment<FragmentHoneyTipListBinding>(R.layout.fragment_honey_tip_list),
+class HouseWorkHoneyTipListFragment : Fragment(),
     OnItemClickListener {
     private val honeyTipListRVA by lazy {
         HoneyTipListRVA(this)
@@ -34,11 +40,34 @@ class HouseWorkHoneyTipListFragment :
         ownerProducer = { requireParentFragment().requireParentFragment() }
     )
 
+    lateinit var binding: FragmentHoneyTipListBinding
+
     private var totalPage = 0
     private var page = 0
     private var isLast = false
 
-    override fun initObserver() {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = DataBindingUtil.inflate(
+            layoutInflater,
+            R.layout.fragment_honey_tip_list,
+            null,
+            false
+        )
+        binding.lifecycleOwner = this.viewLifecycleOwner
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        initObserver()
+    }
+
+    fun initObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.houseworkHoneyTip.collect {
@@ -53,15 +82,24 @@ class HouseWorkHoneyTipListFragment :
                     Log.d("it", it.toString())
                     totalPage = it.totalPage
                     isLast = it.isLast
-                    honeyTipListRVA.submitList(honeyTipListRVA.currentList.toMutableList().apply { addAll(it.data)})
                 }
             }
         }
     }
 
-    override fun initView() {
+    fun initView() {
         //viewModel.getHoneyTipByCategory("HOUSEWORK", 0)
         initRV()
+        binding.sv.viewTreeObserver.addOnScrollChangedListener(ViewTreeObserver.OnScrollChangedListener {
+            val view: View? = binding.sv.getChildAt(binding.sv.childCount - 1)
+            if (view != null) {
+                val diff: Int = view.bottom - (binding.sv.height + binding.sv
+                    .scrollY)
+                if (diff == 0) {
+                    viewModel.getHoneyTipByCategory()
+                }
+            }
+        })
     }
 
     private fun initRV() {
@@ -72,22 +110,6 @@ class HouseWorkHoneyTipListFragment :
             )
         )
         binding.rv.adapter = honeyTipListRVA
-        binding.rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                val lastVisibleItemPosition =
-                    (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
-                val totalItemViewCount = recyclerView.adapter!!.itemCount - 1
-
-                if (newState == 2 && !recyclerView.canScrollVertically(1)
-                    && lastVisibleItemPosition == totalItemViewCount
-                ) {
-                    Log.d("end", "end")
-                   //viewModel.getHoneyTipByCategory("HOUSE", page++)
-                }
-            }
-
-        })
     }
 
     override fun onClick(honeyTip: HoneyTipMain) {

@@ -263,7 +263,7 @@ class ReadHoneyTipViewModel @Inject constructor(
             viewModelScope.launch(Dispatchers.IO) {
                 repository.inquireQuestion(questionId).onSuccess {
                     eventRead(ReadEvent.ReadQuestionEvent(it))
-                    _comments.emit(it.commentResponses.sortedBy { comment ->
+                    _comments.emit(it.questionCommentResponses.sortedBy { comment ->
                         comment.parentId ?: comment.commentId
                     })
                     _isCommentLike.emit(it.likedByCurrentUser)
