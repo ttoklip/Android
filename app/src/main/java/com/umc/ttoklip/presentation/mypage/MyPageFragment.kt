@@ -62,7 +62,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
 
         binding.manageAccountFrame.setOnClickListener {
-            val intent = Intent(requireContext(), ManageAccountActivity::class.java)
+            val intent = Intent(requireContext(), ManageMyInfoActivity::class.java)
             startActivity(intent)
         }
 

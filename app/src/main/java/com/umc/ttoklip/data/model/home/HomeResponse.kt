@@ -7,7 +7,9 @@ data class HomeResponse(
     val currentMemberNickname: String,
     val honeyTips: List<HoneyTipMain>,
     val newsLetters: List<News>,
-    val todayToDoList: String
+    val carts: List<CartResponse>,
+    val todayToDoList: String,
+    val street : String
 ){
-    constructor() : this("", listOf(), listOf(),"")
+    constructor() : this("", listOf(), listOf(), listOf(),"","")
 }
