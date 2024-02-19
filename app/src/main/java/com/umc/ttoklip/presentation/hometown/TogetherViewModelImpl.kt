@@ -57,6 +57,7 @@ class TogetherViewModelImpl @Inject constructor(private val repository: MainToge
                 repository.getTogethers(0,1,10000000000,1,20)
                     .onSuccess {
                         _mainData.emit(it)
+                        Log.d("emit", "emit")
                     }.onFail {
 
                     }.onException {
@@ -98,8 +99,8 @@ class TogetherViewModelImpl @Inject constructor(private val repository: MainToge
                     0L
                 }
             }
-            var min = 0L
-            var max = 0L
+            var min = 1L
+            var max = 20L
             when (maxMember) {
                 1L -> {
                     min = 2L
@@ -135,7 +136,7 @@ class TogetherViewModelImpl @Inject constructor(private val repository: MainToge
 
                 }
             }
-            repository.getTogethers(page.value, require, null, min, max).onSuccess {
+            repository.getTogethers(page.value, require, 10000000000, min, max).onSuccess {
                 _togethers.value = it.carts
             }.onError {
                 Log.d("error", it.printStackTrace().toString())

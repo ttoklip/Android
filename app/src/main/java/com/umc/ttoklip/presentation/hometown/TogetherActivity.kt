@@ -1,6 +1,7 @@
 package com.umc.ttoklip.presentation.hometown
 
 import android.content.Intent
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.view.isGone
 import androidx.lifecycle.Lifecycle
@@ -43,6 +44,16 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
 
         binding.togetherRv.adapter = adapter
         binding.togetherRv.layoutManager = LinearLayoutManager(this)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("start", "start")
+    }
+    override fun onResume() {
+        super.onResume()
+        Log.d("resume", "resume")
+        viewModel.get()
     }
 
     override fun initObserver() {
