@@ -223,7 +223,7 @@ class ReadCommunicationActivity :
 
     companion object {
         const val COMMUNICATION = "postId"
-        fun newIntent(context: Context, id: Int) =
+        fun newIntent(context: Context, id: Long) =
             Intent(context, ReadCommunicationActivity::class.java).apply {
                 putExtra(COMMUNICATION, id)
             }

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentItemSearchBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
+import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.mypage.SortSpinnerAdapter
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
 import com.umc.ttoklip.presentation.search.adapter.SearchRVA
@@ -39,7 +40,9 @@ class SearchTipFragment() :
                 }
 
                 2 -> {}
-                3 -> {}
+                3 -> {
+                    startActivity(ReadHoneyTipActivity.newIntent(requireContext(), id))
+                }
                 4 -> {}
                 5 -> {}
                 else -> {}

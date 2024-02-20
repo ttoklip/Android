@@ -41,11 +41,10 @@ class SearchTownFragment() :
                 }
                 2 -> {}
                 3 -> {
-                    startActivity(ReadHoneyTipActivity.newIntent(requireContext(), id))
                 }
                 4 -> {}
                 5 -> {
-                    startActivity(ReadCommunicationActivity.newIntent(requireContext(), id))
+                    startActivity(ReadCommunicationActivity.newIntent(requireContext(), id.toLong()))
                 }
                 else -> {}
             }
