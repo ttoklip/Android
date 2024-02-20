@@ -1,6 +1,7 @@
 package com.umc.ttoklip.presentation.mypage
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import androidx.activity.viewModels
@@ -157,6 +158,7 @@ class MyHoneyTipActivity : BaseActivity<ActivityMyHoneyTipBinding>(R.layout.acti
     }*/
 
     override fun onClick(honeyTip: HoneyTipMain) {
+        Log.d("postId", honeyTip.id.toString())
         when (binding.honeyTipFilterSpinner.selectedItem.toString()) {
             "소통해요" -> {
                 val intent = Intent(this, ReadCommunicationActivity::class.java)

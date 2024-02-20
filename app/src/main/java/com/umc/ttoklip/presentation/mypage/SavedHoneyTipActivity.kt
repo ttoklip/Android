@@ -13,9 +13,8 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.mypage.ScrapResponse
 import com.umc.ttoklip.databinding.ActivitySavedHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
+import com.umc.ttoklip.presentation.hometown.ReadCommunicationActivity
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
-import com.umc.ttoklip.presentation.honeytip.read.ReadQuestionActivity
-import com.umc.ttoklip.presentation.mypage.adapter.HoneyTip
 import com.umc.ttoklip.presentation.mypage.adapter.OnSpinnerItemClickListener
 import com.umc.ttoklip.presentation.mypage.adapter.SavedHoneyTipAdapter
 import com.umc.ttoklip.presentation.mypage.vm.ScrapViewModel
@@ -42,30 +41,34 @@ class SavedHoneyTipActivity :
     private val scrapRVA by lazy {
         SavedHoneyTipAdapter(this)
     }
+
     override fun initView() {
 
         binding.boardFilterSpinner.adapter = spinnerA
         binding.boardFilterSpinner.setSelection(0)
         binding.boardFilterSpinner.selectedItem.toString()
-        Log.d("왜안","${spinnerA.item}")
+        Log.d("왜안", "${spinnerA.item}")
 
         binding.boardFilterSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
 
                     viewModel.reset()
-                    Log.d("왜안","${spinnerA.item}")
+                    Log.d("왜안", "${spinnerA.item}")
 
                     when (binding.boardFilterSpinner.selectedItem.toString()) {
                         "소통해요" -> {
-                        viewModel.getTownScrap()
+                            viewModel.getTownScrap()
                         }
+
                         "꿀팁 공유" -> {
                             viewModel.getTipScrap()
                         }
+
                         "뉴스레터" -> {
                             viewModel.getNewsScrap()
                         }
+
                         else -> {}
                     }
                 }
@@ -81,6 +84,7 @@ class SavedHoneyTipActivity :
             onBackPressedDispatcher.onBackPressed()
         }
     }
+
     override fun initObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -95,14 +99,19 @@ class SavedHoneyTipActivity :
     override fun onClick(honeyTip: ScrapResponse) {
         when (binding.boardFilterSpinner.selectedItem.toString()) {
             "소통해요" -> {
-
+                val intent = Intent(this, ReadCommunicationActivity::class.java)
+                intent.putExtra("postId", honeyTip.id.toLong())
+                startActivity(intent)
             }
+
             "꿀팁 공유" -> {
                 startActivity(ReadHoneyTipActivity.newIntent(this, honeyTip.id))
             }
+
             "뉴스레터" -> {
                 startActivity(ArticleActivity.newIntent(this, honeyTip.id))
             }
+
             else -> {}
         }
     }
