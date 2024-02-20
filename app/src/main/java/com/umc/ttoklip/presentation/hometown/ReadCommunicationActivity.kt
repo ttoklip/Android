@@ -19,6 +19,7 @@ import com.umc.ttoklip.data.model.town.ReportRequest
 import com.umc.ttoklip.databinding.ActivityReadCommunicationBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.hometown.adapter.TownCommentAdapter
+import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.OnReadImageClickListener
 import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
 import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
@@ -218,7 +219,12 @@ class ReadCommunicationActivity :
     }
 
     override fun onClick(imageUrl: String) {
-
+        val images = imageAdapter.currentList.filterIsInstance<ImageUrl>().map { it.imageUrl }
+            .toTypedArray()
+        Log.d("images", images.toString())
+        val intent = Intent(this, ImageViewActivity::class.java)
+        intent.putExtra("images", images)
+        startActivity(intent)
     }
 
     companion object {
