@@ -1,6 +1,7 @@
 package com.umc.ttoklip.presentation.hometown
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Rect
 import android.util.Log
 import android.view.MotionEvent
@@ -22,6 +23,8 @@ import com.umc.ttoklip.presentation.honeytip.adapter.OnReadImageClickListener
 import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
 import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
+import com.umc.ttoklip.presentation.news.detail.ArticleActivity
+import com.umc.ttoklip.presentation.news.detail.ArticleActivity.Companion.ARTICLE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -216,5 +219,13 @@ class ReadCommunicationActivity :
 
     override fun onClick(imageUrl: String) {
 
+    }
+
+    companion object {
+        const val COMMUNICATION = "postId"
+        fun newIntent(context: Context, id: Int) =
+            Intent(context, ReadCommunicationActivity::class.java).apply {
+                putExtra(COMMUNICATION, id)
+            }
     }
 }
