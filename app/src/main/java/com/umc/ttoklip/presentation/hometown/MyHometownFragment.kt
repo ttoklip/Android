@@ -124,14 +124,14 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
 
     }
 
-    override fun onClick(items: Together, type: String) {
+    override fun onClick(items: Long, type: String) {
         if (type == getString(R.string.together_title)) {
             val intent = Intent(requireContext(), ReadTogetherActivity::class.java)
-            intent.putExtra("postId", items.id.toLong())
+            intent.putExtra("postId", items)
             startActivity(intent)
         } else {
             val intent = Intent(requireContext(), ReadCommunicationActivity::class.java)
-            intent.putExtra("postId", items.id.toLong())
+            intent.putExtra("postId", items)
             startActivity(intent)
         }
     }
