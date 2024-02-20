@@ -1,6 +1,7 @@
 package com.umc.ttoklip.presentation.hometown
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Rect
 import android.util.Log
 import android.view.MotionEvent
@@ -218,5 +219,13 @@ class ReadCommunicationActivity :
 
     override fun onClick(imageUrl: String) {
 
+    }
+
+    companion object {
+        const val COMMUNICATION = "postId"
+        fun newIntent(context: Context, id: Int) =
+            Intent(context, ReadCommunicationActivity::class.java).apply {
+                putExtra(COMMUNICATION, id)
+            }
     }
 }
