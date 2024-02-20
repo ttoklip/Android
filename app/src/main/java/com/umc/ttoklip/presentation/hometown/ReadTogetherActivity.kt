@@ -135,6 +135,13 @@ class ReadTogetherActivity :
                             writerTv.text = response.writer
                             titleT.text = response.title
                             contentT.text = response.content
+                            totalPriceTv.text = response.totalPrice.toString()
+                            maxMemberTv.text = response.partyMax.toString()
+                            tradingPlaceTv.text = response.location
+                            openChatLinkTv.text = response.chatUrl
+
+
+
                             imageAdapter.submitList(response.imageUrls.map { url ->
                                 ImageUrl(
                                     imageUrl = url.imageUrl

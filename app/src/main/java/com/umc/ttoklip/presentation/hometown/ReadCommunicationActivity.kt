@@ -136,6 +136,8 @@ class ReadCommunicationActivity :
                             writerTv.text = response.writer
                             titleTv.text = response.title
                             contentT.text = response.content
+
+
                             Log.d("image", response.imageUrls.toString())
                             imageAdapter.submitList(response.imageUrls.map { url ->
                                 ImageUrl(url.imageUrl)

@@ -10,7 +10,10 @@ data class ViewTogetherResponse(
     val totalPrice: Long,
     val partyCnt: Long,
     val partyMax: Long,
+    val location: String,
+    val chatUrl: String,
     val currentPrice: Long,
     val commentResponses: List<CommentResponse>,
-    val status: String
+    val status: String,
+    val alreadyJoin : Boolean
 )

@@ -261,6 +261,7 @@
                         android:paddingHorizontal="15dp"
                         android:paddingVertical="7dp"
                         android:text="www.어딘가"
+                        android:autoLink="web"
                         android:textAppearance="@style/TextAppearance.App.12sp_500"
                         android:textColor="@color/black"
                         android:textColorHint="@color/gray80"

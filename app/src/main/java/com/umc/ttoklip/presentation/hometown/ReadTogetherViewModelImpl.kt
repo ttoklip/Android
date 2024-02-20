@@ -35,14 +35,36 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
 
     private val _postContent: MutableStateFlow<ViewTogetherResponse> =
         MutableStateFlow<ViewTogetherResponse>(
-            ViewTogetherResponse("", 0, "", emptyList(), "", "", 0L, 0L, 0L, 0L, emptyList(), "")
+            ViewTogetherResponse(
+                "",
+                0,
+                "",
+                emptyList(),
+                "",
+                "",
+                0L,
+                0L,
+                0L,
+                "",
+                "",
+                0L,
+                emptyList(),
+                "",
+                false
+            )
         )
     override val postContent: StateFlow<ViewTogetherResponse>
         get() = _postContent
 
     override fun joinBtnClick() {
         viewModelScope.launch {
-            _joinState.emit(_joinState.value.not())
+            if (joinState.value) {
+                joinTogether()
+            } else {
+                cancelTogether()
+            }
+            //_joinState.emit(_joinState.value.not())
+
         }
     }
 
@@ -55,6 +77,7 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
             repository.viewTogether(postId).onSuccess {
                 _postContent.value = it
                 _deadlineState.value = it.status != "IN_PROGRESS"
+                _joinState.value = !it.alreadyJoin
             }.onError {
 
             }
@@ -93,7 +116,8 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
         viewModelScope.launch {
             if (postId.value != 0L) {
                 repository.joinTogether(postId.value).onSuccess {
-                    _joinState.value = true
+                    //_joinState.value = true
+                    readTogether(postId.value)
                 }
             }
         }
@@ -102,8 +126,9 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
     override fun cancelTogether() {
         viewModelScope.launch {
             if (postId.value != 0L) {
-                repository.joinTogether(postId.value).onSuccess {
-                    _joinState.value = false
+                repository.cancelTogether(postId.value).onSuccess {
+                    //_joinState.value = false
+                    readTogether(postId.value)
                 }
             }
         }

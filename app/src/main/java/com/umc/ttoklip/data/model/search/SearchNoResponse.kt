@@ -1,7 +1,7 @@
 package com.umc.ttoklip.data.model.search
 
 data class SearchNoResponse(
-    val category: String,
+    //val category: String,
     val commentCount: Int,
     val content: String,
     val id: Int,
