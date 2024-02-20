@@ -4,8 +4,6 @@ import android.content.Intent
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -20,8 +18,6 @@ import com.umc.ttoklip.presentation.hometown.adapter.OnTogetherClickListener
 import com.umc.ttoklip.presentation.hometown.adapter.Together
 import com.umc.ttoklip.presentation.hometown.adapter.TogetherAdapter
 import com.umc.ttoklip.presentation.mypage.MyHometownAddressActivity
-import com.umc.ttoklip.presentation.news.NewsViewModel
-import com.umc.ttoklip.presentation.news.NewsViewModelImpl
 import com.umc.ttoklip.presentation.search.SearchActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -57,7 +53,7 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
     override fun initObserver() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.mainData.collect{ re ->
+                viewModel.mainData.collect { re ->
                     togetherAdapter.submitList(re.cartRecent3.map { it.toModel() })
                     communicationAdapter.submitList(re.communityRecent3.map { it.toModel() })
                     binding.myHometownFilterTv.text = re.street
@@ -129,6 +125,14 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
     }
 
     override fun onClick(items: Together, type: String) {
-
+        if (type == getString(R.string.together_title)) {
+            val intent = Intent(requireContext(), ReadTogetherActivity::class.java)
+            intent.putExtra("postId", items.id.toLong())
+            startActivity(intent)
+        } else {
+            val intent = Intent(requireContext(), ReadCommunicationActivity::class.java)
+            intent.putExtra("postId", items.id.toLong())
+            startActivity(intent)
+        }
     }
 }
