@@ -24,9 +24,6 @@ class ChooseMainInterestDialogFragment(private val btnClickListener: (List<Strin
             safeLifeChip.setOnClickListener {
                 changeInterest(safeLifeChip)
             }
-            fraudChip.setOnClickListener {
-                changeInterest(fraudChip)
-            }
             welfarePolicyChip.setOnClickListener {
                 changeInterest(welfarePolicyChip)
             }

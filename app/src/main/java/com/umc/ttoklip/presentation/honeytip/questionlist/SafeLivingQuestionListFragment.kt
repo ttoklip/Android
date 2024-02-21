@@ -1,7 +1,13 @@
 package com.umc.ttoklip.presentation.honeytip.questionlist
 
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -17,30 +23,55 @@ import com.umc.ttoklip.presentation.honeytip.BOARD
 import com.umc.ttoklip.presentation.honeytip.HoneyTipViewModel
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipListRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
+import com.umc.ttoklip.presentation.honeytip.adapter.OnQuestionClickListener
+import com.umc.ttoklip.presentation.honeytip.adapter.QuestionListRVA
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.honeytip.read.ReadQuestionActivity
 import kotlinx.coroutines.launch
 
 class SafeLivingQuestionListFragment :
-    BaseFragment<FragmentHoneyTipListBinding>(R.layout.fragment_honey_tip_list),
-    OnItemClickListener {
-    private val honeyTipListRVA by lazy {
-        HoneyTipListRVA(this)
+    Fragment(),
+    OnQuestionClickListener {
+    private val questionListRVA by lazy {
+        QuestionListRVA(this)
     }
     private val viewModel: HoneyTipViewModel by viewModels(
         ownerProducer = { requireParentFragment().requireParentFragment() }
     )
-    override fun initObserver() {
+
+    lateinit var binding: FragmentHoneyTipListBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = DataBindingUtil.inflate(
+            layoutInflater,
+            R.layout.fragment_honey_tip_list,
+            null,
+            false
+        )
+        binding.lifecycleOwner = this.viewLifecycleOwner
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        initObserver()
+    }
+    fun initObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.safeLivingQuestion.collect {
-                    honeyTipListRVA.submitList(it)
+                    questionListRVA.submitList(it)
                 }
             }
         }
     }
 
-    override fun initView() {
+    fun initView() {
         initRV()
     }
 
@@ -51,7 +82,7 @@ class SafeLivingQuestionListFragment :
                 LinearLayoutManager.VERTICAL
             )
         )
-        binding.rv.adapter = honeyTipListRVA
+        binding.rv.adapter = questionListRVA
     }
 
     override fun onClick(honeyTip: HoneyTipMain) {
@@ -61,4 +92,16 @@ class SafeLivingQuestionListFragment :
         Log.d("postId", honeyTip.id.toString())
         startActivity(intent)
     }
+
+    override fun onResume() {
+        super.onResume()
+        binding.root.requestLayout()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("pause", "pause")
+        viewModel.resetQuestionList("SAFE_LIVING")
+    }
+
 }

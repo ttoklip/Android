@@ -1,19 +1,47 @@
 package com.umc.ttoklip.presentation.mypage
 
 import android.content.Intent
+import android.util.Log
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.bumptech.glide.Glide
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentMyPageBinding
 import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
-import com.umc.ttoklip.presentation.mypage.dialog.LogoutDialog
+import com.umc.ttoklip.presentation.mypage.vm.ManageMyInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
 class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
-    override fun initObserver() = Unit
+    private val viewModel: ManageMyInfoViewModel by viewModels()
+    override fun initObserver() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.myPageInfo.collect{
+                    Log.d("mypage", it.toString())
+                    binding.addressTv.text = it.street ?: "주소"
+                    binding.nicknameTv.text = it.nickname
+                    Glide.with(this@MyPageFragment)
+                        .load(it.profileImage)
+                        .into(binding.profileImg)
+                }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("resume", "resume")
+        viewModel.getMyPageInfo()
+    }
 
     override fun initView() {
+        //viewModel.getMyPageInfo()
         binding.userExpBar.isEnabled = false
         binding.noticeBtn.setOnClickListener {
             startActivity(AlarmActivity.newIntent(requireContext()))
@@ -34,7 +62,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
 
         binding.manageAccountFrame.setOnClickListener {
-            val intent = Intent(requireContext(), ManageAccountActivity::class.java)
+            val intent = Intent(requireContext(), ManageMyInfoActivity::class.java)
             startActivity(intent)
         }
 
@@ -54,8 +82,8 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
 
         binding.logoutFrame.setOnClickListener {
-            val dialog = LogoutDialog()
-            dialog.show(parentFragmentManager, dialog.tag)
+//            val dialog = LogoutDialog()
+//            dialog.show(parentFragmentManager, dialog.tag)
         }
 
         binding.transactionHistoryBtn.setOnClickListener {
@@ -73,5 +101,4 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             startActivity(intent)
         }
     }
-
 }

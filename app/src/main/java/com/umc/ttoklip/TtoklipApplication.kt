@@ -12,6 +12,7 @@ import com.umc.ttoklip.module.NetworkConnectionChecker
 import com.umc.ttoklip.util.PreferenceUtil
 import dagger.hilt.android.HiltAndroidApp
 
+
 @HiltAndroidApp
 class TtoklipApplication : Application(), DefaultLifecycleObserver {
     override fun onCreate() {
@@ -26,7 +27,9 @@ class TtoklipApplication : Application(), DefaultLifecycleObserver {
             BuildConfig.naverClientId,
             BuildConfig.naverClientSecret,
             "똑립")
+
     }
+
 
     override fun onStop(owner: LifecycleOwner) {
         networkConnectionChecker.unregister()

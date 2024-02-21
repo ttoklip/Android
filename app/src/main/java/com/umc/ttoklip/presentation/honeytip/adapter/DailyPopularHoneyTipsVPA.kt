@@ -32,7 +32,7 @@ class DailyPopularHoneyTipsVPA(val onClick: (HoneyTipMain) -> Unit) :
             binding.writerTv.text = honeyTip.writer
             binding.honeyTipTitleTv.text = honeyTip.title
             binding.honeyTipBodyContentTv.text = honeyTip.content
-            binding.starCountTv.text = "0"
+            binding.starCountTv.text = honeyTip.scrapCount.toString()
             binding.likeCountTv.text = honeyTip.likeCount.toString()
             binding.commentCountTv.text = honeyTip.commentCount.toString()
             binding.root.setOnClickListener {

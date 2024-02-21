@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="vm"
+            type="com.umc.ttoklip.presentation.mypage.vm.ManageMyInfoViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -99,7 +101,7 @@
                         android:background="@drawable/round_input_background"
                         android:padding="16dp"
                         android:textColor="@color/black"
-                        android:text="posite"
+                        android:text=""
                         android:textAppearance="@style/TextAppearance.App.12sp_400"
                         app:layout_constraintEnd_toStartOf="@id/check_duplication_btn"
                         app:layout_constraintHorizontal_weight="2"
@@ -118,6 +120,33 @@
                         app:layout_constraintHorizontal_weight="1"
                         app:layout_constraintStart_toEndOf="@id/input_nickname_et"
                         app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/signup4_nickok_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="10dp"
+                        android:text="사용가능한 닉네임입니다."
+                        android:textAppearance="@style/TextAppearance.App.12sp_500"
+                        android:textColor="@color/blue"
+                        android:textSize="11sp"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/input_nickname_et" />
+
+                    <TextView
+                        android:id="@+id/signup4_nicknotok_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="10dp"
+                        android:text="중복된 닉네임입니다."
+                        android:textAppearance="@style/TextAppearance.App.12sp_500"
+                        android:textColor="@color/orange"
+                        android:textSize="11sp"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/input_nickname_et" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -153,7 +182,7 @@
                         android:background="@drawable/round_input_background"
                         android:padding="16dp"
                         android:textColor="@color/black"
-                        android:text="yy년 mm개월"
+                        android:text=""
                         android:textAppearance="@style/TextAppearance.App.12sp_400"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -192,7 +221,7 @@
                         android:layout_height="50dp"
                         android:background="@drawable/round_input_background"
                         android:padding="16dp"
-                        android:text="yy년 mm개월"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textAppearance="@style/TextAppearance.App.12sp_400"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -258,20 +287,13 @@
                         <com.google.android.material.chip.Chip
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="요리"
+                            android:text="레시피"
                             android:textColor="@color/black"
                             android:textAppearance="@style/TextAppearance.App.12sp_700"
                             app:chipBackgroundColor="@color/yellow"
                             app:chipStrokeColor="@color/yellow" />
 
-                        <com.google.android.material.chip.Chip
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="사기"
-                            android:textColor="@color/black"
-                            android:textAppearance="@style/TextAppearance.App.12sp_700"
-                            app:chipBackgroundColor="@color/yellow"
-                            app:chipStrokeColor="@color/yellow" />
+
                     </com.google.android.material.chip.ChipGroup>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

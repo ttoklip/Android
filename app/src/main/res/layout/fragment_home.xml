@@ -78,7 +78,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:text="-9º"
+                        android:text="9º"
                         android:textAppearance="@style/TextAppearance.App.12sp_400"
                         app:layout_constraintBottom_toBottomOf="@id/weatherImg"
                         app:layout_constraintStart_toEndOf="@id/weatherImg"
@@ -173,7 +173,7 @@
                                 android:id="@+id/whatDoTodayT"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="오늘은 화장실 청소하는 날!"
+                                android:text="@{vm.mainData.todayToDoList }"
                                 android:textAppearance="@style/TextAppearance.App.12sp_400"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toStartOf="@id/checkBox"
@@ -291,10 +291,14 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tipTitleT"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:text="(닉네임)님을 위한 꿀팁"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toStartOf="@id/tipMoreBtn"
+                    android:text="@{@string/userTip(vm.mainData.currentMemberNickname)}"
                     android:textAppearance="@style/TextAppearance.App.18sp_700"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/layout" />
@@ -330,11 +334,15 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/newsTitleT"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="18dp"
-                    android:text="(닉네임)님! 속보에요"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toStartOf="@id/newsMoreBtn"
+                    android:text="@{@string/userNews(vm.mainData.currentMemberNickname)}"
                     android:textAppearance="@style/TextAppearance.App.18sp_700"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tipRV" />
@@ -370,12 +378,17 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/groupBuyTitleT"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="18dp"
-                    android:text="(닉네임)님! 마감임박"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="@{@string/userTown(vm.mainData.currentMemberNickname)}"
                     android:textAppearance="@style/TextAppearance.App.18sp_700"
+                    app:layout_constraintEnd_toStartOf="@id/groupBuyMoreBtn"
+                    app:layout_constraintHorizontal_bias="0.501"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/newsRV" />
 

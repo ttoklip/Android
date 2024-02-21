@@ -1,4 +1,4 @@
-package com.umc.ttoklip.presentation.signup
+package com.umc.ttoklip.presentation.signup.location
 
 import android.Manifest
 import android.content.Intent
@@ -10,7 +10,6 @@ import android.widget.SeekBar
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
@@ -18,13 +17,14 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.UiSettings
 import com.naver.maps.map.overlay.CircleOverlay
-import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityLocationBinding
 import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.login.LoginActivity
+import com.umc.ttoklip.presentation.signup.SignupActivity
+import com.umc.ttoklip.presentation.signup.SignupViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
@@ -112,7 +112,7 @@ class LocationActivity :
                 startActivity(Intent(this, MainActivity::class.java))
                 val loginActivity=LoginActivity.loginActivity
                 loginActivity?.finish()
-                val signupActivity=SignupActivity.signupActivity
+                val signupActivity= SignupActivity.signupActivity
                 signupActivity?.finish()
                 finish()
             }
@@ -191,15 +191,22 @@ class LocationActivity :
                 val address: Address = addressList[0]
                 val spliteAddr = address.getAddressLine(0).split(" ")
                 this.address = spliteAddr[1] + " " + spliteAddr[2] + " " + spliteAddr[3]
+            }else{
+                this.address = ""
             }
         } else {
             val addresses = geocoder.getFromLocation(latitude, longitude, 1)
             if (addresses != null) {
                 val spliteAddr = addresses[0].getAddressLine(0).split(" ")
                 this.address = spliteAddr[1] + " " + spliteAddr[2] + " " + spliteAddr[3]
+            }else{
+                this.address = ""
             }
+
         }
-        binding.locationMytownDetailTv.text = address
+        if (::address.isInitialized){
+            binding.locationMytownDetailTv.text = address ?:""
+        }
     }
 
     override fun initObserver() {

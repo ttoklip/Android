@@ -122,6 +122,21 @@
                 app:chipStrokeColor="@color/stroke_chip"
                 app:chipStrokeWidth="1dp" />
 
+            <com.google.android.material.chip.Chip
+                android:id="@+id/board2"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="질문해요"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                android:textColor="@color/text_chip"
+                app:chipBackgroundColor="@color/bg_chip"
+                app:chipCornerRadius="10dp"
+                app:chipEndPadding="12dp"
+                app:chipStartPadding="12dp"
+                app:chipStrokeColor="@color/stroke_chip"
+                app:chipStrokeWidth="1dp" />
+
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/board3"
@@ -153,6 +168,20 @@
                 app:chipStrokeColor="@color/stroke_chip"
                 app:chipStrokeWidth="1dp" />
 
+            <com.google.android.material.chip.Chip
+                android:id="@+id/board5"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="소통해요"
+                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                android:textColor="@color/text_chip"
+                app:chipBackgroundColor="@color/bg_chip"
+                app:chipCornerRadius="10dp"
+                app:chipEndPadding="12dp"
+                app:chipStartPadding="12dp"
+                app:chipStrokeColor="@color/stroke_chip"
+                app:chipStrokeWidth="1dp" />
 
         </com.google.android.material.chip.ChipGroup>
 
@@ -283,9 +312,9 @@
         <androidx.constraintlayout.widget.Group
             android:id="@+id/categoryG"
             android:visibility="gone"
-            tools:visibility ="visible"
+            tools:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="categoryT, categoryChipG"/>
+            app:constraint_referenced_ids="categoryT, categoryChipG" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

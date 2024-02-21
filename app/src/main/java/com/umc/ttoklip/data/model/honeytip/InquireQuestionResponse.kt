@@ -7,7 +7,8 @@ data class InquireQuestionResponse(
     val writer: String?,
     val writtenTime: String,
     val category: String,
-    val imageUrls: List<ImageUrl>?,
-    val commentResponse: List<CommentResponse>?,
-    val urlResponses: List<String>?
+    val commentCount: Int,
+    val imageUrls: List<ImageUrl>,
+    val questionCommentResponses: List<CommentResponse>,
+    val likedByCurrentUser: Boolean
 )

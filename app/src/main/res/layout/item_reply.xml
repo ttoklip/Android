@@ -72,13 +72,14 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/rectangle_corner_4"
                 android:backgroundTint="@color/gray20"
                 android:gravity="center"
                 android:padding="4dp"
                 app:layout_constraintBottom_toBottomOf="@id/cardView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/cardView">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:id="@+id/deleteBtn"

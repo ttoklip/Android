@@ -6,10 +6,11 @@ import com.umc.ttoklip.presentation.base.BaseDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LogoutDialog : BaseDialogFragment<DialogLogoutBinding>(R.layout.dialog_logout) {
+class LogoutDialog(private val logout: () -> Unit) :
+    BaseDialogFragment<DialogLogoutBinding>(R.layout.dialog_logout) {
     override fun initObserver() {
         binding.logoutAcceptBtn.setOnClickListener {
-            dismiss()
+            logout()
         }
         binding.logoutCancelBtn.setOnClickListener {
             dismiss()

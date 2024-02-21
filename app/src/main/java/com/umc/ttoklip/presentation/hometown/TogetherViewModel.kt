@@ -1,16 +1,21 @@
 package com.umc.ttoklip.presentation.hometown
 
+import com.umc.ttoklip.data.model.town.Togethers
+import com.umc.ttoklip.data.model.town.TogethersResponse
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 
 interface TogetherViewModel {
-    val filterSort: StateFlow<Int>
-    val filterDuration: StateFlow<Int>
-    val filterRequiredAmount: StateFlow<Int>
-    val filterMaxMember: StateFlow<Int>
+    val filterRequiredAmount: StateFlow<Long>
+    val filterMaxMember: StateFlow<Long>
     val showDialog: SharedFlow<Boolean>
+    val page: StateFlow<Long>
+    val togethers: StateFlow<List<Togethers>>
+    val mainData : StateFlow<TogethersResponse>
 
     fun onFilterClick()
 
-    fun getFilters(sort: Int, duration: Int, requiredAmount: Int, maxMember: Int)
+    fun get()
+
+    fun getFilters(requiredAmount: Long, maxMember: Long)
 }

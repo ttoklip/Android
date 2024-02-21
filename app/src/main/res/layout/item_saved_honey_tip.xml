@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="item"
+            type="com.umc.ttoklip.data.model.mypage.ScrapResponse" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="똑똑이"
+            android:text="@{item.writer}"
             android:textAppearance="@style/TextAppearance.App.12sp_500"
             app:layout_constraintBottom_toBottomOf="@id/cardView"
             app:layout_constraintStart_toEndOf="@id/cardView"
@@ -41,7 +44,7 @@
             android:id="@+id/date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1일전"
+            android:text=""
             android:textAppearance="@style/TextAppearance.App.12sp_400"
             android:textColor="@color/gray60"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="음식물 쓰레기 냄새 방지!!"
+            android:text="@{item.title}"
             android:textAppearance="@style/TextAppearance.App.14sp_700"
             app:layout_constraintStart_toStartOf="@id/cardView"
             app:layout_constraintTop_toBottomOf="@id/cardView" />
@@ -62,7 +65,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="집에 가끔씩이지만 나타나는 바퀴벌레, 잘못 처리하면 알깐다고도..."
+            android:maxEms="20"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="@{item.content}"
             android:textAppearance="@style/TextAppearance.App.12sp_400"
             app:layout_constraintStart_toStartOf="@id/cardView"
             app:layout_constraintTop_toBottomOf="@id/title_tv" />
@@ -89,8 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_marginEnd="8dp"
-                android:text="00" />
+                android:layout_marginEnd="8dp" />
 
             <ImageView
                 android:id="@+id/like_iv"
@@ -104,8 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="8dp"
-                android:textAppearance="@style/TextAppearance.App.10sp_400"
-                android:text="00" />
+                android:textAppearance="@style/TextAppearance.App.10sp_400" />
 
             <ImageView
                 android:id="@+id/comment_iv"
@@ -118,8 +122,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:textAppearance="@style/TextAppearance.App.10sp_400"
-                android:text="00" />
+                android:textAppearance="@style/TextAppearance.App.10sp_400" />
         </LinearLayout>
 
         <View

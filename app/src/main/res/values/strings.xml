@@ -34,7 +34,7 @@
     <string name="main_interest_title">주요 관심사 종류</string>
     <string name="no_interest">없음</string>
     <string name="housework_text">집안일</string>
-    <string name="cooking_text">요리</string>
+    <string name="cooking_text">레시피</string>
     <string name="safe_life_text">안전한 생활</string>
     <string name="fraud_text">사기</string>
     <string name="welfare_policy_text">복지 · 정책</string>
@@ -127,5 +127,8 @@
     <string name="check_member">참여자 확인하기</string>
     <string name="select_max_member_text">명</string>
     <string name="max_member_format">"%d명"</string>
+    <string name="userTip">%s님을 위한 꿀팁</string>
+    <string name="userNews">%s님! 속보에요</string>
+    <string name="userTown">%s님! 마감임박</string>
 
 </resources>

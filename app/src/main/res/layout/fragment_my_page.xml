@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="vm"
+            type="com.umc.ttoklip.presentation.mypage.vm.ManageMyInfoViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -110,7 +112,7 @@
                 android:id="@+id/level_img"
                 android:layout_width="60dp"
                 android:layout_height="54dp"
-                android:src="@drawable/search_background"
+                android:src="@drawable/base_level"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -154,7 +156,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="nn%"
+                android:text="42%"
                 android:textAppearance="@style/TextAppearance.App.10sp_500"
                 android:textColor="@color/blue"
                 app:layout_constraintStart_toEndOf="@id/next_level_title"

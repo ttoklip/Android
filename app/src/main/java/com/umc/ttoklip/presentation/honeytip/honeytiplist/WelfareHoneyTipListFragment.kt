@@ -58,10 +58,20 @@ class WelfareHoneyTipListFragment :
 
     override fun onClick(honeyTip: HoneyTipMain) {
         val intent = Intent(activity, ReadHoneyTipActivity::class.java)
-        intent.putExtra(BOARD, HONEY_TIP)
         intent.putExtra("postId", honeyTip.id)
         Log.d("Clicked honeyTip", honeyTip.toString())
         Log.d("postId", honeyTip.id.toString())
         startActivity(intent)
     }
+    override fun onResume() {
+        super.onResume()
+        binding.root.requestLayout()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("pause", "pause")
+        viewModel.resetHoneyTipList("WELFARE_POLICY")
+    }
+
 }

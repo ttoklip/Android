@@ -11,7 +11,6 @@ import com.umc.ttoklip.databinding.ItemListHoneyTipBinding
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Date
-import kotlin.String
 
 class HoneyTipListRVA(private var listener: OnItemClickListener) :
     ListAdapter<HoneyTipMain, HoneyTipListRVA.HoneyTipListViewHolder>(object :
@@ -51,17 +50,21 @@ class HoneyTipListRVA(private var listener: OnItemClickListener) :
         fun bind(honeyTip: HoneyTipMain) {
             binding.titleTv.text = honeyTip.title
             binding.writerTv.text = honeyTip.writer
-            binding.dateTv.text = calculateDate(honeyTip.writtenTime)
+            binding.dateTv.text = if (honeyTip.writtenTime.isNotBlank()) {
+                calculateDate(honeyTip.writtenTime)
+            } else {
+                ""
+            }
             binding.bodyTv.text = honeyTip.content
             binding.commentCountTv.text = honeyTip.commentCount.toString()
             binding.likeCountTv.text = honeyTip.likeCount.toString()
             binding.scrapCountTv.text = honeyTip.scrapCount.toString()
-
             binding.root.setOnClickListener {
                 listener.onClick(honeyTip)
             }
         }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HoneyTipListViewHolder {
         return HoneyTipListViewHolder(

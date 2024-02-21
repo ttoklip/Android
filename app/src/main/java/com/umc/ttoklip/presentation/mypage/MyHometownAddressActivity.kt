@@ -1,5 +1,7 @@
 package com.umc.ttoklip.presentation.mypage
 
+import android.app.Activity
+import android.content.Intent
 import android.widget.SeekBar
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityMyHomtownAddressBinding
@@ -57,6 +59,39 @@ class MyHometownAddressActivity :
             }
 
         })
+
+        binding.gpsBtn.setOnClickListener {
+            val intent= Intent(this,MyInfoLocationActivity::class.java)
+            val Location_Type=2
+            startActivityForResult(intent,Location_Type)
+        }
+
+        binding.finishAddressBtn.setOnClickListener {
+            val intent=Intent()
+            intent.putExtra("location",address)
+            intent.putExtra("locationX",locationX)
+            intent.putExtra("locationY",locationY)
+            setResult(Activity.RESULT_OK,intent)
+            finish()
+        }
+    }
+
+    private var address:String=""
+    private var locationX:Int=0
+    private var locationY:Int=0
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode!= Activity.RESULT_OK){
+            return
+        }
+        if(requestCode==2){
+            if (data != null) {
+                binding.currentPlaceTv.text=data.getStringExtra("location")
+                address= data.getStringExtra("location").toString()
+                locationX=data.getIntExtra("locationX",0)
+                locationY=data.getIntExtra("locationY",0)
+            }
+        }
     }
 
     private fun setRange15km() {

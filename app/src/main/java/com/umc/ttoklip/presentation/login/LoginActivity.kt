@@ -53,6 +53,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 }
             }
             NaverIdLoginSDK.authenticate(this, oauthLoginCallback)
+            //네이버 토큰 임시확인용
+            Log.i("NAVER-LOGIN","${NaverIdLoginSDK.getAccessToken()}")
         }
 
         binding.loginKakaoBtn.setOnClickListener {

@@ -21,7 +21,7 @@ class TogetherAdapter(private var listener: OnTogetherClickListener, private val
                 binding.divider.isGone = true
             }
             binding.root.setOnClickListener {
-                listener.onClick(data, type)
+                listener.onClick(data.id.toLong(), type)
             }
         }
     }
@@ -60,5 +60,5 @@ class TogetherAdapter(private var listener: OnTogetherClickListener, private val
 }
 
 interface OnTogetherClickListener {
-    fun onClick(items: Together, type: String)
+    fun onClick(items: Long, type: String)
 }
