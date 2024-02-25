@@ -180,7 +180,7 @@ class ManageMyInfoActivity :
                         inputNicknameEt.setText(it.nickname)
                         inputIndependentCareerEt.text =
                             "${it.independentYear}년 ${it.independentMonth}개월"
-                        addressTitleTv.text = it.street
+                        inputAddressTv.text = it.street
                         independentYear = it.independentYear
                         independentMonth = it.independentMonth
                         convertURLtoURI(it.profileImage)

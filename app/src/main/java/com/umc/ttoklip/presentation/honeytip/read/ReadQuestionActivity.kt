@@ -37,7 +37,7 @@ class ReadQuestionActivity : BaseActivity<ActivityReadQuestionBinding>(R.layout.
     private val viewModel: ReadHoneyTipViewModel by viewModels()
 
     private val commentRVA by lazy {
-        QuestionCommentRVA({ id ->
+        QuestionCommentRVA(this, { id ->
             viewModel.replyCommentParentId.value = id
         }, { id, myComment ->
             if (myComment) {

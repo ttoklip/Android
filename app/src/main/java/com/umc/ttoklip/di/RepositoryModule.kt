@@ -13,6 +13,7 @@ import com.umc.ttoklip.data.api.ReadCommsApi
 import com.umc.ttoklip.data.api.ReadTogetherApi
 import com.umc.ttoklip.data.api.Search2Api
 import com.umc.ttoklip.data.api.SearchApi
+import com.umc.ttoklip.data.api.TownMainApi
 import com.umc.ttoklip.data.api.WriteCommsApi
 import com.umc.ttoklip.data.api.WriteTogetherApi
 import com.umc.ttoklip.data.repository.home.HomeRepository
@@ -41,6 +42,8 @@ import com.umc.ttoklip.data.repository.town.ReadCommsRepository
 import com.umc.ttoklip.data.repository.town.ReadCommsRepositoryImpl
 import com.umc.ttoklip.data.repository.town.ReadTogetherRepository
 import com.umc.ttoklip.data.repository.town.ReadTogetherRepositoryImpl
+import com.umc.ttoklip.data.repository.town.TownMainRepository
+import com.umc.ttoklip.data.repository.town.TownMainRepositoryImpl
 import com.umc.ttoklip.data.repository.town.WriteCommsRepository
 import com.umc.ttoklip.data.repository.town.WriteCommsRepositoryImpl
 import com.umc.ttoklip.data.repository.town.WriteTogetherRepository
@@ -135,5 +138,10 @@ object RepositoryModule {
     @Singleton
     fun providesMyBlockUserRepository(api: MyBlockUserApi): MyBlockUserRepository =
         MyBlockUserRepositoryImpl(api)
+
+    @Provides
+    @Singleton
+    fun providesTownMainRepository(api: TownMainApi): TownMainRepository =
+        TownMainRepositoryImpl(api)
 
 }

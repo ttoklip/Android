@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.home.Weather
 import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
 import com.umc.ttoklip.data.model.town.Togethers
@@ -82,7 +83,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
                 viewModel.mainData.collect {
                     newsRVA.submitList(it.newsLetters)
                     tipRVA.submitList(it.honeyTips)
-                    //townRVA.submitList(it.carts)
+                    townRVA.submitList(it.carts)
                 }
             }
         }
@@ -92,6 +93,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
         binding.vm = viewModel
         binding.tipRV.adapter = tipRVA
         viewModel.getMain()
+        TtoklipApplication.prefs.setString("nickname","이강인")
+        Log.d("엑세스","${TtoklipApplication.prefs.getString("jwt","")}")
 
         binding.chatImg.setOnClickListener {
             val intent = Intent(requireContext(), CommunicationActivity::class.java)

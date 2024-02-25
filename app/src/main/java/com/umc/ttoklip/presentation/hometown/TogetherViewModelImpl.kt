@@ -4,8 +4,11 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.data.model.town.Togethers
+import com.umc.ttoklip.data.model.town.TogethersResponse
 import com.umc.ttoklip.data.repository.town.MainTogethersRepository
 import com.umc.ttoklip.module.onError
+import com.umc.ttoklip.module.onException
+import com.umc.ttoklip.module.onFail
 import com.umc.ttoklip.module.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -38,9 +41,32 @@ class TogetherViewModelImpl @Inject constructor(private val repository: MainToge
     override val togethers: StateFlow<List<Togethers>>
         get() = _togethers
 
+    private val _mainData = MutableStateFlow(TogethersResponse())
+    override val mainData: StateFlow<TogethersResponse>
+        get() = _mainData
+
     override fun onFilterClick() {
         viewModelScope.launch {
             _showDialog.emit(true)
+        }
+    }
+
+    override fun get() {
+        viewModelScope.launch {
+            try {
+                repository.getTogethers(0,1,10000000000,1,20)
+                    .onSuccess {
+                        _mainData.emit(it)
+                        Log.d("emit", "emit")
+                    }.onFail {
+
+                    }.onException {
+                        throw it
+                    }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.d("예외", "$e")
+            }
         }
     }
 
@@ -73,8 +99,8 @@ class TogetherViewModelImpl @Inject constructor(private val repository: MainToge
                     0L
                 }
             }
-            var min = 0L
-            var max = 0L
+            var min = 1L
+            var max = 20L
             when (maxMember) {
                 1L -> {
                     min = 2L
@@ -110,7 +136,7 @@ class TogetherViewModelImpl @Inject constructor(private val repository: MainToge
 
                 }
             }
-            repository.getTogethers(page.value, require, null, min, max).onSuccess {
+            repository.getTogethers(page.value, require, 10000000000, min, max).onSuccess {
                 _togethers.value = it.carts
             }.onError {
                 Log.d("error", it.printStackTrace().toString())

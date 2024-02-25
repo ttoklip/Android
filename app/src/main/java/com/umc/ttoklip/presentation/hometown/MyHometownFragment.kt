@@ -4,6 +4,10 @@ import android.content.Intent
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
@@ -16,10 +20,13 @@ import com.umc.ttoklip.presentation.hometown.adapter.TogetherAdapter
 import com.umc.ttoklip.presentation.mypage.MyHometownAddressActivity
 import com.umc.ttoklip.presentation.search.SearchActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.fragment_my_hometown),
     OnTogetherClickListener {
+    private val viewModel: MyHometownViewModel by viewModels<MyHometownViewModelImpl>()
+
     private val activityResultLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             val addressIntent = it.data
@@ -44,7 +51,15 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
     }
 
     override fun initObserver() {
-
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.mainData.collect { re ->
+                    togetherAdapter.submitList(re.cartRecent3.map { it.toModel() })
+                    communicationAdapter.submitList(re.communityRecent3.map { it.toModel() })
+                    binding.myHometownFilterTv.text = re.street
+                }
+            }
+        }
     }
 
     override fun initView() {
@@ -53,6 +68,7 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
             val intent = Intent(requireContext(), TogetherActivity::class.java)
             startActivity(intent)
         }
+        viewModel.getM()
 
         binding.seeDetailCommunicationBtn.setOnClickListener {
             val intent = Intent(requireContext(), CommunicationActivity::class.java)
@@ -89,39 +105,33 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
     }
 
     private fun initCommunicationRv() {
-        val togethers = listOf(
-            Together("같이 햇반 대량 구매하실 분?", "상록구 해양동 한양대학로 12"),
-            Together("같이 햇반 대량 구매하실 분?", "상록구 해양동 한양대학로 12"),
-            Together("같이 햇반 대량 구매하실 분?", "상록구 해양동 한양대학로 12")
-        )
+
 
         binding.communicationRv.apply {
             adapter = communicationAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
-        communicationAdapter.submitList(togethers)
+
     }
 
     private fun initTogetherRv() {
-        val togethers = listOf(
-            Together("같이 햇반 대량 구매하실 분?", "상록구 해양동 한양대학로 12"),
-            Together("같이 햇반 대량 구매하실 분?", "상록구 해양동 한양대학로 12"),
-            Together("같이 햇반 대량 구매하실 분?", "상록구 해양동 한양대학로 12")
-        )
+
 
         binding.togetherRv.apply {
             adapter = togetherAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
-        togetherAdapter.submitList(togethers)
+
     }
 
-    override fun onClick(items: Together, type: String) {
+    override fun onClick(items: Long, type: String) {
         if (type == getString(R.string.together_title)) {
             val intent = Intent(requireContext(), ReadTogetherActivity::class.java)
+            intent.putExtra("postId", items)
             startActivity(intent)
         } else {
             val intent = Intent(requireContext(), ReadCommunicationActivity::class.java)
+            intent.putExtra("postId", items)
             startActivity(intent)
         }
     }

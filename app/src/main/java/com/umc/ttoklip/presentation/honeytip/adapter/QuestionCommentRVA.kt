@@ -1,13 +1,16 @@
 package com.umc.ttoklip.presentation.honeytip.adapter
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
 import com.umc.ttoklip.databinding.ItemCommentBinding
@@ -15,9 +18,9 @@ import com.umc.ttoklip.databinding.ItemQuestionCommentBinding
 import com.umc.ttoklip.databinding.ItemReplyBinding
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipViewModel
 
-class QuestionCommentRVA (val replyComment: (Int) -> Unit, val ReportOrDelete: (Int, Boolean) -> Unit, val like: (Int, Boolean) -> Unit) :
+class QuestionCommentRVA (val context: Context, val replyComment: (Int) -> Unit, val ReportOrDelete: (Int, Boolean) -> Unit, val like: (Int, Boolean) -> Unit) :
     ListAdapter<NewsCommentResponse, RecyclerView.ViewHolder>(differ) {
-
+    private var likeBtnState = false
     inner class ItemViewHolder(
         private val binding: ItemQuestionCommentBinding
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -35,7 +38,25 @@ class QuestionCommentRVA (val replyComment: (Int) -> Unit, val ReportOrDelete: (
             }
             binding.likeBtn.setOnClickListener {
                 Log.d("commentId", data.commentId.toString())
-                like(data.commentId, data.writer == TtoklipApplication.prefs.getString("nickname", ""))
+                likeBtnState = !likeBtnState
+                if(likeBtnState) {
+                    binding.likeBtn.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_heart_on_20
+                        )
+                    )
+                    binding.likeBtn.setColorFilter(ContextCompat.getColor(context, R.color.orange))
+                } else {
+                    binding.likeBtn.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_heart_off_20
+                        )
+                    )
+                    binding.likeBtn.setColorFilter(ContextCompat.getColor(context, R.color.gray60))
+                }
+                like(data.commentId, data.writer != TtoklipApplication.prefs.getString("nickname", ""))
             }
         }
     }
