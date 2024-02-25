@@ -71,7 +71,7 @@ class Signup5Fragment: BaseFragment<FragmentSignup5Binding>(R.layout.fragment_si
             startActivity(intent)
         }
         binding.signup5LocationDirectEt.setOnClickListener {
-            startActivity(Intent(activity, DirectLocationActivity::class.java))
+//            startActivity(Intent(activity, DirectLocationActivity::class.java))
         }
         binding.signup5NextBtn.setOnClickListener {
             startActivity(Intent(activity, MainActivity::class.java))
