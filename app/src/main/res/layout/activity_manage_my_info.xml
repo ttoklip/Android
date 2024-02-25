@@ -287,20 +287,13 @@
                         <com.google.android.material.chip.Chip
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="요리"
+                            android:text="레시피"
                             android:textColor="@color/black"
                             android:textAppearance="@style/TextAppearance.App.12sp_700"
                             app:chipBackgroundColor="@color/yellow"
                             app:chipStrokeColor="@color/yellow" />
 
-                        <com.google.android.material.chip.Chip
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="사기"
-                            android:textColor="@color/black"
-                            android:textAppearance="@style/TextAppearance.App.12sp_700"
-                            app:chipBackgroundColor="@color/yellow"
-                            app:chipStrokeColor="@color/yellow" />
+
                     </com.google.android.material.chip.ChipGroup>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

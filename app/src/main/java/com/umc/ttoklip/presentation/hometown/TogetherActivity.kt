@@ -1,6 +1,7 @@
 package com.umc.ttoklip.presentation.hometown
 
 import android.content.Intent
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.view.isGone
 import androidx.lifecycle.Lifecycle
@@ -35,14 +36,24 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
         binding.backBtn.setOnClickListener {
             finish()
         }
+        viewModel.get()
 
         binding.noticeBtn.setOnClickListener {
             startActivity(AlarmActivity.newIntent(this))
         }
 
-
         binding.togetherRv.adapter = adapter
         binding.togetherRv.layoutManager = LinearLayoutManager(this)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("start", "start")
+    }
+    override fun onResume() {
+        super.onResume()
+        Log.d("resume", "resume")
+        viewModel.get()
     }
 
     override fun initObserver() {
@@ -56,6 +67,13 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
                             }
                             sheet.show(supportFragmentManager, sheet.tag)
                         }
+                    }
+                }
+            }
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.mainData.collect {
+                        adapter.submitList(it.carts)
                     }
                 }
             }

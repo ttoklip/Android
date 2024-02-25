@@ -21,6 +21,7 @@ import com.umc.ttoklip.data.api.SearchApi
 import com.umc.ttoklip.data.api.SignupApi
 import com.umc.ttoklip.data.api.TermApi
 import com.umc.ttoklip.data.api.TestApi
+import com.umc.ttoklip.data.api.TownMainApi
 import com.umc.ttoklip.data.api.WriteCommsApi
 import com.umc.ttoklip.data.api.WriteTogetherApi
 import dagger.Module
@@ -168,6 +169,12 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    fun provideTownMainApi(retrofit: Retrofit): TownMainApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
     fun provideLoginApi(retrofit: Retrofit): LoginApi{
         return retrofit.buildService()
     }
@@ -242,6 +249,7 @@ object NetworkModule {
     fun provideMainTogethersApi(retrofit: Retrofit): MainTogethersApi {
         return retrofit.buildService()
     }
+
 
 
     private inline fun <reified T> Retrofit.buildService(): T {

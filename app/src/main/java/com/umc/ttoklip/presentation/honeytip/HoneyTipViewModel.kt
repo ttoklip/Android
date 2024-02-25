@@ -25,6 +25,13 @@ class HoneyTipViewModel @Inject constructor(
     private val repository: HoneyTipRepositoryImpl
 ) : ViewModel() {
     private var prevHouseHoneyTipList: List<HoneyTipMain> = listOf()
+    private var prevRecipeHoneyTipList: List<HoneyTipMain> = listOf()
+    private var prevSafeHoneyTipList: List<HoneyTipMain> = listOf()
+    private var prevWelfareHoneyTipList: List<HoneyTipMain> = listOf()
+    private var prevHouseQuestionList: List<HoneyTipMain> = listOf()
+    private var prevRecipeQuestionList: List<HoneyTipMain> = listOf()
+    private var prevSafeQuestionList: List<HoneyTipMain> = listOf()
+    private var prevWelfareQuestionList: List<HoneyTipMain> = listOf()
 
     val boardLiveData: LiveData<String> by lazy { _boardLiveData }
     private val _boardLiveData by lazy { MutableLiveData<String>("꿀팁 공유") }
@@ -81,25 +88,25 @@ class HoneyTipViewModel @Inject constructor(
         Log.d("reset", "reset")
         when (category) {
             WriteHoneyTipActivity.Category.HOUSEWORK.toString() -> {
-                _houseworkHoneyTip.value = emptyList()
+                _houseworkHoneyTip.value = prevHouseHoneyTipList
                 isHouseHoneyTipEnd.value = false
                 houseHoneyTipPage.value = 1
             }
 
             WriteHoneyTipActivity.Category.RECIPE.toString() -> {
-                _recipeHoneyTip.value = emptyList()
+                _recipeHoneyTip.value = prevRecipeHoneyTipList
                 isRecipeHoneyTipEnd.value = false
                 recipeHoneyTipPage.value = 1
             }
 
             WriteHoneyTipActivity.Category.SAFE_LIVING.toString() -> {
-                _safeLivingHoneyTip.value = emptyList()
+                _safeLivingHoneyTip.value = prevSafeHoneyTipList
                 isSafeHoneyTipEnd.value = false
                 safeHoneyTipPage.value = 1
             }
 
             WriteHoneyTipActivity.Category.WELFARE_POLICY.toString() -> {
-                _welfareHoneyTip.value = emptyList()
+                _welfareHoneyTip.value = prevWelfareHoneyTipList
                 isWelfHoneyTipEnd.value = false
                 welfHoneyTipPage.value = 1
             }
@@ -111,25 +118,25 @@ class HoneyTipViewModel @Inject constructor(
         Log.d("reset", "reset")
         when (category) {
             WriteHoneyTipActivity.Category.HOUSEWORK.toString() -> {
-                _houseworkQuestion.value = emptyList()
+                _houseworkQuestion.value = prevHouseQuestionList
                 isHouseQuestionEnd.value = false
                 houseQuestionPage.value = 1
             }
 
             WriteHoneyTipActivity.Category.RECIPE.toString() -> {
-                _recipeQuestion.value = emptyList()
+                _recipeQuestion.value = prevRecipeQuestionList
                 isRecipeQuestionEnd.value = false
                 recipeQuestionPage.value = 1
             }
 
             WriteHoneyTipActivity.Category.SAFE_LIVING.toString() -> {
-                _safeLivingQuestion.value = emptyList()
+                _safeLivingQuestion.value = prevSafeQuestionList
                 isSafeQuestionEnd.value = false
                 safeQuestionPage.value = 1
             }
 
             WriteHoneyTipActivity.Category.WELFARE_POLICY.toString() -> {
-                _welfareQuestion.value = emptyList()
+                _welfareQuestion.value = prevWelfareQuestionList
                 isWelfQuestionEnd.value = false
                 welfQuestionPage.value = 1
             }
@@ -159,14 +166,21 @@ class HoneyTipViewModel @Inject constructor(
                 _houseworkHoneyTip.emit(it.honeyTipCategory.housework)
                 prevHouseHoneyTipList = it.honeyTipCategory.housework
                 _recipeHoneyTip.emit(it.honeyTipCategory.cooking)
+                prevRecipeHoneyTipList = it.honeyTipCategory.cooking
                 _safeLivingHoneyTip.emit(it.honeyTipCategory.safeLiving)
+                prevSafeHoneyTipList = it.honeyTipCategory.safeLiving
                 _welfareHoneyTip.emit(it.honeyTipCategory.welfarePolicy)
+                prevWelfareHoneyTipList = it.honeyTipCategory.welfarePolicy
 
                 //질문
                 _houseworkQuestion.emit(it.questionCategory.housework)
+                prevHouseQuestionList = it.questionCategory.housework
                 _recipeQuestion.emit(it.questionCategory.cooking)
+                prevRecipeQuestionList = it.questionCategory.cooking
                 _safeLivingQuestion.emit(it.questionCategory.safeLiving)
+                prevSafeQuestionList = it.questionCategory.safeLiving
                 _welfareQuestion.emit(it.questionCategory.welfarePolicy)
+                prevWelfareQuestionList = it.questionCategory.welfarePolicy
                 _honeyTipMainEvent.emit(true)
                 Log.d("HoneyTipMain api", it.toString())
             }

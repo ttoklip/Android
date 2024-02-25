@@ -96,9 +96,10 @@ class HouseWorkQuestionListFragment :
         binding.root.requestLayout()
     }
 
-    override fun onStop() {
-        super.onStop()
-        Log.d("stop", "stop")
+    override fun onPause() {
+        super.onPause()
+        Log.d("pause", "pause")
         viewModel.resetQuestionList("HOUSEWORK")
     }
+
 }

@@ -70,11 +70,6 @@ class RecipeHoneyTipListFragment :
     override fun onPause() {
         super.onPause()
         Log.d("pause", "pause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("stop", "stop")
         viewModel.resetHoneyTipList("RECIPE")
     }
 
