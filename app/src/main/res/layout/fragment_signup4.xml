@@ -2,6 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="vm"
+            type="com.umc.ttoklip.presentation.signup.SignupViewModel" />
+    </data>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -132,7 +139,7 @@
                         android:textAppearance="@style/TextAppearance.App.12sp_500"
                         android:textColor="@color/blue"
                         android:textSize="11sp"
-                        android:visibility="gone"
+                        android:visibility="@{vm.nickcheckbtn ? (vm.nickok?View.VISIBLE:View.GONE):View.GONE}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/signup4_nickname_et" />
 
@@ -146,7 +153,7 @@
                         android:textAppearance="@style/TextAppearance.App.12sp_500"
                         android:textColor="@color/orange"
                         android:textSize="11sp"
-                        android:visibility="gone"
+                        android:visibility="@{vm.nickcheckbtn ? (vm.nickok?View.GONE:View.VISIBLE):View.GONE}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/signup4_nickname_et" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
