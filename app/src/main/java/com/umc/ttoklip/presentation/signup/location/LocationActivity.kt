@@ -125,8 +125,8 @@ class LocationActivity :
         uiSetting.isLocationButtonEnabled = false
         binding.locationNowLocation.map = naverMap
 
-//        locationSource =
-        naverMap.locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
+        locationSource =FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
+        naverMap.locationSource = locationSource
         naverMap.locationTrackingMode = LocationTrackingMode.Follow
 //        naverMap.locationOverlay.subIcon =
 //            OverlayImage.fromResource(com.naver.maps.map.R.drawable.navermap_location_overlay_icon)

@@ -1,8 +1,8 @@
 package com.umc.ttoklip.data.repository.location
 
 import com.umc.ttoklip.data.model.KakaoResponse
-import retrofit2.Call
+import com.umc.ttoklip.module.NetworkResult
 
 interface DirectLocationRepository {
-    suspend fun getDirectAddress(address:String): Call<KakaoResponse.ResultSearchKeyword>
+    suspend fun getDirectAddress(address:String): NetworkResult<KakaoResponse.ResultSearchKeyword>
 }

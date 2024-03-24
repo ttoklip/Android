@@ -111,11 +111,10 @@ object NetworkModule {
     @Named("kakao")
     fun providesKakaoRetrofit(
         @Named("kakaoClient") client: OkHttpClient,
-        gsonConverterFactory: GsonConverterFactory
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(R.string.kakao.toString())
-            .addConverterFactory(gsonConverterFactory)
+            .baseUrl(TtoklipApplication.getString(R.string.kakao))
+            .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
     }
