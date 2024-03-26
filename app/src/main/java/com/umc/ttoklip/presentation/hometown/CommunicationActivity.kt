@@ -52,6 +52,10 @@ class CommunicationActivity :
         binding.backBtn.setOnClickListener {
             finish()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
         viewModel.getCommunities()
     }
 
