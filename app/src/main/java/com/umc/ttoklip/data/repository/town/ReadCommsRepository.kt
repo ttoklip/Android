@@ -16,6 +16,6 @@ interface ReadCommsRepository {
     suspend fun addCommsLike(postId: Long): NetworkResult<StandardResponse>
     suspend fun cancelCommsLike(postId: Long): NetworkResult<StandardResponse>
     suspend fun createCommsComment(postId: Long, body: CreateCommentRequest): NetworkResult<Unit>
-    suspend fun reportCommsComment(commentId: Long, body: ReportRequest): NetworkResult<Unit>
+    suspend fun reportCommsComment(commentId: Long, body: com.umc.ttoklip.data.model.honeytip.request.ReportRequest): NetworkResult<Unit>
     suspend fun deleteCommsComment(commentId: Long): NetworkResult<Unit>
 }

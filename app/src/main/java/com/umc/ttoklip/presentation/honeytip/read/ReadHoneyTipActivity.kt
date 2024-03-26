@@ -154,7 +154,6 @@ class ReadHoneyTipActivity :
                     showReportBtn()
                 }
             }
-
             else -> {}
         }
     }

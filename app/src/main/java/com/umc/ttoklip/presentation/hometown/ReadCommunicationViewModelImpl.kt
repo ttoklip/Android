@@ -54,6 +54,8 @@ class ReadCommunicationViewModelImpl @Inject constructor(
     override val scrap: StateFlow<Boolean>
         get() = _scrap
 
+    override val replyCommentParentId = MutableStateFlow(0)
+
     override fun savePostId(postId: Long) {
         _postId.value = postId
     }
@@ -73,13 +75,20 @@ class ReadCommunicationViewModelImpl @Inject constructor(
     override fun changeScrap() {
         Log.d("change", "스크랩")
         _scrap.value = _scrap.value.not()
+        Log.d("scrap", scrap.value.toString())
         viewModelScope.launch {
             if (_scrap.value) {
                 repository.addCommsScrap(postId.value).onSuccess {
+                    _postContent.emit(_postContent.value.copy().also {
+                        it.scrapCount += 1
+                    })
                 }
             } else {
                 repository.cancelCommsScrap(postId.value).onSuccess {
                     Log.d("change", "스크랩")
+                    _postContent.emit(_postContent.value.copy().also {
+                        it.scrapCount -= 1
+                    })
                 }
             }
         }
@@ -91,10 +100,15 @@ class ReadCommunicationViewModelImpl @Inject constructor(
         viewModelScope.launch {
             if (_like.value) {
                 repository.addCommsLike(postId.value).onSuccess {
+                    _postContent.emit(_postContent.value.copy().also {
+                        it.likeCount += 1
+                    })
                 }
             } else {
                 repository.cancelCommsLike(postId.value).onSuccess {
-                    Log.d("change", "좋아요")
+                    _postContent.emit(_postContent.value.copy().also {
+                        it.likeCount -= 1
+                    })
                 }
             }
         }
@@ -103,12 +117,14 @@ class ReadCommunicationViewModelImpl @Inject constructor(
     override fun reportPost(reportRequest: ReportRequest) {
         viewModelScope.launch {
             if (postId.value != 0L) {
-                repository.reportComms(postId.value, reportRequest)
+                repository.reportComms(postId.value, reportRequest).onSuccess {
+                    readCommunication(postId.value)
+                }
             }
         }
     }
 
-    override fun reportComment(commentId: Long, reportRequest: ReportRequest) {
+    override fun reportComment(commentId: Long, reportRequest: com.umc.ttoklip.data.model.honeytip.request.ReportRequest) {
         viewModelScope.launch {
             repository.reportCommsComment(commentId, reportRequest)
         }
@@ -116,7 +132,9 @@ class ReadCommunicationViewModelImpl @Inject constructor(
 
     override fun deleteComment(commentId: Long) {
         viewModelScope.launch {
-            repository.deleteCommsComment(commentId)
+            repository.deleteCommsComment(commentId).onSuccess {
+                readCommunication(postId.value)
+            }
         }
     }
 

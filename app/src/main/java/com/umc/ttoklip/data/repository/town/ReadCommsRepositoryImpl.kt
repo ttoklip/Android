@@ -63,7 +63,7 @@ class ReadCommsRepositoryImpl @Inject constructor(private val api: ReadCommsApi)
 
     override suspend fun reportCommsComment(
         commentId: Long,
-        body: ReportRequest
+        body: com.umc.ttoklip.data.model.honeytip.request.ReportRequest
     ): NetworkResult<Unit> {
         return handleApi({
             api.reportCommunicationComment(
