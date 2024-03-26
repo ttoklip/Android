@@ -15,21 +15,16 @@ import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.honeytip.ImageUrl
 import com.umc.ttoklip.data.model.honeytip.request.ReportRequest
 import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
-import com.umc.ttoklip.databinding.ActivityReadHoneyTipBinding
 import com.umc.ttoklip.databinding.ActivityReadQuestionBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.honeytip.BOARD
-import com.umc.ttoklip.presentation.honeytip.HONEY_TIP
 import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.OnReadImageClickListener
 import com.umc.ttoklip.presentation.honeytip.adapter.QuestionCommentRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
 import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
-import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import org.w3c.dom.Comment
 
 @AndroidEntryPoint
 class ReadQuestionActivity : BaseActivity<ActivityReadQuestionBinding>(R.layout.activity_read_question),

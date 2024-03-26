@@ -35,7 +35,7 @@ import com.umc.ttoklip.data.model.honeytip.EditHoneyTip
 import com.umc.ttoklip.databinding.ActivityWriteHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.BOARD
-import com.umc.ttoklip.presentation.honeytip.HONEY_TIP
+import com.umc.ttoklip.presentation.honeytip.HONEY_TIPS
 import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
@@ -58,6 +58,7 @@ class WriteHoneyTipActivity :
         ImageRVA(this)
     }
     private val board: String by lazy {
+        Log.d("board", intent.getStringExtra(BOARD)!!)
         intent.getStringExtra(BOARD)!!
     }
     private val viewModel: WriteHoneyTipViewModel by viewModels()
@@ -101,17 +102,6 @@ class WriteHoneyTipActivity :
                 }
             }
         }
-
-        viewModel.isBodyNull.observe(this) {
-            Log.d("body", it.toString())
-            if(!isEdit)
-            binding.writeDoneBtn.isEnabled = viewModel.isBodyNull.value == false && viewModel.isTitleNull.value == false
-        }
-        viewModel.isTitleNull.observe(this) {
-            Log.d("title", it.toString())
-            if(!isEdit)
-            binding.writeDoneBtn.isEnabled = viewModel.isBodyNull.value == false && viewModel.isTitleNull.value == false
-        }
     }
 
     private fun handleEvent(event: WriteHoneyTipViewModel.WriteDoneEvent) {
@@ -138,6 +128,7 @@ class WriteHoneyTipActivity :
         if (!isEdit){
             return
         } else {
+            viewModel.isWriteDoneBtnEnable.value = true
             val editHoneyTip = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 intent.getSerializableExtra("honeyTip", EditHoneyTip::class.java)
             } else {
@@ -215,7 +206,8 @@ class WriteHoneyTipActivity :
     }
 
     private fun checkHoneyTipOrQuestion() {
-        if (board == HONEY_TIP) {
+        Log.d("title", board.toString())
+        if (board == HONEY_TIPS) {
             binding.titleTv.text = "꿀팁 공유하기"
             //editHoneyTip()
 
@@ -229,19 +221,9 @@ class WriteHoneyTipActivity :
     private fun enableWriteDoneButton() {
         binding.titleEt.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                if(s.toString().isNotBlank()){
-                    viewModel.setTitle(false)
-                } else {
-                    viewModel.setTitle(true)
-                }
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(s.toString().isNotBlank()){
-                    viewModel.setTitle(false)
-                } else {
-                    viewModel.setTitle(true)
-                }
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -256,26 +238,16 @@ class WriteHoneyTipActivity :
 
         binding.bodyEt.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                if(s.toString().isNotBlank()){
-                    viewModel.setBody(false)
-                } else {
-                    viewModel.setBody(true)
-                }
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(s.toString().isNotBlank()){
-                    viewModel.setBody(false)
-                } else {
-                    viewModel.setBody(true)
-                }
             }
 
             override fun afterTextChanged(s: Editable?) {
                 if(s.toString().isNotBlank()){
-                    viewModel.setBody(false)
+                    viewModel.setContent(false)
                 } else {
-                    viewModel.setBody(true)
+                    viewModel.setContent(true)
                 }
             }
 
@@ -309,7 +281,7 @@ class WriteHoneyTipActivity :
                     Log.d("delete", delete.toString())
                 }
             } else {
-                if (board == HONEY_TIP) {
+                if (board == HONEY_TIPS) {
                     viewModel.createHoneyTip(title, content, category, imageParts, url)
                 } else {
                     viewModel.createQuestion(title, content, category, imageParts)

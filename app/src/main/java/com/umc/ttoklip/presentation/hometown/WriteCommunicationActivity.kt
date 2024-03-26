@@ -77,13 +77,6 @@ class WriteCommunicationActivity :
             }
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.content.collect {
-                        viewModel.checkDone()
-                    }
-                }
-            }
-            launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.images.collect {
                         Log.d("uri image", it.toString())
                         imageAdapter.submitList(it.toList())
