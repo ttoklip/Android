@@ -10,10 +10,13 @@ import com.umc.ttoklip.data.model.town.ReportRequest
 import com.umc.ttoklip.data.model.town.ViewCommunicationResponse
 import com.umc.ttoklip.data.repository.town.ReadCommsRepository
 import com.umc.ttoklip.module.onError
+import com.umc.ttoklip.module.onFail
 import com.umc.ttoklip.module.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -62,6 +65,20 @@ class ReadCommunicationViewModelImpl @Inject constructor(
     private val _comments = MutableStateFlow(listOf<CommentResponse>())
     override val comments: StateFlow<List<CommentResponse>>
         get() = _comments
+
+    private val _toast = MutableSharedFlow<String>()
+    override val toast: SharedFlow<String>
+        get() = _toast
+
+    private val _toastEvent = MutableSharedFlow<ReadCommunicationViewModel.ToastEvent>()
+    override val toastEvent: SharedFlow<ReadCommunicationViewModel.ToastEvent>
+        get() = _toastEvent
+
+    override fun eventToast(event: ReadCommunicationViewModel.ToastEvent) {
+        viewModelScope.launch {
+            _toastEvent.emit(event)
+        }
+    }
 
     override fun savePostId(postId: Long) {
         _postId.value = postId
@@ -126,14 +143,23 @@ class ReadCommunicationViewModelImpl @Inject constructor(
         viewModelScope.launch {
             if (postId.value != 0L) {
                 repository.reportComms(postId.value, reportRequest).onSuccess {
+                    Log.d("report", it.toString())
+                    _toast.emit("게시글 신고가 완료되었습니다.")
+                }.onFail {
+                    _toast.emit("게시글 신고 타입을 설정해주세요.")
                 }
             }
         }
     }
 
-    override fun reportComment(commentId: Long, reportRequest: com.umc.ttoklip.data.model.honeytip.request.ReportRequest) {
+    override fun reportComment(
+        commentId: Long,
+        reportRequest: com.umc.ttoklip.data.model.honeytip.request.ReportRequest
+    ) {
         viewModelScope.launch {
-            repository.reportCommsComment(commentId, reportRequest)
+            repository.reportCommsComment(commentId, reportRequest).onSuccess {
+                Log.d("report", it.toString())
+            }
         }
     }
 
@@ -148,10 +174,12 @@ class ReadCommunicationViewModelImpl @Inject constructor(
     override fun createComment() {
         viewModelScope.launch {
             if (postId.value != 0L) {
-                repository.createCommsComment(postId.value, CreateCommentRequest(commentContent.value, replyCommentParentId.value.toLong()))
-                    .onSuccess {
-                        readCommunication(postId.value)
-                    }
+                repository.createCommsComment(
+                    postId.value,
+                    CreateCommentRequest(commentContent.value, replyCommentParentId.value.toLong())
+                ).onSuccess {
+                    readCommunication(postId.value)
+                }
             }
         }
     }

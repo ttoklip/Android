@@ -81,7 +81,8 @@ class ReportDialogFragment: BaseDialogFragment<DialogReportBinding>(R.layout.dia
             "비방 / 욕설 / 혐오 표현이 사용된 글" -> ReportType.ABUSE.toString()
             "종교 / 포교 관련 글" -> ReportType.RELIGIOUS_PROSELYTIZING.toString()
             "게시판 성격에 부적절" -> ReportType.INAPPROPRIATE_FOR_FORUM.toString()
-            else -> ReportType.LEAK_IMPERSONATION_FRAUD.toString()
+            "유출 / 사칭 / 사기" -> ReportType.LEAK_IMPERSONATION_FRAUD.toString()
+            else -> ""
         }
     }
     enum class ReportType{

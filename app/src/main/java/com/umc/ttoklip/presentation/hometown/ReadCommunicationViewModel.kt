@@ -5,6 +5,7 @@ import com.umc.ttoklip.data.model.town.CreateCommentRequest
 import com.umc.ttoklip.data.model.town.ReportRequest
 import com.umc.ttoklip.data.model.town.ViewCommunicationResponse
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -16,6 +17,15 @@ interface ReadCommunicationViewModel {
     val replyCommentParentId : MutableStateFlow<Int>
     val commentContent: MutableStateFlow<String>
     val comments: StateFlow<List<com.umc.ttoklip.data.model.town.CommentResponse>>
+    val toast: SharedFlow<String>
+    val toastEvent: SharedFlow<ToastEvent>
+
+    sealed class ToastEvent(){
+        object SuccessReportEvent: ToastEvent()
+        object FailReportEvent: ToastEvent()
+    }
+
+    fun eventToast(event: ToastEvent)
     fun savePostId(postId: Long)
     fun readCommunication(postId: Long)
     fun changeScrap()

@@ -42,6 +42,7 @@ class ReadHoneyTipActivity :
         CommentRVA({ id ->
             viewModel.replyCommentParentId.value = id
         }, { id, myComment ->
+            Log.d("mycomment", myComment.toString())
             if (myComment) {
                 val deleteDialog = DeleteDialogFragment()
                 deleteDialog.setDialogClickListener(object :

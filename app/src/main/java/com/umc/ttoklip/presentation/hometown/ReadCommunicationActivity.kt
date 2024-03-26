@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.ContextCompat.startActivity
@@ -188,6 +189,14 @@ class ReadCommunicationActivity :
                         } else {
                             binding.replyT.text = "@${id}"
                         }
+                    }
+                }
+            }
+
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED){
+                    viewModel.toast.collect{
+                        Toast.makeText(this@ReadCommunicationActivity, it, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
