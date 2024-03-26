@@ -3,6 +3,7 @@ package com.umc.ttoklip.presentation.hometown
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.ttoklip.data.model.honeytip.request.HoneyTipCommentRequest
 import com.umc.ttoklip.data.model.town.CommentResponse
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
 import com.umc.ttoklip.data.model.town.ReportRequest
@@ -11,6 +12,7 @@ import com.umc.ttoklip.data.repository.town.ReadCommsRepository
 import com.umc.ttoklip.module.onError
 import com.umc.ttoklip.module.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -55,6 +57,11 @@ class ReadCommunicationViewModelImpl @Inject constructor(
         get() = _scrap
 
     override val replyCommentParentId = MutableStateFlow(0)
+    override val commentContent = MutableStateFlow("")
+
+    private val _comments = MutableStateFlow(listOf<CommentResponse>())
+    override val comments: StateFlow<List<CommentResponse>>
+        get() = _comments
 
     override fun savePostId(postId: Long) {
         _postId.value = postId
@@ -66,6 +73,7 @@ class ReadCommunicationViewModelImpl @Inject constructor(
                 _postContent.value = it
                 _like.value = it.likedByCurrentUser
                 _scrap.value = it.scrapedByCurrentUser
+                _comments.value = it.commentResponses
             }.onError {
 
             }
@@ -118,7 +126,6 @@ class ReadCommunicationViewModelImpl @Inject constructor(
         viewModelScope.launch {
             if (postId.value != 0L) {
                 repository.reportComms(postId.value, reportRequest).onSuccess {
-                    readCommunication(postId.value)
                 }
             }
         }
@@ -138,12 +145,14 @@ class ReadCommunicationViewModelImpl @Inject constructor(
         }
     }
 
-    override fun createComment(body: CreateCommentRequest) {
+    override fun createComment() {
         viewModelScope.launch {
             if (postId.value != 0L) {
-                repository.createCommsComment(postId.value, body)
+                repository.createCommsComment(postId.value, CreateCommentRequest(commentContent.value, replyCommentParentId.value.toLong()))
+                    .onSuccess {
+                        readCommunication(postId.value)
+                    }
             }
         }
     }
-
 }

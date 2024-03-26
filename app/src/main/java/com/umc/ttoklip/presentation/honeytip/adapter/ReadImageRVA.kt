@@ -31,7 +31,7 @@ class ReadImageRVA(private val context: Context, private var listener: OnReadIma
             Glide.with(context)
                 .load(imageUrl.imageUrl)
                 .into(binding.iv)
-            
+
             binding.iv.setOnClickListener {
                 listener?.onClick(imageUrl.imageUrl)
             }

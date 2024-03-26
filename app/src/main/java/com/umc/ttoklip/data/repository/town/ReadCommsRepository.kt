@@ -1,6 +1,7 @@
 package com.umc.ttoklip.data.repository.town
 
 import com.umc.ttoklip.data.model.StandardResponse
+import com.umc.ttoklip.data.model.town.CommentResponse
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
 import com.umc.ttoklip.data.model.town.DeleteCommunicationResponse
 import com.umc.ttoklip.data.model.town.ReportRequest
@@ -15,7 +16,7 @@ interface ReadCommsRepository {
     suspend fun reportComms(postId: Long, body: ReportRequest): NetworkResult<StandardResponse>
     suspend fun addCommsLike(postId: Long): NetworkResult<StandardResponse>
     suspend fun cancelCommsLike(postId: Long): NetworkResult<StandardResponse>
-    suspend fun createCommsComment(postId: Long, body: CreateCommentRequest): NetworkResult<Unit>
+    suspend fun createCommsComment(postId: Long, body: CreateCommentRequest): NetworkResult<CommentResponse>
     suspend fun reportCommsComment(commentId: Long, body: com.umc.ttoklip.data.model.honeytip.request.ReportRequest): NetworkResult<Unit>
     suspend fun deleteCommsComment(commentId: Long): NetworkResult<Unit>
 }

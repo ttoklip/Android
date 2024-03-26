@@ -423,14 +423,15 @@
                 android:layout_marginEnd="8dp"
                 android:background="@null"
                 android:hint="댓글을 입력해주세요."
+                android:text="@={vm.commentContent}"
                 android:textAppearance="@style/TextAppearance.App.12sp_400"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/cardView"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/SendCardView"
+                app:layout_constraintStart_toEndOf="@id/replyT"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
+                android:id="@+id/SendCardView"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:backgroundTint="@color/yellow"
@@ -438,7 +439,6 @@
                 app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/comment_et"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
@@ -449,7 +449,6 @@
                     android:src="@drawable/ic_send" />
 
             </androidx.cardview.widget.CardView>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

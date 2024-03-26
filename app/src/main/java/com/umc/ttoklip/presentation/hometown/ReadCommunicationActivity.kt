@@ -8,6 +8,8 @@ import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -31,6 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -111,39 +114,17 @@ class ReadCommunicationActivity :
             deleteDialog.show(supportFragmentManager, deleteDialog.tag)
         }
 
-        binding.cardView.setOnClickListener {
+        binding.SendCardView.setOnClickListener {
             if (binding.commentEt.text.toString().isNotBlank()) {
-                /*CoroutineScope(Dispatchers.IO).launch {
-                    viewModel.createComment(
-                        CreateCommentRequest(
-                            binding.commentEt.text.toString(),
-                            0L
-                        )
-                    )
-                    delay(500)
-                    viewModel.readCommunication(postId)
-                }*/
-
-                /*val comment = NewsCommentResponse(binding.commentEt.text.toString(), 0, 0, "test", "test")
-                val list = commentRVA.currentList.toMutableList().apply { add(comment)}
-                commentRVA.submitList(list)*/
-                binding.commentEt.setText("")
-                viewModel.replyCommentParentId.value = 0
+                viewModel.createComment()
             }
+            binding.commentEt.setText("")
+            viewModel.replyCommentParentId.value = 0
         }
 
-        /*binding.scrapBtn.setOnClickListener {
-            viewModel.changeScrap()
-        }
-        binding.likeBtn.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                viewModel.changeLike()
-                //viewModel.readCommunication(postId)
-            }
-        }*/
 
         binding.editBtn.setOnClickListener {
-            
+
         }
     }
 
@@ -177,28 +158,6 @@ class ReadCommunicationActivity :
                             likeT.text = response.likeCount.toString()
                             bookmarkT.text = response.scrapCount.toString()
                             commitT.text = response.commentCount.toString()
-                            /*if (response.likedByCurrentUser) {
-                                likeImg.setImageDrawable(getDrawable(R.drawable.ic_heart_on_20))
-                            } else {
-                                likeImg.setImageDrawable(getDrawable(R.drawable.ic_heart_off_20))
-                            }
-                            if (response.scrapedByCurrentUser) {
-                                bookmarkImg.setImageDrawable(getDrawable(R.drawable.ic_bookmark_on_20))
-                            } else {
-                                bookmarkImg.setImageDrawable(getDrawable(R.drawable.ic_bookmark_off_20))
-                            }*/
-//                            Log.d("comment", response.commentResponse.toString())
-                        }
-                    }
-                }
-            }
-            /*launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.like.collect {
-                        if (it) {
-                            binding.likeImg.setImageDrawable(getDrawable(R.drawable.ic_heart_on_20))
-                        } else {
-                            binding.likeImg.setImageDrawable(getDrawable(R.drawable.ic_heart_off_20))
                         }
                     }
                 }
@@ -206,21 +165,17 @@ class ReadCommunicationActivity :
 
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.scrap.collect {
-                        if (it) {
-                            binding.bookmarkImg.setImageDrawable(getDrawable(R.drawable.ic_bookmark_on_20))
-                        } else {
-                            binding.bookmarkImg.setImageDrawable(getDrawable(R.drawable.ic_bookmark_off_20))
+                    viewModel.comments.collect {
+                        val list = it.map { it ->
+                            NewsCommentResponse(
+                                it.commentContent,
+                                it.commentId.toInt(),
+                                it.parentId.toInt(),
+                                it.writer,
+                                it.writtenTime
+                            )
                         }
-                    }
-                }
-            }*/
-
-
-            launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.scrap.collect {
-
+                        commentRVA.submitList(list)
                     }
                 }
             }
