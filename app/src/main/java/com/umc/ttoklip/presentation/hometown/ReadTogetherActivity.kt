@@ -51,7 +51,11 @@ class ReadTogetherActivity :
     private var postId = 0L
 
     override fun initView() {
-        binding.imageRv.adapter = imageAdapter
+        binding.imageRv.apply {
+            itemAnimator = null
+            adapter = imageAdapter
+        }
+        //binding.imageRv.adapter = imageAdapter
         binding.commentRv.adapter = commentRVA
         binding.vm = viewModel
         postId = intent.getLongExtra("postId", 0)

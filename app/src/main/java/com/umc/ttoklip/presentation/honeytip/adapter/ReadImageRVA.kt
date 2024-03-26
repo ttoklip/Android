@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.honeytip.ImageUrl
 import com.umc.ttoklip.databinding.ItemImageBinding
 import com.umc.ttoklip.databinding.ItemImageReadBinding
@@ -29,6 +31,7 @@ class ReadImageRVA(private val context: Context, private var listener: OnReadIma
             Glide.with(context)
                 .load(imageUrl.imageUrl)
                 .into(binding.iv)
+            
             binding.iv.setOnClickListener {
                 listener?.onClick(imageUrl.imageUrl)
             }
