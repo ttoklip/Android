@@ -97,6 +97,14 @@ class ReadCommunicationViewModelImpl @Inject constructor(
         }
     }
 
+    override fun deleteCommunication() {
+        viewModelScope.launch {
+            repository.deleteComms(_postId.value).onSuccess {
+                _toast.emit("게시글 삭제가 완료되었습니다.")
+            }
+        }
+    }
+
     override fun changeScrap() {
         Log.d("change", "스크랩")
         _scrap.value = _scrap.value.not()

@@ -5,25 +5,21 @@ import android.content.Intent
 import android.graphics.Rect
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.honeytip.ImageUrl
 import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
-import com.umc.ttoklip.data.model.town.CommentResponse
-import com.umc.ttoklip.data.model.town.CreateCommentRequest
 import com.umc.ttoklip.data.model.town.ReportRequest
 import com.umc.ttoklip.databinding.ActivityReadCommunicationBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.hometown.adapter.TownCommentAdapter
 import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.OnReadImageClickListener
 import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
@@ -31,10 +27,6 @@ import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -77,6 +69,7 @@ class ReadCommunicationActivity :
     }
     private val viewModel: ReadCommunicationViewModel by viewModels<ReadCommunicationViewModelImpl>()
     private var postId = 0L
+    private var isShowMenu = false
 
     override fun initView() {
         binding.vm = viewModel
@@ -91,10 +84,6 @@ class ReadCommunicationActivity :
 
         binding.backBtn.setOnClickListener {
             finish()
-        }
-
-        binding.dotBtn.setOnClickListener {
-            binding.reportBtn.isVisible = true
         }
 
         binding.reportBtn.setOnClickListener {
@@ -112,7 +101,8 @@ class ReadCommunicationActivity :
             val deleteDialog = DeleteDialogFragment()
             deleteDialog.setDialogClickListener(object : DeleteDialogFragment.DialogClickListener {
                 override fun onClick() {
-
+                    viewModel.deleteCommunication()
+                    finish()
                 }
             })
             deleteDialog.show(supportFragmentManager, deleteDialog.tag)
@@ -129,6 +119,32 @@ class ReadCommunicationActivity :
 
         binding.editBtn.setOnClickListener {
 
+        }
+    }
+
+    private fun showReportBtn() {
+        binding.dotBtn.setOnClickListener {
+            if (!isShowMenu) {
+                binding.reportBtn.bringToFront()
+                binding.reportBtn.visibility = View.VISIBLE
+                isShowMenu = true
+            } else {
+                binding.reportBtn.visibility = View.GONE
+                isShowMenu = false
+            }
+        }
+    }
+
+    private fun showWriterMenu() {
+        binding.dotBtn.setOnClickListener {
+            if (!isShowMenu) {
+                binding.communityMenu.bringToFront()
+                binding.communityMenu.visibility = View.VISIBLE
+                isShowMenu = true
+            } else {
+                binding.communityMenu.visibility = View.GONE
+                isShowMenu = false
+            }
         }
     }
 
@@ -162,6 +178,12 @@ class ReadCommunicationActivity :
                             likeT.text = response.likeCount.toString()
                             bookmarkT.text = response.scrapCount.toString()
                             commitT.text = response.commentCount.toString()
+
+                            if(response.writer == TtoklipApplication.prefs.getString("nickname","")){
+                                showWriterMenu()
+                            } else{
+                                showReportBtn()
+                            }
                         }
                     }
                 }

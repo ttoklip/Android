@@ -192,14 +192,10 @@ class ReadHoneyTipActivity :
         binding.backBtn.setOnClickListener {
             finish()
         }
-
-
         initImageRVA()
         showDeleteDialog()
         showReportDialog()
         editHoneyTip()
-
-
     }
 
     private fun initImageRVA() {

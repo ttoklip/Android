@@ -28,6 +28,8 @@ interface ReadCommunicationViewModel {
     fun eventToast(event: ToastEvent)
     fun savePostId(postId: Long)
     fun readCommunication(postId: Long)
+
+    fun deleteCommunication()
     fun changeScrap()
     fun changeLike()
     fun reportPost(reportRequest: ReportRequest)

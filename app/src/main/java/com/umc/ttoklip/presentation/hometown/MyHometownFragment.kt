@@ -68,7 +68,6 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
             val intent = Intent(requireContext(), TogetherActivity::class.java)
             startActivity(intent)
         }
-        viewModel.getM()
 
         binding.seeDetailCommunicationBtn.setOnClickListener {
             val intent = Intent(requireContext(), CommunicationActivity::class.java)
@@ -134,5 +133,10 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
             intent.putExtra("postId", items)
             startActivity(intent)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getM()
     }
 }
