@@ -5,6 +5,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.town.Communities
@@ -21,7 +22,7 @@ import kotlinx.coroutines.launch
 class CommunicationActivity :
     BaseActivity<ActivityCommunicationBinding>(R.layout.activity_communication),
     OnItemClickListener {
-    private val adapter by lazy {
+    private val rva by lazy {
         CommunicationAdapter(this)
     }
     private val viewModel: CommunicationViewModel by viewModels<CommunicationViewModelImpl>()
@@ -46,8 +47,17 @@ class CommunicationActivity :
 
 
 
-        binding.communicationRv.layoutManager = LinearLayoutManager(this)
-        binding.communicationRv.adapter = adapter
+        binding.communicationRv.apply {
+            adapter = adapter
+            layoutManager = LinearLayoutManager(this@CommunicationActivity)
+            adapter = rva
+            addItemDecoration(
+                DividerItemDecoration(
+                    this@CommunicationActivity,
+                    LinearLayoutManager.VERTICAL
+                )
+            )
+        }
 
         binding.backBtn.setOnClickListener {
             finish()
@@ -65,7 +75,7 @@ class CommunicationActivity :
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.communities.collect {
-                        adapter.submitList(it)
+                        rva.submitList(it)
                     }
                 }
             }

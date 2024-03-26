@@ -80,7 +80,10 @@ class ReadCommunicationActivity :
 
     override fun initView() {
         binding.vm = viewModel
-        binding.imageRv.adapter = imageAdapter
+        binding.imageRv.apply {
+            adapter = imageAdapter
+            itemAnimator = null
+        }
         binding.commentRv.adapter = commentRVA
         binding.reportBtn.bringToFront()
         postId = intent.getLongExtra("postId", 0)
@@ -194,9 +197,10 @@ class ReadCommunicationActivity :
             }
 
             launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED){
-                    viewModel.toast.collect{
-                        Toast.makeText(this@ReadCommunicationActivity, it, Toast.LENGTH_SHORT).show()
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.toast.collect {
+                        Toast.makeText(this@ReadCommunicationActivity, it, Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }
