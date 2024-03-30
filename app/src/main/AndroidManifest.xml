@@ -130,6 +130,17 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             android:exported="false" />
+
+        <activity
+            android:name=".presentation.otheruser.OtherUserActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.otheruser.OtherTipActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" />
         <activity
             android:name=".presentation.hometown.ReadTogetherActivity"
             android:screenOrientation="portrait"

@@ -14,6 +14,7 @@ import com.umc.ttoklip.data.api.MyAccountRestrictApi
 import com.umc.ttoklip.data.api.MyBlockUserApi
 import com.umc.ttoklip.data.api.MyPostApi
 import com.umc.ttoklip.data.api.NewsApi
+import com.umc.ttoklip.data.api.OtherApi
 import com.umc.ttoklip.data.api.ReadCommsApi
 import com.umc.ttoklip.data.api.ReadTogetherApi
 import com.umc.ttoklip.data.api.Search2Api
@@ -247,6 +248,12 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideMainTogethersApi(retrofit: Retrofit): MainTogethersApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideStrangerApi(retrofit: Retrofit): OtherApi {
         return retrofit.buildService()
     }
 
