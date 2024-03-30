@@ -21,6 +21,9 @@ class OtherUserActivity :
         binding.otherprofileBackIb.setOnClickListener {
             finish()
         }
+        binding.otherprofileHoneytipCl.setOnClickListener {
+            startActivity(OtherTipActivity.newIntent(this, viewModel.strangerInfo.value.userId, viewModel.strangerInfo.value.nickname))
+        }
     }
 
     override fun initObserver() {
