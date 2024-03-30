@@ -7,4 +7,6 @@ data class OtherUserInfoResponse(
     val profileImage: String,
     val street: String?,
     val userId: Int
-)
+) {
+    constructor() : this(0, 0, "", "", "", 0)
+}
