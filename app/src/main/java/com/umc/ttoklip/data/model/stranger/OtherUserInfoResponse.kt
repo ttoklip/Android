@@ -5,6 +5,6 @@ data class OtherUserInfoResponse(
     val independentYear: Int,
     val nickname: String,
     val profileImage: String,
-    val street: Any,
+    val street: String?,
     val userId: Int
 )
