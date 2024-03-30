@@ -21,18 +21,19 @@
 
             <TextView
                 android:id="@+id/userT"
-                tools:text="이강인"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/titleT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:lines="1"
+                android:maxWidth="100dp"
                 android:textAppearance="@style/TextAppearance.App.16sp_600"
                 android:textColor="@color/black"
-                android:maxWidth="100dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/titleT"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="이강인" />
+
             <TextView
                 android:id="@+id/titleT"
                 android:layout_width="wrap_content"
@@ -61,6 +62,7 @@
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="90dp"
             android:layout_marginBottom="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/item_list_honey_tip" />
