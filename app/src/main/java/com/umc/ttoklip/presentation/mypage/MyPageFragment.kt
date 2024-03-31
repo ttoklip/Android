@@ -87,8 +87,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
 
         binding.transactionHistoryBtn.setOnClickListener {
-            val intent = Intent(requireContext(), TransactionHistoryActivity::class.java)
-            startActivity(intent)
+            startActivity(TransactionHistoryActivity.newIntent(requireContext(),1,""))
         }
 
         binding.scrapBtn.setOnClickListener {
