@@ -10,6 +10,7 @@ import com.umc.ttoklip.module.NetworkResult
 import com.umc.ttoklip.module.handleApi
 import javax.inject.Inject
 
+
 class MyPostRepositoryImpl @Inject constructor(private val api: MyPostApi) : MyPostRepository {
     override suspend fun getMyQuestions(page: Int): NetworkResult<MyQuestionResponse> {
         return handleApi({ api.getMyQuestions(page) }) { response: ResponseBody<MyQuestionResponse> -> response.result }
