@@ -9,4 +9,6 @@ data class HoneyTip(
     val likeCount: Int,
     val scrapCount: Int,
     val commentCount: Int
-)
+){
+    constructor() : this("",0,"","","",0,0,0)
+}

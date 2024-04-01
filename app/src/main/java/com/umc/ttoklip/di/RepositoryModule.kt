@@ -9,6 +9,7 @@ import com.umc.ttoklip.data.api.MyPage2Api
 import com.umc.ttoklip.data.api.MyPageApi
 import com.umc.ttoklip.data.api.MyPostApi
 import com.umc.ttoklip.data.api.NewsApi
+import com.umc.ttoklip.data.api.OtherApi
 import com.umc.ttoklip.data.api.ReadCommsApi
 import com.umc.ttoklip.data.api.ReadTogetherApi
 import com.umc.ttoklip.data.api.Search2Api
@@ -34,6 +35,8 @@ import com.umc.ttoklip.data.repository.search.Search2Repository
 import com.umc.ttoklip.data.repository.search.Search2RepositoryImpl
 import com.umc.ttoklip.data.repository.search.SearchRepository
 import com.umc.ttoklip.data.repository.search.SearchRepositoryImpl
+import com.umc.ttoklip.data.repository.stranger.StrangerRepository
+import com.umc.ttoklip.data.repository.stranger.StrangerRepositoryImpl
 import com.umc.ttoklip.data.repository.town.MainCommsRepository
 import com.umc.ttoklip.data.repository.town.MainCommsRepositoryImpl
 import com.umc.ttoklip.data.repository.town.MainTogethersRepository
@@ -143,5 +146,11 @@ object RepositoryModule {
     @Singleton
     fun providesTownMainRepository(api: TownMainApi): TownMainRepository =
         TownMainRepositoryImpl(api)
+
+
+    @Provides
+    @Singleton
+    fun providesStrangerRepository(api: OtherApi): StrangerRepository =
+        StrangerRepositoryImpl(api)
 
 }

@@ -12,7 +12,11 @@ import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
 import com.umc.ttoklip.databinding.ItemCommentBinding
 import com.umc.ttoklip.databinding.ItemReplyBinding
 
-class CommentRVA(val replyComment: (Int) -> Unit, val ReportOrDelete: (Int, Boolean) -> Unit) :
+class CommentRVA(
+    val replyComment: (Int) -> Unit,
+    val ReportOrDelete: (Int, Boolean) -> Unit,
+    val strangerOnClick: (String) -> Unit
+) :
     ListAdapter<NewsCommentResponse, RecyclerView.ViewHolder>(differ) {
 
     inner class ItemViewHolder(
@@ -30,6 +34,9 @@ class CommentRVA(val replyComment: (Int) -> Unit, val ReportOrDelete: (Int, Bool
                     data.writer == TtoklipApplication.prefs.getString("nickname", "")
                 )
             }
+            binding.profileImg.setOnClickListener {
+                strangerOnClick(data.writer ?: "")
+            }
         }
     }
 
@@ -41,11 +48,14 @@ class CommentRVA(val replyComment: (Int) -> Unit, val ReportOrDelete: (Int, Bool
             binding.item = data
 
             binding.deleteBtn.setOnClickListener {
-                Log.d("닉네임","${data.writer == TtoklipApplication.prefs.getString("nickname", "")}")
+                Log.d("닉네임", "${data.writer == TtoklipApplication.prefs.getString("nickname", "")}")
                 ReportOrDelete(
                     data.commentId,
                     data.writer == TtoklipApplication.prefs.getString("nickname", "")
                 )
+            }
+            binding.profileImg.setOnClickListener {
+                strangerOnClick(data.writer ?: "")
             }
         }
     }

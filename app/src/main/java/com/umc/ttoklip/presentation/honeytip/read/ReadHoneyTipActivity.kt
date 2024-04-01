@@ -29,6 +29,7 @@ import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity.Companion.ARTICLE
+import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -70,6 +71,8 @@ class ReadHoneyTipActivity :
                 })
                 reportDialog.show(supportFragmentManager, reportDialog.tag)
             }
+        }, { nick ->
+            startActivity(OtherUserActivity.newIntent(this, nick))
         })
     }
 
