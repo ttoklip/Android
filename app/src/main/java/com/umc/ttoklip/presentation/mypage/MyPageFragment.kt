@@ -14,6 +14,7 @@ import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.login.LoginActivity
+import com.umc.ttoklip.presentation.mypage.dialog.LogoutDialog
 import com.umc.ttoklip.presentation.mypage.vm.ManageMyInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -54,6 +55,11 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             startActivity(intent)
         }
 
+        binding.manageAccountFrame.setOnClickListener {
+            val intent = Intent(requireContext(), ManageMyInfoActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.announcementFrame.setOnClickListener {
             val intent = Intent(requireContext(), SetAnnouncementActivity::class.java)
             startActivity(intent)
@@ -64,18 +70,13 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             startActivity(intent)
         }
 
-        binding.manageAccountFrame.setOnClickListener {
-            val intent = Intent(requireContext(), ManageMyInfoActivity::class.java)
+        binding.customerServiceCenterFrame.setOnClickListener {
+            val intent = Intent(requireContext(), CustomerServiceCenterActivity::class.java)
             startActivity(intent)
         }
 
         binding.noticeFrame.setOnClickListener {
             val intent = Intent(requireContext(), NoticeSettingActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.customerServiceCenterFrame.setOnClickListener {
-            val intent = Intent(requireContext(), CustomerServiceCenterActivity::class.java)
             startActivity(intent)
         }
 
@@ -85,8 +86,13 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
 
         binding.logoutFrame.setOnClickListener {
-//            val dialog = LogoutDialog()
-//            dialog.show(parentFragmentManager, dialog.tag)
+            //로그아웃 다이얼로그 체크
+            val dialog = LogoutDialog(logout = {
+                TtoklipApplication.prefs.removeString("jwt")
+                startActivity(Intent(activity,LoginActivity::class.java))
+                activity?.finish()
+            })
+            dialog.show(parentFragmentManager, dialog.tag)
         }
 
         binding.transactionHistoryBtn.setOnClickListener {
@@ -101,12 +107,6 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         binding.myHoneyTipBtn.setOnClickListener {
             val intent = Intent(requireContext(), MyHoneyTipActivity::class.java)
             startActivity(intent)
-        }
-
-        binding.logoutFrame.setOnClickListener {
-            TtoklipApplication.prefs.removeString("jwt")
-            startActivity(Intent(activity,LoginActivity::class.java))
-            activity?.finish()
         }
     }
 }

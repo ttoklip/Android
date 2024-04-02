@@ -105,7 +105,7 @@ class ManageMyInfoActivity :
         }
 
         binding.findAddressBtn.setOnClickListener {
-            val intent = Intent(this, MyHometownAddressActivity::class.java)
+            val intent = Intent(this, MyInfoLocationActivity::class.java)
             val Location_Type = 1
             startActivityForResult(intent, Location_Type)
         }
@@ -163,7 +163,7 @@ class ManageMyInfoActivity :
             return
         }
         if (requestCode == 1) {
-            if (data != null) {
+            if (data != null&&data.getStringExtra("location")!!.isNotEmpty()) {
                 binding.inputAddressTv.text = data.getStringExtra("location")
                 address = data.getStringExtra("location").toString()
                 locationX = data.getIntExtra("locationX", 0)
