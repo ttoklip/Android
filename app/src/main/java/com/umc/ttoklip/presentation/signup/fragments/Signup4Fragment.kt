@@ -34,6 +34,7 @@ import com.umc.ttoklip.presentation.mypage.ChooseMainInterestDialogFragment
 import com.umc.ttoklip.presentation.mypage.InputIndependentCareerDialogFragment
 import com.umc.ttoklip.presentation.signup.SignupActivity
 import com.umc.ttoklip.presentation.signup.SignupViewModel
+import com.umc.ttoklip.presentation.signup.location.LocationActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -154,22 +155,34 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
                 viewModel.interestok.value &&
                 viewModel.nickok.value
             ) {
-                val bundle = Bundle()
-                bundle.putString("nickname", binding.signup4NicknameEt.text.toString())
-                bundle.putStringArrayList("interest", interestArray)
-                bundle.putString(
-                    "imageUri",
-                    if (imageSource.isNotEmpty()) imageSource
-                    else ""
-//                        Uri.fromFile(File("//android_asset/profile_image_default.png")).toString()
-                )
-                bundle.putInt("independentCareerYear", independentCareerYear!!)
-                bundle.putInt("independentCareerMonth", independentCareerMonth!!)
+                val bundle=Bundle()
+                bundle.putString("nickname",viewModel.nickname.value)
+                bundle.putStringArrayList("interest",viewModel.categories.value)
+                bundle.putString("imageUri",viewModel.profileImage.value)
+                bundle.putInt("independentCareerYear",viewModel.independenctYear.value)
+                bundle.putInt("independentCareerMonth",viewModel.independenctMonth.value)
+                val intent=Intent(activity, LocationActivity::class.java)
+                intent.putExtra("userInfo",bundle)
+                startActivity(intent)
+                activity.finish()
 
-                findNavController().navigate(
-                    R.id.action_signup4_fragment_to_signup5_fragment,
-                    bundle
-                )
+                //navigate to signup fragment 5
+//                val bundle = Bundle()
+//                bundle.putString("nickname", binding.signup4NicknameEt.text.toString())
+//                bundle.putStringArrayList("interest", interestArray)
+//                bundle.putString(
+//                    "imageUri",
+//                    if (imageSource.isNotEmpty()) imageSource
+//                    else ""
+////                        Uri.fromFile(File("//android_asset/profile_image_default.png")).toString()
+//                )
+//                bundle.putInt("independentCareerYear", independentCareerYear!!)
+//                bundle.putInt("independentCareerMonth", independentCareerMonth!!)
+//
+//                findNavController().navigate(
+//                    R.id.action_signup4_fragment_to_signup5_fragment,
+//                    bundle
+//                )
             }
         }
     }

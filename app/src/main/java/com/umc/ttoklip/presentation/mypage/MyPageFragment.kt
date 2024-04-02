@@ -8,9 +8,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.databinding.FragmentMyPageBinding
+import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
+import com.umc.ttoklip.presentation.login.LoginActivity
 import com.umc.ttoklip.presentation.mypage.vm.ManageMyInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -98,6 +101,12 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         binding.myHoneyTipBtn.setOnClickListener {
             val intent = Intent(requireContext(), MyHoneyTipActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.logoutFrame.setOnClickListener {
+            TtoklipApplication.prefs.removeString("jwt")
+            startActivity(Intent(activity,LoginActivity::class.java))
+            activity?.finish()
         }
     }
 }

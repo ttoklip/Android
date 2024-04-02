@@ -14,6 +14,7 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
+import com.naver.maps.map.NaverMapOptions
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.UiSettings
 import com.naver.maps.map.overlay.CircleOverlay
@@ -132,15 +133,20 @@ class LocationActivity :
 //            OverlayImage.fromResource(com.naver.maps.map.R.drawable.navermap_location_overlay_icon)
 
         naverMap.addOnLocationChangeListener {
-            getAddress(
-                it.latitude,
-                it.longitude
-            )
-            circle.center = LatLng(it.latitude, it.longitude)
-            locationok = true
-            setcircle()
-            nextok()
+            setlocation(it.latitude,it.longitude)
         }
+        naverMap.setOnMapClickListener { pointF, latLng ->
+            setlocation(latLng.latitude,latLng.longitude)
+        }
+    }
+
+    private fun setlocation(latitude:Double,longitude:Double){
+        getAddress(latitude, longitude)
+        circle.center = LatLng(latitude, longitude)
+        locationok = true
+        setcircle()
+        setmarker()
+        nextok()
     }
 
     private fun setcircle() {
@@ -149,6 +155,9 @@ class LocationActivity :
         else circle.radius = 1500.0
         circle.color = ContextCompat.getColor(this, R.color.yellow_trans30)
         circle.map = naverMap
+    }
+    private fun setmarker(){
+
     }
 
     private fun hasPermission(): Boolean {

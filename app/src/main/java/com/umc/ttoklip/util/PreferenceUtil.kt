@@ -12,6 +12,9 @@ class PreferenceUtil(context:Context) {
     fun setString(key:String,str:String){
         prefs.edit().putString(key,str).apply()
     }
+    fun removeString(key:String){
+        prefs.edit().remove(key).apply()
+    }
     fun getBoolean(key:String,defValue:Boolean):Boolean{
         return prefs.getBoolean(key,defValue)
     }
