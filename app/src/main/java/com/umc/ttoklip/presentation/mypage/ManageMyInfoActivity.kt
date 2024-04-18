@@ -5,6 +5,7 @@ import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
@@ -262,6 +263,24 @@ class ManageMyInfoActivity :
         val uri = Uri.parse(path)
         Log.d("uri", uri.toString())
         return Uri.parse(path)
+    }
+
+    fun getRealPathFromUri(contentUri: Uri, context: Context): String {
+        val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        context.contentResolver.takePersistableUriPermission(contentUri, flag)
+        var cursor: Cursor? = null
+        try {
+            val proj = arrayOf(MediaStore.Images.Media.DATA)
+            cursor = context.contentResolver.query(contentUri, proj, null, null, null)
+            val columnIndex = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            Log.i("ColumnIndex", columnIndex.toString())
+            if (cursor != null && cursor.moveToFirst()) {
+                return cursor.getString(columnIndex!!)
+            }
+        } finally {
+            cursor?.close()
+        }
+        return ""
     }
 
     private fun deleteImage(imageUri: Uri): Boolean {
