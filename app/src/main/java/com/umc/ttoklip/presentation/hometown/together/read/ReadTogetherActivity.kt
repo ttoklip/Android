@@ -51,35 +51,30 @@ class ReadTogetherActivity :
         })
     }
     private var postId = 0L
+    private var isWriter = false
 
     override fun initView() {
         binding.imageRv.apply {
             itemAnimator = null
             adapter = imageAdapter
         }
-        //binding.imageRv.adapter = imageAdapter
         binding.commentRv.adapter = commentRVA
         binding.vm = viewModel
         postId = intent.getLongExtra("postId", 0)
         viewModel.savePostId(postId)
-        binding.reportBtn.bringToFront()
 
-
-        binding.deleteBtn.setOnClickListener {
-            val deleteDialog = DeleteDialogFragment()
-            deleteDialog.setDialogClickListener(object : DeleteDialogFragment.DialogClickListener {
-                override fun onClick() {
-
-                }
-            })
-            deleteDialog.show(supportFragmentManager, deleteDialog.tag)
-        }
         binding.backBtn.setOnClickListener {
             finish()
         }
 
         binding.dotBtn.setOnClickListener {
-            binding.reportBtn.isVisible = binding.reportBtn.isVisible.not()
+            if(isWriter){
+                binding.editBtn.bringToFront()
+                binding.editBtn.isVisible = binding.editBtn.isVisible.not()
+            } else {
+                binding.reportBtn.bringToFront()
+                binding.reportBtn.isVisible = binding.reportBtn.isVisible.not()
+            }
         }
 
         binding.reportBtn.setOnClickListener {
@@ -182,7 +177,9 @@ class ReadTogetherActivity :
         }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-
+                viewModel.isWriter.collect{
+                    isWriter = it
+                }
             }
         }
     }
