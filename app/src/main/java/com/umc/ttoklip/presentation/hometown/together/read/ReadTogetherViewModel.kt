@@ -3,6 +3,7 @@ package com.umc.ttoklip.presentation.hometown.together.read
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
 import com.umc.ttoklip.data.model.town.ReportRequest
 import com.umc.ttoklip.data.model.town.ViewTogetherResponse
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 
 interface ReadTogetherViewModel {
@@ -11,6 +12,7 @@ interface ReadTogetherViewModel {
     val isWriter: StateFlow<Boolean>
     val postId: StateFlow<Long>
     val writer: StateFlow<String>
+    val toast: SharedFlow<String>
     val postContent: StateFlow<ViewTogetherResponse>
 
     fun joinBtnClick()

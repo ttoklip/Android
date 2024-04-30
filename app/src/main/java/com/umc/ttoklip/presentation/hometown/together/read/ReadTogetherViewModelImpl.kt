@@ -8,9 +8,12 @@ import com.umc.ttoklip.data.model.town.ReportRequest
 import com.umc.ttoklip.data.model.town.ViewTogetherResponse
 import com.umc.ttoklip.data.repository.town.ReadTogetherRepository
 import com.umc.ttoklip.module.onError
+import com.umc.ttoklip.module.onFail
 import com.umc.ttoklip.module.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,6 +40,10 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
     private val _writer = MutableStateFlow("")
     override val writer: StateFlow<String>
         get() = _writer
+
+    private val _toast = MutableSharedFlow<String>()
+    override val toast: SharedFlow<String>
+        get() = _toast
 
     private val _postContent: MutableStateFlow<ViewTogetherResponse> =
         MutableStateFlow<ViewTogetherResponse>(
@@ -102,7 +109,11 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
     override fun reportPost(reportRequest: ReportRequest) {
         viewModelScope.launch {
             if (postId.value != 0L) {
-                repository.reportTogether(postId.value, reportRequest)
+                repository.reportTogether(postId.value, reportRequest).onSuccess {
+                    _toast.emit("게시글 신고가 완료되었습니다.")
+                }.onFail {
+                    _toast.emit("게시글 신고 타입을 설정해주세요.")
+                }
             }
         }
     }

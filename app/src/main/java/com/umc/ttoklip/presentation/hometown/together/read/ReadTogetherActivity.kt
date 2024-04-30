@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
@@ -18,6 +19,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.honeytip.ImageUrl
+import com.umc.ttoklip.data.model.honeytip.request.ReportRequest
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
 import com.umc.ttoklip.databinding.ActivityReadTogetherBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
@@ -31,6 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -81,7 +84,9 @@ class ReadTogetherActivity :
             val reportDialog = ReportDialogFragment()
             reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
                 override fun onClick(type: String, content: String) {
-
+                    viewModel.reportPost(
+                        com.umc.ttoklip.data.model.town.ReportRequest(content = content, reportType = type)
+                    )
                 }
 
             })
@@ -179,6 +184,14 @@ class ReadTogetherActivity :
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isWriter.collect{
                     isWriter = it
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.toast.collect{
+                    Toast.makeText(this@ReadTogetherActivity, it, Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
