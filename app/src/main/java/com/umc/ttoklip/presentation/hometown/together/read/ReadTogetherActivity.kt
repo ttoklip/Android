@@ -3,6 +3,7 @@ package com.umc.ttoklip.presentation.hometown.together.read
 import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
+import android.icu.text.DecimalFormat
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.Log
@@ -141,7 +142,7 @@ class ReadTogetherActivity :
                             writerTv.text = response.writer
                             titleT.text = response.title
                             contentT.text = response.content
-                            totalPriceTv.text = response.totalPrice.toString()
+                            totalPriceTv.text = AMOUNT_FORMAT.format(response.totalPrice).toString()
                             maxMemberTv.text = response.partyMax.toString()
                             tradingPlaceTv.text = response.location
                             openChatLinkTv.text = response.chatUrl
@@ -207,6 +208,7 @@ class ReadTogetherActivity :
         private const val AMOUNT_STRING_START = 0
         private const val SPANNABLE_FLAG_ZERO = 0
         private const val AMOUNT_STRING_LENGTH = 1
+        private val AMOUNT_FORMAT = DecimalFormat("#,###")
     }
 
     override fun onClick(imageUrl: String) {

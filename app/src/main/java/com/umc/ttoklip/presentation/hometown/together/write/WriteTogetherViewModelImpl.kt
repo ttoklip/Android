@@ -70,6 +70,7 @@ class WriteTogetherViewModelImpl @Inject constructor(
 
     override fun setTotalPrice(totalPrice: Long) {
         _totalPrice.value = totalPrice
+        Log.d("set price", _totalPrice.value.toString())
     }
 
     override fun setTotalMember(totalMember: Long) {
@@ -86,6 +87,7 @@ class WriteTogetherViewModelImpl @Inject constructor(
     override fun checkDone() {
         _doneButtonActivated.value =
             title.value.isNotBlank() && openLink.value.isNotBlank() && content.value.isNotBlank() && totalPrice.value > 0 && totalMember.value > 0
+        Log.d("checkDone", _doneButtonActivated.value.toString())
     }
 
     override fun doneButtonClick() {

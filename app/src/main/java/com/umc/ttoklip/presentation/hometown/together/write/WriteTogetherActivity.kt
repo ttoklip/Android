@@ -8,6 +8,7 @@ import android.graphics.Rect
 import android.icu.text.DecimalFormat
 import android.net.Uri
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
@@ -83,15 +84,25 @@ class WriteTogetherActivity :
             finish()
         }
 
+        var result = ""
+
         binding.totalPriceTv.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) =
                 Unit
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(!TextUtils.isEmpty(s.toString()) && s.toString() != result){
+                    result = s.toString().replace(",","")
+                    viewModel.setTotalPrice(result.toLong())
+                    result = AMOUNT_FORMAT.format(result.toDouble())
+                    binding.totalPriceTv.setText(result)
+                    binding.totalPriceTv.setSelection(result.length)
+                }
                 s?.let {
                     if (it.isBlank()) {
                         viewModel.setTotalPrice(0)
                         viewModel.checkDone()
+                        result = ""
                     }
                 }
             }
@@ -99,36 +110,6 @@ class WriteTogetherActivity :
             override fun afterTextChanged(s: Editable?) = Unit
 
         })
-        binding.totalPriceTv.setOnEditorActionListener { v, actionId, event ->
-            var current = binding.totalPriceTv.text.toString()
-            if (current.isBlank()) {
-                viewModel.setTotalPrice(0)
-                viewModel.checkDone()
-            } else {
-                if (current.contains(",")) {
-                    current = current.replace(",", "")
-                }
-                viewModel.setTotalPrice(current.toLong())
-                if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                    Log.d("price", current)
-                    if (current.length > 3) {
-                        val currentAmount = AMOUNT_FORMAT.format(current.toLong())
-                        binding.totalPriceTv.setText(currentAmount)
-//                    binding.totalPriceTv.compoundDrawables.forEach { drawable ->
-//                        if (drawable != null) {
-//                            drawable.colorFilter =
-//                                PorterDuffColorFilter(
-//                                    getColor(R.color.black),
-//                                    PorterDuff.Mode.SRC_IN
-//                                )
-//                        }
-//                    }
-                    }
-                }
-            }
-
-            false
-        }
 
         binding.maxMemberTv.setOnClickListener {
             val bottomSheet = InputMaxMemberDialogFragment { member ->
@@ -159,6 +140,7 @@ class WriteTogetherActivity :
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.doneButtonActivated.collect {
+                        Log.d("enable", it.toString())
                         binding.writeDoneBtn.isEnabled = it
                     }
                 }
@@ -166,6 +148,7 @@ class WriteTogetherActivity :
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.title.collect {
+                        Log.d("text", it)
                         viewModel.checkDone()
                     }
                 }
@@ -173,6 +156,7 @@ class WriteTogetherActivity :
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.content.collect {
+                        Log.d("content", it)
                         viewModel.checkDone()
                     }
                 }
@@ -180,6 +164,7 @@ class WriteTogetherActivity :
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.totalPrice.collect {
+                        Log.d("price", it.toString())
                         viewModel.checkDone()
                     }
                 }
@@ -187,6 +172,7 @@ class WriteTogetherActivity :
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.totalMember.collect {
+                        Log.d("member", it.toString())
                         viewModel.checkDone()
                     }
                 }

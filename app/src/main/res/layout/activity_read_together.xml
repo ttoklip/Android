@@ -207,7 +207,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_corner_10_strok_1"
                         android:drawablePadding="6dp"
-                        android:inputType="number"
+                        android:inputType="text"
                         android:paddingHorizontal="15dp"
                         android:paddingVertical="7dp"
                         android:text="30,000"
