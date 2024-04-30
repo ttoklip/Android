@@ -20,6 +20,7 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.honeytip.ImageUrl
 import com.umc.ttoklip.data.model.honeytip.request.ReportRequest
+import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
 import com.umc.ttoklip.databinding.ActivityReadTogetherBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
@@ -29,6 +30,7 @@ import com.umc.ttoklip.presentation.honeytip.adapter.OnReadImageClickListener
 import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
 import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
+import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -45,11 +47,33 @@ class ReadTogetherActivity :
         ReadImageRVA(this, this@ReadTogetherActivity)
     }
     private val commentRVA by lazy {
-        TownCommentAdapter({}, { commentId, reportRequest ->
-            if (reportRequest != null) {
-                viewModel.reportComment(commentId, reportRequest)
+        CommentRVA({ id ->
+            viewModel.replyCommentParentId.value = id
+        }, { id, myComment ->
+            if (myComment) {
+                val deleteDialog = DeleteDialogFragment()
+                deleteDialog.setDialogClickListener(object :
+                    DeleteDialogFragment.DialogClickListener {
+                    override fun onClick() {
+                        viewModel.deleteComment(id.toLong())
+                    }
+                })
+                deleteDialog.show(supportFragmentManager, deleteDialog.tag)
             } else {
-                viewModel.deleteComment(commentId)
+                val reportDialog = ReportDialogFragment()
+                reportDialog.setDialogClickListener(object :
+                    ReportDialogFragment.DialogClickListener {
+                    override fun onClick(type: String, content: String) {
+                        viewModel.reportComment(
+                            id.toLong(),
+                            com.umc.ttoklip.data.model.town.ReportRequest(
+                                content = content,
+                                reportType = type
+                            )
+                        )
+                    }
+                })
+                reportDialog.show(supportFragmentManager, reportDialog.tag)
             }
         })
     }
@@ -71,7 +95,7 @@ class ReadTogetherActivity :
         }
 
         binding.dotBtn.setOnClickListener {
-            if(isWriter){
+            if (isWriter) {
                 binding.editBtn.bringToFront()
                 binding.editBtn.isVisible = binding.editBtn.isVisible.not()
             } else {
@@ -85,7 +109,10 @@ class ReadTogetherActivity :
             reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
                 override fun onClick(type: String, content: String) {
                     viewModel.reportPost(
-                        com.umc.ttoklip.data.model.town.ReportRequest(content = content, reportType = type)
+                        com.umc.ttoklip.data.model.town.ReportRequest(
+                            content = content,
+                            reportType = type
+                        )
                     )
                 }
 
@@ -94,21 +121,13 @@ class ReadTogetherActivity :
         }
 
 
-        binding.cardView.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                if (binding.commentEt.text.toString().isNotBlank()) {
-                    viewModel.createComment(
-                        CreateCommentRequest(
-                            binding.commentEt.text.toString(),
-                            0L
-                        )
-                    )
-                    delay(500)
-                    viewModel.readTogether(postId)
-                }
+        binding.SendCardView.setOnClickListener {
+            if (binding.commentEt.text.toString().isNotBlank()) {
+                viewModel.createComment()
             }
+            binding.commentEt.setText("")
+            viewModel.replyCommentParentId.value = 0
         }
-
     }
 
     override fun initObserver() {
@@ -152,7 +171,6 @@ class ReadTogetherActivity :
                                 imageUrl = url.imageUrl
                             )
                         })
-                        commentRVA.submitList(response.commentResponses)
                         val spannableAmount =
                             SpannableString(
                                 getString(
@@ -174,7 +192,7 @@ class ReadTogetherActivity :
         }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.writer.collect{
+                viewModel.writer.collect {
                     val writer = TtoklipApplication.prefs.getString("nickname", "")
                     viewModel.checkWriter(writer)
                 }
@@ -182,16 +200,43 @@ class ReadTogetherActivity :
         }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.isWriter.collect{
+                viewModel.isWriter.collect {
                     isWriter = it
                 }
             }
         }
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.toast.collect{
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.toast.collect {
                     Toast.makeText(this@ReadTogetherActivity, it, Toast.LENGTH_SHORT)
                         .show()
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.comments.collect {
+                    val list = it.map { it ->
+                        NewsCommentResponse(
+                            it.commentContent,
+                            it.commentId.toInt(),
+                            it.parentId.toInt(),
+                            it.writer,
+                            it.writtenTime
+                        )
+                    }
+                    commentRVA.submitList(list)
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.replyCommentParentId.collect { id ->
+                    if (id == 0) {
+                        binding.replyT.text = ""
+                    } else {
+                        binding.replyT.text = "@${id}"
+                    }
                 }
             }
         }

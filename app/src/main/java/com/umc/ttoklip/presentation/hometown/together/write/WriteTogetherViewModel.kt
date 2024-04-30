@@ -1,6 +1,7 @@
 package com.umc.ttoklip.presentation.hometown.together.write
 
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 interface WriteTogetherViewModel {

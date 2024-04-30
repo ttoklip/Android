@@ -3,6 +3,7 @@ package com.umc.ttoklip.presentation.hometown.together.read
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.ttoklip.data.model.town.CommentResponse
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
 import com.umc.ttoklip.data.model.town.ReportRequest
 import com.umc.ttoklip.data.model.town.ViewTogetherResponse
@@ -44,6 +45,13 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
     private val _toast = MutableSharedFlow<String>()
     override val toast: SharedFlow<String>
         get() = _toast
+
+    private val _comments = MutableStateFlow(listOf<CommentResponse>())
+    override val comments: StateFlow<List<CommentResponse>>
+        get() = _comments
+
+    override val replyCommentParentId = MutableStateFlow(0)
+    override val commentContent = MutableStateFlow("")
 
     private val _postContent: MutableStateFlow<ViewTogetherResponse> =
         MutableStateFlow<ViewTogetherResponse>(
@@ -99,6 +107,7 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
                 _deadlineState.value = it.status != "IN_PROGRESS"
                 _joinState.value = !it.alreadyJoin
                 _writer.value = it.writer
+                _comments.value = it.commentResponses
                 Log.d("response writer", _writer.value)
             }.onError {
 
@@ -118,22 +127,34 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
         }
     }
 
-    override fun reportComment(commentId: Long, reportRequest: ReportRequest) {
+    override fun reportComment(
+        commentId: Long,
+        reportRequest: ReportRequest
+    ) {
         viewModelScope.launch {
-            repository.reportTogetherComment(commentId, reportRequest)
+            repository.reportTogetherComment(commentId, reportRequest).onSuccess {
+                Log.d("report", it.toString())
+            }
         }
     }
 
     override fun deleteComment(commentId: Long) {
         viewModelScope.launch {
-            repository.deleteTogetherComment(commentId)
+            repository.deleteTogetherComment(commentId).onSuccess {
+                readTogether(postId.value)
+            }
         }
     }
 
-    override fun createComment(body: CreateCommentRequest) {
+    override fun createComment() {
         viewModelScope.launch {
             if (postId.value != 0L) {
-                repository.createTogetherComment(postId.value, body)
+                repository.createTogetherComment(
+                    postId.value,
+                    CreateCommentRequest(commentContent.value, replyCommentParentId.value.toLong())
+                ).onSuccess {
+                    readTogether(postId.value)
+                }
             }
         }
     }
