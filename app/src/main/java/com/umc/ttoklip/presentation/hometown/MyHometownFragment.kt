@@ -15,8 +15,13 @@ import com.umc.ttoklip.databinding.FragmentMyHometownBinding
 import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.hometown.adapter.OnTogetherClickListener
-import com.umc.ttoklip.presentation.hometown.adapter.Together
 import com.umc.ttoklip.presentation.hometown.adapter.TogetherAdapter
+import com.umc.ttoklip.presentation.hometown.communication.CommunicationActivity
+import com.umc.ttoklip.presentation.hometown.communication.read.ReadCommunicationActivity
+import com.umc.ttoklip.presentation.hometown.communication.write.WriteCommunicationActivity
+import com.umc.ttoklip.presentation.hometown.together.read.ReadTogetherActivity
+import com.umc.ttoklip.presentation.hometown.together.TogetherActivity
+import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherActivity
 import com.umc.ttoklip.presentation.mypage.MyHometownAddressActivity
 import com.umc.ttoklip.presentation.search.SearchActivity
 import dagger.hilt.android.AndroidEntryPoint

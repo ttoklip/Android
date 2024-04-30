@@ -1,4 +1,4 @@
-package com.umc.ttoklip.presentation.hometown
+package com.umc.ttoklip.presentation.hometown.together
 
 import com.umc.ttoklip.data.model.town.Togethers
 import com.umc.ttoklip.data.model.town.TogethersResponse

@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.umc.ttoklip.presentation.hometown.ReadTogetherViewModel" />
+            type="com.umc.ttoklip.presentation.hometown.together.read.ReadTogetherViewModel" />
 
         <import type="android.view.View" />
     </data>

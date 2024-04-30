@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.umc.ttoklip.presentation.hometown.ReadCommunicationViewModel" />
+            type="com.umc.ttoklip.presentation.hometown.communication.read.ReadCommunicationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

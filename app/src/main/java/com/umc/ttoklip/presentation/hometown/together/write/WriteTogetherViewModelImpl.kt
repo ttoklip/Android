@@ -1,4 +1,4 @@
-package com.umc.ttoklip.presentation.hometown
+package com.umc.ttoklip.presentation.hometown.together.write
 
 import android.content.Context
 import android.util.Log

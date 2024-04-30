@@ -10,6 +10,7 @@ import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.hometown.adapter.OnRecentPlaceClickListener
 import com.umc.ttoklip.presentation.hometown.adapter.RecentPlace
 import com.umc.ttoklip.presentation.hometown.adapter.RecentlyUsedPlaceAdapter
+import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

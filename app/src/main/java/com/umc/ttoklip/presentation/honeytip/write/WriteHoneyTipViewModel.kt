@@ -44,16 +44,18 @@ class WriteHoneyTipViewModel @Inject constructor(
     private val _title = MutableStateFlow("")
     val title = _title.asStateFlow()
 
+    val isEdit = MutableStateFlow(false)
+
     val isWriteDoneBtnEnable = MutableStateFlow(false)
 
     fun setTitle(boolean: Boolean) {
         _isTitleNull.value = boolean
-        isWriteDoneBtnEnable.value = _isTitleNull.value.not() && _isContentNull.value.not()
+        isWriteDoneBtnEnable.value = (_isTitleNull.value.not() && _isContentNull.value.not()) or isEdit.value
     }
 
     fun setContent(boolean: Boolean) {
         _isContentNull.value = boolean
-        isWriteDoneBtnEnable.value = _isTitleNull.value.not() && _isContentNull.value.not()
+        isWriteDoneBtnEnable.value = (_isTitleNull.value.not() && _isContentNull.value.not()) or isEdit.value
     }
 
     private fun convertStringToTextPlain(string: String): RequestBody {

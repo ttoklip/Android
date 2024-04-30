@@ -103,25 +103,25 @@
             android:name=".presentation.signup.SignupActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.hometown.TogetherActivity"
+            android:name=".presentation.hometown.together.TogetherActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".presentation.hometown.CommunicationActivity"
+            android:name=".presentation.hometown.communication.CommunicationActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".presentation.hometown.WriteTogetherActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="false" />
-        <activity
-            android:name=".presentation.hometown.WriteCommunicationActivity"
+            android:name=".presentation.hometown.together.write.WriteTogetherActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity
-            android:name=".presentation.hometown.ReadCommunicationActivity"
+            android:name=".presentation.hometown.communication.write.WriteCommunicationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.hometown.communication.read.ReadCommunicationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             android:exported="true" />
@@ -131,7 +131,7 @@
             android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity
-            android:name=".presentation.hometown.ReadTogetherActivity"
+            android:name=".presentation.hometown.together.read.ReadTogetherActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             android:exported="false" />

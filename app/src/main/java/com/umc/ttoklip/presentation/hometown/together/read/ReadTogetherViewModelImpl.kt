@@ -1,4 +1,4 @@
-package com.umc.ttoklip.presentation.hometown
+package com.umc.ttoklip.presentation.hometown.together.read
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
