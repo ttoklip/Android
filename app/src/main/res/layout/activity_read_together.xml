@@ -39,60 +39,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/backBtn" />
 
-        <LinearLayout
-            android:id="@+id/together_menu"
+        <TextView
+            android:id="@+id/edit_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:background="@drawable/rectangle_corner_10_strok_1"
-            android:orientation="vertical"
+            android:drawableStart="@drawable/ic_edit"
+            android:drawablePadding="8dp"
+            android:gravity="center"
             android:paddingHorizontal="8dp"
             android:paddingVertical="12dp"
-            android:visibility="gone"
+            android:text="수정하기"
+            android:textAppearance="@style/TextAppearance.App.12sp_500"
+            android:visibility="@{vm.isWriter ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/dotBtn"
-            tools:visibility="visible">
-
-            <LinearLayout
-                android:id="@+id/edit_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_edit" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="수정하기"
-                    android:textAppearance="@style/TextAppearance.App.12sp_500" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/delete_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_delete" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="삭제하기"
-                    android:textAppearance="@style/TextAppearance.App.12sp_500" />
-            </LinearLayout>
-        </LinearLayout>
-
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/report_btn"
@@ -110,7 +73,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/dotBtn"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/dotBtn"
@@ -255,13 +218,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:autoLink="web"
                         android:background="@drawable/rectangle_corner_10_strok_1"
                         android:drawablePadding="6dp"
                         android:inputType="text"
                         android:paddingHorizontal="15dp"
                         android:paddingVertical="7dp"
                         android:text="www.어딘가"
-                        android:autoLink="web"
                         android:textAppearance="@style/TextAppearance.App.12sp_500"
                         android:textColor="@color/black"
                         android:textColorHint="@color/gray80"
@@ -341,7 +304,7 @@
                             android:id="@+id/normal_user_frame"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:visibility="@{vm.isOwner ? View.GONE : View.VISIBLE}"
+                            android:visibility="@{vm.isWriter ? View.GONE : View.VISIBLE}"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
@@ -379,7 +342,7 @@
                             android:id="@+id/owner_join_frame"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:visibility="@{vm.isOwner ? View.VISIBLE : View.GONE}"
+                            android:visibility="@{vm.isWriter ? View.VISIBLE : View.GONE}"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
@@ -445,9 +408,9 @@
                     android:id="@+id/comment_rv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="100dp"
-                    android:layout_marginHorizontal="24dp"
                     android:nestedScrollingEnabled="false"
                     android:overScrollMode="never"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

@@ -8,12 +8,15 @@ import kotlinx.coroutines.flow.StateFlow
 interface ReadTogetherViewModel {
     val joinState: StateFlow<Boolean>
     val deadlineState: StateFlow<Boolean>
-    val isOwner: StateFlow<Boolean>
+    val isWriter: StateFlow<Boolean>
     val postId: StateFlow<Long>
+    val writer: StateFlow<String>
     val postContent: StateFlow<ViewTogetherResponse>
 
     fun joinBtnClick()
     fun savePostId(postId: Long)
+
+    fun checkWriter(writer: String)
     fun readTogether(postId: Long)
     fun reportPost(reportRequest: ReportRequest)
     fun reportComment(commentId: Long, reportRequest: ReportRequest)

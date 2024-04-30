@@ -93,7 +93,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
         binding.vm = viewModel
         binding.tipRV.adapter = tipRVA
         viewModel.getMain()
-        TtoklipApplication.prefs.setString("nickname","장충동왕족발보쌈")
+        TtoklipApplication.prefs.setString("nickname","정몽규는사퇴하라")
         Log.d("엑세스","${TtoklipApplication.prefs.getString("jwt","")}")
 
         binding.chatImg.setOnClickListener {

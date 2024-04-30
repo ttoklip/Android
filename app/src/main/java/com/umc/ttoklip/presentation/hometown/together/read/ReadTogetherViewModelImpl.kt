@@ -1,5 +1,6 @@
 package com.umc.ttoklip.presentation.hometown.together.read
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
@@ -25,13 +26,17 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
     override val deadlineState: StateFlow<Boolean>
         get() = _deadlineState
 
-    private val _isOwner = MutableStateFlow<Boolean>(false)
-    override val isOwner: StateFlow<Boolean>
-        get() = _isOwner
+    private val _isWriter = MutableStateFlow<Boolean>(false)
+    override val isWriter: StateFlow<Boolean>
+        get() = _isWriter
 
     private val _postId: MutableStateFlow<Long> = MutableStateFlow(0L)
     override val postId: StateFlow<Long>
         get() = _postId
+
+    private val _writer = MutableStateFlow("")
+    override val writer: StateFlow<String>
+        get() = _writer
 
     private val _postContent: MutableStateFlow<ViewTogetherResponse> =
         MutableStateFlow<ViewTogetherResponse>(
@@ -72,12 +77,22 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
         _postId.value = postId
     }
 
+    override fun checkWriter(writer: String) {
+        Log.d("local wrter", writer)
+        Log.d("writer", _writer.value)
+        _isWriter.value = writer.equals(_writer.value)
+        Log.d("isWrier", _isWriter.value.toString())
+    }
+
+
     override fun readTogether(postId: Long) {
         viewModelScope.launch {
             repository.viewTogether(postId).onSuccess {
                 _postContent.value = it
                 _deadlineState.value = it.status != "IN_PROGRESS"
                 _joinState.value = !it.alreadyJoin
+                _writer.value = it.writer
+                Log.d("response writer", _writer.value)
             }.onError {
 
             }

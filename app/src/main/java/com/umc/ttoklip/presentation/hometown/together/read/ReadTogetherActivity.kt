@@ -16,6 +16,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.honeytip.ImageUrl
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
 import com.umc.ttoklip.databinding.ActivityReadTogetherBinding
@@ -111,81 +112,81 @@ class ReadTogetherActivity :
     }
 
     override fun initObserver() {
-        with(lifecycleScope) {
-            launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.joinState.collect {
-                        if (it.not()) {
-                            binding.joinBtn.background =
-                                getDrawable(R.drawable.rectangle_corner_10_strok_1_gray40)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.joinState.collect {
+                    if (it.not()) {
+                        binding.joinBtn.background =
+                            getDrawable(R.drawable.rectangle_corner_10_strok_1_gray40)
 //                            binding.joinBtn.text = getString(R.string.cancel_join)
-                        } else {
-                            binding.joinBtn.background =
-                                getDrawable(R.drawable.yellow_btn_background)
+                    } else {
+                        binding.joinBtn.background =
+                            getDrawable(R.drawable.yellow_btn_background)
 //                            binding.joinBtn.text = getString(R.string.join_together)
-                        }
                     }
-                }
-            }
-
-            launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.postId.collect {
-                        viewModel.readTogether(it)
-                    }
-                }
-            }
-            launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.postContent.collect { response ->
-                        with(binding) {
-                            writerTv.text = response.writer
-                            titleT.text = response.title
-                            contentT.text = response.content
-                            totalPriceTv.text = AMOUNT_FORMAT.format(response.totalPrice).toString()
-                            maxMemberTv.text = response.partyMax.toString()
-                            tradingPlaceTv.text = response.location
-                            openChatLinkTv.text = response.chatUrl
-
-
-
-                            imageAdapter.submitList(response.imageUrls.map { url ->
-                                ImageUrl(
-                                    imageUrl = url.imageUrl
-                                )
-                            })
-                            commentRVA.submitList(response.commentResponses)
-                            val spannableAmount =
-                                SpannableString(
-                                    getString(
-                                        R.string.join_stat_format,
-                                        response.partyCnt,
-                                        response.partyMax
-                                    )
-                                )
-                            spannableAmount.setSpan(
-                                ForegroundColorSpan(getColor(R.color.blue)),
-                                AMOUNT_STRING_START,
-                                response.partyCnt.toString().length + AMOUNT_STRING_LENGTH,
-                                SPANNABLE_FLAG_ZERO
-                            )
-                            binding.currentJoinStatTv.text = spannableAmount
-                        }
-                    }
-                }
-            }
-            launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-
-                }
-            }
-            launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-
                 }
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.postId.collect {
+                    viewModel.readTogether(it)
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.postContent.collect { response ->
+                    with(binding) {
+                        writerTv.text = response.writer
+                        titleT.text = response.title
+                        contentT.text = response.content
+                        totalPriceTv.text = AMOUNT_FORMAT.format(response.totalPrice).toString()
+                        maxMemberTv.text = response.partyMax.toString()
+                        tradingPlaceTv.text = response.location
+                        openChatLinkTv.text = response.chatUrl
+
+                        imageAdapter.submitList(response.imageUrls.map { url ->
+                            ImageUrl(
+                                imageUrl = url.imageUrl
+                            )
+                        })
+                        commentRVA.submitList(response.commentResponses)
+                        val spannableAmount =
+                            SpannableString(
+                                getString(
+                                    R.string.join_stat_format,
+                                    response.partyCnt,
+                                    response.partyMax
+                                )
+                            )
+                        spannableAmount.setSpan(
+                            ForegroundColorSpan(getColor(R.color.blue)),
+                            AMOUNT_STRING_START,
+                            response.partyCnt.toString().length + AMOUNT_STRING_LENGTH,
+                            SPANNABLE_FLAG_ZERO
+                        )
+                        binding.currentJoinStatTv.text = spannableAmount
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.writer.collect{
+                    val writer = TtoklipApplication.prefs.getString("nickname", "")
+                    viewModel.checkWriter(writer)
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+            }
+        }
     }
+
 
     override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
         if (event?.action == MotionEvent.ACTION_DOWN) {
