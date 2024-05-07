@@ -7,7 +7,11 @@ import androidx.navigation.ui.setupWithNavController
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.databinding.ActivityMainBinding
+import com.umc.ttoklip.util.TtoklipFirebaseMessagingService
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -24,6 +28,10 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         binding.bottomNav.setupWithNavController(navController)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            TtoklipFirebaseMessagingService().getFirebaseToken()
+        }
     }
 
     fun goNews() {

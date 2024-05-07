@@ -1,5 +1,6 @@
 package com.umc.ttoklip.di
 
+import com.umc.ttoklip.data.api.FCMApi
 import com.umc.ttoklip.data.api.HomeApi
 import com.umc.ttoklip.data.api.MainCommsApi
 import com.umc.ttoklip.data.api.MainTogethersApi
@@ -17,6 +18,8 @@ import com.umc.ttoklip.data.api.SearchApi
 import com.umc.ttoklip.data.api.TownMainApi
 import com.umc.ttoklip.data.api.WriteCommsApi
 import com.umc.ttoklip.data.api.WriteTogetherApi
+import com.umc.ttoklip.data.repository.fcm.FCMRepository
+import com.umc.ttoklip.data.repository.fcm.FCMRepositoryImpl
 import com.umc.ttoklip.data.repository.home.HomeRepository
 import com.umc.ttoklip.data.repository.home.HomeRepositoryImpl
 import com.umc.ttoklip.data.repository.mypage.MyAccountRestrictRepository
@@ -147,10 +150,15 @@ object RepositoryModule {
     fun providesTownMainRepository(api: TownMainApi): TownMainRepository =
         TownMainRepositoryImpl(api)
 
-
     @Provides
     @Singleton
     fun providesStrangerRepository(api: OtherApi): StrangerRepository =
         StrangerRepositoryImpl(api)
+
+    @Provides
+    @Singleton
+    fun providesFCMRepository(api: FCMApi): FCMRepository =
+        FCMRepositoryImpl(api)
+
 
 }
