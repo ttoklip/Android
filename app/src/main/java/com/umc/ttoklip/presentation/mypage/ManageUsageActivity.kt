@@ -1,6 +1,7 @@
 package com.umc.ttoklip.presentation.mypage
 
 import android.view.View
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityManageUsageBinding
@@ -9,11 +10,15 @@ import com.umc.ttoklip.presentation.mypage.adapter.BlockUser
 import com.umc.ttoklip.presentation.mypage.adapter.BlockUserAdapter
 import com.umc.ttoklip.presentation.mypage.adapter.Suspension
 import com.umc.ttoklip.presentation.mypage.adapter.SuspensionAdapter
+import com.umc.ttoklip.presentation.mypage.vm.UsageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ManageUsageActivity :
     BaseActivity<ActivityManageUsageBinding>(R.layout.activity_manage_usage) {
+
+        private val viewModel: UsageViewModel by viewModels()
+
     private val suspensionAdapter by lazy {
         SuspensionAdapter()
     }

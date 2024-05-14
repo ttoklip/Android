@@ -3,8 +3,7 @@ package com.umc.ttoklip.di
 import com.umc.ttoklip.data.api.HomeApi
 import com.umc.ttoklip.data.api.MainCommsApi
 import com.umc.ttoklip.data.api.MainTogethersApi
-import com.umc.ttoklip.data.api.MyAccountRestrictApi
-import com.umc.ttoklip.data.api.MyBlockUserApi
+//import com.umc.ttoklip.data.api.MyAccountRestrictApi
 import com.umc.ttoklip.data.api.MyPage2Api
 import com.umc.ttoklip.data.api.MyPageApi
 import com.umc.ttoklip.data.api.MyPostApi
@@ -19,10 +18,8 @@ import com.umc.ttoklip.data.api.WriteCommsApi
 import com.umc.ttoklip.data.api.WriteTogetherApi
 import com.umc.ttoklip.data.repository.home.HomeRepository
 import com.umc.ttoklip.data.repository.home.HomeRepositoryImpl
-import com.umc.ttoklip.data.repository.mypage.MyAccountRestrictRepository
-import com.umc.ttoklip.data.repository.mypage.MyAccountRestrictRepositoryImpl
-import com.umc.ttoklip.data.repository.mypage.MyBlockUserRepository
-import com.umc.ttoklip.data.repository.mypage.MyBlockUserRepositoryImpl
+import com.umc.ttoklip.data.repository.mypage.MyAccountManageUsageRepository
+import com.umc.ttoklip.data.repository.mypage.MyAccountManageUsageRepositoryImpl
 import com.umc.ttoklip.data.repository.mypage.MyPageRepository2
 import com.umc.ttoklip.data.repository.mypage.MyPageRepository2Impl
 import com.umc.ttoklip.data.repository.mypage.MyPostRepository
@@ -127,20 +124,20 @@ object RepositoryModule {
     fun providesMyPage2Repository(api: MyPage2Api): MyPageRepository2 =
         MyPageRepository2Impl(api)
 
-    @Provides
-    @Singleton
-    fun providesMyAccountRestrictRepository(api: MyAccountRestrictApi): MyAccountRestrictRepository =
-        MyAccountRestrictRepositoryImpl(api)
+//    @Provides
+//    @Singleton
+//    fun providesMyAccountRestrictRepository(api: MyAccountRestrictApi): MyAccountManageUsageRepository =
+//        MyAccountManageUsageRepositoryImpl(api)
 
     @Provides
     @Singleton
     fun providesMyPostRepository(api: MyPostApi): MyPostRepository =
         MyPostRepositoryImpl(api)
 
-    @Provides
-    @Singleton
-    fun providesMyBlockUserRepository(api: MyBlockUserApi): MyBlockUserRepository =
-        MyBlockUserRepositoryImpl(api)
+//    @Provides
+//    @Singleton
+//    fun providesMyBlockUserRepository(api: MyBlockUserApi): MyBlockUserRepository =
+//        MyBlockUserRepositoryImpl(api)
 
     @Provides
     @Singleton

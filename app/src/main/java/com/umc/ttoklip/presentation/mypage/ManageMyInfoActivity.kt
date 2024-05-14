@@ -29,10 +29,13 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.chip.Chip
 import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.databinding.ActivityManageMyInfoBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
+import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.mypage.vm.ManageMyInfoViewModel
+import com.umc.ttoklip.presentation.signup.SignupActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -76,6 +79,7 @@ class ManageMyInfoActivity :
         binding.vm = viewModel
         initViewListener()
         viewModel.getMyPageInfo()
+        Log.d("jwt", TtoklipApplication.prefs.getString("jwt",""))
     }
 
     private fun initViewListener() {
@@ -106,7 +110,7 @@ class ManageMyInfoActivity :
         }
 
         binding.findAddressBtn.setOnClickListener {
-            val intent = Intent(this, MyInfoLocationActivity::class.java)
+            val intent = Intent(this, MyHometownAddressActivity::class.java)
             val Location_Type = 1
             startActivityForResult(intent, Location_Type)
         }
@@ -139,6 +143,8 @@ class ManageMyInfoActivity :
             val categories = category.map { it -> tabTextToCategory(it) }
             Log.d("categories", categories.toString())
             Log.d("imageRequest", imageRequest.toString())
+            Log.d("EditInfo",address+" "+binding.inputNicknameEt.text.toString()+" "+categories.toString()+" "+imageRequest+" "+independentYear+" "+independentMonth)
+            //카테고리 설정이 비는 게 문제임 자고일어나서 고치기
             viewModel.editMyPageInfo(
                 address,
                 locationX,
@@ -149,8 +155,8 @@ class ManageMyInfoActivity :
                 independentYear, independentMonth
             )
             val delete = deleteImage(tempImage)
-            //Log.d("delete", delete.toString())
-            //finish()
+            Log.d("delete", delete.toString())
+            finish()
         }
 
         binding.manageProfileImg.setOnClickListener {
@@ -164,7 +170,7 @@ class ManageMyInfoActivity :
             return
         }
         if (requestCode == 1) {
-            if (data != null&&data.getStringExtra("location")!!.isNotEmpty()) {
+            if (data != null) {
                 binding.inputAddressTv.text = data.getStringExtra("location")
                 address = data.getStringExtra("location").toString()
                 locationX = data.getIntExtra("locationX", 0)
@@ -182,9 +188,11 @@ class ManageMyInfoActivity :
                         inputIndependentCareerEt.text =
                             "${it.independentYear}년 ${it.independentMonth}개월"
                         inputAddressTv.text = it.street
+                        address= it.street.toString()
                         independentYear = it.independentYear
                         independentMonth = it.independentMonth
                         convertURLtoURI(it.profileImage)
+                        Log.d("image",it.profileImage.toString())
                         Glide.with(this@ManageMyInfoActivity)
                             .load(it.profileImage)
                             .into(binding.manageProfileImg)
@@ -263,24 +271,6 @@ class ManageMyInfoActivity :
         val uri = Uri.parse(path)
         Log.d("uri", uri.toString())
         return Uri.parse(path)
-    }
-
-    fun getRealPathFromUri(contentUri: Uri, context: Context): String {
-        val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
-        context.contentResolver.takePersistableUriPermission(contentUri, flag)
-        var cursor: Cursor? = null
-        try {
-            val proj = arrayOf(MediaStore.Images.Media.DATA)
-            cursor = context.contentResolver.query(contentUri, proj, null, null, null)
-            val columnIndex = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-            Log.i("ColumnIndex", columnIndex.toString())
-            if (cursor != null && cursor.moveToFirst()) {
-                return cursor.getString(columnIndex!!)
-            }
-        } finally {
-            cursor?.close()
-        }
-        return ""
     }
 
     private fun deleteImage(imageUri: Uri): Boolean {
