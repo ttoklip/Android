@@ -28,15 +28,15 @@ class ManageUsageActivity :
     }
 
     override fun initView() {
-        val dummy = listOf(Suspension("이용 정지 5일", "부적절한 공구 참여로 이용이 정지되었습니다.", "12/12 ~ 12/16"))
+//        val dummy = listOf(Suspension("이용 정지 5일", "부적절한 공구 참여로 이용이 정지되었습니다.", "12/12 ~ 12/16"))
         binding.suspensionRv.adapter = suspensionAdapter
         binding.suspensionRv.layoutManager = LinearLayoutManager(this)
-        suspensionAdapter.submitList(dummy)
+        suspensionAdapter.submitList(viewModel.restrictList.value)
 
-        val dummy2 = listOf(BlockUser(null, "똑리비"))
+//        val dummy2 = listOf(BlockUser(null, "똑리비"))
         binding.blockUserRv.adapter = blockAdapter
         binding.blockUserRv.layoutManager = LinearLayoutManager(this)
-        blockAdapter.submitList(dummy2)
+        blockAdapter.submitList(viewModel.blockList.value)
 
         binding.manageUsageBackBtn.setOnClickListener {
             this.onBackPressedDispatcher.onBackPressed()

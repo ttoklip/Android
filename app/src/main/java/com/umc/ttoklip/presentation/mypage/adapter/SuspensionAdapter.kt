@@ -5,18 +5,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.ttoklip.data.model.mypage.RestrictedResponse
 import com.umc.ttoklip.databinding.ItemSuspensionHistoryBinding
 
-class SuspensionAdapter : ListAdapter<Suspension, SuspensionAdapter.SuspensionViewHolder>(diff) {
+class SuspensionAdapter : ListAdapter<RestrictedResponse, SuspensionAdapter.SuspensionViewHolder>(diff) {
 
     inner class SuspensionViewHolder(
         private val binding: ItemSuspensionHistoryBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: Suspension) {
-            binding.suspensionTitleTv.text = data.title
+        fun bind(data: RestrictedResponse) {
+            binding.suspensionTitleTv.text = data.type
             binding.suspensionReasonTv.text = data.reason
-            binding.suspensionPeriodTv.text = data.period
+            binding.suspensionPeriodTv.text = data.duration
         }
     }
 
@@ -35,17 +36,17 @@ class SuspensionAdapter : ListAdapter<Suspension, SuspensionAdapter.SuspensionVi
     }
 
     companion object {
-        val diff = object : DiffUtil.ItemCallback<Suspension>() {
+        val diff = object : DiffUtil.ItemCallback<RestrictedResponse>() {
             override fun areItemsTheSame(
-                oldItem: Suspension,
-                newItem: Suspension
+                oldItem: RestrictedResponse,
+                newItem: RestrictedResponse
             ): Boolean {
-                return oldItem.period == newItem.period
+                return oldItem.duration == newItem.duration
             }
 
             override fun areContentsTheSame(
-                oldItem: Suspension,
-                newItem: Suspension
+                oldItem: RestrictedResponse,
+                newItem: RestrictedResponse
             ): Boolean {
                 return oldItem == newItem
             }

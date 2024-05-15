@@ -3,6 +3,7 @@ package com.umc.ttoklip.presentation.mypage.vm
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.ttoklip.data.model.mypage.BlockedUser
 import com.umc.ttoklip.data.model.mypage.MyBlockUserResponse
 import com.umc.ttoklip.data.model.mypage.RestrictedResponse
 import com.umc.ttoklip.data.repository.mypage.MyAccountManageUsageRepositoryImpl
@@ -20,11 +21,11 @@ class UsageViewModel @Inject constructor(
     private val repository: MyAccountManageUsageRepositoryImpl
 ):ViewModel(){
 
-    private val _restrictedList = MutableStateFlow<Array<RestrictedResponse>>(arrayOf())
+    private val _restrictedList = MutableStateFlow<List<RestrictedResponse>>(listOf())
     val restrictList = _restrictedList.asStateFlow()
 
-    private val _blockList = MutableStateFlow<MyBlockUserResponse>(MyBlockUserResponse())
-    val blockList = _restrictedList.asStateFlow()
+    private val _blockList = MutableStateFlow<List<BlockedUser>>(listOf())
+    val blockList = _blockList.asStateFlow()
 
     fun getRestrict(){
         viewModelScope.launch {
@@ -39,7 +40,7 @@ class UsageViewModel @Inject constructor(
         viewModelScope.launch {
             repository.getBlockedUser()
                 .onSuccess {
-                    _blockList.emit(it)
+                    _blockList.emit(it.blockedUsers)
                 }.onError {
                     Log.d("error", it.toString())
                 }

@@ -50,27 +50,27 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         binding.noticeBtn.setOnClickListener {
             startActivity(AlarmActivity.newIntent(requireContext()))
         }
-        binding.updateProfileBtn.setOnClickListener {
+        binding.updateProfileBtn.setOnClickListener { //카테고리 받아와야 제대로 업데이트 가능
             val intent = Intent(requireContext(), ManageMyInfoActivity::class.java)
             startActivity(intent)
         }
 
-        binding.manageAccountFrame.setOnClickListener {
+        binding.manageAccountFrame.setOnClickListener { //계정정보 화면 새로 만들 필요 있음
             val intent = Intent(requireContext(), ManageMyInfoActivity::class.java)
             startActivity(intent)
         }
 
-        binding.announcementFrame.setOnClickListener {
+        binding.announcementFrame.setOnClickListener { //공지사항 두 개만 넣어달라
             val intent = Intent(requireContext(), SetAnnouncementActivity::class.java)
             startActivity(intent)
         }
 
-        binding.usageManageFrame.setOnClickListener {
+        binding.usageManageFrame.setOnClickListener { //api 연결은 해놨음
             val intent = Intent(requireContext(), ManageUsageActivity::class.java)
             startActivity(intent)
         }
 
-        binding.customerServiceCenterFrame.setOnClickListener {
+        binding.customerServiceCenterFrame.setOnClickListener { //고객센터-faq 불러오기 연동 필요, 1:1 문의 보내기 필요
             val intent = Intent(requireContext(), CustomerServiceCenterActivity::class.java)
             startActivity(intent)
         }
