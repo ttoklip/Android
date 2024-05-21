@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -323,18 +324,6 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
-                            <TextView
-                                android:id="@+id/deadline_end_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-
-                                android:paddingVertical="7dp"
-                                android:text="@string/deadline_end"
-                                android:textAppearance="@style/TextAppearance.App.12sp_700"
-                                android:textColor="@color/black"
-                                android:visibility="@{vm.deadlineState ? View.VISIBLE : View.GONE}"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -342,7 +331,6 @@
                             android:id="@+id/owner_join_frame"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:visibility="@{vm.isWriter ? View.VISIBLE : View.GONE}"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
@@ -354,9 +342,11 @@
                                 android:paddingHorizontal="15dp"
                                 android:paddingVertical="7dp"
                                 android:text="@string/set_deadline"
+                                bind:isWriter="@{vm.isWriter}"
+                                bind:isDeadLine="@{vm.deadlineState}"
                                 android:textAppearance="@style/TextAppearance.App.12sp_700"
                                 android:textColor="@color/orange"
-                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintEnd_toStartOf="@id/deadline_end_tv"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <TextView
@@ -368,9 +358,23 @@
                                 android:paddingHorizontal="15dp"
                                 android:paddingVertical="7dp"
                                 android:text="@string/check_member"
+                                bind:isWriter="@{vm.isWriter}"
+                                bind:isDeadLine="@{vm.deadlineState}"
                                 android:textAppearance="@style/TextAppearance.App.12sp_700"
                                 android:textColor="@color/black"
                                 app:layout_constraintEnd_toStartOf="@id/owner_join_btn"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/deadline_end_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingVertical="7dp"
+                                android:text="@string/deadline_end"
+                                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                                android:textColor="@color/black"
+                                android:visibility="@{vm.deadlineState ? View.VISIBLE : View.GONE}"
+                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>

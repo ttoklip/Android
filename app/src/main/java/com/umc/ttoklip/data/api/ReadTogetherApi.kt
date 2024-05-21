@@ -5,6 +5,7 @@ import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.StandardResponse
 import com.umc.ttoklip.data.model.town.CommentResponse
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
+import com.umc.ttoklip.data.model.town.PatchCartStatusRequest
 import com.umc.ttoklip.data.model.town.ReportRequest
 import com.umc.ttoklip.data.model.town.ViewTogetherResponse
 import retrofit2.Response
@@ -66,4 +67,8 @@ interface ReadTogetherApi {
     ): Response<ResponseBody<CommonResponse>>
 
     @PATCH("/api/v1/town/carts/{postId}/status")
+    suspend fun patchPostStatus(
+        @Path("postId") postId: Long,
+        @Body request: PatchCartStatusRequest
+    ): Response<ResponseBody<CommonResponse>>
 }

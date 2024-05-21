@@ -1,4 +1,4 @@
-package com.umc.ttoklip.presentation.honeytip.dialog
+package com.umc.ttoklip.presentation.dialog
 
 import android.app.Dialog
 import android.content.Context

@@ -19,7 +19,7 @@ import com.umc.ttoklip.databinding.ActivityWriteCommunicationBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
-import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
+import com.umc.ttoklip.presentation.dialog.ImageDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

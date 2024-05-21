@@ -191,4 +191,5 @@ class ReadCommunicationViewModelImpl @Inject constructor(
             }
         }
     }
+
 }

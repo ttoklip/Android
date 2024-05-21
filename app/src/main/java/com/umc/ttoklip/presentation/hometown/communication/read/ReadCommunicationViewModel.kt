@@ -33,5 +33,4 @@ interface ReadCommunicationViewModel {
     fun reportComment(commentId: Long, reportRequest: com.umc.ttoklip.data.model.honeytip.request.ReportRequest)
     fun deleteComment(commentId: Long)
     fun createComment()
-
 }

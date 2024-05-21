@@ -32,4 +32,6 @@ interface ReadTogetherViewModel {
     fun cancelTogether()
 
     fun fetchParticipantsCount()
+
+    fun patchPostStatus(status: String)
 }

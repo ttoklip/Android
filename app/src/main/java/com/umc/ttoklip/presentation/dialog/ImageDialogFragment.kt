@@ -1,4 +1,4 @@
-package com.umc.ttoklip.presentation.honeytip.dialog
+package com.umc.ttoklip.presentation.dialog
 
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.DialogImageBinding

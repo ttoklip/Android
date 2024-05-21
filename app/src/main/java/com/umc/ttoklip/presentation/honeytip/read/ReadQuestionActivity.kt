@@ -21,8 +21,8 @@ import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.OnReadImageClickListener
 import com.umc.ttoklip.presentation.honeytip.adapter.QuestionCommentRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
-import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
-import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
+import com.umc.ttoklip.presentation.dialog.DeleteDialogFragment
+import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

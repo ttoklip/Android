@@ -28,8 +28,9 @@ import com.umc.ttoklip.presentation.hometown.adapter.TownCommentAdapter
 import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.OnReadImageClickListener
 import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
-import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
-import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
+import com.umc.ttoklip.presentation.dialog.DeleteDialogFragment
+import com.umc.ttoklip.presentation.dialog.FinishCartDialogFragment
+import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -135,6 +136,17 @@ class ReadTogetherActivity :
         binding.ownerCheckBtn.setOnClickListener {
             viewModel.fetchParticipantsCount()
         }
+
+        binding.ownerJoinBtn.setOnClickListener {
+            val finishCartDialog = FinishCartDialogFragment()
+            finishCartDialog.setDialogClickListener(object : FinishCartDialogFragment.DialogClickListener{
+                override fun onClick() {
+                    viewModel.patchPostStatus("COMPLETED")
+                }
+            })
+            finishCartDialog.show(supportFragmentManager, finishCartDialog.tag)
+        }
+
     }
 
     override fun initObserver() {

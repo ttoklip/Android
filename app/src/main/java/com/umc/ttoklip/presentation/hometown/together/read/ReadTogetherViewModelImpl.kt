@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.data.model.town.CommentResponse
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
+import com.umc.ttoklip.data.model.town.PatchCartStatusRequest
 import com.umc.ttoklip.data.model.town.ReportRequest
 import com.umc.ttoklip.data.model.town.ViewTogetherResponse
 import com.umc.ttoklip.data.repository.town.ReadTogetherRepository
@@ -105,6 +106,7 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
             repository.viewTogether(postId).onSuccess {
                 _postContent.value = it
                 _deadlineState.value = it.status != "IN_PROGRESS"
+                Log.d("_deadline", _deadlineState.value.toString())
                 _joinState.value = !it.alreadyJoin
                 _writer.value = it.writer
                 _comments.value = it.commentResponses
@@ -196,5 +198,15 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
         }
     }
 
-
+    override fun patchPostStatus(status: String) {
+        viewModelScope.launch{
+            if (postId.value != 0L){
+                repository.patchPostStatus(postId.value, PatchCartStatusRequest(status)).onSuccess {
+                    _deadlineState.value = true
+                    readTogether(postId.value)
+                    Log.d("patchPostStatus", it.toString())
+                }
+            }
+        }
+    }
 }

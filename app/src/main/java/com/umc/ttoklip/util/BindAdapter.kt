@@ -7,14 +7,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.StyleRes
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModel
-import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.google.android.material.tabs.TabLayout
-import com.umc.ttoklip.presentation.news.NewsViewModel
 
 
 @BindingAdapter("bindTextViewStyle")
@@ -44,4 +40,13 @@ fun ImageView.setUrlImg(imageUrl: String?, placeholder: Drawable?) {
 @BindingAdapter("textInt")
 fun AppCompatTextView.textInt(int: Int) {
     this.text = int.toString()
+}
+
+@BindingAdapter("bind:isWriter", "bind:isDeadLine")
+fun TextView.setJoinFrameVisible(isWriter: Boolean, isDeadLine: Boolean){
+    this.isVisible = if (isWriter){
+        !isDeadLine
+    } else {
+        false
+    }
 }
