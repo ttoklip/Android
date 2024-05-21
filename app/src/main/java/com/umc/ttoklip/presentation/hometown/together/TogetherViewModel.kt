@@ -11,7 +11,7 @@ interface TogetherViewModel {
     val showDialog: SharedFlow<Boolean>
     val page: StateFlow<Long>
     val togethers: StateFlow<List<Togethers>>
-    val mainData : StateFlow<TogethersResponse>
+    val mainData : SharedFlow<TogethersResponse>
 
     fun onFilterClick()
 

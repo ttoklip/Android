@@ -16,7 +16,7 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="32dp"
+            android:layout_marginHorizontal="52dp"
             android:layout_marginTop="28dp"
             android:text="함께하기에 참여하시겠어요?"
             android:textAppearance="@style/TextAppearance.App.14sp_600"

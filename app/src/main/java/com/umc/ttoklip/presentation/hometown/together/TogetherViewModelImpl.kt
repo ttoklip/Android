@@ -41,8 +41,8 @@ class TogetherViewModelImpl @Inject constructor(private val repository: MainToge
     override val togethers: StateFlow<List<Togethers>>
         get() = _togethers
 
-    private val _mainData = MutableStateFlow(TogethersResponse())
-    override val mainData: StateFlow<TogethersResponse>
+    private val _mainData = MutableSharedFlow<TogethersResponse>()
+    override val mainData: SharedFlow<TogethersResponse>
         get() = _mainData
 
     override fun onFilterClick() {
