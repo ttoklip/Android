@@ -30,4 +30,6 @@ interface ReadTogetherViewModel {
     fun createComment()
     fun joinTogether()
     fun cancelTogether()
+
+    fun fetchParticipantsCount()
 }

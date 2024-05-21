@@ -65,4 +65,8 @@ class ReadTogetherRepositoryImpl @Inject constructor(private val api: ReadTogeth
     override suspend fun cancelTogether(postId: Long): NetworkResult<CommonResponse> {
         return handleApi({ api.cancelTogether(postId) }) { response: ResponseBody<CommonResponse> -> response.result }
     }
+
+    override suspend fun fetchParticipantsCount(postId: Long): NetworkResult<CommonResponse> {
+        return handleApi({api.fetchParticipantsCount(postId)}) {response: ResponseBody<CommonResponse> -> response.result}
+    }
 }

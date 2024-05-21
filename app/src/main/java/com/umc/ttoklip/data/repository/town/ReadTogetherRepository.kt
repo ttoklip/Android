@@ -17,4 +17,6 @@ interface ReadTogetherRepository {
     suspend fun joinTogether(postId: Long): NetworkResult<CommonResponse>
 
     suspend fun cancelTogether(postId: Long): NetworkResult<CommonResponse>
+
+    suspend fun fetchParticipantsCount(postId: Long): NetworkResult<CommonResponse>
 }

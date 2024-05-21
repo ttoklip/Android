@@ -11,6 +11,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -58,4 +59,11 @@ interface ReadTogetherApi {
     suspend fun cancelTogether(
         @Path("cartId") postId: Long
     ): Response<ResponseBody<CommonResponse>>
+
+    @GET("/api/v1/town/carts/participants/count/{cartId}")
+    suspend fun fetchParticipantsCount(
+        @Path("cartId") postId: Long
+    ): Response<ResponseBody<CommonResponse>>
+
+    @PATCH("/api/v1/town/carts/{postId}/status")
 }

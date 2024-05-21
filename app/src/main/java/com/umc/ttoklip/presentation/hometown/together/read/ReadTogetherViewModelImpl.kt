@@ -169,6 +169,7 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
                 repository.joinTogether(postId.value).onSuccess {
                     //_joinState.value = true
                     readTogether(postId.value)
+                    Log.d("join Together", it.toString())
                 }
             }
         }
@@ -184,5 +185,16 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
             }
         }
     }
+
+    override fun fetchParticipantsCount() {
+        viewModelScope.launch {
+            if (postId.value != 0L){
+                repository.fetchParticipantsCount(postId.value).onSuccess {
+                    Log.d("fetchParticipantsCount", it.toString())
+                }
+            }
+        }
+    }
+
 
 }

@@ -131,6 +131,10 @@ class ReadTogetherActivity :
             binding.commentEt.setText("")
             viewModel.replyCommentParentId.value = 0
         }
+
+        binding.ownerCheckBtn.setOnClickListener {
+            viewModel.fetchParticipantsCount()
+        }
     }
 
     override fun initObserver() {
