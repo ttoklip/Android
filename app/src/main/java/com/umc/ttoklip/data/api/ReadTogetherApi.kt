@@ -43,7 +43,7 @@ interface ReadTogetherApi {
     ): Response<ResponseBody<StandardResponse>>
 
     //함께해요 댓글 신고
-    @POST("/api/v1/town/carts/comment/report/{postId}")
+    @POST("/api/v1/town/carts/comment/report/{commentId}")
     suspend fun reportTogetherComment(
         @Body body: ReportRequest,
         @Path("commentId") commentId: Long

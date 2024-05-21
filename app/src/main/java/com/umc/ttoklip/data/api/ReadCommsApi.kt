@@ -74,7 +74,7 @@ interface ReadCommsApi {
     ): Response<ResponseBody<StandardResponse>>
 
     //소통해요 댓글 신고
-    @POST("/api/v1/town/comms/comment/report/{postId}")
+    @POST("/api/v1/town/comms/comment/report/{commentId}")
     suspend fun reportCommunicationComment(
         @Body body: com.umc.ttoklip.data.model.honeytip.request.ReportRequest,
         @Path("commentId") commentId: Long

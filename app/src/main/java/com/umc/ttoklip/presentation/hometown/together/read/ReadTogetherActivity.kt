@@ -41,7 +41,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ReadTogetherActivity :
     BaseActivity<ActivityReadTogetherBinding>(R.layout.activity_read_together),
-    OnReadImageClickListener, ReportDialogFragment.DialogClickListener{
+    OnReadImageClickListener{
     private val viewModel: ReadTogetherViewModel by viewModels<ReadTogetherViewModelImpl>()
     private val imageAdapter: ReadImageRVA by lazy {
         ReadImageRVA(this, this@ReadTogetherActivity)
@@ -62,7 +62,17 @@ class ReadTogetherActivity :
                 deleteDialog.show(supportFragmentManager, deleteDialog.tag)
             } else {
                 val reportDialog = ReportDialogFragment()
-                reportDialog.setDialogClickListener(this)
+                reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener{
+                    override fun onClick(type: String, content: String) {
+                        viewModel.reportComment(
+                            id.toLong(),
+                            com.umc.ttoklip.data.model.town.ReportRequest(
+                                content = content,
+                                reportType = type
+                            )
+                        )
+                    }
+                })
                 reportDialog.show(supportFragmentManager, reportDialog.tag)
             }
         })
@@ -268,15 +278,4 @@ class ReadTogetherActivity :
         intent.putExtra("images", images)
         startActivity(intent)
     }
-
-    override fun onClick(type: String, content: String) {
-        viewModel.reportPost(
-            com.umc.ttoklip.data.model.town.ReportRequest(
-                content = content,
-                reportType = type
-            )
-        )
-    }
-
-
 }
