@@ -51,7 +51,7 @@ class TransactionAdapter(
                 if (currentAmount == targetAmount) {
                     spannableAmount.setSpan(
                         ForegroundColorSpan(context.getColor(R.color.blue)), AMOUNT_STRING_START,
-                        data.currentPrice.toString().length + AMOUNT_STRING_LENGTH,
+                        currentAmount.toString().length,
                         SPANNABLE_FLAG_ZERO
                     )
                     transactionTitleTv.paintFlags =
@@ -60,7 +60,7 @@ class TransactionAdapter(
                 } else {
                     spannableAmount.setSpan(
                         ForegroundColorSpan(context.getColor(R.color.orange)), AMOUNT_STRING_START,
-                        data.currentPrice.toString().length + AMOUNT_STRING_LENGTH,
+                        currentAmount.toString().length,
                         SPANNABLE_FLAG_ZERO
                     )
                 }
