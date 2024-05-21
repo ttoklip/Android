@@ -41,7 +41,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ReadTogetherActivity :
     BaseActivity<ActivityReadTogetherBinding>(R.layout.activity_read_together),
-    OnReadImageClickListener {
+    OnReadImageClickListener, ReportDialogFragment.DialogClickListener{
     private val viewModel: ReadTogetherViewModel by viewModels<ReadTogetherViewModelImpl>()
     private val imageAdapter: ReadImageRVA by lazy {
         ReadImageRVA(this, this@ReadTogetherActivity)
@@ -50,6 +50,7 @@ class ReadTogetherActivity :
         CommentRVA({ id ->
             viewModel.replyCommentParentId.value = id
         }, { id, myComment ->
+            Log.d("mycomment", myComment.toString())
             if (myComment) {
                 val deleteDialog = DeleteDialogFragment()
                 deleteDialog.setDialogClickListener(object :
@@ -61,18 +62,7 @@ class ReadTogetherActivity :
                 deleteDialog.show(supportFragmentManager, deleteDialog.tag)
             } else {
                 val reportDialog = ReportDialogFragment()
-                reportDialog.setDialogClickListener(object :
-                    ReportDialogFragment.DialogClickListener {
-                    override fun onClick(type: String, content: String) {
-                        viewModel.reportComment(
-                            id.toLong(),
-                            com.umc.ttoklip.data.model.town.ReportRequest(
-                                content = content,
-                                reportType = type
-                            )
-                        )
-                    }
-                })
+                reportDialog.setDialogClickListener(this)
                 reportDialog.show(supportFragmentManager, reportDialog.tag)
             }
         })
@@ -86,6 +76,9 @@ class ReadTogetherActivity :
             adapter = imageAdapter
         }
         binding.commentRv.adapter = commentRVA
+        binding.replyT.setOnClickListener {
+            viewModel.replyCommentParentId.value = 0
+        }
         binding.vm = viewModel
         postId = intent.getLongExtra("postId", 0)
         viewModel.savePostId(postId)
@@ -275,4 +268,15 @@ class ReadTogetherActivity :
         intent.putExtra("images", images)
         startActivity(intent)
     }
+
+    override fun onClick(type: String, content: String) {
+        viewModel.reportPost(
+            com.umc.ttoklip.data.model.town.ReportRequest(
+                content = content,
+                reportType = type
+            )
+        )
+    }
+
+
 }

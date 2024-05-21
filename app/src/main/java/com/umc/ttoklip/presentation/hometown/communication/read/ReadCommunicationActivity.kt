@@ -47,6 +47,7 @@ class ReadCommunicationActivity :
                 })
                 deleteDialog.show(supportFragmentManager, deleteDialog.tag)
             } else {
+
                 val reportDialog = ReportDialogFragment()
                 reportDialog.setDialogClickListener(object :
                     ReportDialogFragment.DialogClickListener {
@@ -76,6 +77,9 @@ class ReadCommunicationActivity :
         binding.imageRv.apply {
             adapter = imageAdapter
             itemAnimator = null
+        }
+        binding.replyT.setOnClickListener {
+            viewModel.replyCommentParentId.value = 0
         }
         binding.commentRv.adapter = commentRVA
         binding.reportBtn.bringToFront()

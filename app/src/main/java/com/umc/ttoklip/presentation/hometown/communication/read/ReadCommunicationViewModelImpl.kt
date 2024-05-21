@@ -164,7 +164,9 @@ class ReadCommunicationViewModelImpl @Inject constructor(
     ) {
         viewModelScope.launch {
             repository.reportCommsComment(commentId, reportRequest).onSuccess {
-                Log.d("report", it.toString())
+                _toast.emit("댓글 신고가 완료되었습니다.")
+            }.onFail {
+                _toast.emit("댓글 신고 타입을 설정해주세요.")
             }
         }
     }

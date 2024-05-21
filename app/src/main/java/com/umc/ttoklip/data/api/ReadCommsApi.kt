@@ -38,7 +38,7 @@ interface ReadCommsApi {
     @DELETE("/api/v1/town/comms/comment/{commentId}")
     suspend fun deleteCommunicationComment(
         @Path("commentId") commentId: Long
-    ): Response<ResponseBody<Unit>>
+    ): Response<ResponseBody<CommentResponse>>
 
     //소통해요 스크랩 추가
     @POST("/api/v1/town/comms/scrap/{postId}")
@@ -78,5 +78,5 @@ interface ReadCommsApi {
     suspend fun reportCommunicationComment(
         @Body body: com.umc.ttoklip.data.model.honeytip.request.ReportRequest,
         @Path("commentId") commentId: Long
-    ): Response<ResponseBody<Unit>>
+    ): Response<ResponseBody<CommentResponse>>
 }

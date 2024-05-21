@@ -5,7 +5,7 @@ import com.umc.ttoklip.databinding.DialogDeleteBinding
 import com.umc.ttoklip.presentation.base.BaseDialogFragment
 
 class DeleteDialogFragment: BaseDialogFragment<DialogDeleteBinding>(R.layout.dialog_delete) {
-    private lateinit var dialogClickListener: DialogClickListener
+    private var dialogClickListener: DialogClickListener? = null
     override fun initObserver() {
 
     }
@@ -15,7 +15,7 @@ class DeleteDialogFragment: BaseDialogFragment<DialogDeleteBinding>(R.layout.dia
             dismiss()
         }
         binding.acceptBtn.setOnClickListener {
-            dialogClickListener.onClick()
+            dialogClickListener?.onClick()
             dismiss()
         }
     }

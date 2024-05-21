@@ -3,6 +3,7 @@ package com.umc.ttoklip.data.api
 import com.umc.ttoklip.data.model.CommonResponse
 import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.StandardResponse
+import com.umc.ttoklip.data.model.town.CommentResponse
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
 import com.umc.ttoklip.data.model.town.ReportRequest
 import com.umc.ttoklip.data.model.town.ViewTogetherResponse
@@ -26,13 +27,13 @@ interface ReadTogetherApi {
     suspend fun createTogetherComment(
         @Body body: CreateCommentRequest,
         @Path("postId") postId: Long
-    ): Response<ResponseBody<Unit>>
+    ): Response<ResponseBody<CommentResponse>>
 
     //함께해요 댓글 삭제
     @DELETE("/api/v1/town/carts/comment/{commentId}")
     suspend fun deleteTogetherComment(
         @Path("commentId") commentId: Long
-    ): Response<ResponseBody<Unit>>
+    ): Response<ResponseBody<CommentResponse>>
 
     //함께해요 글 신고
     @POST("/api/v1/town/carts/report/{postId}")
@@ -46,7 +47,7 @@ interface ReadTogetherApi {
     suspend fun reportTogetherComment(
         @Body body: ReportRequest,
         @Path("commentId") commentId: Long
-    ): Response<ResponseBody<Unit>>
+    ): Response<ResponseBody<CommentResponse>>
 
     @POST("/api/v1/town/carts/participants/{cartId}")
     suspend fun joinTogether(
