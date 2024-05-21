@@ -4,11 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.data.model.mypage.BlockedUser
-import com.umc.ttoklip.data.model.mypage.MyBlockUserResponse
 import com.umc.ttoklip.data.model.mypage.RestrictedResponse
-import com.umc.ttoklip.data.repository.mypage.MyAccountManageUsageRepositoryImpl
+import com.umc.ttoklip.data.repository.mypage.MyPageRepository3Impl
 import com.umc.ttoklip.module.onError
-import com.umc.ttoklip.module.onFail
 import com.umc.ttoklip.module.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UsageViewModel @Inject constructor(
-    private val repository: MyAccountManageUsageRepositoryImpl
+    private val repository: MyPageRepository3Impl
 ):ViewModel(){
 
     private val _restrictedList = MutableStateFlow<List<RestrictedResponse>>(listOf())

@@ -60,7 +60,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             startActivity(intent)
         }
 
-        binding.announcementFrame.setOnClickListener { //공지사항 두 개만 넣어달라
+        binding.announcementFrame.setOnClickListener { //공지사항 두 개만 넣어달라, api 연결은 해놨음
             val intent = Intent(requireContext(), SetAnnouncementActivity::class.java)
             startActivity(intent)
         }
@@ -75,12 +75,12 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             startActivity(intent)
         }
 
-        binding.noticeFrame.setOnClickListener {
+        binding.noticeFrame.setOnClickListener {//알림 설정-알림이 되어야함
             val intent = Intent(requireContext(), NoticeSettingActivity::class.java)
             startActivity(intent)
         }
 
-        binding.termsPolicesFrame.setOnClickListener {
+        binding.termsPolicesFrame.setOnClickListener {//약관 및 정책
             val intent = Intent(requireContext(), TermsPolicesActivity::class.java)
             startActivity(intent)
         }
@@ -95,16 +95,16 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             dialog.show(parentFragmentManager, dialog.tag)
         }
 
-        binding.transactionHistoryBtn.setOnClickListener {
+        binding.transactionHistoryBtn.setOnClickListener { //거래내역
             startActivity(TransactionHistoryActivity.newIntent(requireContext(),1,""))
         }
 
-        binding.scrapBtn.setOnClickListener {
+        binding.scrapBtn.setOnClickListener { //스크랩
             val intent = Intent(requireContext(), SavedHoneyTipActivity::class.java)
             startActivity(intent)
         }
 
-        binding.myHoneyTipBtn.setOnClickListener {
+        binding.myHoneyTipBtn.setOnClickListener { //꿀팁
             val intent = Intent(requireContext(), MyHoneyTipActivity::class.java)
             startActivity(intent)
         }

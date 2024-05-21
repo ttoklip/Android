@@ -10,7 +10,7 @@ import com.umc.ttoklip.data.api.MyPage2Api
 import com.umc.ttoklip.data.api.MyPageApi
 import com.umc.ttoklip.data.api.MainCommsApi
 import com.umc.ttoklip.data.api.MainTogethersApi
-import com.umc.ttoklip.data.api.MyAccountManageUsageApi
+import com.umc.ttoklip.data.api.MyPage3Api
 import com.umc.ttoklip.data.api.MyPostApi
 import com.umc.ttoklip.data.api.NewsApi
 import com.umc.ttoklip.data.api.OtherApi
@@ -35,7 +35,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import retrofit2.create
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
@@ -197,7 +196,7 @@ object NetworkModule {
     }
     @Provides
     @Singleton
-    fun provideMyAccountManageUsageApi(retrofit: Retrofit): MyAccountManageUsageApi {
+    fun provideMyPage3Api(retrofit: Retrofit): MyPage3Api {
         return retrofit.buildService()
     }
 
