@@ -32,6 +32,7 @@ import com.umc.ttoklip.presentation.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.dialog.FinishCartDialogFragment
 import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.hometown.dialog.TogetherDialog
+import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -301,6 +302,10 @@ class ReadTogetherActivity :
         private const val SPANNABLE_FLAG_ZERO = 0
         private const val AMOUNT_STRING_LENGTH = 1
         private val AMOUNT_FORMAT = DecimalFormat("#,###")
+        fun newIntent(context: Context, id: Long) =
+            Intent(context, ReadTogetherActivity::class.java).apply {
+                putExtra("postId", id)
+            }
     }
 
     override fun onClick(imageUrl: String) {

@@ -24,12 +24,14 @@ import com.umc.ttoklip.data.api.TestApi
 import com.umc.ttoklip.data.api.TownMainApi
 import com.umc.ttoklip.data.api.WriteCommsApi
 import com.umc.ttoklip.data.api.WriteTogetherApi
+import com.umc.ttoklip.util.NaverInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -75,6 +77,31 @@ object NetworkModule {
             readTimeout(5, TimeUnit.SECONDS)
             writeTimeout(5, TimeUnit.SECONDS)
         }.build()
+    }
+
+    @Provides
+    @Singleton
+    @Named("NaverClient")
+    fun provideNaverOKHttpClient(): OkHttpClient {
+        val interceptor = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+
+        val closeInterceptor = Interceptor { chain ->
+            val request: Request =
+                chain.request().newBuilder().addHeader("Connection", "close").build()
+            chain.proceed(request)
+        }
+
+        return OkHttpClient.Builder()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(5, TimeUnit.SECONDS)
+            .addInterceptor(NaverInterceptor())
+            .addInterceptor(interceptor)
+            .addNetworkInterceptor(closeInterceptor)
+            .retryOnConnectionFailure(false)
+            .build()
     }
 
 

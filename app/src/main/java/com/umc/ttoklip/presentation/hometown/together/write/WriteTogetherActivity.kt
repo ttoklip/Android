@@ -32,6 +32,8 @@ import com.umc.ttoklip.presentation.hometown.dialog.TogetherDialog
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.presentation.dialog.ImageDialogFragment
+import com.umc.ttoklip.presentation.hometown.together.read.ReadTogetherActivity
+import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -226,9 +228,17 @@ class WriteTogetherActivity :
             }
 
             launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.closePage.collect {
-                        if (it) finish()
+                repeatOnLifecycle(Lifecycle.State.STARTED){
+                    viewModel.postId.collect{
+                        if(it != 0L) {
+                            startActivity(
+                                ReadTogetherActivity.newIntent(
+                                    this@WriteTogetherActivity,
+                                    it
+                                )
+                            )
+                            finish()
+                        }
                     }
                 }
             }

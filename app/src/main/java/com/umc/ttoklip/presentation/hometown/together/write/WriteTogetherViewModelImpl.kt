@@ -67,6 +67,10 @@ class WriteTogetherViewModelImpl @Inject constructor(
     override val images: StateFlow<List<Image>>
         get() = _images
 
+    private val _postId = MutableStateFlow<Long>(0L)
+    override val postId: StateFlow<Long>
+        get() = _postId
+
 
     override fun setTotalPrice(totalPrice: Long) {
         _totalPrice.value = totalPrice
@@ -109,6 +113,7 @@ class WriteTogetherViewModelImpl @Inject constructor(
         Log.d("request", request.toString())
         viewModelScope.launch {
             repository.createTogether(request).onSuccess {
+                _postId.value = it.message.replace(("[^\\d]").toRegex(), "").toLong()
                 _closePage.value = true
             }.onError {
                 Log.d("writetogethererror", it.toString())
