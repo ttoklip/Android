@@ -31,6 +31,7 @@ import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
 import com.umc.ttoklip.presentation.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.dialog.FinishCartDialogFragment
 import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
+import com.umc.ttoklip.presentation.hometown.dialog.TogetherDialog
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -147,13 +148,29 @@ class ReadTogetherActivity :
             finishCartDialog.show(supportFragmentManager, finishCartDialog.tag)
         }
 
+        binding.joinBtn.setOnClickListener {
+            val joinDialog = TogetherDialog()
+            joinDialog.setDialogClickListener(object : TogetherDialog.TogetherDialogClickListener{
+                override fun onClick() {
+                    viewModel.setJoinState(true)
+                    viewModel.joinTogether()
+                }
+            })
+            joinDialog.show(supportFragmentManager, joinDialog.tag)
+        }
+
+        binding.joinCancelBtn.setOnClickListener {
+            viewModel.setJoinState(false)
+            viewModel.cancelTogether()
+        }
+
     }
 
     override fun initObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.joinState.collect {
-                    if (it.not()) {
+                    /*if (it.not()) {
                         binding.joinBtn.background =
                             getDrawable(R.drawable.rectangle_corner_10_strok_1_gray40)
 //                            binding.joinBtn.text = getString(R.string.cancel_join)
@@ -161,7 +178,7 @@ class ReadTogetherActivity :
                         binding.joinBtn.background =
                             getDrawable(R.drawable.yellow_btn_background)
 //                            binding.joinBtn.text = getString(R.string.join_together)
-                    }
+                    }*/
                 }
             }
         }

@@ -314,13 +314,28 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@{vm.joinState ? @drawable/yellow_btn_background : @drawable/rectangle_corner_10_strok_1_gray40}"
-                                android:onClick="@{()->vm.joinBtnClick()}"
                                 android:paddingHorizontal="15dp"
                                 android:paddingVertical="7dp"
                                 android:text="@{vm.joinState ? @string/join_together : @string/cancel_join}"
                                 android:textAppearance="@style/TextAppearance.App.12sp_700"
                                 android:textColor="@color/black"
-                                android:visibility="@{vm.deadlineState ? View.GONE : View.VISIBLE}"
+                                bind:isDeadLine="@{vm.deadlineState}"
+                                bind:joinVisible="@{vm.joinState}"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/join_cancel_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/rectangle_corner_10_strok_1_gray40"
+                                android:paddingHorizontal="15dp"
+                                android:paddingVertical="7dp"
+                                android:text="@string/cancel_join"
+                                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                                android:textColor="@color/black"
+                                bind:isDeadLine="@{vm.deadlineState}"
+                                bind:cancelJoinVisible="@{vm.joinState}"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 

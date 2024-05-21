@@ -20,6 +20,8 @@ interface ReadTogetherViewModel {
     val commentContent: MutableStateFlow<String>
 
     fun joinBtnClick()
+
+    fun setJoinState(joinState: Boolean)
     fun savePostId(postId: Long)
 
     fun checkWriter(writer: String)

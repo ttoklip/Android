@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.StyleRes
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -43,10 +42,28 @@ fun AppCompatTextView.textInt(int: Int) {
 }
 
 @BindingAdapter("bind:isWriter", "bind:isDeadLine")
-fun TextView.setJoinFrameVisible(isWriter: Boolean, isDeadLine: Boolean){
-    this.isVisible = if (isWriter){
+fun TextView.setJoinFrameTextViewVisible(isWriter: Boolean, isDeadLine: Boolean) {
+    this.isVisible = if (isWriter) {
         !isDeadLine
     } else {
         false
+    }
+}
+
+@BindingAdapter("bind:joinVisible", "bind:isDeadLine")
+fun TextView.setJoinBtnVisible(joinState: Boolean, isDeadLine: Boolean) {
+    this.isVisible = if (isDeadLine) {
+        false
+    } else {
+        joinState
+    }
+}
+
+@BindingAdapter("bind:cancelJoinVisible", "bind:isDeadLine")
+fun TextView.setCancelJoinBtnVisible(joinState: Boolean, isDeadLine: Boolean) {
+    this.isVisible = if (isDeadLine) {
+        false
+    } else {
+        !joinState
     }
 }

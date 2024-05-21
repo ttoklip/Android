@@ -89,6 +89,10 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
         }
     }
 
+    override fun setJoinState(joinState: Boolean) {
+        _joinState.value = joinState
+    }
+
     override fun savePostId(postId: Long) {
         _postId.value = postId
     }
