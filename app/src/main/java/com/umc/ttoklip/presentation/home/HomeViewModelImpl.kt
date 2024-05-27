@@ -5,7 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.ttoklip.TtoklipApplication
+import com.umc.ttoklip.data.model.fcm.FCMTokenRequest
 import com.umc.ttoklip.data.model.home.HomeResponse
+import com.umc.ttoklip.data.repository.fcm.FCMRepository
 import com.umc.ttoklip.data.repository.home.HomeRepository
 import com.umc.ttoklip.module.NetworkResult
 import com.umc.ttoklip.module.onException
@@ -23,7 +26,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModelImpl @Inject constructor(
-    private val homeRepository: HomeRepository
+    private val homeRepository: HomeRepository,
+    private val fcmRepository: FCMRepository,
 ) : ViewModel(), HomeViewModel {
 
     private val _haveWork: MutableStateFlow<Boolean> = MutableStateFlow(true)
@@ -90,11 +94,30 @@ class HomeViewModelImpl @Inject constructor(
                 homeRepository.getHomeMain()
                     .onSuccess {
                         _mainData.emit(it)
+                        TtoklipApplication.prefs.setString("nickname", it.currentMemberNickname)
                     }.onFail {
 
-                }.onException {
-                    throw it
-                }
+                    }.onException {
+                        throw it
+                    }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.d("예외", "$e")
+            }
+        }
+    }
+
+    override fun patchFCM(token: String) {
+        viewModelScope.launch {
+            try {
+                fcmRepository.patchFCMToken(FCMTokenRequest(token))
+                    .onSuccess {
+
+                    }.onFail {
+
+                    }.onException {
+                        throw it
+                    }
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.d("예외", "$e")
