@@ -5,10 +5,10 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 
 interface HomeViewModel {
-    val haveWork : StateFlow<Boolean>
-    val doneWork : StateFlow<Boolean>
-    val activityBus : SharedFlow<ActivityEventBus>
-    val mainData : StateFlow<HomeResponse>
+    val haveWork: StateFlow<Boolean>
+    val doneWork: StateFlow<Boolean>
+    val activityBus: SharedFlow<ActivityEventBus>
+    val mainData: StateFlow<HomeResponse>
 
     fun clickDelayWork()
     fun clickDoneWork()
@@ -18,8 +18,9 @@ interface HomeViewModel {
     fun clickAlarm()
     fun clickSearch()
     fun getMain()
+    fun patchFCM(token: String)
 
-    enum class ActivityEventBus{
+    enum class ActivityEventBus {
         SEARCH,
         NEWS_DETAIL,
         TIP_DETAIL,

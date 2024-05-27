@@ -26,7 +26,10 @@ import com.umc.ttoklip.presentation.mypage.adapter.TransactionAdapter
 import com.umc.ttoklip.presentation.news.adapter.NewsRVA
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
 import com.umc.ttoklip.presentation.search2.SearchActivity2
+import com.umc.ttoklip.util.TtoklipFirebaseMessagingService
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -93,8 +96,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
         binding.vm = viewModel
         binding.tipRV.adapter = tipRVA
         viewModel.getMain()
-        TtoklipApplication.prefs.setString("nickname","이강인")
-        Log.d("엑세스","${TtoklipApplication.prefs.getString("jwt","")}")
+        Log.d("엑세스", "${TtoklipApplication.prefs.getString("jwt", "")}")
+
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.patchFCM(TtoklipFirebaseMessagingService().getFirebaseToken())
+        }
 
         binding.chatImg.setOnClickListener {
             val intent = Intent(requireContext(), CommunicationActivity::class.java)

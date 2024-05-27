@@ -36,7 +36,6 @@ class TtoklipFirebaseMessagingService : FirebaseMessagingService() {
     /** 메시지 수신 메서드(포그라운드) */
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Log.d(TAG, "From: " + remoteMessage.from)
-
         Log.d(TAG, "Message data : ${remoteMessage.data}")
         Log.d(TAG, "Message noti : ${remoteMessage.notification}")
 
@@ -52,26 +51,7 @@ class TtoklipFirebaseMessagingService : FirebaseMessagingService() {
 
     private fun handleNotification(remoteMessage: RemoteMessage) {
         var channelName = "공지사항"
-        when(remoteMessage.data["topic"]){
-
-            FcmTopic.CAPSULE_SKIN.name -> {
-                channelName = "캡슐 스킨 생성"
-                sendNotification(remoteMessage, FcmTopic.CAPSULE_SKIN.name, channelName)
-            }
-
-            FcmTopic.FRIEND_REQUEST.name -> {
-                channelName = "친구 요청"
-                sendNotification(remoteMessage, FcmTopic.FRIEND_REQUEST.name, channelName)
-            }
-
-            FcmTopic.FRIEND_ACCEPT.name -> {
-                channelName = "친구 요청 수락"
-                sendNotification(remoteMessage, FcmTopic.FRIEND_ACCEPT.name, channelName)
-            }
-
-            else -> {}
-        }
-
+        sendNotification(remoteMessage, "똑립알림", channelName)
     }
 
 
@@ -81,23 +61,6 @@ class TtoklipFirebaseMessagingService : FirebaseMessagingService() {
         val intent = Intent(this, MainActivity::class.java)
         data.forEach { (key, value) ->
             intent.putExtra(key, value)
-        }
-        when(data["topic"]){
-            FcmTopic.CAPSULE_SKIN.name -> {
-                intent.putExtra("fragmentDestination", FragmentDestination.SKIN_FRAGMENT.name)
-            }
-
-            FcmTopic.FRIEND_REQUEST.name -> {
-                intent.putExtra("fragmentDestination", FragmentDestination.FRIEND_REQUEST_ACTIVITY.name)
-            }
-
-            FcmTopic.FRIEND_ACCEPT.name -> {
-                intent.putExtra("fragmentDestination", FragmentDestination.FRIEND_ACCEPT_ACTIVITY.name)
-            }
-
-            else -> {
-
-            }
         }
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
@@ -170,15 +133,11 @@ class TtoklipFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     enum class FragmentDestination {
-        SKIN_FRAGMENT,
-        FRIEND_REQUEST_ACTIVITY,
-        FRIEND_ACCEPT_ACTIVITY,
+        NEWS,
     }
 
     enum class  FcmTopic{
-        CAPSULE_SKIN,
-        FRIEND_REQUEST,
-        FRIEND_ACCEPT,
+        COMMIT,
     }
 
 }

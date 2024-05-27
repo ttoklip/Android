@@ -29,9 +29,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNav.setupWithNavController(navController)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            TtoklipFirebaseMessagingService().getFirebaseToken()
-        }
     }
 
     fun goNews() {
