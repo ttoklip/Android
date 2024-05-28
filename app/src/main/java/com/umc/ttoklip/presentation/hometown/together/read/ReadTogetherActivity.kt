@@ -34,6 +34,7 @@ import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.hometown.dialog.TogetherDialog
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
+import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -78,6 +79,8 @@ class ReadTogetherActivity :
                 })
                 reportDialog.show(supportFragmentManager, reportDialog.tag)
             }
+        }, { nick ->
+            startActivity(OtherUserActivity.newIntent(this, nick))
         })
     }
     private var postId = 0L

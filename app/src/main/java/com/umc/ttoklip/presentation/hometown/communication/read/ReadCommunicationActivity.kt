@@ -26,6 +26,7 @@ import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
 import com.umc.ttoklip.presentation.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
+import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -63,6 +64,8 @@ class ReadCommunicationActivity :
                 })
                 reportDialog.show(supportFragmentManager, reportDialog.tag)
             }
+        }, { nick ->
+            startActivity(OtherUserActivity.newIntent(this, nick))
         })
     }
     private val imageAdapter: ReadImageRVA by lazy {
@@ -183,9 +186,13 @@ class ReadCommunicationActivity :
                             bookmarkT.text = response.scrapCount.toString()
                             commitT.text = response.commentCount.toString()
 
-                            if(response.writer == TtoklipApplication.prefs.getString("nickname","")){
+                            if (response.writer == TtoklipApplication.prefs.getString(
+                                    "nickname",
+                                    ""
+                                )
+                            ) {
                                 showWriterMenu()
-                            } else{
+                            } else {
                                 showReportBtn()
                             }
                         }
