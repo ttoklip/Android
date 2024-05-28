@@ -1,10 +1,11 @@
-package com.umc.ttoklip.presentation.hometown
+package com.umc.ttoklip.presentation.hometown.communication
 
 import android.content.Intent
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.town.Communities
@@ -13,6 +14,8 @@ import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.hometown.adapter.CommunicationAdapter
 import com.umc.ttoklip.presentation.hometown.adapter.OnItemClickListener
+import com.umc.ttoklip.presentation.hometown.communication.read.ReadCommunicationActivity
+import com.umc.ttoklip.presentation.hometown.communication.write.WriteCommunicationActivity
 import com.umc.ttoklip.presentation.mypage.SortSpinnerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -21,7 +24,7 @@ import kotlinx.coroutines.launch
 class CommunicationActivity :
     BaseActivity<ActivityCommunicationBinding>(R.layout.activity_communication),
     OnItemClickListener {
-    private val adapter by lazy {
+    private val rva by lazy {
         CommunicationAdapter(this)
     }
     private val viewModel: CommunicationViewModel by viewModels<CommunicationViewModelImpl>()
@@ -46,12 +49,25 @@ class CommunicationActivity :
 
 
 
-        binding.communicationRv.layoutManager = LinearLayoutManager(this)
-        binding.communicationRv.adapter = adapter
+        binding.communicationRv.apply {
+            adapter = adapter
+            layoutManager = LinearLayoutManager(this@CommunicationActivity)
+            adapter = rva
+            addItemDecoration(
+                DividerItemDecoration(
+                    this@CommunicationActivity,
+                    LinearLayoutManager.VERTICAL
+                )
+            )
+        }
 
         binding.backBtn.setOnClickListener {
             finish()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
         viewModel.getCommunities()
     }
 
@@ -61,7 +77,7 @@ class CommunicationActivity :
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.communities.collect {
-                        adapter.submitList(it)
+                        rva.submitList(it)
                     }
                 }
             }

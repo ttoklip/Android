@@ -46,7 +46,8 @@ class CommentRVA(
 
         fun bind(data: NewsCommentResponse) {
             binding.item = data
-
+            Log.d("item", data.toString())
+            Log.d("spf", TtoklipApplication.prefs.getString("nickname", ""))
             binding.deleteBtn.setOnClickListener {
                 Log.d("닉네임", "${data.writer == TtoklipApplication.prefs.getString("nickname", "")}")
                 ReportOrDelete(

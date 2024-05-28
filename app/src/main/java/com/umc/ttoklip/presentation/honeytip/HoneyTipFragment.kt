@@ -25,7 +25,7 @@ class HoneyTipFragment: BaseFragment<FragmentShareHoneyTipBinding>(R.layout.frag
         DailyPopularHoneyTipsVPA{
             val intent = Intent(requireContext(), ReadHoneyTipActivity::class.java)
             intent.putExtra("postId", it.id)
-            intent.putExtra(BOARD, HONEY_TIP)
+            intent.putExtra(BOARD, HONEY_TIPS)
             startActivity(intent)
         }
     }
@@ -117,7 +117,7 @@ class HoneyTipFragment: BaseFragment<FragmentShareHoneyTipBinding>(R.layout.frag
 
     private fun initCategoryViewPager() {
         val tabTitles = listOf("집안일", "레시피", "안전한생활", "복지\u00b7정책")
-        binding.categoryVp.adapter = CategoryVPA(this, HONEY_TIP, tabTitles.size)
+        binding.categoryVp.adapter = CategoryVPA(this, HONEY_TIPS, tabTitles.size)
         TabLayoutMediator(binding.categoryTablayout, binding.categoryVp) { tab, position ->
             tab.text = tabTitles[position]
         }.attach()

@@ -1,4 +1,4 @@
-package com.umc.ttoklip.presentation.hometown
+package com.umc.ttoklip.presentation.hometown.together.write
 
 import android.content.Context
 import android.util.Log
@@ -67,9 +67,14 @@ class WriteTogetherViewModelImpl @Inject constructor(
     override val images: StateFlow<List<Image>>
         get() = _images
 
+    private val _postId = MutableStateFlow<Long>(0L)
+    override val postId: StateFlow<Long>
+        get() = _postId
+
 
     override fun setTotalPrice(totalPrice: Long) {
         _totalPrice.value = totalPrice
+        Log.d("set price", _totalPrice.value.toString())
     }
 
     override fun setTotalMember(totalMember: Long) {
@@ -86,6 +91,7 @@ class WriteTogetherViewModelImpl @Inject constructor(
     override fun checkDone() {
         _doneButtonActivated.value =
             title.value.isNotBlank() && openLink.value.isNotBlank() && content.value.isNotBlank() && totalPrice.value > 0 && totalMember.value > 0
+        Log.d("checkDone", _doneButtonActivated.value.toString())
     }
 
     override fun doneButtonClick() {
@@ -107,6 +113,7 @@ class WriteTogetherViewModelImpl @Inject constructor(
         Log.d("request", request.toString())
         viewModelScope.launch {
             repository.createTogether(request).onSuccess {
+                _postId.value = it.message.replace(("[^\\d]").toRegex(), "").toLong()
                 _closePage.value = true
             }.onError {
                 Log.d("writetogethererror", it.toString())

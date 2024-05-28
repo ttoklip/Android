@@ -3,13 +3,16 @@ package com.umc.ttoklip.data.api
 import com.umc.ttoklip.data.model.CommonResponse
 import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.StandardResponse
+import com.umc.ttoklip.data.model.town.CommentResponse
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
+import com.umc.ttoklip.data.model.town.PatchCartStatusRequest
 import com.umc.ttoklip.data.model.town.ReportRequest
 import com.umc.ttoklip.data.model.town.ViewTogetherResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -26,13 +29,13 @@ interface ReadTogetherApi {
     suspend fun createTogetherComment(
         @Body body: CreateCommentRequest,
         @Path("postId") postId: Long
-    ): Response<ResponseBody<Unit>>
+    ): Response<ResponseBody<CommentResponse>>
 
     //함께해요 댓글 삭제
     @DELETE("/api/v1/town/carts/comment/{commentId}")
     suspend fun deleteTogetherComment(
         @Path("commentId") commentId: Long
-    ): Response<ResponseBody<Unit>>
+    ): Response<ResponseBody<CommentResponse>>
 
     //함께해요 글 신고
     @POST("/api/v1/town/carts/report/{postId}")
@@ -42,11 +45,11 @@ interface ReadTogetherApi {
     ): Response<ResponseBody<StandardResponse>>
 
     //함께해요 댓글 신고
-    @POST("/api/v1/town/carts/comment/report/{postId}")
+    @POST("/api/v1/town/carts/comment/report/{commentId}")
     suspend fun reportTogetherComment(
         @Body body: ReportRequest,
         @Path("commentId") commentId: Long
-    ): Response<ResponseBody<Unit>>
+    ): Response<ResponseBody<CommentResponse>>
 
     @POST("/api/v1/town/carts/participants/{cartId}")
     suspend fun joinTogether(
@@ -56,5 +59,16 @@ interface ReadTogetherApi {
     @DELETE("/api/v1/town/carts/participants/{cartId}")
     suspend fun cancelTogether(
         @Path("cartId") postId: Long
+    ): Response<ResponseBody<CommonResponse>>
+
+    @GET("/api/v1/town/carts/participants/count/{cartId}")
+    suspend fun fetchParticipantsCount(
+        @Path("cartId") postId: Long
+    ): Response<ResponseBody<CommonResponse>>
+
+    @PATCH("/api/v1/town/carts/{postId}/status")
+    suspend fun patchPostStatus(
+        @Path("postId") postId: Long,
+        @Body request: PatchCartStatusRequest
     ): Response<ResponseBody<CommonResponse>>
 }

@@ -7,14 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.StyleRes
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModel
-import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.google.android.material.tabs.TabLayout
-import com.umc.ttoklip.presentation.news.NewsViewModel
 
 
 @BindingAdapter("bindTextViewStyle")
@@ -44,4 +39,31 @@ fun ImageView.setUrlImg(imageUrl: String?, placeholder: Drawable?) {
 @BindingAdapter("textInt")
 fun AppCompatTextView.textInt(int: Int) {
     this.text = int.toString()
+}
+
+@BindingAdapter("bind:isWriter", "bind:isDeadLine")
+fun TextView.setJoinFrameTextViewVisible(isWriter: Boolean, isDeadLine: Boolean) {
+    this.isVisible = if (isWriter) {
+        !isDeadLine
+    } else {
+        false
+    }
+}
+
+@BindingAdapter("bind:joinVisible", "bind:isDeadLine")
+fun TextView.setJoinBtnVisible(joinState: Boolean, isDeadLine: Boolean) {
+    this.isVisible = if (isDeadLine) {
+        false
+    } else {
+        joinState
+    }
+}
+
+@BindingAdapter("bind:cancelJoinVisible", "bind:isDeadLine")
+fun TextView.setCancelJoinBtnVisible(joinState: Boolean, isDeadLine: Boolean) {
+    this.isVisible = if (isDeadLine) {
+        false
+    } else {
+        !joinState
+    }
 }

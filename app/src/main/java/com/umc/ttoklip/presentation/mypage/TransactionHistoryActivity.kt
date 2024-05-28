@@ -12,7 +12,7 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.town.Togethers
 import com.umc.ttoklip.databinding.ActivityTransactionHistoryBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.hometown.ReadTogetherActivity
+import com.umc.ttoklip.presentation.hometown.together.read.ReadTogetherActivity
 import com.umc.ttoklip.presentation.mypage.adapter.OnTogetherItemClickListener
 import com.umc.ttoklip.presentation.mypage.adapter.TransactionAdapter
 import com.umc.ttoklip.presentation.mypage.vm.HistoryViewModel

@@ -2,6 +2,7 @@ package com.umc.ttoklip.data.api
 
 import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.StandardResponse
+import com.umc.ttoklip.data.model.town.CommentResponse
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
 import com.umc.ttoklip.data.model.town.DeleteCommunicationResponse
 import com.umc.ttoklip.data.model.town.ReportRequest
@@ -31,13 +32,13 @@ interface ReadCommsApi {
     suspend fun createCommunicationComment(
         @Body body: CreateCommentRequest,
         @Path("postId") postId: Long
-    ): Response<ResponseBody<Unit>>
+    ): Response<ResponseBody<CommentResponse>>
 
     //소통해요 댓글 삭제
     @DELETE("/api/v1/town/comms/comment/{commentId}")
     suspend fun deleteCommunicationComment(
         @Path("commentId") commentId: Long
-    ): Response<ResponseBody<Unit>>
+    ): Response<ResponseBody<CommentResponse>>
 
     //소통해요 스크랩 추가
     @POST("/api/v1/town/comms/scrap/{postId}")
@@ -73,9 +74,9 @@ interface ReadCommsApi {
     ): Response<ResponseBody<StandardResponse>>
 
     //소통해요 댓글 신고
-    @POST("/api/v1/town/comms/comment/report/{postId}")
+    @POST("/api/v1/town/comms/comment/report/{commentId}")
     suspend fun reportCommunicationComment(
-        @Body body: ReportRequest,
+        @Body body: com.umc.ttoklip.data.model.honeytip.request.ReportRequest,
         @Path("commentId") commentId: Long
-    ): Response<ResponseBody<Unit>>
+    ): Response<ResponseBody<CommentResponse>>
 }

@@ -12,8 +12,8 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.news.ReportRequest
 import com.umc.ttoklip.databinding.ActivityArticleBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
-import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
+import com.umc.ttoklip.presentation.dialog.DeleteDialogFragment
+import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import com.umc.ttoklip.presentation.news.adapter.PostImageRVA
 import com.umc.ttoklip.presentation.otheruser.OtherUserActivity

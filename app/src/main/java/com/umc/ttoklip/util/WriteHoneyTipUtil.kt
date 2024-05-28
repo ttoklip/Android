@@ -18,9 +18,9 @@ class WriteHoneyTipUtil(private val context: Context) {
         val imageParts: MutableList<MultipartBody.Part> = mutableListOf()
         if (images.isNotEmpty()) {
             for (i in images.indices) {
-                //Log.d("images", images[i].toString())
+                Log.d("images", images[i].toString())
                 val imagePath = images[i]
-                val path = convertResizeImage(imagePath)
+                //val path = convertResizeImage(imagePath)
                 Log.d("path", imagePath.lastPathSegment.toString())
                 val imageFile =
                     convertUriToJpegFile(context, imagePath, imagePath.lastPathSegment.toString())

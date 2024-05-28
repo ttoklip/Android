@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.umc.ttoklip.presentation.hometown.TogetherViewModel" />
+            type="com.umc.ttoklip.presentation.hometown.together.TogetherViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
