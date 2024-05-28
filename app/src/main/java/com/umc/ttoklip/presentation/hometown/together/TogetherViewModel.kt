@@ -1,4 +1,4 @@
-package com.umc.ttoklip.presentation.hometown
+package com.umc.ttoklip.presentation.hometown.together
 
 import com.umc.ttoklip.data.model.town.Togethers
 import com.umc.ttoklip.data.model.town.TogethersResponse
@@ -11,7 +11,7 @@ interface TogetherViewModel {
     val showDialog: SharedFlow<Boolean>
     val page: StateFlow<Long>
     val togethers: StateFlow<List<Togethers>>
-    val mainData : StateFlow<TogethersResponse>
+    val mainData : SharedFlow<TogethersResponse>
 
     fun onFilterClick()
 

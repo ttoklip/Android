@@ -13,7 +13,7 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.mypage.ScrapResponse
 import com.umc.ttoklip.databinding.ActivitySavedHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.hometown.ReadCommunicationActivity
+import com.umc.ttoklip.presentation.hometown.communication.read.ReadCommunicationActivity
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.mypage.adapter.OnSpinnerItemClickListener
 import com.umc.ttoklip.presentation.mypage.adapter.SavedHoneyTipAdapter

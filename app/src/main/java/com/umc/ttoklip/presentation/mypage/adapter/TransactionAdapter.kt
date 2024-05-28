@@ -43,10 +43,15 @@ class TransactionAdapter(
                 val amount =
                     context.getString(R.string.amount_format, currentAmount, targetAmount)
                 val spannableAmount = SpannableString(amount)
+
+                if (data.tradeStatus != "COMPLETED"){
+                    closureReasonChip.isGone = true
+                }
+
                 if (currentAmount == targetAmount) {
                     spannableAmount.setSpan(
                         ForegroundColorSpan(context.getColor(R.color.blue)), AMOUNT_STRING_START,
-                        data.currentPrice.toString().length + AMOUNT_STRING_LENGTH,
+                        currentAmount.toString().length,
                         SPANNABLE_FLAG_ZERO
                     )
                     transactionTitleTv.paintFlags =
@@ -55,10 +60,9 @@ class TransactionAdapter(
                 } else {
                     spannableAmount.setSpan(
                         ForegroundColorSpan(context.getColor(R.color.orange)), AMOUNT_STRING_START,
-                        data.currentPrice.toString().length + AMOUNT_STRING_LENGTH,
+                        currentAmount.toString().length,
                         SPANNABLE_FLAG_ZERO
                     )
-                    closureReasonChip.isGone = true
                 }
                 amountChip.text = spannableAmount
 
@@ -75,7 +79,6 @@ class TransactionAdapter(
                         transactionTitleTv.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                     transactionTitleTv.setTextColor(context.getColor(R.color.gray60))
                 } else {
-                    closureReasonChip.isGone = true
                     spannableMember.setSpan(
                         ForegroundColorSpan(context.getColor(R.color.orange)), AMOUNT_STRING_START,
                         data.partyMax.toString().length,

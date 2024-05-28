@@ -1,7 +1,6 @@
 package com.umc.ttoklip.presentation.honeytip
 
 import android.content.Intent
-import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -26,7 +25,7 @@ class ShareHoneyTipFragment(
         DailyPopularHoneyTipsVPA{
             val intent = Intent(requireContext(), ReadHoneyTipActivity::class.java)
             intent.putExtra("honeyTipId", it.id)
-            intent.putExtra(BOARD, HONEY_TIP)
+            intent.putExtra(BOARD, HONEY_TIPS)
             startActivity(intent)
         }
     }
@@ -89,7 +88,7 @@ class ShareHoneyTipFragment(
 
     private fun initCategoryViewPager() {
         val tabTitles = listOf("집안일", "레시피", "안전한 생활", "복지 \u00b7 정책")
-        binding.categoryVp.adapter = CategoryVPA(this, HONEY_TIP, tabTitles.size)
+        binding.categoryVp.adapter = CategoryVPA(this, HONEY_TIPS, tabTitles.size)
         TabLayoutMediator(binding.categoryTablayout, binding.categoryVp) { tab, position ->
             tab.text = tabTitles[position]
         }.attach()

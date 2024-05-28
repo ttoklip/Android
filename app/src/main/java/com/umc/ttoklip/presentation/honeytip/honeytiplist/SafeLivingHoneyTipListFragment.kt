@@ -12,8 +12,6 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
 import com.umc.ttoklip.databinding.FragmentHoneyTipListBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
-import com.umc.ttoklip.presentation.honeytip.BOARD
-import com.umc.ttoklip.presentation.honeytip.HONEY_TIP
 import com.umc.ttoklip.presentation.honeytip.HoneyTipViewModel
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipListRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener

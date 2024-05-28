@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.umc.ttoklip.presentation.hometown.WriteTogetherViewModelImpl" />
+            type="com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherViewModelImpl" />
     </data>
 
 
