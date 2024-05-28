@@ -16,6 +16,7 @@ import com.umc.ttoklip.presentation.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import com.umc.ttoklip.presentation.news.adapter.PostImageRVA
+import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -50,6 +51,8 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>(R.layout.activity_a
                 })
                 reportDialog.show(supportFragmentManager, reportDialog.tag)
             }
+        }, { nick ->
+            startActivity(OtherUserActivity.newIntent(this, nick))
         })
     }
 

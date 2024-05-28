@@ -2,6 +2,7 @@ package com.umc.ttoklip.di
 
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
+import com.umc.ttoklip.data.api.FCMApi
 import com.umc.ttoklip.data.api.HomeApi
 import com.umc.ttoklip.data.api.HoneyTipApi
 import com.umc.ttoklip.data.api.KakaoApi
@@ -14,6 +15,7 @@ import com.umc.ttoklip.data.api.MyAccountRestrictApi
 import com.umc.ttoklip.data.api.MyBlockUserApi
 import com.umc.ttoklip.data.api.MyPostApi
 import com.umc.ttoklip.data.api.NewsApi
+import com.umc.ttoklip.data.api.OtherApi
 import com.umc.ttoklip.data.api.ReadCommsApi
 import com.umc.ttoklip.data.api.ReadTogetherApi
 import com.umc.ttoklip.data.api.Search2Api
@@ -277,6 +279,17 @@ object NetworkModule {
         return retrofit.buildService()
     }
 
+    @Provides
+    @Singleton
+    fun provideStrangerApi(retrofit: Retrofit): OtherApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFCMApi(retrofit: Retrofit): FCMApi {
+        return retrofit.buildService()
+    }
 
 
     private inline fun <reified T> Retrofit.buildService(): T {

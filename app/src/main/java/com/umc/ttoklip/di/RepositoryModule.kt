@@ -1,5 +1,6 @@
 package com.umc.ttoklip.di
 
+import com.umc.ttoklip.data.api.FCMApi
 import com.umc.ttoklip.data.api.HomeApi
 import com.umc.ttoklip.data.api.MainCommsApi
 import com.umc.ttoklip.data.api.MainTogethersApi
@@ -9,6 +10,7 @@ import com.umc.ttoklip.data.api.MyPage2Api
 import com.umc.ttoklip.data.api.MyPageApi
 import com.umc.ttoklip.data.api.MyPostApi
 import com.umc.ttoklip.data.api.NewsApi
+import com.umc.ttoklip.data.api.OtherApi
 import com.umc.ttoklip.data.api.ReadCommsApi
 import com.umc.ttoklip.data.api.ReadTogetherApi
 import com.umc.ttoklip.data.api.Search2Api
@@ -16,6 +18,8 @@ import com.umc.ttoklip.data.api.SearchApi
 import com.umc.ttoklip.data.api.TownMainApi
 import com.umc.ttoklip.data.api.WriteCommsApi
 import com.umc.ttoklip.data.api.WriteTogetherApi
+import com.umc.ttoklip.data.repository.fcm.FCMRepository
+import com.umc.ttoklip.data.repository.fcm.FCMRepositoryImpl
 import com.umc.ttoklip.data.repository.home.HomeRepository
 import com.umc.ttoklip.data.repository.home.HomeRepositoryImpl
 import com.umc.ttoklip.data.repository.mypage.MyAccountRestrictRepository
@@ -34,6 +38,8 @@ import com.umc.ttoklip.data.repository.search.Search2Repository
 import com.umc.ttoklip.data.repository.search.Search2RepositoryImpl
 import com.umc.ttoklip.data.repository.search.SearchRepository
 import com.umc.ttoklip.data.repository.search.SearchRepositoryImpl
+import com.umc.ttoklip.data.repository.stranger.StrangerRepository
+import com.umc.ttoklip.data.repository.stranger.StrangerRepositoryImpl
 import com.umc.ttoklip.data.repository.town.MainCommsRepository
 import com.umc.ttoklip.data.repository.town.MainCommsRepositoryImpl
 import com.umc.ttoklip.data.repository.town.MainTogethersRepository
@@ -143,5 +149,16 @@ object RepositoryModule {
     @Singleton
     fun providesTownMainRepository(api: TownMainApi): TownMainRepository =
         TownMainRepositoryImpl(api)
+
+    @Provides
+    @Singleton
+    fun providesStrangerRepository(api: OtherApi): StrangerRepository =
+        StrangerRepositoryImpl(api)
+
+    @Provides
+    @Singleton
+    fun providesFCMRepository(api: FCMApi): FCMRepository =
+        FCMRepositoryImpl(api)
+
 
 }
