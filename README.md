@@ -1,5 +1,5 @@
 ## 아키텍쳐 
-<img width="535" alt="hangunhee39_ttoklip_architecture" src="https://github.com/ttoklip/Android/assets/77563098/12181bfc-22ad-452e-9742-147be8387bc4">
+<img width="761" alt="hangunhee39_ttoklip_architecure_" src="https://github.com/ttoklip/Android/assets/77563098/de0d3d03-ef8e-402a-8ca2-d3e85c4eaa12">
 
 
 ## 맴버 
