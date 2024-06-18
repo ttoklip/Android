@@ -16,9 +16,9 @@ import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.home.adapter.HomeTipRVA
-import com.umc.ttoklip.presentation.hometown.CommunicationActivity
-import com.umc.ttoklip.presentation.hometown.ReadTogetherActivity
-import com.umc.ttoklip.presentation.hometown.TogetherActivity
+import com.umc.ttoklip.presentation.hometown.communication.CommunicationActivity
+import com.umc.ttoklip.presentation.hometown.together.read.ReadTogetherActivity
+import com.umc.ttoklip.presentation.hometown.together.TogetherActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.mypage.adapter.OnTogetherItemClickListener

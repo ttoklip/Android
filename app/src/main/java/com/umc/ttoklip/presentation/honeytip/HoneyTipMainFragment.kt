@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HoneyTipMainFragment : BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment_honey_tip) {
-    private var board = HONEY_TIP
+    private var board = HONEY_TIPS
     private val viewModel: HoneyTipViewModel by viewModels()
     override fun initObserver() {
         lifecycleScope.launch {
@@ -66,7 +66,7 @@ class HoneyTipMainFragment : BaseFragment<FragmentHoneyTipBinding>(R.layout.frag
     }
 
     private fun initTabLayout() {
-        val tabTitles = listOf(HONEY_TIP, ASK)
+        val tabTitles = listOf(HONEY_TIPS, ASK)
         binding.boardVp.adapter = HoneyTipAndQuestionVPA(this)
         binding.boardVp.isUserInputEnabled = false
         Log.d("position", binding.boardTablayout.selectedTabPosition.toString())

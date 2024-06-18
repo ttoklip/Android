@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.umc.ttoklip.presentation.hometown.ReadCommunicationViewModelImpl" />
+            type="com.umc.ttoklip.presentation.hometown.communication.read.ReadCommunicationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -279,7 +279,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/rectangle_corner_4"
-                    android:backgroundTint="@color/gray20"
+                    android:backgroundTint="@{vm.scrap ? @color/yellow : @color/gray20}"
+                    android:onClick="@{()->vm.changeScrap()}"
                     app:layout_constraintStart_toStartOf="@id/bookmarkImg"
                     app:layout_constraintTop_toBottomOf="@id/bookmarkImg">
 
@@ -289,7 +290,7 @@
                         android:layout_height="16dp"
                         android:layout_margin="4dp"
                         android:src="@drawable/ic_bookmark_off_20"
-                        android:tint="@color/gray60"
+                        android:tint="@{vm.scrap ? @color/black : @color/gray60}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -302,7 +303,7 @@
                         android:paddingEnd="6dp"
                         android:text="스크랩"
                         android:textAppearance="@style/TextAppearance.App.10sp_500"
-                        android:textColor="@color/gray60"
+                        android:textColor="@{vm.scrap ? @color/black : @color/gray60}"
                         app:layout_constraintBottom_toBottomOf="@id/scrapBtnImg"
                         app:layout_constraintStart_toEndOf="@id/scrapBtnImg"
                         app:layout_constraintTop_toTopOf="@id/scrapBtnImg" />
@@ -316,7 +317,8 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/rectangle_corner_4"
-                    android:backgroundTint="@color/gray20"
+                    android:backgroundTint="@{vm.like ? @color/yellow : @color/gray20}"
+                    android:onClick="@{()->vm.changeLike()}"
                     app:layout_constraintStart_toEndOf="@id/scrapBtn"
                     app:layout_constraintTop_toBottomOf="@id/bookmarkImg">
 
@@ -326,7 +328,7 @@
                         android:layout_height="16dp"
                         android:layout_margin="4dp"
                         android:src="@drawable/ic_heart_off_20"
-                        android:tint="@color/gray60"
+                        android:tint="@{vm.like ? @color/black : @color/gray60}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -339,7 +341,7 @@
                         android:paddingEnd="6dp"
                         android:text="좋아요"
                         android:textAppearance="@style/TextAppearance.App.10sp_500"
-                        android:textColor="@color/gray60"
+                        android:textColor="@{vm.like ? @color/black : @color/gray60}"
                         app:layout_constraintBottom_toBottomOf="@id/likeBtnImg"
                         app:layout_constraintStart_toEndOf="@id/likeBtnImg"
                         app:layout_constraintTop_toTopOf="@id/likeBtnImg" />
@@ -389,6 +391,13 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/comment_layout"
@@ -403,6 +412,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
+            <TextView
+                android:id="@+id/replyT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:textAppearance="@style/TextAppearance.App.12sp_400"
+                android:textColor="@color/blue"
+                app:layout_constraintBottom_toBottomOf="@id/comment_et"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/comment_et" />
+
             <EditText
                 android:id="@+id/comment_et"
                 android:layout_width="0dp"
@@ -410,14 +430,15 @@
                 android:layout_marginEnd="8dp"
                 android:background="@null"
                 android:hint="댓글을 입력해주세요."
+                android:text="@={vm.commentContent}"
                 android:textAppearance="@style/TextAppearance.App.12sp_400"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/cardView"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/SendCardView"
+                app:layout_constraintStart_toEndOf="@id/replyT"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
+                android:id="@+id/SendCardView"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:backgroundTint="@color/yellow"
@@ -425,7 +446,6 @@
                 app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/comment_et"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
@@ -436,7 +456,6 @@
                     android:src="@drawable/ic_send" />
 
             </androidx.cardview.widget.CardView>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -9,7 +9,7 @@ import com.umc.ttoklip.data.model.town.CommentResponse
 import com.umc.ttoklip.data.model.town.ReportRequest
 import com.umc.ttoklip.databinding.ItemTownCommentBinding
 import com.umc.ttoklip.databinding.ItemTownCommentReplyBinding
-import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
+import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
 
 class TownCommentAdapter(
     val replyComment: (Long) -> Unit,

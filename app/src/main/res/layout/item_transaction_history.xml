@@ -78,6 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:text="마감"
+                android:textColor="@color/orange"
                 android:textAppearance="@style/TextAppearance.App.10sp_400"
                 app:chipBackgroundColor="@color/gray20"
                 app:chipCornerRadius="100dp"

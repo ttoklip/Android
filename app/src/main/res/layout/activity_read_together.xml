@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="vm"
-            type="com.umc.ttoklip.presentation.hometown.ReadTogetherViewModel" />
+            type="com.umc.ttoklip.presentation.hometown.together.read.ReadTogetherViewModel" />
 
         <import type="android.view.View" />
     </data>
@@ -39,60 +40,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/backBtn" />
 
-        <LinearLayout
-            android:id="@+id/together_menu"
+        <TextView
+            android:id="@+id/edit_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:background="@drawable/rectangle_corner_10_strok_1"
-            android:orientation="vertical"
+            android:drawableStart="@drawable/ic_edit"
+            android:drawablePadding="8dp"
+            android:gravity="center"
             android:paddingHorizontal="8dp"
             android:paddingVertical="12dp"
+            android:text="수정하기"
+            android:textAppearance="@style/TextAppearance.App.12sp_500"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/dotBtn"
-            tools:visibility="visible">
-
-            <LinearLayout
-                android:id="@+id/edit_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_edit" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="수정하기"
-                    android:textAppearance="@style/TextAppearance.App.12sp_500" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/delete_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_delete" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="삭제하기"
-                    android:textAppearance="@style/TextAppearance.App.12sp_500" />
-            </LinearLayout>
-        </LinearLayout>
-
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/report_btn"
@@ -110,7 +74,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/dotBtn"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/dotBtn"
@@ -207,7 +171,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_corner_10_strok_1"
                         android:drawablePadding="6dp"
-                        android:inputType="number"
+                        android:inputType="text"
                         android:paddingHorizontal="15dp"
                         android:paddingVertical="7dp"
                         android:text="30,000"
@@ -255,13 +219,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:autoLink="web"
                         android:background="@drawable/rectangle_corner_10_strok_1"
                         android:drawablePadding="6dp"
                         android:inputType="text"
                         android:paddingHorizontal="15dp"
                         android:paddingVertical="7dp"
                         android:text="www.어딘가"
-                        android:autoLink="web"
                         android:textAppearance="@style/TextAppearance.App.12sp_500"
                         android:textColor="@color/black"
                         android:textColorHint="@color/gray80"
@@ -341,7 +305,7 @@
                             android:id="@+id/normal_user_frame"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:visibility="@{vm.isOwner ? View.GONE : View.VISIBLE}"
+                            android:visibility="@{vm.isWriter ? View.GONE : View.VISIBLE}"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
@@ -350,28 +314,31 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@{vm.joinState ? @drawable/yellow_btn_background : @drawable/rectangle_corner_10_strok_1_gray40}"
-                                android:onClick="@{()->vm.joinBtnClick()}"
                                 android:paddingHorizontal="15dp"
                                 android:paddingVertical="7dp"
                                 android:text="@{vm.joinState ? @string/join_together : @string/cancel_join}"
                                 android:textAppearance="@style/TextAppearance.App.12sp_700"
                                 android:textColor="@color/black"
-                                android:visibility="@{vm.deadlineState ? View.GONE : View.VISIBLE}"
+                                bind:isDeadLine="@{vm.deadlineState}"
+                                bind:joinVisible="@{vm.joinState}"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <TextView
-                                android:id="@+id/deadline_end_tv"
+                                android:id="@+id/join_cancel_btn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-
+                                android:background="@drawable/rectangle_corner_10_strok_1_gray40"
+                                android:paddingHorizontal="15dp"
                                 android:paddingVertical="7dp"
-                                android:text="@string/deadline_end"
+                                android:text="@string/cancel_join"
                                 android:textAppearance="@style/TextAppearance.App.12sp_700"
                                 android:textColor="@color/black"
-                                android:visibility="@{vm.deadlineState ? View.VISIBLE : View.GONE}"
+                                bind:isDeadLine="@{vm.deadlineState}"
+                                bind:cancelJoinVisible="@{vm.joinState}"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
+
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -379,7 +346,6 @@
                             android:id="@+id/owner_join_frame"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:visibility="@{vm.isOwner ? View.VISIBLE : View.GONE}"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
@@ -391,9 +357,11 @@
                                 android:paddingHorizontal="15dp"
                                 android:paddingVertical="7dp"
                                 android:text="@string/set_deadline"
+                                bind:isWriter="@{vm.isWriter}"
+                                bind:isDeadLine="@{vm.deadlineState}"
                                 android:textAppearance="@style/TextAppearance.App.12sp_700"
                                 android:textColor="@color/orange"
-                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintEnd_toStartOf="@id/deadline_end_tv"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <TextView
@@ -405,9 +373,23 @@
                                 android:paddingHorizontal="15dp"
                                 android:paddingVertical="7dp"
                                 android:text="@string/check_member"
+                                bind:isWriter="@{vm.isWriter}"
+                                bind:isDeadLine="@{vm.deadlineState}"
                                 android:textAppearance="@style/TextAppearance.App.12sp_700"
                                 android:textColor="@color/black"
                                 app:layout_constraintEnd_toStartOf="@id/owner_join_btn"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/deadline_end_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingVertical="7dp"
+                                android:text="@string/deadline_end"
+                                android:textAppearance="@style/TextAppearance.App.12sp_700"
+                                android:textColor="@color/black"
+                                android:visibility="@{vm.deadlineState ? View.VISIBLE : View.GONE}"
+                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -447,20 +429,25 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="100dp"
-                    android:layout_marginHorizontal="24dp"
                     android:nestedScrollingEnabled="false"
                     android:overScrollMode="never"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/image_line"
+                    app:layout_constraintStart_toStartOf="@id/image_line"
                     app:layout_constraintTop_toBottomOf="@id/current_member_stat_frame"
                     tools:listitem="@layout/item_comment" />
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/comment_layout"
@@ -473,8 +460,18 @@
             android:padding="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/scrollV">
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/replyT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:textAppearance="@style/TextAppearance.App.12sp_400"
+                android:textColor="@color/blue"
+                app:layout_constraintBottom_toBottomOf="@id/comment_et"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/comment_et" />
 
             <EditText
                 android:id="@+id/comment_et"
@@ -483,14 +480,15 @@
                 android:layout_marginEnd="8dp"
                 android:background="@null"
                 android:hint="댓글을 입력해주세요."
+                android:text="@={vm.commentContent}"
                 android:textAppearance="@style/TextAppearance.App.12sp_400"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/cardView"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/SendCardView"
+                app:layout_constraintStart_toEndOf="@id/replyT"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
+                android:id="@+id/SendCardView"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:backgroundTint="@color/yellow"
@@ -498,7 +496,6 @@
                 app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/comment_et"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
@@ -509,7 +506,6 @@
                     android:src="@drawable/ic_send" />
 
             </androidx.cardview.widget.CardView>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
