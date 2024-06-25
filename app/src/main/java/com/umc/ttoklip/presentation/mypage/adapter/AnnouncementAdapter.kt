@@ -8,26 +8,26 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.R
+import com.umc.ttoklip.data.model.mypage.NoticeDetail
+import com.umc.ttoklip.data.model.mypage.NoticeResponse
 import com.umc.ttoklip.databinding.ItemAnnouncementsBinding
 
 class AnnouncementAdapter :
-    ListAdapter<Announcement, AnnouncementAdapter.AnnouncementViewHolder>(diff) {
+    ListAdapter<NoticeDetail, AnnouncementAdapter.AnnouncementViewHolder>(diff) {
     inner class AnnouncementViewHolder(
         private val binding: ItemAnnouncementsBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: Announcement) {
+        fun bind(data: NoticeDetail) {
             binding.announcementTitleTv.text = data.title
-            val adapter = AnnouncementContentAdapter()
-            binding.announcementContentRv.adapter = adapter
-            adapter.submitList(data.announcement)
+            binding.announcementDetailTv.text=data.content
 
             binding.announcementVisibilityBtn.setOnClickListener {
                 if (data.visibility) {
-                    binding.announcementContentFrame.visibility = View.GONE
+                    binding.announcementDetailSv.visibility = View.GONE
                     binding.announcementVisibilityBtn.setImageResource(R.drawable.ic_arrow_down_24)
                 } else {
-                    binding.announcementContentFrame.visibility = View.VISIBLE
+                    binding.announcementDetailSv.visibility = View.VISIBLE
                     binding.announcementVisibilityBtn.setImageResource(R.drawable.ic_arrow_up_24)
                 }
                 data.visibility = data.visibility.not()
@@ -41,10 +41,7 @@ class AnnouncementAdapter :
             parent,
             false
         )
-        binding.announcementContentRv.layoutManager = LinearLayoutManager(parent.context)
-        return AnnouncementViewHolder(
-            binding
-        )
+        return AnnouncementViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: AnnouncementViewHolder, position: Int) {
@@ -52,17 +49,17 @@ class AnnouncementAdapter :
     }
 
     companion object {
-        val diff = object : DiffUtil.ItemCallback<Announcement>() {
+        val diff = object : DiffUtil.ItemCallback<NoticeDetail>() {
             override fun areItemsTheSame(
-                oldItem: Announcement,
-                newItem: Announcement
+                oldItem: NoticeDetail,
+                newItem: NoticeDetail
             ): Boolean {
-                return oldItem.announcement == newItem.announcement
+                return oldItem.content == newItem.content
             }
 
             override fun areContentsTheSame(
-                oldItem: Announcement,
-                newItem: Announcement
+                oldItem: NoticeDetail,
+                newItem: NoticeDetail
             ): Boolean {
                 return oldItem == newItem
             }

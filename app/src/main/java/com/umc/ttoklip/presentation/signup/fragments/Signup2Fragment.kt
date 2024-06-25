@@ -96,7 +96,7 @@ class Signup2Fragment: BaseFragment<FragmentSignup2Binding>(R.layout.fragment_si
         binding.signup2NextBtn.setOnClickListener {
             if(idok&&pwok){
                 val bundle=Bundle()
-//                findNavController().navigate(R.id.action_signup2_fragment_to_signup3_fragment)
+                findNavController().navigate(R.id.action_signup2_fragment_to_signup3_fragment)
             }
         }
     }

@@ -12,8 +12,7 @@ import com.umc.ttoklip.data.api.MyPage2Api
 import com.umc.ttoklip.data.api.MyPageApi
 import com.umc.ttoklip.data.api.MainCommsApi
 import com.umc.ttoklip.data.api.MainTogethersApi
-import com.umc.ttoklip.data.api.MyAccountRestrictApi
-import com.umc.ttoklip.data.api.MyBlockUserApi
+import com.umc.ttoklip.data.api.MyPage3Api
 import com.umc.ttoklip.data.api.MyPostApi
 import com.umc.ttoklip.data.api.NaverApi
 import com.umc.ttoklip.data.api.NewsApi
@@ -41,7 +40,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import retrofit2.create
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
@@ -142,11 +140,10 @@ object NetworkModule {
     @Named("kakao")
     fun providesKakaoRetrofit(
         @Named("kakaoClient") client: OkHttpClient,
-        gsonConverterFactory: GsonConverterFactory
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(R.string.kakao.toString())
-            .addConverterFactory(gsonConverterFactory)
+            .baseUrl(TtoklipApplication.getString(R.string.kakao))
+            .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
     }
@@ -241,21 +238,15 @@ object NetworkModule {
     fun provideMyPage2Api(retrofit: Retrofit): MyPage2Api{
         return retrofit.buildService()
     }
-        @Provides
-        @Singleton
-    fun providesAccountRestrictApi(retrofit: Retrofit): MyAccountRestrictApi {
+    @Provides
+    @Singleton
+    fun provideMyPage3Api(retrofit: Retrofit): MyPage3Api {
         return retrofit.buildService()
     }
 
     @Provides
     @Singleton
     fun providesMyPostApi(retrofit: Retrofit): MyPostApi {
-        return retrofit.buildService()
-    }
-
-    @Provides
-    @Singleton
-    fun providesMyBlockUserApi(retrofit: Retrofit): MyBlockUserApi {
         return retrofit.buildService()
     }
 
