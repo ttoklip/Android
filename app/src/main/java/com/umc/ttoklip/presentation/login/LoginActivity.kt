@@ -105,18 +105,18 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
     private fun startactivity() {
 //            회원가입 만들기용 임시
-            val intent = Intent(this, SignupActivity::class.java)
-            startActivity(intent)
-            Log.i("JWT",TtoklipApplication.prefs.getString("jwt",""))
-
-            //이쪽이 진짜
-//        if (viewModel.isFirstLogin.value) {
 //            val intent = Intent(this, SignupActivity::class.java)
 //            startActivity(intent)
-//        } else {
-//            startActivity(Intent(this, MainActivity::class.java))
-//            finish()
-//        }
+//            Log.i("JWT",TtoklipApplication.prefs.getString("jwt",""))
+
+            //이쪽이 진짜
+        if (viewModel.isFirstLogin.value) {
+            val intent = Intent(this, SignupActivity::class.java)
+            startActivity(intent)
+        } else {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
     }
 
     override fun onBackPressed() {
