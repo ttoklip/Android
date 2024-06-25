@@ -31,7 +31,7 @@ interface HoneyTipRepository {
         title: RequestBody,
         content: RequestBody,
         category: RequestBody,
-        images: Array<MultipartBody.Part>,
+        images: List<MultipartBody.Part?>,
         url: RequestBody
     ): NetworkResult<CreateHoneyTipResponse>
 
@@ -44,7 +44,7 @@ interface HoneyTipRepository {
         title: RequestBody,
         content: RequestBody,
         category: RequestBody,
-        images: Array<MultipartBody.Part>,
+        images: List<MultipartBody.Part?>,
         url: RequestBody
     ): NetworkResult<CreateHoneyTipResponse>
 
@@ -73,7 +73,7 @@ interface HoneyTipRepository {
         title: RequestBody,
         content: RequestBody,
         category: RequestBody,
-        images: Array<MultipartBody.Part>
+        images: List<MultipartBody.Part?>
     ): NetworkResult<CreateHoneyTipResponse>
 
     suspend fun inquireQuestion(questionId: Int): NetworkResult<InquireQuestionResponse>
