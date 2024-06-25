@@ -96,6 +96,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
         binding.vm = viewModel
         binding.tipRV.adapter = tipRVA
         viewModel.getMain()
+        viewModel.fetchGeocoding("분당구 불정로 6")
         Log.d("엑세스", "${TtoklipApplication.prefs.getString("jwt", "")}")
 
         CoroutineScope(Dispatchers.IO).launch {

@@ -9,6 +9,7 @@ import com.umc.ttoklip.data.api.MyBlockUserApi
 import com.umc.ttoklip.data.api.MyPage2Api
 import com.umc.ttoklip.data.api.MyPageApi
 import com.umc.ttoklip.data.api.MyPostApi
+import com.umc.ttoklip.data.api.NaverApi
 import com.umc.ttoklip.data.api.NewsApi
 import com.umc.ttoklip.data.api.OtherApi
 import com.umc.ttoklip.data.api.ReadCommsApi
@@ -30,6 +31,8 @@ import com.umc.ttoklip.data.repository.mypage.MyPageRepository2
 import com.umc.ttoklip.data.repository.mypage.MyPageRepository2Impl
 import com.umc.ttoklip.data.repository.mypage.MyPostRepository
 import com.umc.ttoklip.data.repository.mypage.MyPostRepositoryImpl
+import com.umc.ttoklip.data.repository.naver.NaverRepository
+import com.umc.ttoklip.data.repository.naver.NaverRepositoryImpl
 import com.umc.ttoklip.data.repository.news.NewsRepository
 import com.umc.ttoklip.data.repository.news.NewsRepositoryImpl
 import com.umc.ttoklip.data.repository.scrap.ScrapRepository
@@ -160,5 +163,8 @@ object RepositoryModule {
     fun providesFCMRepository(api: FCMApi): FCMRepository =
         FCMRepositoryImpl(api)
 
-
+    @Provides
+    @Singleton
+    fun providesNaverRepository(api: NaverApi): NaverRepository =
+        NaverRepositoryImpl(api)
 }

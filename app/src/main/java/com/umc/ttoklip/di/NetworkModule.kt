@@ -2,6 +2,7 @@ package com.umc.ttoklip.di
 
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
+import com.umc.ttoklip.TtoklipApplication.Companion.getString
 import com.umc.ttoklip.data.api.FCMApi
 import com.umc.ttoklip.data.api.HomeApi
 import com.umc.ttoklip.data.api.HoneyTipApi
@@ -14,6 +15,7 @@ import com.umc.ttoklip.data.api.MainTogethersApi
 import com.umc.ttoklip.data.api.MyAccountRestrictApi
 import com.umc.ttoklip.data.api.MyBlockUserApi
 import com.umc.ttoklip.data.api.MyPostApi
+import com.umc.ttoklip.data.api.NaverApi
 import com.umc.ttoklip.data.api.NewsApi
 import com.umc.ttoklip.data.api.OtherApi
 import com.umc.ttoklip.data.api.ReadCommsApi
@@ -146,6 +148,20 @@ object NetworkModule {
             .baseUrl(R.string.kakao.toString())
             .addConverterFactory(gsonConverterFactory)
             .client(client)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @Named("naver")
+    fun providesNaverRetrofit(
+        @Named("NaverClient") client: OkHttpClient,
+    ): Retrofit{
+        return Retrofit.Builder()
+            .client(client)
+            .baseUrl(getString(R.string. naver_url))
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
@@ -288,6 +304,12 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideFCMApi(retrofit: Retrofit): FCMApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNaverApi(@Named("naver") retrofit: Retrofit): NaverApi{
         return retrofit.buildService()
     }
 
