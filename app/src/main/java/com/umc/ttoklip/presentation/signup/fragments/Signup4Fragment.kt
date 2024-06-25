@@ -83,7 +83,7 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
     override fun initView() {
         interestArray = ArrayList()
         val activity = activity as SignupActivity
-        activity?.setProg(2)
+        activity?.setProg(4)
 
         initIndependent()
 

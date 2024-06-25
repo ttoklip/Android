@@ -27,7 +27,7 @@ class Signup5Fragment: BaseFragment<FragmentSignup5Binding>(R.layout.fragment_si
 
     override fun initView() {
         val activity=activity as SignupActivity
-        activity.setProg(3)
+        activity.setProg(5)
 
         range = getString(R.string.range_500m)
         binding.rangeSettingExplainTv.text =

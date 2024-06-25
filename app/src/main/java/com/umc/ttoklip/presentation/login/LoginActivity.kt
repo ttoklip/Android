@@ -110,13 +110,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             Log.i("JWT",TtoklipApplication.prefs.getString("jwt",""))
 
             //이쪽이 진짜
-        if (viewModel.isFirstLogin.value) {
-            val intent = Intent(this, SignupActivity::class.java)
-            startActivity(intent)
-        } else {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
+//        if (viewModel.isFirstLogin.value) {
+//            val intent = Intent(this, SignupActivity::class.java)
+//            startActivity(intent)
+//        } else {
+//            startActivity(Intent(this, MainActivity::class.java))
+//            finish()
+//        }
     }
 
     override fun onBackPressed() {

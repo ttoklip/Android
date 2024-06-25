@@ -32,7 +32,6 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.databinding.ActivityManageMyInfoBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.honeytip.dialog.ImageDialogFragment
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.mypage.vm.ManageMyInfoViewModel
 import com.umc.ttoklip.presentation.signup.SignupActivity
