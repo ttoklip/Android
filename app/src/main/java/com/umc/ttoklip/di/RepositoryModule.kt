@@ -4,11 +4,12 @@ import com.umc.ttoklip.data.api.FCMApi
 import com.umc.ttoklip.data.api.HomeApi
 import com.umc.ttoklip.data.api.MainCommsApi
 import com.umc.ttoklip.data.api.MainTogethersApi
-import com.umc.ttoklip.data.api.MyAccountRestrictApi
-import com.umc.ttoklip.data.api.MyBlockUserApi
+//import com.umc.ttoklip.data.api.MyAccountRestrictApi
 import com.umc.ttoklip.data.api.MyPage2Api
+import com.umc.ttoklip.data.api.MyPage3Api
 import com.umc.ttoklip.data.api.MyPageApi
 import com.umc.ttoklip.data.api.MyPostApi
+import com.umc.ttoklip.data.api.NaverApi
 import com.umc.ttoklip.data.api.NewsApi
 import com.umc.ttoklip.data.api.OtherApi
 import com.umc.ttoklip.data.api.ReadCommsApi
@@ -22,14 +23,14 @@ import com.umc.ttoklip.data.repository.fcm.FCMRepository
 import com.umc.ttoklip.data.repository.fcm.FCMRepositoryImpl
 import com.umc.ttoklip.data.repository.home.HomeRepository
 import com.umc.ttoklip.data.repository.home.HomeRepositoryImpl
-import com.umc.ttoklip.data.repository.mypage.MyAccountRestrictRepository
-import com.umc.ttoklip.data.repository.mypage.MyAccountRestrictRepositoryImpl
-import com.umc.ttoklip.data.repository.mypage.MyBlockUserRepository
-import com.umc.ttoklip.data.repository.mypage.MyBlockUserRepositoryImpl
 import com.umc.ttoklip.data.repository.mypage.MyPageRepository2
 import com.umc.ttoklip.data.repository.mypage.MyPageRepository2Impl
+import com.umc.ttoklip.data.repository.mypage.MyPageRepository3
+import com.umc.ttoklip.data.repository.mypage.MyPageRepository3Impl
 import com.umc.ttoklip.data.repository.mypage.MyPostRepository
 import com.umc.ttoklip.data.repository.mypage.MyPostRepositoryImpl
+import com.umc.ttoklip.data.repository.naver.NaverRepository
+import com.umc.ttoklip.data.repository.naver.NaverRepositoryImpl
 import com.umc.ttoklip.data.repository.news.NewsRepository
 import com.umc.ttoklip.data.repository.news.NewsRepositoryImpl
 import com.umc.ttoklip.data.repository.scrap.ScrapRepository
@@ -132,18 +133,13 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun providesMyAccountRestrictRepository(api: MyAccountRestrictApi): MyAccountRestrictRepository =
-        MyAccountRestrictRepositoryImpl(api)
+    fun providesMyPage3Repository(api: MyPage3Api): MyPageRepository3 =
+        MyPageRepository3Impl(api)
 
     @Provides
     @Singleton
     fun providesMyPostRepository(api: MyPostApi): MyPostRepository =
         MyPostRepositoryImpl(api)
-
-    @Provides
-    @Singleton
-    fun providesMyBlockUserRepository(api: MyBlockUserApi): MyBlockUserRepository =
-        MyBlockUserRepositoryImpl(api)
 
     @Provides
     @Singleton
@@ -160,5 +156,8 @@ object RepositoryModule {
     fun providesFCMRepository(api: FCMApi): FCMRepository =
         FCMRepositoryImpl(api)
 
-
+    @Provides
+    @Singleton
+    fun providesNaverRepository(api: NaverApi): NaverRepository =
+        NaverRepositoryImpl(api)
 }

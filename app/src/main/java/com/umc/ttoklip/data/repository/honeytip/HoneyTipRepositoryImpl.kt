@@ -44,7 +44,7 @@ class HoneyTipRepositoryImpl @Inject constructor(
         title: RequestBody,
         content: RequestBody,
         category: RequestBody,
-        images: Array<MultipartBody.Part>,
+        images: List<MultipartBody.Part?>,
         uri: RequestBody
     ): NetworkResult<CreateHoneyTipResponse> {
         return handleApi({
@@ -65,7 +65,7 @@ class HoneyTipRepositoryImpl @Inject constructor(
         title: RequestBody,
         content: RequestBody,
         category: RequestBody,
-        images: Array<MultipartBody.Part>,
+        images: List<MultipartBody.Part?>,
         url: RequestBody
     ): NetworkResult<CreateHoneyTipResponse> {
         return handleApi({ api.patchHoneyTip(honeyTipId, title, content, category, images, url) })
@@ -119,7 +119,7 @@ class HoneyTipRepositoryImpl @Inject constructor(
         title: RequestBody,
         content: RequestBody,
         category: RequestBody,
-        images: Array<MultipartBody.Part>
+        images: List<MultipartBody.Part?>
     ): NetworkResult<CreateHoneyTipResponse> {
         return handleApi({
             api.postNewQuestion(title, content, category, images)

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.SeekBar
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentSignup5Binding
 import com.umc.ttoklip.presentation.MainActivity
@@ -12,9 +13,13 @@ import com.umc.ttoklip.presentation.login.LoginActivity
 import com.umc.ttoklip.presentation.signup.location.DirectLocationActivity
 import com.umc.ttoklip.presentation.signup.location.LocationActivity
 import com.umc.ttoklip.presentation.signup.SignupActivity
+import com.umc.ttoklip.presentation.signup.SignupViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class Signup5Fragment: BaseFragment<FragmentSignup5Binding>(R.layout.fragment_signup5) {
 
+    private val viewModel: SignupViewModel by activityViewModels()
     private lateinit var range: String
 
     override fun initObserver() {
@@ -22,7 +27,7 @@ class Signup5Fragment: BaseFragment<FragmentSignup5Binding>(R.layout.fragment_si
 
     override fun initView() {
         val activity=activity as SignupActivity
-        activity.setProg(3)
+        activity.setProg(5)
 
         range = getString(R.string.range_500m)
         binding.rangeSettingExplainTv.text =
@@ -59,19 +64,18 @@ class Signup5Fragment: BaseFragment<FragmentSignup5Binding>(R.layout.fragment_si
         })
 
         binding.signup5LocationBtn.setOnClickListener {
-            val bbundle= requireArguments()
-            val abundle=Bundle()
-            abundle.putString("nickname",bbundle.getString("nickname"))
-            abundle.putStringArrayList("interest",bbundle.getStringArrayList("interest"))
-            abundle.putString("imageUri",bbundle.getString("imageUri"))
-            abundle.putInt("independentCareerYear",bbundle.getInt("independentCareerYear"))
-            abundle.putInt("independentCareerMonth",bbundle.getInt("independentCareerMonth"))
+            val bundle=Bundle()
+            bundle.putString("nickname",viewModel.nickname.value)
+            bundle.putStringArrayList("interest",viewModel.categories.value)
+            bundle.putString("imageUri",viewModel.profileImage.value)
+            bundle.putInt("independentCareerYear",viewModel.independenctYear.value)
+            bundle.putInt("independentCareerMonth",viewModel.independenctMonth.value)
             val intent=Intent(activity, LocationActivity::class.java)
-            intent.putExtra("userInfo",abundle)
+            intent.putExtra("userInfo",bundle)
             startActivity(intent)
         }
         binding.signup5LocationDirectEt.setOnClickListener {
-//            startActivity(Intent(activity, DirectLocationActivity::class.java))
+            startActivity(Intent(activity, DirectLocationActivity::class.java))
         }
         binding.signup5NextBtn.setOnClickListener {
             startActivity(Intent(activity, MainActivity::class.java))

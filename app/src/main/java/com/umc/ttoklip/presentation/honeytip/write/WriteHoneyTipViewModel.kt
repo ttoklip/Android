@@ -72,7 +72,7 @@ class WriteHoneyTipViewModel @Inject constructor(
         title: String,
         content: String,
         category: String,
-        images: Array<MultipartBody.Part>,
+        images: List<MultipartBody.Part?>,
         url: String
     ) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -95,7 +95,7 @@ class WriteHoneyTipViewModel @Inject constructor(
         title: String,
         content: String,
         category: String,
-        images: Array<MultipartBody.Part>,
+        images: List<MultipartBody.Part?>,
         url: String
     ) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -120,7 +120,7 @@ class WriteHoneyTipViewModel @Inject constructor(
         title: String,
         content: String,
         category: String,
-        images: Array<MultipartBody.Part>
+        images: List<MultipartBody.Part?>
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.createQuestion(

@@ -65,7 +65,7 @@ class Signup1Fragment: BaseFragment<FragmentSignup1Binding>(R.layout.fragment_si
                 bundle.putString("userName",binding.signup1NameEt.text.toString())
                 bundle.putString("userBirth",binding.signup1BirthEt.text.toString())
                 bundle.putString("userEmail",binding.signup1EmailEt.text.toString())
-//                findNavController().navigate(R.id.action_signup1_fragment_to_signup2_fragment,bundle)
+                findNavController().navigate(R.id.action_signup1_fragment_to_signup2_fragment,bundle)
             }
         }
     }

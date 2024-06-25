@@ -5,6 +5,7 @@ import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
@@ -28,10 +29,12 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.chip.Chip
 import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.databinding.ActivityManageMyInfoBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.mypage.vm.ManageMyInfoViewModel
+import com.umc.ttoklip.presentation.signup.SignupActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -75,6 +78,7 @@ class ManageMyInfoActivity :
         binding.vm = viewModel
         initViewListener()
         viewModel.getMyPageInfo()
+        Log.d("jwt", TtoklipApplication.prefs.getString("jwt",""))
     }
 
     private fun initViewListener() {
@@ -138,6 +142,8 @@ class ManageMyInfoActivity :
             val categories = category.map { it -> tabTextToCategory(it) }
             Log.d("categories", categories.toString())
             Log.d("imageRequest", imageRequest.toString())
+            Log.d("EditInfo",address+" "+binding.inputNicknameEt.text.toString()+" "+categories.toString()+" "+imageRequest+" "+independentYear+" "+independentMonth)
+            //카테고리 설정이 비는 게 문제임 자고일어나서 고치기
             viewModel.editMyPageInfo(
                 address,
                 locationX,
@@ -148,8 +154,8 @@ class ManageMyInfoActivity :
                 independentYear, independentMonth
             )
             val delete = deleteImage(tempImage)
-            //Log.d("delete", delete.toString())
-            //finish()
+            Log.d("delete", delete.toString())
+            finish()
         }
 
         binding.manageProfileImg.setOnClickListener {
@@ -181,9 +187,11 @@ class ManageMyInfoActivity :
                         inputIndependentCareerEt.text =
                             "${it.independentYear}년 ${it.independentMonth}개월"
                         inputAddressTv.text = it.street
+                        address= it.street.toString()
                         independentYear = it.independentYear
                         independentMonth = it.independentMonth
                         convertURLtoURI(it.profileImage)
+                        Log.d("image",it.profileImage.toString())
                         Glide.with(this@ManageMyInfoActivity)
                             .load(it.profileImage)
                             .into(binding.manageProfileImg)

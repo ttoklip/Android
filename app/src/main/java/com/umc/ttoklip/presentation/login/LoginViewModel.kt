@@ -34,8 +34,8 @@ class LoginViewModel @Inject constructor(
                 .onSuccess {
                     TtoklipApplication.prefs.setString("jwt",it.jwtToken)
                     TtoklipApplication.prefs.setBoolean("isFirstLogin",it.ifFirstLogin)
-                    _isFirstLogin.value=it.ifFirstLogin
-                    _isLogin.value=true
+                    _isFirstLogin.emit(it.ifFirstLogin)
+                    _isLogin.emit(true)
                 }.onFail {
                     Log.d("LOGIN-API", "login 실패")
                 }

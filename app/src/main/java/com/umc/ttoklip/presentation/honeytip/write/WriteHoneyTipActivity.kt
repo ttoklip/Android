@@ -44,8 +44,12 @@ import com.umc.ttoklip.presentation.dialog.ImageDialogFragment
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.honeytip.read.ReadQuestionActivity
 import com.umc.ttoklip.util.WriteHoneyTipUtil
+import com.umc.ttoklip.util.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.ByteArrayOutputStream
 import java.io.File
 
@@ -66,6 +70,7 @@ class WriteHoneyTipActivity :
     private var isEdit = false
     private var postId = 0
     private var editImage = mutableListOf<Uri>()
+    private var selectedImageUris: List<Uri>? = null
 
     private val pickMultipleMedia = registerForActivityResult(
         ActivityResultContracts.PickMultipleVisualMedia(
@@ -73,7 +78,8 @@ class WriteHoneyTipActivity :
         )
     ) { uris ->
         if (uris.isNotEmpty()) {
-            updateImages(uris)
+            selectedImageUris = uris
+            updateImages()
         } else {
             Log.d("PhotoPicker", "No media selected")
         }
@@ -256,17 +262,31 @@ class WriteHoneyTipActivity :
 
     private fun writeDone() {
         binding.writeDoneBtn.setOnClickListener {
-            val beforeEditImages =
+            /*val beforeEditImages =
                 imageAdapter.currentList.filterIsInstance<Image>().map { it.url }.toList()
             //convertURLtoURI(beforeEditImages)
             val images = editImage + imageAdapter.currentList.filterIsInstance<Image>().map { it.uri }.filter { it != Uri.EMPTY }.toList()
             Log.d("write done", images.size.toString())
-            val imageParts = WriteHoneyTipUtil(this).convertUriListToMultiBody(images)
+            val imageParts = WriteHoneyTipUtil(this).convertUriListToMultiBody(images)*/
+            Log.d("selectedImageUris", selectedImageUris.toString())
+            val imageParts = mutableListOf<MultipartBody.Part?>()
+            val images = imageAdapter.currentList.filterIsInstance<Image>().map { it.uri }.filter { it != Uri.EMPTY }.toList()
+            if(selectedImageUris == null || selectedImageUris!!.isEmpty()){
+                imageParts.add(null)
+            }
+            images.forEachIndexed { index, uri ->
+                val file = uriToFile(uri)
+                val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+                val body = MultipartBody.Part.createFormData("images", file.name, requestFile)
+                imageParts.add(body)
+            }
             imageParts.forEach {
-                Log.d("용량", "${it.body.contentLength().toDouble() / (1024 * 1024)}")
-                if(it.body.contentLength().toDouble() / (1024 * 1024) > 10){
-                    Toast.makeText(this, "사진 용량은 10MB로 제한되어있습니다.", Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
+                if(it != null) {
+                    Log.d("용량", "${it.body.contentLength().toDouble() / (1024 * 1024)}")
+                    if (it.body.contentLength().toDouble() / (1024 * 1024) > 10) {
+                        Toast.makeText(this, "사진 용량은 10MB로 제한되어있습니다.", Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
                 }
             }
 
@@ -278,7 +298,7 @@ class WriteHoneyTipActivity :
             if(isEdit){
                 Log.d("it Edit", isEdit.toString())
                 viewModel.editHoneyTip(postId, title, content, category, imageParts, url)
-                Log.d("edit image imagepart", imageParts.contentToString())
+                Log.d("edit image imagepart", imageParts.toString())
                 editImage.forEach{
                     val delete = deleteImage(this@WriteHoneyTipActivity, it)
                     Log.d("delete", delete.toString())
@@ -287,7 +307,7 @@ class WriteHoneyTipActivity :
                 if (board == HONEY_TIPS) {
                     viewModel.createHoneyTip(title, content, category, imageParts, url)
                 } else {
-                    viewModel.createQuestion(title, content, category, imageParts)
+                    //viewModel.createQuestion(title, content, category, imageParts)
                 }
             }
         }
@@ -380,14 +400,17 @@ class WriteHoneyTipActivity :
         }
     }
 
-    private fun updateImages(uriList: List<Uri>) {
+    private fun updateImages() {
+        if(selectedImageUris.isNullOrEmpty()){
+            return
+        }
         // uri 권한 확장
         val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
-        uriList.forEach {
+        selectedImageUris!!.forEach {
             applicationContext.contentResolver.takePersistableUriPermission(it, flag)
         }
 
-        val images = uriList.map { Image(it, "") }
+        val images = selectedImageUris!!.map { Image(it, "") }
         val updatedImages = imageAdapter.currentList.toMutableList().apply { addAll(images) }
         imageAdapter.submitList(updatedImages)
     }

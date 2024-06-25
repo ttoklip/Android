@@ -69,7 +69,7 @@ class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_s
 
     override fun initView() {
         val activity = activity as SignupActivity
-        activity?.setProg(1)
+        activity?.setProg(3)
 
         //약관 불러오기
         viewModel.getTerm()
