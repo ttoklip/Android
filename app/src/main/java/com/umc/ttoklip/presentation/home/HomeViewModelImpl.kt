@@ -10,6 +10,7 @@ import com.umc.ttoklip.data.model.fcm.FCMTokenRequest
 import com.umc.ttoklip.data.model.home.HomeResponse
 import com.umc.ttoklip.data.repository.fcm.FCMRepository
 import com.umc.ttoklip.data.repository.home.HomeRepository
+import com.umc.ttoklip.data.repository.naver.NaverRepository
 import com.umc.ttoklip.module.NetworkResult
 import com.umc.ttoklip.module.onException
 import com.umc.ttoklip.module.onFail
@@ -28,6 +29,7 @@ import javax.inject.Inject
 class HomeViewModelImpl @Inject constructor(
     private val homeRepository: HomeRepository,
     private val fcmRepository: FCMRepository,
+    private val naverRepository: NaverRepository
 ) : ViewModel(), HomeViewModel {
 
     private val _haveWork: MutableStateFlow<Boolean> = MutableStateFlow(true)
@@ -121,6 +123,14 @@ class HomeViewModelImpl @Inject constructor(
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.d("예외", "$e")
+            }
+        }
+    }
+
+    override fun fetchGeocoding(query: String) {
+        viewModelScope.launch {
+            naverRepository.fetchGeocoding(query).onSuccess {
+                Log.d("naver", it.toString())
             }
         }
     }
