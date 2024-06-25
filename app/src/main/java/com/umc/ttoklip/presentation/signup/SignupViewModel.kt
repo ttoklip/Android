@@ -38,46 +38,36 @@ class SignupViewModel @Inject constructor(
     private val signupRepository: SignupRepositoryImpl, application: Application
 ) : AndroidViewModel(application) {
 
-    private val _nickcheckbtn=MutableStateFlow<Boolean>(false)
-    val nickcheckbtn:StateFlow<Boolean>
-        get() = _nickcheckbtn
-    private val _nickok = MutableStateFlow<Boolean>(false)
-    val nickok: StateFlow<Boolean>
-        get() = _nickok
-    private var _independentCareerok = MutableStateFlow<Boolean>(false)
-    val independentCareerok: StateFlow<Boolean>
-        get() = _independentCareerok
-    private var _interestok = MutableStateFlow<Boolean>(false)
-    val interestok: StateFlow<Boolean>
-        get() = _interestok
+    val nickcheckbtn=MutableStateFlow<Boolean>(false)
+    val nickok = MutableStateFlow<Boolean>(false)
+    var independentCareerok = MutableStateFlow<Boolean>(false)
+    var interestok = MutableStateFlow<Boolean>(false)
 
     fun nickCheck(nick: String) {
         viewModelScope.launch {
             signupRepository.checkNickname(nick)
                 .onSuccess {
                     Log.i("nick check", "성공")
-                    _nickok.value = true
+                    nickok.emit(true)
                 }.onFail {
                     Log.d("nick check", "실패")
-                    _nickok.value = false
+                    nickok.emit(false)
                 }
         }
     }
     fun nickcheckclick(){
        viewModelScope.launch {
-           _nickcheckbtn.value=true
+           nickcheckbtn.emit(true)
        }
     }
-
     fun independentCheck(indendentok: Boolean) {
         viewModelScope.launch {
-            _independentCareerok.value = indendentok
+            independentCareerok.emit(indendentok)
         }
     }
-
-    fun interestCheck(interestok: Boolean) {
+    fun interestCheck(interestcheck: Boolean) {
         viewModelScope.launch {
-            _interestok.value = interestok
+            interestok.emit(interestcheck)
         }
     }
 

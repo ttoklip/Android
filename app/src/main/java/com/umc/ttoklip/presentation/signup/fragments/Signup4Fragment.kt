@@ -16,6 +16,7 @@ import android.view.View
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Lifecycle
@@ -33,6 +34,7 @@ import com.umc.ttoklip.presentation.mypage.ChooseMainInterestDialogFragment
 import com.umc.ttoklip.presentation.mypage.InputIndependentCareerDialogFragment
 import com.umc.ttoklip.presentation.signup.SignupActivity
 import com.umc.ttoklip.presentation.signup.SignupViewModel
+import com.umc.ttoklip.presentation.signup.location.LocationActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -48,7 +50,7 @@ import java.net.URI
 @AndroidEntryPoint
 class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_signup4) {
 
-    private val viewModel: SignupViewModel by viewModels()
+    private val viewModel: SignupViewModel by activityViewModels()
     private lateinit var interestArray: ArrayList<String>
 
     private var independentCareerYear: Int? = null
@@ -81,59 +83,21 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
     override fun initView() {
         interestArray = ArrayList()
         val activity = activity as SignupActivity
-        activity?.setProg(2)
+        activity?.setProg(4)
+
+        initIndependent()
 
         binding.signup4NickcheckButton.setOnClickListener {
             viewModel.nickCheck(binding.signup4NicknameEt.text.toString())
             viewModel.nickcheckclick()
         }
 
-        if (independentCareerYear != null || independentCareerMonth != null) {
-            if (independentCareerYear != ZERO_CAREER && independentCareerMonth != ZERO_CAREER) {
-                binding.signup4IndependenceEt.text =
-                    getString(
-                        R.string.my_independent_career_base_format,
-                        independentCareerYear,
-                        independentCareerMonth
-                    )
-            } else if (independentCareerYear != ZERO_CAREER) {
-                binding.signup4IndependenceEt.text =
-                    getString(R.string.my_independent_career_year_format, independentCareerYear)
-            } else if (independentCareerMonth != ZERO_CAREER) {
-                binding.signup4IndependenceEt.text =
-                    getString(R.string.my_independent_career_month_format, independentCareerMonth)
-            } else {
-                binding.signup4IndependenceEt.text =
-                    getString(R.string.my_independent_career_month_format, ZERO_CAREER)
-            }
-            binding.signup4IndependenceEt.setTextColor(
-                ContextCompat.getColor(
-                    activity,
-                    R.color.black
-                )
-            )
-            viewModel.independentCheck(true)
-            nextok()
-        }
-
         binding.signup4IndependenceEt.setOnClickListener {
             viewModel.independentCheck(true)
             val bottomSheet = InputIndependentCareerDialogFragment { year, month ->
-                if (year != ZERO_CAREER && month != ZERO_CAREER) {
-                    binding.signup4IndependenceEt.text =
-                        getString(R.string.my_independent_career_base_format, year, month)
-                } else if (year != ZERO_CAREER) {
-                    binding.signup4IndependenceEt.text =
-                        getString(R.string.my_independent_career_year_format, year)
-                } else if (month != ZERO_CAREER) {
-                    binding.signup4IndependenceEt.text =
-                        getString(R.string.my_independent_career_month_format, month)
-                } else {
-                    binding.signup4IndependenceEt.text =
-                        getString(R.string.my_independent_career_month_format, ZERO_CAREER)
-                }
                 independentCareerYear = year
                 independentCareerMonth = month
+                initIndependent()
             }
             bottomSheet.show(activity.supportFragmentManager, bottomSheet.tag)
             binding.signup4IndependenceEt.setTextColor(
@@ -191,23 +155,65 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
                 viewModel.interestok.value &&
                 viewModel.nickok.value
             ) {
-                val bundle = Bundle()
-                bundle.putString("nickname", binding.signup4NicknameEt.text.toString())
-                bundle.putStringArrayList("interest", interestArray)
-                bundle.putString(
-                    "imageUri",
-                    if (imageSource.isNotEmpty()) imageSource
-                    else ""
-//                        Uri.fromFile(File("//android_asset/profile_image_default.png")).toString()
-                )
-                bundle.putInt("independentCareerYear", independentCareerYear!!)
-                bundle.putInt("independentCareerMonth", independentCareerMonth!!)
+                val bundle=Bundle()
+                bundle.putString("nickname",viewModel.nickname.value)
+                bundle.putStringArrayList("interest",viewModel.categories.value)
+                bundle.putString("imageUri",viewModel.profileImage.value)
+                bundle.putInt("independentCareerYear",viewModel.independenctYear.value)
+                bundle.putInt("independentCareerMonth",viewModel.independenctMonth.value)
+                val intent=Intent(activity, LocationActivity::class.java)
+                intent.putExtra("userInfo",bundle)
+                startActivity(intent)
+                activity.finish()
 
-                findNavController().navigate(
-                    R.id.action_signup4_fragment_to_signup5_fragment,
-                    bundle
-                )
+                //navigate to signup fragment 5
+//                val bundle = Bundle()
+//                bundle.putString("nickname", binding.signup4NicknameEt.text.toString())
+//                bundle.putStringArrayList("interest", interestArray)
+//                bundle.putString(
+//                    "imageUri",
+//                    if (imageSource.isNotEmpty()) imageSource
+//                    else ""
+////                        Uri.fromFile(File("//android_asset/profile_image_default.png")).toString()
+//                )
+//                bundle.putInt("independentCareerYear", independentCareerYear!!)
+//                bundle.putInt("independentCareerMonth", independentCareerMonth!!)
+//
+//                findNavController().navigate(
+//                    R.id.action_signup4_fragment_to_signup5_fragment,
+//                    bundle
+//                )
             }
+        }
+    }
+
+    private fun initIndependent(){
+        if (independentCareerYear != null || independentCareerMonth != null) {
+            if (independentCareerYear != ZERO_CAREER && independentCareerMonth != ZERO_CAREER) {
+                binding.signup4IndependenceEt.text =
+                    getString(
+                        R.string.my_independent_career_base_format,
+                        independentCareerYear,
+                        independentCareerMonth
+                    )
+            } else if (independentCareerYear != ZERO_CAREER) {
+                binding.signup4IndependenceEt.text =
+                    getString(R.string.my_independent_career_year_format, independentCareerYear)
+            } else if (independentCareerMonth != ZERO_CAREER) {
+                binding.signup4IndependenceEt.text =
+                    getString(R.string.my_independent_career_month_format, independentCareerMonth)
+            } else {
+                binding.signup4IndependenceEt.text =
+                    getString(R.string.my_independent_career_month_format, ZERO_CAREER)
+            }
+            binding.signup4IndependenceEt.setTextColor(
+                ContextCompat.getColor(
+                    requireActivity(),
+                    R.color.black
+                )
+            )
+            viewModel.independentCheck(true)
+            nextok()
         }
     }
 
@@ -225,17 +231,6 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
                     .circleCrop()
                     .into(binding.signup4ProfileImageIv)
                 imageSource = getRealPathFromUri(uri, context)
-//            val bitmap=MediaStore.Images.Media.getBitmap(context.contentResolver,uri)
-//            val resizeBitmap= Bitmap.createScaledBitmap(bitmap,bitmap.width/2,bitmap.height/2,true)
-//            val byteArrayOutputStream=ByteArrayOutputStream()
-//            resizeBitmap.compress(Bitmap.CompressFormat.JPEG,90,byteArrayOutputStream)
-//            val tempFile=File.createTempFile("resized_image",".jpg",context.cacheDir)
-//            val fileOutputStream=FileOutputStream(tempFile)
-//            fileOutputStream.write(byteArrayOutputStream.toByteArray())
-//            fileOutputStream.close()
-//            imageSource=Uri.fromFile(tempFile).toString()
-//            Log.i("PhotoPicker", imageSource)
-//            imageSource=uri.toString()
             } else {
                 Log.d("PhotoPicker", "No media selected")
             }
@@ -268,62 +263,6 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
         }
         return ""
     }
-//    fun getPath(context: Context, uri: Uri): String? {
-//        val isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
-//                if (isExternalStorageDocument(uri)) {
-//                    val docId = DocumentsContract.getDocumentId(uri)
-//                    val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }
-//                        .toTypedArray()
-//                    val type = split[0]
-//                    if ("primary".equals(type, ignoreCase = true)) {
-//                        return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
-//                    }
-//                } else if (isMediaDocument(uri)) {
-//                    val docId = DocumentsContract.getDocumentId(uri)
-//                    val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }
-//                        .toTypedArray()
-//                    val type = split[0]
-//                    var contentUri: Uri? = null
-//                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-//                    val selection = "_id=?"
-//                    val selectionArgs = arrayOf(
-//                        split[1]
-//                    )
-//                    return getDataColumn(context, contentUri, selection, selectionArgs)
-//                }
-//            }
-//        }
-//        return null
-//    }
-//    fun isExternalStorageDocument(uri: Uri): Boolean {
-//        return "com.android.externalstorage.documents" == uri.authority
-//    }
-//    fun getDataColumn(
-//        context: Context,
-//        uri: Uri?,
-//        selection: String?,
-//        selectionArgs: Array<String>?
-//    ): String? {
-//        var cursor: Cursor? = null
-//        val column = "_data"
-//        val projection = arrayOf(column)
-//        try {
-//            cursor =
-//                context.contentResolver.query(uri!!, projection, selection, selectionArgs, null)
-//            if (cursor != null && cursor.moveToFirst()) {
-//                val column_index = cursor.getColumnIndexOrThrow(column)
-//                return cursor.getString(column_index)
-//            }
-//        } finally {
-//            cursor?.close()
-//        }
-//        return null
-//    }
-//    fun isMediaDocument(uri: Uri): Boolean {
-//        return "com.android.providers.media.documents" == uri.authority
-//    }
 
     private fun nextok() {
         if (viewModel.nickok.value &&

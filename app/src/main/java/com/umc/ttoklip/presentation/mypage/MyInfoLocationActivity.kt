@@ -18,6 +18,7 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.UiSettings
 import com.naver.maps.map.overlay.CircleOverlay
+import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityMyinfoLocationBinding
@@ -32,7 +33,7 @@ class MyInfoLocationActivity :
     private lateinit var naverMap: NaverMap
     private lateinit var locationSource: FusedLocationSource
     private lateinit var uiSetting: UiSettings
-    private lateinit var address: String
+    private var address: String=""
     private val LOCATION_PERMISSION_REQUEST_CODE: Int = 5000
     private val PERMISSIONS = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
@@ -40,6 +41,7 @@ class MyInfoLocationActivity :
     )
     private lateinit var range: String
     private lateinit var circle: CircleOverlay
+    private lateinit var marker: Marker
 
     private var locationok: Boolean = false
 
@@ -50,6 +52,7 @@ class MyInfoLocationActivity :
         }
         initMapView()
         circle = CircleOverlay()
+        marker=Marker()
 
         range = getString(R.string.range_500m)
         binding.locationRangeDescTv.text =
@@ -116,23 +119,24 @@ class MyInfoLocationActivity :
         uiSetting.isLocationButtonEnabled = false
         binding.locationNowLocation.map = naverMap
 
-//        locationSource =
-        naverMap.locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
+        locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
+        naverMap.locationSource = locationSource
         naverMap.locationTrackingMode = LocationTrackingMode.Follow
-//        naverMap.locationOverlay.subIcon =
-//            OverlayImage.fromResource(com.naver.maps.map.R.drawable.navermap_location_overlay_icon)
 
-        naverMap.addOnLocationChangeListener {
-            locationX=it.latitude.toInt()
-            locationY=it.longitude.toInt()
-            getAddress(
-                it.latitude,
-                it.longitude
-            )
-            circle.center = LatLng(it.latitude, it.longitude)
-            locationok = true
-            setcircle()
+        naverMap.setOnMapClickListener { pointF, latLng ->
+            setlocation(latLng.latitude,latLng.longitude)
         }
+    }
+
+    private fun setlocation(latitude:Double,longitude:Double){
+        this.address=""
+        getAddress(latitude, longitude)
+        circle.center = LatLng(latitude, longitude)
+        marker.position=LatLng(latitude,longitude)
+        locationok = true
+        setcircle()
+        marker.map=null
+        marker.map=naverMap
     }
 
     private fun setcircle() {
@@ -169,16 +173,22 @@ class MyInfoLocationActivity :
             if (addressList != null && addressList.isNotEmpty()) {
                 val address: Address = addressList[0]
                 val spliteAddr = address.getAddressLine(0).split(" ")
-                this.address = spliteAddr[1] + " " + spliteAddr[2] + " " + spliteAddr[3]
+                for(i in 1.. spliteAddr.size-1){
+                    this.address=this.address+spliteAddr[i]+" "
+                }
             }
         } else {
             val addresses = geocoder.getFromLocation(latitude, longitude, 1)
             if (addresses != null) {
                 val spliteAddr = addresses[0].getAddressLine(0).split(" ")
-                this.address = spliteAddr[1] + " " + spliteAddr[2] + " " + spliteAddr[3]
+                for(i in 1.. spliteAddr.size-1){
+                    this.address=this.address+spliteAddr[i]+" "
+                }
             }
         }
-        binding.locationMytownDetailTv.text = address
+        if (address.isNotEmpty()){
+            binding.locationMytownDetailTv.text = address
+        }
     }
 
     override fun initObserver() {
