@@ -1,8 +1,10 @@
 package com.umc.ttoklip.presentation.hometown
 
 import android.content.Intent
+import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.VIEW_MODEL_STORE_OWNER_KEY
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityTradeLocationBinding
@@ -27,6 +29,7 @@ class TradeLocationActivity :
                 val address = aIntent.getStringExtra("address")
                 val addressDetail = aIntent.getStringExtra("addressDetail")
                 address?.let { place ->
+                    binding.tradeLocationFrame.visibility = View.VISIBLE
                     binding.tradeLocationTv.text = place
                     addressDetail?.let { detail ->
                         binding.tradeLocationDetailTv.text = detail
@@ -53,7 +56,7 @@ class TradeLocationActivity :
         binding.recentlyUsedPlacesRv.layoutManager = LinearLayoutManager(this)
         adapter.submitList(places)
 
-        binding.gpsBaseSettingFrame.setOnClickListener {
+        binding.inputTradeLocationTv.setOnClickListener {
             val intent = Intent(this, PlaceActivity::class.java)
             activityResultLauncher.launch(intent)
         }
