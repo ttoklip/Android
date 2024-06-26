@@ -2,6 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherViewModel" />
+    </data>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,12 +24,11 @@
 
         <ImageButton
             android:id="@+id/location_back_ib"
-            android:layout_width="19dp"
-            android:layout_height="19dp"
-            android:layout_marginStart="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:background="@color/white"
-            android:scaleType="centerCrop"
             android:src="@drawable/ic_arrow_back_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,7 +39,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:text="거래희망 장소"
-            android:textAppearance="@style/TextAppearance.App.20sp_600"
+            android:textAppearance="@style/TextAppearance.App.16sp_600"
             app:layout_constraintBottom_toBottomOf="@id/location_back_ib"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -64,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="30dp"
-                android:text="우리동네"
+                android:text="@{viewModel.address}"
                 android:textAppearance="@style/TextAppearance.App.16sp_600"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -14,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -71,6 +72,14 @@ class WriteTogetherViewModelImpl @Inject constructor(
     override val postId: StateFlow<Long>
         get() = _postId
 
+    private val _address = MutableStateFlow("")
+    override val address: StateFlow<String>
+        get() = _address
+
+    private val _addressDetail = MutableStateFlow("")
+    override val addressDetail: StateFlow<String>
+        get() = _addressDetail
+
 
     override fun setTotalPrice(totalPrice: Long) {
         _totalPrice.value = totalPrice
@@ -79,6 +88,15 @@ class WriteTogetherViewModelImpl @Inject constructor(
 
     override fun setTotalMember(totalMember: Long) {
         _totalMember.value = totalMember
+    }
+
+    override fun setAddress(address: String) {
+        _address.value = address
+        Log.d("address set", this.address.value.toString())
+    }
+
+    override fun setAddressDetail(addressDetail: String) {
+        _addressDetail.value = addressDetail
     }
 
 

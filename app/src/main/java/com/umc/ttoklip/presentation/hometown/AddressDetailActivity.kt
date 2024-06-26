@@ -1,6 +1,7 @@
 package com.umc.ttoklip.presentation.hometown
 
 import android.content.Intent
+import androidx.navigation.findNavController
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityAddressDetailBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
@@ -26,7 +27,7 @@ class AddressDetailActivity :
             finish()
         }
         binding.gpsBaseSettingFrame.setOnClickListener {
-            finish()
+
         }
     }
 

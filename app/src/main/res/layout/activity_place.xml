@@ -13,8 +13,8 @@
             android:name="com.naver.maps.map.MapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="56dp"
-            android:background="@color/gray40" />
+            app:navermap_locationButtonEnabled="true"
+            android:layout_marginTop="56dp" />
 
         <ImageButton
             android:id="@+id/location_back_ib"

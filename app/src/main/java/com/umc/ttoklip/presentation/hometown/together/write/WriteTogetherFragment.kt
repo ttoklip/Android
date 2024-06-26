@@ -19,6 +19,7 @@ import android.widget.EditText
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -31,7 +32,7 @@ import com.umc.ttoklip.presentation.dialog.ImageDialogFragment
 import com.umc.ttoklip.presentation.hometown.dialog.InputMaxMemberDialogFragment
 import com.umc.ttoklip.presentation.hometown.dialog.TogetherDialog
 import com.umc.ttoklip.presentation.hometown.together.read.ReadTogetherActivity
-import com.umc.ttoklip.presentation.hometown.tradelocation.TradeLocationActivity
+import com.umc.ttoklip.presentation.hometown.together.write.tradelocation.TradeLocationActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,7 +56,7 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
             Log.d("PhotoPicker", "No media selected")
         }
     }
-    private val viewModel: WriteTogetherViewModel by viewModels<WriteTogetherViewModelImpl>()
+    private val viewModel: WriteTogetherViewModel by activityViewModels<WriteTogetherViewModelImpl>()
 
     private val navigator by lazy {
         findNavController()
@@ -117,9 +118,6 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
 
         binding.tradingPlaceTv.setOnClickListener {
             navigator.navigate(R.id.action_writeTogetherFragment_to_tradeLocationFragment)
-            /*val intent = Intent(this, TradeLocationActivity::class.java)
-            activityResultLauncher.launch(intent)*/
-
         }
     }
 
@@ -260,27 +258,6 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
         val images = uriList.map { Image(it, "") }
         viewModel.addImages(images)
     }
-
-
-
-
-
-    /*override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
-        if (event?.action == MotionEvent.ACTION_DOWN) {
-            val v = currentFocus
-            if (v is EditText) {
-                val outRect = Rect()
-                v.getGlobalVisibleRect(outRect)
-                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
-                    v.clearFocus()
-                    val imm: InputMethodManager =
-                        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
-                }
-            }
-        }
-        return super.dispatchTouchEvent(event)
-    }*/
 
     companion object {
         private val AMOUNT_FORMAT = DecimalFormat("#,###")

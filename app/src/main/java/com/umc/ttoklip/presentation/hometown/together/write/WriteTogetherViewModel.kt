@@ -17,9 +17,15 @@ interface WriteTogetherViewModel {
     val closePage: StateFlow<Boolean>
     val images: StateFlow<List<Image>>
     val postId: StateFlow<Long>
+    val address: StateFlow<String>
+    val addressDetail: StateFlow<String>
 
     fun setTotalPrice(totalPrice: Long)
     fun setTotalMember(totalMember: Long)
+
+    fun setAddress(address: String)
+
+    fun setAddressDetail(addressDetail: String)
     fun addImages(images: List<Image>)
     fun checkDone()
     fun doneButtonClick()

@@ -1,6 +1,7 @@
-package com.umc.ttoklip.presentation.hometown.tradelocation
+package com.umc.ttoklip.presentation.hometown.together.write.tradelocation
 
 import android.content.Intent
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
@@ -11,6 +12,8 @@ import com.umc.ttoklip.presentation.hometown.adapter.OnRecentPlaceClickListener
 import com.umc.ttoklip.presentation.hometown.adapter.RecentPlace
 import com.umc.ttoklip.presentation.hometown.adapter.RecentlyUsedPlaceAdapter
 import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherActivity
+import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherViewModel
+import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,6 +25,7 @@ class TradeLocationFragment: BaseFragment<FragmentTradeLocationBinding>(R.layout
     private val navigator by lazy {
         findNavController()
     }
+    private val viewModel: WriteTogetherViewModel by activityViewModels<WriteTogetherViewModelImpl>()
     override fun initObserver() {
 
     }

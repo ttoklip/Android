@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/tradeLocationFragment"
-        android:name="com.umc.ttoklip.presentation.hometown.tradelocation.TradeLocationFragment"
+        android:name="com.umc.ttoklip.presentation.hometown.together.write.tradelocation.TradeLocationFragment"
         android:label="TradeLocationFragment" >
         <action
             android:id="@+id/action_tradeLocationFragment_to_placeFragment"
@@ -14,8 +14,12 @@
     </fragment>
     <fragment
         android:id="@+id/placeFragment"
-        android:name="com.umc.ttoklip.presentation.hometown.tradelocation.PlaceFragment"
-        android:label="PlaceFragment" />
+        android:name="com.umc.ttoklip.presentation.hometown.together.write.tradelocation.PlaceFragment"
+        android:label="PlaceFragment" >
+        <action
+            android:id="@+id/action_placeFragment_to_addressDetailFragment"
+            app:destination="@id/addressDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/writeTogetherFragment"
         android:name="com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherFragment"
@@ -24,4 +28,8 @@
             android:id="@+id/action_writeTogetherFragment_to_tradeLocationFragment"
             app:destination="@id/tradeLocationFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/addressDetailFragment"
+        android:name="com.umc.ttoklip.presentation.hometown.together.write.tradelocation.AddressDetailFragment"
+        android:label="AddressDetailFragment" />
 </navigation>

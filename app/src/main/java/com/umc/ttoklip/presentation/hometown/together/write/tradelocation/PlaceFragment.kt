@@ -1,4 +1,4 @@
-package com.umc.ttoklip.presentation.hometown
+package com.umc.ttoklip.presentation.hometown.together.write.tradelocation
 
 import android.Manifest
 import android.content.Intent
@@ -6,24 +6,39 @@ import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.os.Build
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.overlay.LocationOverlay
+import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import com.umc.ttoklip.R
-import com.umc.ttoklip.databinding.ActivityPlaceBinding
-import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.hometown.together.write.tradelocation.TradeLocationActivity
+import com.umc.ttoklip.databinding.FragmentPlaceBinding
+import com.umc.ttoklip.presentation.base.BaseFragment
+import com.umc.ttoklip.presentation.hometown.AddressDetailActivity
+import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherViewModel
+import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 @AndroidEntryPoint
-class PlaceActivity : BaseActivity<ActivityPlaceBinding>(R.layout.activity_place),
+class PlaceFragment : BaseFragment<FragmentPlaceBinding>(R.layout.fragment_place),
     OnMapReadyCallback {
     private var type = ""
     private lateinit var naverMap: NaverMap
@@ -34,8 +49,13 @@ class PlaceActivity : BaseActivity<ActivityPlaceBinding>(R.layout.activity_place
         Manifest.permission.ACCESS_COARSE_LOCATION
     )
     private var locationok: Boolean = false
+    private val navigator by lazy {
+        findNavController()
+    }
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val viewModel: WriteTogetherViewModel by activityViewModels<WriteTogetherViewModelImpl>()
 
-    private val activityResultLauncher: ActivityResultLauncher<Intent> =
+    /*private val activityResultLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             val addressIntent = it.data
             addressIntent?.let { aIntent ->
@@ -50,32 +70,45 @@ class PlaceActivity : BaseActivity<ActivityPlaceBinding>(R.layout.activity_place
                 }
 
             }
-        }
+        }*/
 
     override fun initView() {
-        intent.getStringExtra("place")?.let {
+        binding.viewModel = viewModel
+        /*intent.getStringExtra("place")?.let {
             type = it
             binding.locationTitleTv.text = getString(R.string.my_hometown_address_title)
-        }
+        }*/
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         if (!hasPermission()) {
-            ActivityCompat.requestPermissions(this, PERMISSIONS, LOCATION_PERMISSION_REQUEST_CODE)
+            ActivityCompat.requestPermissions(requireActivity(), PERMISSIONS, LOCATION_PERMISSION_REQUEST_CODE)
         }
         initMapView()
 
         binding.locationNextBtn.setOnClickListener {
-            val intent = Intent(this, AddressDetailActivity::class.java)
+            /*val intent = Intent(requireContext(), AddressDetailActivity::class.java)
             intent.putExtra("place", "town")
             intent.putExtra("address", address)
-            activityResultLauncher.launch(intent)
+            activityResultLauncher.launch(intent)*/
+            navigator.navigate(R.id.addressDetailFragment)
+        }
+
+        binding.locationBackIb.setOnClickListener {
+            navigator.navigateUp()
         }
     }
 
     override fun initObserver() {
-
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.address.collect {
+                    Log.d("address", it.toString())
+                }
+            }
+        }
     }
 
     private fun initMapView() {
-        val fm = supportFragmentManager
+        val fm = childFragmentManager
         val mapFragment = fm.findFragmentById(R.id.location_map) as MapFragment?
             ?: MapFragment.newInstance().also {
                 fm.beginTransaction().add(R.id.location_map, it).commit()
@@ -84,7 +117,7 @@ class PlaceActivity : BaseActivity<ActivityPlaceBinding>(R.layout.activity_place
     }
 
     private fun getAddress(latitude: Double, longitude: Double) {
-        val geocoder = Geocoder(applicationContext, Locale.KOREAN)
+        val geocoder = Geocoder(requireContext(), Locale.KOREAN)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val addressList: List<Address>? = geocoder.getFromLocation(latitude, longitude, 1)
             if (addressList != null && addressList.isNotEmpty()) {
@@ -99,12 +132,13 @@ class PlaceActivity : BaseActivity<ActivityPlaceBinding>(R.layout.activity_place
                 this.address = spliteAddr[1] + " " + spliteAddr[2] + " " + spliteAddr[3]
             }
         }
-        binding.currentLocationTv.text = address
+        //binding.currentLocationTv.text = address
+        viewModel.setAddress(address)
     }
 
     private fun hasPermission(): Boolean {
         for (permission in PERMISSIONS) {
-            if (ContextCompat.checkSelfPermission(this, permission)
+            if (ContextCompat.checkSelfPermission(requireContext(), permission)
                 != PackageManager.PERMISSION_GRANTED
             ) {
                 return false
@@ -117,18 +151,32 @@ class PlaceActivity : BaseActivity<ActivityPlaceBinding>(R.layout.activity_place
         this.naverMap = p0
         binding.locationNowLocation.map = naverMap
 
-//        locationSource =
         naverMap.locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
-        naverMap.locationTrackingMode = LocationTrackingMode.Follow
-//        naverMap.locationOverlay.subIcon =
-//            OverlayImage.fromResource(com.naver.maps.map.R.drawable.navermap_location_overlay_icon)
+        naverMap.locationOverlay.isVisible = true
+        getLastKnownLocation()
+    }
 
-        naverMap.addOnLocationChangeListener {
-            getAddress(
-                it.latitude,
-                it.longitude
-            )
-            locationok = true
+    private fun getLastKnownLocation() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            //ActivityCompat.requestPermissions(requireActivity(), PERMISSIONS, LOCATION_PERMISSION_REQUEST_CODE)
+            return
         }
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location ->
+                if (location != null) {
+                    val latLng = LatLng(location.latitude, location.longitude)
+                    naverMap.locationOverlay.position = latLng
+                    naverMap.moveCamera(CameraUpdate.scrollTo(latLng))
+                    getAddress(location.latitude, location.longitude)
+                } else {
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("getLastKnownLocation", exception.message.toString())
+            }
     }
 }

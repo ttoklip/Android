@@ -19,6 +19,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -27,7 +28,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityWriteTogetherBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.hometown.tradelocation.TradeLocationActivity
+import com.umc.ttoklip.presentation.hometown.together.write.tradelocation.TradeLocationActivity
 import com.umc.ttoklip.presentation.hometown.dialog.InputMaxMemberDialogFragment
 import com.umc.ttoklip.presentation.hometown.dialog.TogetherDialog
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
@@ -41,6 +42,7 @@ import kotlinx.coroutines.launch
 class WriteTogetherActivity :
     BaseActivity<ActivityWriteTogetherBinding>(R.layout.activity_write_together) {
     private lateinit var navController: NavController
+    private val viewModel: WriteTogetherViewModel by viewModels<WriteTogetherViewModelImpl>()
     /*private val activityResultLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             val addressIntent = it.data

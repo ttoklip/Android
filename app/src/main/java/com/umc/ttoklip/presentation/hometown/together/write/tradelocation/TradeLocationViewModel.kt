@@ -1,4 +1,4 @@
-package com.umc.ttoklip.presentation.hometown.tradelocation
+package com.umc.ttoklip.presentation.hometown.together.write.tradelocation
 
 import androidx.lifecycle.ViewModel
 import com.umc.ttoklip.data.repository.naver.NaverRepository

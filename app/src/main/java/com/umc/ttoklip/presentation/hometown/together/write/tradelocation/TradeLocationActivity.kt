@@ -1,4 +1,4 @@
-package com.umc.ttoklip.presentation.hometown.tradelocation
+package com.umc.ttoklip.presentation.hometown.together.write.tradelocation
 
 import android.content.Intent
 import android.view.View
