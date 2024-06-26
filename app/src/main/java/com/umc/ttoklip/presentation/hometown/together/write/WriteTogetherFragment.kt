@@ -13,57 +13,35 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.umc.ttoklip.R
-import com.umc.ttoklip.databinding.ActivityWriteTogetherBinding
-import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.hometown.tradelocation.TradeLocationActivity
+import com.umc.ttoklip.databinding.FragmentWriteTogetherBinding
+import com.umc.ttoklip.presentation.base.BaseFragment
+import com.umc.ttoklip.presentation.dialog.ImageDialogFragment
 import com.umc.ttoklip.presentation.hometown.dialog.InputMaxMemberDialogFragment
 import com.umc.ttoklip.presentation.hometown.dialog.TogetherDialog
+import com.umc.ttoklip.presentation.hometown.together.read.ReadTogetherActivity
+import com.umc.ttoklip.presentation.hometown.tradelocation.TradeLocationActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
-import com.umc.ttoklip.presentation.dialog.ImageDialogFragment
-import com.umc.ttoklip.presentation.hometown.together.read.ReadTogetherActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class WriteTogetherActivity :
-    BaseActivity<ActivityWriteTogetherBinding>(R.layout.activity_write_together) {
-    private lateinit var navController: NavController
-    /*private val activityResultLauncher: ActivityResultLauncher<Intent> =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            val addressIntent = it.data
-            addressIntent?.let { aIntent ->
-                val address = aIntent.getStringExtra("address")
-                val addressDetail = aIntent.getStringExtra("addressDetail")
-                binding.tradingPlaceTv.setTextColor(getColor(R.color.black))
-                binding.tradingPlaceTv.compoundDrawables.forEach { drawable ->
-                    if (drawable != null) {
-                        drawable.colorFilter =
-                            PorterDuffColorFilter(getColor(R.color.black), PorterDuff.Mode.SRC_IN)
-                    }
-                }
-                binding.tradingPlaceTv.text = if (!addressDetail.isNullOrBlank()) {
-                    StringBuilder().append(address).append(" (").append(addressDetail).append(")")
-                        .toString()
-                } else {
-                    StringBuilder().append(address).toString()
-                }
-            }
-        }
+class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout.fragment_write_together) {
+
     private val imageAdapter by lazy {
-        ImageRVA(this, null)
+        ImageRVA(requireContext(), null)
     }
 
     private val pickMultipleMedia = registerForActivityResult(
@@ -79,13 +57,17 @@ class WriteTogetherActivity :
     }
     private val viewModel: WriteTogetherViewModel by viewModels<WriteTogetherViewModelImpl>()
 
+    private val navigator by lazy {
+        findNavController()
+    }
     override fun initView() {
         binding.vm = viewModel as WriteTogetherViewModelImpl
         initImageRVA()
         addLink()
         addImage()
+
         binding.backBtn.setOnClickListener {
-            finish()
+            requireActivity().finish()
         }
 
         var result = ""
@@ -123,19 +105,21 @@ class WriteTogetherActivity :
                     if (drawable != null) {
                         drawable.colorFilter =
                             PorterDuffColorFilter(
-                                getColor(R.color.black),
+                                requireContext().getColor(R.color.black),
                                 PorterDuff.Mode.SRC_IN
                             )
                     }
                 }
                 binding.maxMemberTv.hint = ""
             }
-            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+            bottomSheet.show(childFragmentManager, bottomSheet.tag)
         }
 
         binding.tradingPlaceTv.setOnClickListener {
-            val intent = Intent(this, TradeLocationActivity::class.java)
-            activityResultLauncher.launch(intent)
+            navigator.navigate(R.id.action_writeTogetherFragment_to_tradeLocationFragment)
+            /*val intent = Intent(this, TradeLocationActivity::class.java)
+            activityResultLauncher.launch(intent)*/
+
         }
     }
 
@@ -223,7 +207,7 @@ class WriteTogetherActivity :
                                     viewModel.writeTogether()
                                 }
                             })
-                            together.show(supportFragmentManager, together.tag)
+                            together.show(childFragmentManager, together.tag)
                         }
                     }
                 }
@@ -235,11 +219,11 @@ class WriteTogetherActivity :
                         if(it != 0L) {
                             startActivity(
                                 ReadTogetherActivity.newIntent(
-                                    this@WriteTogetherActivity,
+                                    requireContext(),
                                     it
                                 )
                             )
-                            finish()
+                            requireActivity().finish()
                         }
                     }
                 }
@@ -267,7 +251,7 @@ class WriteTogetherActivity :
                     pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                 }
             })
-            imageDialog.show(supportFragmentManager, imageDialog.tag)
+            imageDialog.show(childFragmentManager, imageDialog.tag)
         }
     }
 
@@ -277,7 +261,11 @@ class WriteTogetherActivity :
         viewModel.addImages(images)
     }
 
-    override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
+
+
+
+
+    /*override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
         if (event?.action == MotionEvent.ACTION_DOWN) {
             val v = currentFocus
             if (v is EditText) {
@@ -292,38 +280,9 @@ class WriteTogetherActivity :
             }
         }
         return super.dispatchTouchEvent(event)
-    }
+    }*/
 
     companion object {
         private val AMOUNT_FORMAT = DecimalFormat("#,###")
-    }*/
-
-    override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
-        if (event?.action == MotionEvent.ACTION_DOWN) {
-            val v = currentFocus
-            if (v is EditText) {
-                val outRect = Rect()
-                v.getGlobalVisibleRect(outRect)
-                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
-                    v.clearFocus()
-                    val imm: InputMethodManager =
-                        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
-                }
-            }
-        }
-        return super.dispatchTouchEvent(event)
-    }
-    override fun initView() {
-        initNavigator()
-    }
-
-    override fun initObserver() {
-
-    }
-
-    private fun initNavigator(){
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = navHostFragment.navController
     }
 }

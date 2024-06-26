@@ -18,6 +18,7 @@ import com.naver.maps.map.util.FusedLocationSource
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityPlaceBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
+import com.umc.ttoklip.presentation.hometown.tradelocation.TradeLocationActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
