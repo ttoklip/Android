@@ -31,6 +31,7 @@ class TradeLocationFragment: BaseFragment<FragmentTradeLocationBinding>(R.layout
     }
 
     override fun initView() {
+        binding.viewModel = viewModel
         binding.backBtn.setOnClickListener {
             val intent = Intent(requireContext(), WriteTogetherActivity::class.java)
             intent.putExtra("address", binding.tradeLocationTv.text.toString())

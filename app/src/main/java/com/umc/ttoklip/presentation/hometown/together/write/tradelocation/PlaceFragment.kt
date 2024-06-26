@@ -34,6 +34,7 @@ import com.umc.ttoklip.presentation.hometown.AddressDetailActivity
 import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherViewModel
 import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -79,9 +80,9 @@ class PlaceFragment : BaseFragment<FragmentPlaceBinding>(R.layout.fragment_place
             binding.locationTitleTv.text = getString(R.string.my_hometown_address_title)
         }*/
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-        if (!hasPermission()) {
+        /*if (!hasPermission()) {
             ActivityCompat.requestPermissions(requireActivity(), PERMISSIONS, LOCATION_PERMISSION_REQUEST_CODE)
-        }
+        }*/
         initMapView()
 
         binding.locationNextBtn.setOnClickListener {
@@ -164,6 +165,7 @@ class PlaceFragment : BaseFragment<FragmentPlaceBinding>(R.layout.fragment_place
         ) {
             ActivityCompat.requestPermissions(requireActivity(), PERMISSIONS, LOCATION_PERMISSION_REQUEST_CODE)
             getLastKnownLocation()
+            return
         }
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location ->
