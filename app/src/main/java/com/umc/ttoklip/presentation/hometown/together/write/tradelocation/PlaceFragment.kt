@@ -162,8 +162,8 @@ class PlaceFragment : BaseFragment<FragmentPlaceBinding>(R.layout.fragment_place
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            //ActivityCompat.requestPermissions(requireActivity(), PERMISSIONS, LOCATION_PERMISSION_REQUEST_CODE)
-            return
+            ActivityCompat.requestPermissions(requireActivity(), PERMISSIONS, LOCATION_PERMISSION_REQUEST_CODE)
+            getLastKnownLocation()
         }
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location ->

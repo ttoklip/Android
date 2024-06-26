@@ -91,12 +91,19 @@ class WriteTogetherViewModelImpl @Inject constructor(
     }
 
     override fun setAddress(address: String) {
+        if (address.isEmpty()){
+            return
+        }
         _address.value = address
-        Log.d("address set", this.address.value.toString())
+        _dealPlace.value = address
     }
 
     override fun setAddressDetail(addressDetail: String) {
+        if(addressDetail.isEmpty()){
+            return
+        }
         _addressDetail.value = addressDetail
+        _dealPlace.value += "($addressDetail)"
     }
 
 

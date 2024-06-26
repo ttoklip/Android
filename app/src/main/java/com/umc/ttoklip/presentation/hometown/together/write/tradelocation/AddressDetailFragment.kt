@@ -35,6 +35,7 @@ class AddressDetailFragment: BaseFragment<FragmentAddresDetailBinding>(R.layout.
         binding.viewModel = viewModel
 
         binding.locationNextBtn.setOnClickListener {
+            viewModel.setAddressDetail(binding.inputTradeLocationEt.text.toString())
             navigator.popBackStack(R.id.writeTogetherFragment, false)
         }
         binding.gpsBaseSettingFrame.setOnClickListener {

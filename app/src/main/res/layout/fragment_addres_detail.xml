@@ -89,7 +89,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <EditText
-            android:id="@+id/input_trade_location_tv"
+            android:id="@+id/input_trade_location_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
@@ -116,6 +116,6 @@
             android:textAppearance="@style/TextAppearance.App.16sp_600"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/input_trade_location_tv" />
+            app:layout_constraintTop_toBottomOf="@+id/input_trade_location_et" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
