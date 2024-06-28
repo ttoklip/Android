@@ -2,19 +2,43 @@ package com.umc.ttoklip.presentation.alarm
 
 import android.content.Context
 import android.content.Intent
-import androidx.activity.viewModels
 import com.umc.ttoklip.R
+import android.util.Log
+import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.databinding.ActivityAlarmBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.news.adapter.Dummy
+import com.umc.ttoklip.presentation.hometown.together.read.ReadTogetherActivity
+import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
+import com.umc.ttoklip.presentation.honeytip.read.ReadQuestionActivity
 import com.umc.ttoklip.presentation.search.adapter.AlarmRVA
-import com.umc.ttoklip.presentation.search.adapter.SearchRVA
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class AlarmActivity : BaseActivity<ActivityAlarmBinding>(R.layout.activity_alarm) {
 
-    private val viewModel: AlarmViewModel by viewModels<AlarmViewModelImpl>()
+    private val viewModel: AlarmViewModel by viewModels<AlarmViewModel>()
     private val alarmRVA by lazy {
-        AlarmRVA({})
+        AlarmRVA {
+            when (it.title) {
+                "꿀팁 공유해요" -> {
+                    startActivity(ReadHoneyTipActivity.newIntent(this, it.targetClassId))
+                }
+
+                "우리동네 덧글", "우리동네 답글" -> {
+                    startActivity(ReadTogetherActivity.newIntent(this, it.targetClassId.toLong()))
+                }
+
+                "질문해요" -> {
+                    startActivity(ReadQuestionActivity.newIntent(this, it.targetClassId))
+                }
+
+                else -> Unit
+            }
+        }
     }
 
     override fun initView() {
@@ -23,22 +47,23 @@ class AlarmActivity : BaseActivity<ActivityAlarmBinding>(R.layout.activity_alarm
             finish()
         }
         binding.alarmRV.adapter = alarmRVA
-        alarmRVA.submitList(
-            listOf(
-                Dummy("1"),
-                Dummy("2")
-            )
-        )
     }
 
     override fun initObserver() {
-
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.notiList.collect {
+                    alarmRVA.submitList(it)
+                    Log.d("확인", "${it.map { it.notificationId }}")
+                }
+            }
+        }
     }
 
-    companion object{
+    companion object {
         const val ALARM = "alarm"
 
-        fun newIntent(context : Context) =
+        fun newIntent(context: Context) =
             Intent(context, AlarmActivity::class.java)
 
     }
