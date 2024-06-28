@@ -111,9 +111,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
             val intent = Intent(requireContext(), TogetherActivity::class.java)
             startActivity(intent)
         }
-        //테스트
-        binding.weatherImg.setImageResource(Weather.CLOUD.resId)
-        binding.weatherTitle.text = Weather.CLOUD.label
 
         binding.newsRV.adapter = newsRVA
         binding.groupBuyRV.adapter = townRVA
