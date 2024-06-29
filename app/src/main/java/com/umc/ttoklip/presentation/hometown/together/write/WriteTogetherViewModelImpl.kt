@@ -95,6 +95,14 @@ class WriteTogetherViewModelImpl @Inject constructor(
     override val latLng: SharedFlow<LatLng>
         get() = _latLng
 
+    private val _toast = MutableStateFlow("")
+    override val toast: StateFlow<String>
+        get() = _toast
+
+    private val _tradeLocationEvent = MutableSharedFlow<WriteTogetherViewModel.TradeLocationEvent>()
+    override val tradeLocationEvent: SharedFlow<WriteTogetherViewModel.TradeLocationEvent>
+        get() = _tradeLocationEvent
+
     override fun setTotalPrice(totalPrice: Long) {
         _totalPrice.value = totalPrice
         Log.d("set price", _totalPrice.value.toString())
@@ -122,6 +130,7 @@ class WriteTogetherViewModelImpl @Inject constructor(
 
     override fun setIsInputComplete() {
         _isInputComplete.value = _isInputComplete.value.not()
+        eventTradeLocation(WriteTogetherViewModel.TradeLocationEvent.InputAddressComplete(_isInputComplete.value))
     }
 
 
@@ -167,15 +176,27 @@ class WriteTogetherViewModelImpl @Inject constructor(
     override fun fetchGeocoding(query: String) {
         viewModelScope.launch {
             naverRepository.fetchGeocoding(query).onSuccess {response ->
-                with(response.addresses.first()){
-                    val latLng = LatLng(y.toDouble(), x.toDouble())
-                    _latLng.emit(latLng)
-                    setAddress(query)
+                val result = response.addresses.firstOrNull()
+                if (result == null){
+                    eventTradeLocation(WriteTogetherViewModel.TradeLocationEvent.ToastException("주소를 정확히 입력해주세요."))
+                    return@launch
+                } else {
+                    with(result) {
+                        val latLng = LatLng(y.toDouble(), x.toDouble())
+                        eventTradeLocation(WriteTogetherViewModel.TradeLocationEvent.CheckLocation(latLng))
+                        setAddress(query)
+                    }
                 }
                 Log.d("naver", response.toString())
             }.onException {
                 Log.d("error", it.toString())
             }
+        }
+    }
+
+    override fun eventTradeLocation(event: WriteTogetherViewModel.TradeLocationEvent) {
+        viewModelScope.launch {
+            _tradeLocationEvent.emit(event)
         }
     }
 }

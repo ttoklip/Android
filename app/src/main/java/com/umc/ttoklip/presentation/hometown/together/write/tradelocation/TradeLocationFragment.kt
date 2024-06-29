@@ -1,17 +1,14 @@
 package com.umc.ttoklip.presentation.hometown.together.write.tradelocation
 
-import android.content.Intent
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentTradeLocationBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
-import com.umc.ttoklip.presentation.hometown.PlaceActivity
 import com.umc.ttoklip.presentation.hometown.adapter.OnRecentPlaceClickListener
 import com.umc.ttoklip.presentation.hometown.adapter.RecentPlace
 import com.umc.ttoklip.presentation.hometown.adapter.RecentlyUsedPlaceAdapter
-import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherActivity
 import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherViewModel
 import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,10 +30,6 @@ class TradeLocationFragment: BaseFragment<FragmentTradeLocationBinding>(R.layout
     override fun initView() {
         binding.viewModel = viewModel
         binding.backBtn.setOnClickListener {
-            val intent = Intent(requireContext(), WriteTogetherActivity::class.java)
-            intent.putExtra("address", binding.tradeLocationTv.text.toString())
-            intent.putExtra("addressDetail", binding.tradeLocationDetailTv.text.toString())
-            //setResult(1, intent)
             navigator.navigateUp()
         }
         val places = listOf(
@@ -50,8 +43,10 @@ class TradeLocationFragment: BaseFragment<FragmentTradeLocationBinding>(R.layout
 
         binding.inputTradeLocationTv.setOnClickListener {
             navigator.navigate(R.id.action_tradeLocationFragment_to_placeFragment)
-            //val intent = Intent(this, PlaceActivity::class.java)
-            //activityResultLauncher.launch(intent)
+        }
+
+        binding.tradeLocationFrame.setOnClickListener{
+            navigator.navigateUp()
         }
     }
 

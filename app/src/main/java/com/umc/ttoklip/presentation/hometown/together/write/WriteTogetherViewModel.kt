@@ -1,7 +1,6 @@
 package com.umc.ttoklip.presentation.hometown.together.write
 
 import com.naver.maps.geometry.LatLng
-import com.umc.ttoklip.data.model.naver.GeocodingResponse
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,6 +22,16 @@ interface WriteTogetherViewModel {
     val addressDetail: StateFlow<String>
     val isInputComplete: StateFlow<Boolean>
     val latLng: SharedFlow<LatLng>
+    val toast: StateFlow<String>
+    val tradeLocationEvent: SharedFlow<TradeLocationEvent>
+
+    sealed class TradeLocationEvent{
+        data class InputAddressComplete(val isInputComplete: Boolean): TradeLocationEvent()
+
+        data class CheckLocation(val latLng: LatLng): TradeLocationEvent()
+
+        data class ToastException(val text: String): TradeLocationEvent()
+    }
 
     fun setTotalPrice(totalPrice: Long)
     fun setTotalMember(totalMember: Long)
@@ -38,4 +47,6 @@ interface WriteTogetherViewModel {
     fun writeTogether()
 
     fun fetchGeocoding(query: String)
+
+    fun eventTradeLocation(event: TradeLocationEvent)
 }

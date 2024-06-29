@@ -1,26 +1,17 @@
 package com.umc.ttoklip.presentation.hometown.together.write
 
-import android.content.Context
-import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.graphics.Rect
 import android.icu.text.DecimalFormat
 import android.net.Uri
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -32,7 +23,6 @@ import com.umc.ttoklip.presentation.dialog.ImageDialogFragment
 import com.umc.ttoklip.presentation.hometown.dialog.InputMaxMemberDialogFragment
 import com.umc.ttoklip.presentation.hometown.dialog.TogetherDialog
 import com.umc.ttoklip.presentation.hometown.together.read.ReadTogetherActivity
-import com.umc.ttoklip.presentation.hometown.together.write.tradelocation.TradeLocationActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import dagger.hilt.android.AndroidEntryPoint
