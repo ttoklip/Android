@@ -1,7 +1,9 @@
 package com.umc.ttoklip.presentation.hometown.together.write
 
+import com.naver.maps.geometry.LatLng
+import com.umc.ttoklip.data.model.naver.GeocodingResponse
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 
 interface WriteTogetherViewModel {
@@ -19,6 +21,8 @@ interface WriteTogetherViewModel {
     val postId: StateFlow<Long>
     val address: StateFlow<String>
     val addressDetail: StateFlow<String>
+    val isInputComplete: StateFlow<Boolean>
+    val latLng: SharedFlow<LatLng>
 
     fun setTotalPrice(totalPrice: Long)
     fun setTotalMember(totalMember: Long)
@@ -26,8 +30,12 @@ interface WriteTogetherViewModel {
     fun setAddress(address: String)
 
     fun setAddressDetail(addressDetail: String)
+
+    fun setIsInputComplete()
     fun addImages(images: List<Image>)
     fun checkDone()
     fun doneButtonClick()
     fun writeTogether()
+
+    fun fetchGeocoding(query: String)
 }

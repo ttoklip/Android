@@ -4,15 +4,21 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.naver.maps.geometry.LatLng
+import com.umc.ttoklip.data.model.naver.GeocodingResponse
 import com.umc.ttoklip.data.model.town.CreateTogethersRequest
+import com.umc.ttoklip.data.repository.naver.NaverRepository
 import com.umc.ttoklip.data.repository.town.WriteTogetherRepository
 import com.umc.ttoklip.module.onError
+import com.umc.ttoklip.module.onException
 import com.umc.ttoklip.module.onSuccess
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.util.WriteHoneyTipUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -21,6 +27,7 @@ import javax.inject.Inject
 @HiltViewModel
 class WriteTogetherViewModelImpl @Inject constructor(
     private val repository: WriteTogetherRepository,
+    private val naverRepository: NaverRepository,
     @ApplicationContext private val context: Context
 ) :
     ViewModel(), WriteTogetherViewModel {
@@ -80,6 +87,13 @@ class WriteTogetherViewModelImpl @Inject constructor(
     override val addressDetail: StateFlow<String>
         get() = _addressDetail
 
+    private val _isInputComplete = MutableStateFlow(false)
+    override val isInputComplete: StateFlow<Boolean>
+        get() = _isInputComplete
+
+    private val _latLng = MutableSharedFlow<LatLng>()
+    override val latLng: SharedFlow<LatLng>
+        get() = _latLng
 
     override fun setTotalPrice(totalPrice: Long) {
         _totalPrice.value = totalPrice
@@ -104,6 +118,10 @@ class WriteTogetherViewModelImpl @Inject constructor(
         }
         _addressDetail.value = addressDetail
         _dealPlace.value += "($addressDetail)"
+    }
+
+    override fun setIsInputComplete() {
+        _isInputComplete.value = _isInputComplete.value.not()
     }
 
 
@@ -146,4 +164,18 @@ class WriteTogetherViewModelImpl @Inject constructor(
         }
     }
 
+    override fun fetchGeocoding(query: String) {
+        viewModelScope.launch {
+            naverRepository.fetchGeocoding(query).onSuccess {response ->
+                with(response.addresses.first()){
+                    val latLng = LatLng(y.toDouble(), x.toDouble())
+                    _latLng.emit(latLng)
+                    setAddress(query)
+                }
+                Log.d("naver", response.toString())
+            }.onException {
+                Log.d("error", it.toString())
+            }
+        }
+    }
 }

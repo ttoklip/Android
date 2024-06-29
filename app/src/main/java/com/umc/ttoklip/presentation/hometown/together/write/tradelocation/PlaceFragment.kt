@@ -33,6 +33,8 @@ import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.hometown.AddressDetailActivity
 import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherViewModel
 import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherViewModelImpl
+import com.umc.ttoklip.util.showKeyboard
+import com.umc.ttoklip.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -55,6 +57,7 @@ class PlaceFragment : BaseFragment<FragmentPlaceBinding>(R.layout.fragment_place
     }
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val viewModel: WriteTogetherViewModel by activityViewModels<WriteTogetherViewModelImpl>()
+    private var isInputComplete = false
 
     /*private val activityResultLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -90,11 +93,25 @@ class PlaceFragment : BaseFragment<FragmentPlaceBinding>(R.layout.fragment_place
             intent.putExtra("place", "town")
             intent.putExtra("address", address)
             activityResultLauncher.launch(intent)*/
-            navigator.navigate(R.id.addressDetailFragment)
+            if(isInputComplete){
+                showToast("먼저 위치확인을 해주세요")
+            } else {
+                navigator.navigate(R.id.addressDetailFragment)
+            }
         }
 
         binding.locationBackIb.setOnClickListener {
             navigator.navigateUp()
+        }
+
+        binding.additionalAddressBtn.setOnClickListener {
+            if(!isInputComplete) {
+                binding.currentLocationTv.showKeyboard()
+                binding.currentLocationTv.setSelection(binding.currentLocationTv.text.length)
+            } else {
+                viewModel.fetchGeocoding(binding.currentLocationTv.text.toString())
+            }
+            viewModel.setIsInputComplete()
         }
     }
 
@@ -106,6 +123,25 @@ class PlaceFragment : BaseFragment<FragmentPlaceBinding>(R.layout.fragment_place
                 }
             }
         }
+
+        lifecycleScope.launch{
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.isInputComplete.collect{
+                    isInputComplete = it
+                }
+            }
+        }
+
+        lifecycleScope.launch{
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.latLng.collect {latLng ->
+                    Log.d("latLng", latLng.toString())
+                    naverMap.locationOverlay.position = latLng
+                    naverMap.moveCamera(CameraUpdate.scrollTo(latLng))
+                }
+            }
+        }
+
     }
 
     private fun initMapView() {
