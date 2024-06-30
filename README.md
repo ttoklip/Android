@@ -1,3 +1,9 @@
+![in1.png](https://raw.githubusercontent.com/ttoklip/BackEnd/main/introduce/in1.png)
+
+![in2.png](https://raw.githubusercontent.com/ttoklip/BackEnd/main/introduce/in2.png)
+
+![in3.png](https://raw.githubusercontent.com/ttoklip/BackEnd/main/introduce/in3.png)
+
 ## 아키텍쳐 
 <img width="755" alt="hangunhee39_ttoklip_architecure" src="https://github.com/ttoklip/Android/assets/77563098/c3640f5d-ea24-46bd-807b-023127e81ea0">
 
