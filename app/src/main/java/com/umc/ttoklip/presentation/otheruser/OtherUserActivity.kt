@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.Intent
 import androidx.activity.viewModels
 import com.umc.ttoklip.R
+import com.umc.ttoklip.data.model.honeytip.request.ReportRequest
 import com.umc.ttoklip.databinding.ActivityOtheruserProfileBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
+import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,6 +25,18 @@ class OtherUserActivity :
         }
         binding.otherprofileHoneytipCl.setOnClickListener {
             startActivity(OtherTipActivity.newIntent(this, viewModel.strangerInfo.value.userId, viewModel.strangerInfo.value.nickname))
+        }
+
+        binding.reportBtn.setOnClickListener {
+            val reportDialog = ReportDialogFragment()
+            reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
+
+                override fun onClick(type: String, content: String) {
+                    //신고하기 api 예정
+
+                }
+            })
+            reportDialog.show(supportFragmentManager, reportDialog.tag)
         }
     }
 

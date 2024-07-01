@@ -123,6 +123,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/rectangle_corner_10"
                     android:backgroundTint="@color/yellow"
+                    android:visibility="invisible"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/otherprofile_address_tv">
 
@@ -152,11 +153,12 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/reportBtn"
                     android:layout_width="90dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="10dp"
                     android:background="@drawable/rectangle_corner_10_strok_1_gray40"
-                    android:text="차단하기"
+                    android:text="신고하기"
                     android:textColor="@color/orange"
                     app:layout_constraintBottom_toBottomOf="@id/otherprofile_recom_cl"
                     app:layout_constraintStart_toEndOf="@id/otherprofile_recom_cl"
@@ -286,6 +288,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/otherprofile_trade_cl"
             android:layout_width="120dp"
+            android:visibility="gone"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/rectangle_corner_10"
@@ -320,13 +323,13 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/otherprofile_honeytip_cl"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="40dp"
-            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/rectangle_corner_10"
             android:backgroundTint="@color/yellow"
-            app:layout_constraintStart_toEndOf="@id/otherprofile_trade_cl"
-            app:layout_constraintTop_toTopOf="@id/otherprofile_trade_cl">
+            app:layout_constraintStart_toStartOf="@id/otherprofile_history_nick_tv"
+            app:layout_constraintTop_toBottomOf="@id/otherprofile_history_nick_tv">
 
             <ImageView
                 android:id="@+id/otherprofile_honeytip_iv"
@@ -344,8 +347,8 @@
                 android:id="@+id/otherprofile_honeytip_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="12dp"
                 android:text="작성한 꿀팁"
                 android:textAppearance="@style/TextAppearance.App.12sp_500"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -364,8 +367,8 @@
             android:maxWidth="150dp"
             android:text="@{vm.strangerInfo.nickname}"
             android:textAppearance="@style/TextAppearance.App.14sp_700"
-            app:layout_constraintStart_toStartOf="@id/otherprofile_trade_cl"
-            app:layout_constraintTop_toBottomOf="@id/otherprofile_trade_cl" />
+            app:layout_constraintStart_toStartOf="@id/otherprofile_honeytip_cl"
+            app:layout_constraintTop_toBottomOf="@id/otherprofile_honeytip_cl" />
 
         <TextView
             android:layout_width="wrap_content"
