@@ -5,17 +5,21 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.ttoklip.data.model.home.NotificationItem
 import com.umc.ttoklip.databinding.ItemAlarmBinding
 import com.umc.ttoklip.presentation.news.adapter.Dummy
 
-class AlarmRVA(val onClick: () -> Unit) : ListAdapter<Dummy, AlarmRVA.ItemViewHolder>(differ) {
+class AlarmRVA(val onClick: (NotificationItem) -> Unit) : ListAdapter<NotificationItem, AlarmRVA.ItemViewHolder>(differ) {
 
     inner class ItemViewHolder(
         private val binding: ItemAlarmBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: Dummy) {
-
+        fun bind(data: NotificationItem) {
+            binding.item = data
+            binding.root.setOnClickListener {
+                onClick(data)
+            }
         }
     }
 
@@ -37,12 +41,12 @@ class AlarmRVA(val onClick: () -> Unit) : ListAdapter<Dummy, AlarmRVA.ItemViewHo
     }
 
     companion object {
-        val differ = object : DiffUtil.ItemCallback<Dummy>() {
-            override fun areItemsTheSame(oldItem: Dummy, newItem: Dummy): Boolean {
-                return oldItem.name == newItem.name
+        val differ = object : DiffUtil.ItemCallback<NotificationItem>() {
+            override fun areItemsTheSame(oldItem: NotificationItem, newItem: NotificationItem): Boolean {
+                return oldItem.notificationId == newItem.notificationId
             }
 
-            override fun areContentsTheSame(oldItem: Dummy, newItem: Dummy): Boolean {
+            override fun areContentsTheSame(oldItem: NotificationItem, newItem: NotificationItem): Boolean {
                 return oldItem == newItem
             }
         }
