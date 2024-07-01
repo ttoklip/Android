@@ -11,7 +11,9 @@ import com.umc.ttoklip.module.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -33,18 +35,27 @@ class WriteHoneyTipViewModel @Inject constructor(
         data class WriteDoneQuestion(val postId: Int) : WriteDoneEvent()
     }
 
-    val isTitleNull: LiveData<Boolean> by lazy { _isTitleNull }
-    private val _isTitleNull by lazy { MutableLiveData<Boolean>(true) }
+    private val _isTitleNull = MutableStateFlow(true)
+    private val _isContentNull = MutableStateFlow(true)
 
-    val isBodyNull: LiveData<Boolean> by lazy { _isBodyNull }
-    private val _isBodyNull by lazy { MutableLiveData<Boolean>(true) }
+    private val _content = MutableStateFlow("")
+    val content = _content.asStateFlow()
+
+    private val _title = MutableStateFlow("")
+    val title = _title.asStateFlow()
+
+    val isEdit = MutableStateFlow(false)
+
+    val isWriteDoneBtnEnable = MutableStateFlow(false)
 
     fun setTitle(boolean: Boolean) {
         _isTitleNull.value = boolean
+        isWriteDoneBtnEnable.value = (_isTitleNull.value.not() && _isContentNull.value.not()) or isEdit.value
     }
 
-    fun setBody(boolean: Boolean) {
-        _isBodyNull.value = boolean
+    fun setContent(boolean: Boolean) {
+        _isContentNull.value = boolean
+        isWriteDoneBtnEnable.value = (_isTitleNull.value.not() && _isContentNull.value.not()) or isEdit.value
     }
 
     private fun convertStringToTextPlain(string: String): RequestBody {
@@ -61,7 +72,7 @@ class WriteHoneyTipViewModel @Inject constructor(
         title: String,
         content: String,
         category: String,
-        images: Array<MultipartBody.Part>,
+        images: List<MultipartBody.Part?>,
         url: String
     ) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -84,7 +95,7 @@ class WriteHoneyTipViewModel @Inject constructor(
         title: String,
         content: String,
         category: String,
-        images: Array<MultipartBody.Part>,
+        images: List<MultipartBody.Part?>,
         url: String
     ) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -109,7 +120,7 @@ class WriteHoneyTipViewModel @Inject constructor(
         title: String,
         content: String,
         category: String,
-        images: Array<MultipartBody.Part>
+        images: List<MultipartBody.Part?>
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.createQuestion(

@@ -16,13 +16,13 @@ class SplashActivity:BaseActivity<ActivitySplashBinding>(R.layout.activity_splas
         handler.postDelayed({
             val spf=getSharedPreferences("first", MODE_PRIVATE)
             val firstRun=spf.getBoolean("firstRun",true)
-            TtoklipApplication.prefs.setBoolean("isFirstLogin", false)
+            TtoklipApplication.prefs.setBoolean("isFirstLogin", true)
             val jwt=TtoklipApplication.prefs.getString("jwt","")
             val isFirstLogin=TtoklipApplication.prefs.getBoolean("isFirstLogin",true)
             if(firstRun){
                 startActivity(Intent(this, IntroActivity::class.java))
                 finish()
-            }else if(jwt.isNotEmpty()&&!isFirstLogin){
+            }else if(jwt.isNotEmpty()&&!isFirstLogin){ //로그인 토큰 확인 필요시 해당 부분 주석
                 startActivity(Intent(this,MainActivity::class.java))
                 finish()
             } else{

@@ -1,20 +1,21 @@
 package com.umc.ttoklip.presentation.signup.location
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
+import androidx.activity.viewModels
 import com.umc.ttoklip.R
-import com.umc.ttoklip.data.model.KakaoResponse
 import com.umc.ttoklip.databinding.ActivityDirectLocationBinding
-import com.umc.ttoklip.di.KakaoModule
 import com.umc.ttoklip.presentation.base.BaseActivity
-import retrofit2.Call
-import retrofit2.Response
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DirectLocationActivity :
     BaseActivity<ActivityDirectLocationBinding>(R.layout.activity_direct_location) {
 
-    override fun initView() {
+        private val viewModel:DirectLocationViewModel by viewModels()
 
+    override fun initView() {
+        binding.directLocationSearchIv.setOnClickListener {
+            viewModel.searchAddress(binding.directLocationAddressEt.text.toString())
+        }
     }
 
     override fun initObserver() {

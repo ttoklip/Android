@@ -33,7 +33,7 @@ interface HoneyTipApi {
         @Part("title") title: RequestBody,
         @Part("content") content: RequestBody,
         @Part("category") category: RequestBody,
-        @Part images: Array<MultipartBody.Part>,
+        @Part images: List<MultipartBody.Part?>,
         @Part("url") url: RequestBody
     ): Response<ResponseBody<CreateHoneyTipResponse>>
 
@@ -68,7 +68,7 @@ interface HoneyTipApi {
         @Part("title") title: RequestBody,
         @Part("content") content: RequestBody,
         @Part("category") category: RequestBody,
-        @Part images: Array<MultipartBody.Part>,
+        @Part images: List<MultipartBody.Part?>,
         @Part("url") url: RequestBody
     ): Response<ResponseBody<CreateHoneyTipResponse>>
 
@@ -96,7 +96,7 @@ interface HoneyTipApi {
         @Part("title") title: RequestBody,
         @Part("content") content: RequestBody,
         @Part("category") category: RequestBody,
-        @Part images: Array<MultipartBody.Part>
+        @Part images: List<MultipartBody.Part?>
     ): Response<ResponseBody<CreateHoneyTipResponse>>
 
     @GET("/api/v1/question/post/{postId}")

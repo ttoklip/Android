@@ -2,6 +2,8 @@ package com.umc.ttoklip.di
 
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
+import com.umc.ttoklip.TtoklipApplication.Companion.getString
+import com.umc.ttoklip.data.api.FCMApi
 import com.umc.ttoklip.data.api.HomeApi
 import com.umc.ttoklip.data.api.HoneyTipApi
 import com.umc.ttoklip.data.api.KakaoApi
@@ -10,10 +12,11 @@ import com.umc.ttoklip.data.api.MyPage2Api
 import com.umc.ttoklip.data.api.MyPageApi
 import com.umc.ttoklip.data.api.MainCommsApi
 import com.umc.ttoklip.data.api.MainTogethersApi
-import com.umc.ttoklip.data.api.MyAccountRestrictApi
-import com.umc.ttoklip.data.api.MyBlockUserApi
+import com.umc.ttoklip.data.api.MyPage3Api
 import com.umc.ttoklip.data.api.MyPostApi
+import com.umc.ttoklip.data.api.NaverApi
 import com.umc.ttoklip.data.api.NewsApi
+import com.umc.ttoklip.data.api.OtherApi
 import com.umc.ttoklip.data.api.ReadCommsApi
 import com.umc.ttoklip.data.api.ReadTogetherApi
 import com.umc.ttoklip.data.api.Search2Api
@@ -24,18 +27,19 @@ import com.umc.ttoklip.data.api.TestApi
 import com.umc.ttoklip.data.api.TownMainApi
 import com.umc.ttoklip.data.api.WriteCommsApi
 import com.umc.ttoklip.data.api.WriteTogetherApi
+import com.umc.ttoklip.util.NaverInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import retrofit2.create
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
@@ -77,6 +81,31 @@ object NetworkModule {
         }.build()
     }
 
+    @Provides
+    @Singleton
+    @Named("NaverClient")
+    fun provideNaverOKHttpClient(): OkHttpClient {
+        val interceptor = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+
+        val closeInterceptor = Interceptor { chain ->
+            val request: Request =
+                chain.request().newBuilder().addHeader("Connection", "close").build()
+            chain.proceed(request)
+        }
+
+        return OkHttpClient.Builder()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(5, TimeUnit.SECONDS)
+            .addInterceptor(NaverInterceptor())
+            .addInterceptor(interceptor)
+            .addNetworkInterceptor(closeInterceptor)
+            .retryOnConnectionFailure(false)
+            .build()
+    }
+
 
     @Provides
     @Singleton
@@ -111,12 +140,25 @@ object NetworkModule {
     @Named("kakao")
     fun providesKakaoRetrofit(
         @Named("kakaoClient") client: OkHttpClient,
-        gsonConverterFactory: GsonConverterFactory
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(R.string.kakao.toString())
-            .addConverterFactory(gsonConverterFactory)
+            .baseUrl(TtoklipApplication.getString(R.string.kakao))
+            .addConverterFactory(GsonConverterFactory.create())
             .client(client)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @Named("naver")
+    fun providesNaverRetrofit(
+        @Named("NaverClient") client: OkHttpClient,
+    ): Retrofit{
+        return Retrofit.Builder()
+            .client(client)
+            .baseUrl(getString(R.string. naver_url))
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
@@ -196,21 +238,15 @@ object NetworkModule {
     fun provideMyPage2Api(retrofit: Retrofit): MyPage2Api{
         return retrofit.buildService()
     }
-        @Provides
-        @Singleton
-    fun providesAccountRestrictApi(retrofit: Retrofit): MyAccountRestrictApi {
+    @Provides
+    @Singleton
+    fun provideMyPage3Api(retrofit: Retrofit): MyPage3Api {
         return retrofit.buildService()
     }
 
     @Provides
     @Singleton
     fun providesMyPostApi(retrofit: Retrofit): MyPostApi {
-        return retrofit.buildService()
-    }
-
-    @Provides
-    @Singleton
-    fun providesMyBlockUserApi(retrofit: Retrofit): MyBlockUserApi {
         return retrofit.buildService()
     }
 
@@ -250,6 +286,23 @@ object NetworkModule {
         return retrofit.buildService()
     }
 
+    @Provides
+    @Singleton
+    fun provideStrangerApi(retrofit: Retrofit): OtherApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFCMApi(retrofit: Retrofit): FCMApi {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNaverApi(@Named("naver") retrofit: Retrofit): NaverApi{
+        return retrofit.buildService()
+    }
 
 
     private inline fun <reified T> Retrofit.buildService(): T {

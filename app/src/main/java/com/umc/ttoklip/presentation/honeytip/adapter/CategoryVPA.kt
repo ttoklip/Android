@@ -2,7 +2,7 @@ package com.umc.ttoklip.presentation.honeytip.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.umc.ttoklip.presentation.honeytip.HONEY_TIP
+import com.umc.ttoklip.presentation.honeytip.HONEY_TIPS
 import com.umc.ttoklip.presentation.honeytip.honeytiplist.HouseWorkHoneyTipListFragment
 import com.umc.ttoklip.presentation.honeytip.honeytiplist.RecipeHoneyTipListFragment
 import com.umc.ttoklip.presentation.honeytip.honeytiplist.SafeLivingHoneyTipListFragment
@@ -36,6 +36,6 @@ class CategoryVPA(
     }
 
     override fun createFragment(position: Int): Fragment {
-        return if(caller == HONEY_TIP) honeyTipFragmentList[position] else questionFragmentList[position]
+        return if(caller == HONEY_TIPS) honeyTipFragmentList[position] else questionFragmentList[position]
     }
 }

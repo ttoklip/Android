@@ -19,16 +19,16 @@ import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
 import com.umc.ttoklip.databinding.ActivityReadHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.BOARD
-import com.umc.ttoklip.presentation.honeytip.HONEY_TIP
 import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.OnReadImageClickListener
 import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
-import com.umc.ttoklip.presentation.honeytip.dialog.DeleteDialogFragment
-import com.umc.ttoklip.presentation.honeytip.dialog.ReportDialogFragment
+import com.umc.ttoklip.presentation.dialog.DeleteDialogFragment
+import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity.Companion.ARTICLE
+import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -42,6 +42,7 @@ class ReadHoneyTipActivity :
         CommentRVA({ id ->
             viewModel.replyCommentParentId.value = id
         }, { id, myComment ->
+            Log.d("mycomment", myComment.toString())
             if (myComment) {
                 val deleteDialog = DeleteDialogFragment()
                 deleteDialog.setDialogClickListener(object :
@@ -70,6 +71,8 @@ class ReadHoneyTipActivity :
                 })
                 reportDialog.show(supportFragmentManager, reportDialog.tag)
             }
+        }, { nick ->
+            startActivity(OtherUserActivity.newIntent(this, nick))
         })
     }
 
@@ -154,7 +157,6 @@ class ReadHoneyTipActivity :
                     showReportBtn()
                 }
             }
-
             else -> {}
         }
     }
@@ -192,14 +194,10 @@ class ReadHoneyTipActivity :
         binding.backBtn.setOnClickListener {
             finish()
         }
-
-
         initImageRVA()
         showDeleteDialog()
         showReportDialog()
         editHoneyTip()
-
-
     }
 
     private fun initImageRVA() {
@@ -236,7 +234,7 @@ class ReadHoneyTipActivity :
         binding.editBtn.setOnClickListener {
             val intent = Intent(this, WriteHoneyTipActivity::class.java)
             intent.putExtra("isEdit", true)
-            intent.putExtra(BOARD, HONEY_TIP)
+            intent.putExtra(BOARD, com.umc.ttoklip.presentation.honeytip.HONEY_TIPS)
             val images = imageAdapter.currentList.filterIsInstance<ImageUrl>()?.map { it.imageUrl }
                 ?.toTypedArray()
             val editHoneyTip = EditHoneyTip(
@@ -247,6 +245,7 @@ class ReadHoneyTipActivity :
                 images ?: emptyArray(),
                 binding.linkT.text.toString()
             )
+            Log.d("honeyTip", editHoneyTip.toString())
             intent.putExtra("honeyTip", editHoneyTip)
             startActivity(intent)
             finish()
@@ -317,10 +316,9 @@ class ReadHoneyTipActivity :
     }
 
     companion object {
-        const val HONEY_TIP = "postId"
         fun newIntent(context: Context, id: Int) =
             Intent(context, ReadHoneyTipActivity::class.java).apply {
-                putExtra(HONEY_TIP, id)
+                putExtra("postId", id)
             }
     }
 }

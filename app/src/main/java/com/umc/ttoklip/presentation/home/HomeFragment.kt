@@ -16,9 +16,9 @@ import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.home.adapter.HomeTipRVA
-import com.umc.ttoklip.presentation.hometown.CommunicationActivity
-import com.umc.ttoklip.presentation.hometown.ReadTogetherActivity
-import com.umc.ttoklip.presentation.hometown.TogetherActivity
+import com.umc.ttoklip.presentation.hometown.communication.CommunicationActivity
+import com.umc.ttoklip.presentation.hometown.together.read.ReadTogetherActivity
+import com.umc.ttoklip.presentation.hometown.together.TogetherActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.mypage.adapter.OnTogetherItemClickListener
@@ -26,7 +26,10 @@ import com.umc.ttoklip.presentation.mypage.adapter.TransactionAdapter
 import com.umc.ttoklip.presentation.news.adapter.NewsRVA
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
 import com.umc.ttoklip.presentation.search2.SearchActivity2
+import com.umc.ttoklip.util.TtoklipFirebaseMessagingService
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -93,8 +96,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
         binding.vm = viewModel
         binding.tipRV.adapter = tipRVA
         viewModel.getMain()
-        TtoklipApplication.prefs.setString("nickname","이강인")
-        Log.d("엑세스","${TtoklipApplication.prefs.getString("jwt","")}")
+        viewModel.fetchGeocoding("분당구 불정로 6")
+        Log.d("엑세스", "${TtoklipApplication.prefs.getString("jwt", "")}")
+
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.patchFCM(TtoklipFirebaseMessagingService().getFirebaseToken())
+        }
 
         binding.chatImg.setOnClickListener {
             val intent = Intent(requireContext(), CommunicationActivity::class.java)
@@ -104,9 +111,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
             val intent = Intent(requireContext(), TogetherActivity::class.java)
             startActivity(intent)
         }
-        //테스트
-        binding.weatherImg.setImageResource(Weather.CLOUD.resId)
-        binding.weatherTitle.text = Weather.CLOUD.label
 
         binding.newsRV.adapter = newsRVA
         binding.groupBuyRV.adapter = townRVA

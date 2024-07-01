@@ -29,7 +29,7 @@ abstract class BaseDialogFragment<V : ViewDataBinding>(@LayoutRes val layoutReso
             null,
             false
         )
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = this.viewLifecycleOwner
         return binding.root
     }
 

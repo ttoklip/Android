@@ -1,5 +1,6 @@
 package com.umc.ttoklip.data.api
 
+import com.umc.ttoklip.data.model.CommonResponse
 import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.town.CreateTogethersResponse
 import com.umc.ttoklip.data.model.town.PatchTogetherResponse
@@ -24,7 +25,7 @@ interface WriteTogetherApi {
         @Part("partyMax") party: Long,
         @Part images: List<MultipartBody.Part>,
         @Part("itemUrls") itemUrls: List<String>
-    ): Response<ResponseBody<CreateTogethersResponse>>
+    ): Response<ResponseBody<CommonResponse>>
 
     //함께해요 게시글 수정
     @Multipart

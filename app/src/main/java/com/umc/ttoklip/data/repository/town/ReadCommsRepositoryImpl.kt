@@ -3,6 +3,7 @@ package com.umc.ttoklip.data.repository.town
 import com.umc.ttoklip.data.api.ReadCommsApi
 import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.StandardResponse
+import com.umc.ttoklip.data.model.town.CommentResponse
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
 import com.umc.ttoklip.data.model.town.DeleteCommunicationResponse
 import com.umc.ttoklip.data.model.town.ReportRequest
@@ -52,29 +53,29 @@ class ReadCommsRepositoryImpl @Inject constructor(private val api: ReadCommsApi)
     override suspend fun createCommsComment(
         postId: Long,
         body: CreateCommentRequest
-    ): NetworkResult<Unit> {
+    ): NetworkResult<CommentResponse> {
         return handleApi({
             api.createCommunicationComment(
                 postId = postId,
                 body = body
             )
-        }) { response: ResponseBody<Unit> -> response.result }
+        }) { response: ResponseBody<CommentResponse> -> response.result }
     }
 
     override suspend fun reportCommsComment(
         commentId: Long,
-        body: ReportRequest
-    ): NetworkResult<Unit> {
+        body: com.umc.ttoklip.data.model.honeytip.request.ReportRequest
+    ): NetworkResult<CommentResponse> {
         return handleApi({
             api.reportCommunicationComment(
                 commentId = commentId,
                 body = body
             )
-        }) { response: ResponseBody<Unit> -> response.result }
+        }) { response: ResponseBody<CommentResponse> -> response.result }
     }
 
 
-    override suspend fun deleteCommsComment(commentId: Long): NetworkResult<Unit> {
-        return handleApi({ api.deleteCommunicationComment(commentId) }) { response: ResponseBody<Unit> -> response.result }
+    override suspend fun deleteCommsComment(commentId: Long): NetworkResult<CommentResponse> {
+        return handleApi({ api.deleteCommunicationComment(commentId) }) { response: ResponseBody<CommentResponse> -> response.result }
     }
 }

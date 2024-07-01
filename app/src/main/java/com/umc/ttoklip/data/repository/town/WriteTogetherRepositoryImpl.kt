@@ -1,6 +1,7 @@
 package com.umc.ttoklip.data.repository.town
 
 import com.umc.ttoklip.data.api.WriteTogetherApi
+import com.umc.ttoklip.data.model.CommonResponse
 import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.town.CreateTogethersRequest
 import com.umc.ttoklip.data.model.town.CreateTogethersResponse
@@ -11,7 +12,7 @@ import javax.inject.Inject
 
 class WriteTogetherRepositoryImpl @Inject constructor(private val api: WriteTogetherApi) :
     WriteTogetherRepository {
-    override suspend fun createTogether(body: CreateTogethersRequest): NetworkResult<CreateTogethersResponse> {
+    override suspend fun createTogether(body: CreateTogethersRequest): NetworkResult<CommonResponse> {
         return handleApi({
             api.createTogethers(
                 title = body.title,
@@ -23,7 +24,7 @@ class WriteTogetherRepositoryImpl @Inject constructor(private val api: WriteToge
                 images = body.images,
                 itemUrls = body.itemUrls
             )
-        }) { response: ResponseBody<CreateTogethersResponse> -> response.result }
+        }) { response: ResponseBody<CommonResponse> -> response.result }
     }
 
     override suspend fun patchTogether(
