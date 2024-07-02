@@ -38,6 +38,19 @@ class SignupViewModel @Inject constructor(
     private val signupRepository: SignupRepositoryImpl, application: Application
 ) : AndroidViewModel(application) {
 
+    ///////////////////////////////fragment 1
+    val name=MutableStateFlow<String>("")
+    val birth=MutableStateFlow<String>("")
+    val email=MutableStateFlow<String>("")
+
+    ///////////////////////////////fragment 2
+    val id=MutableStateFlow<String>("")
+    val pw=MutableStateFlow<String>("")
+    val repw=MutableStateFlow<String>("")
+    val idok=MutableStateFlow<Boolean>(false)
+    val pwok=MutableStateFlow<Boolean>(false)
+
+    ///////////////////////////////fragment 4
     val nickcheckbtn=MutableStateFlow<Boolean>(false)
     val nickok = MutableStateFlow<Boolean>(false)
     var independentCareerok = MutableStateFlow<Boolean>(false)
@@ -102,6 +115,7 @@ class SignupViewModel @Inject constructor(
         TtoklipApplication.prefs.setString("nickname", unick)
     }
 
+    ///////////////////////////////fragment 5
     private var street: String = ""
     fun saveUserStreet(ustreet: String) {
         street = ustreet
