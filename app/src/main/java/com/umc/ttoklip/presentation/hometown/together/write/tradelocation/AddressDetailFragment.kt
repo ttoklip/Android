@@ -22,13 +22,6 @@ class AddressDetailFragment: BaseFragment<FragmentAddresDetailBinding>(R.layout.
     }
     private val viewModel: WriteTogetherViewModel by activityViewModels<WriteTogetherViewModelImpl>()
     override fun initObserver() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.address.collect{
-                    Log.d("address", it.toString())
-                }
-            }
-        }
     }
 
     override fun initView() {

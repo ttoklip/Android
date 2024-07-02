@@ -91,14 +91,6 @@ class WriteTogetherViewModelImpl @Inject constructor(
     override val isInputComplete: StateFlow<Boolean>
         get() = _isInputComplete
 
-    private val _latLng = MutableSharedFlow<LatLng>()
-    override val latLng: SharedFlow<LatLng>
-        get() = _latLng
-
-    private val _toast = MutableStateFlow("")
-    override val toast: StateFlow<String>
-        get() = _toast
-
     private val _tradeLocationEvent = MutableSharedFlow<WriteTogetherViewModel.TradeLocationEvent>()
     override val tradeLocationEvent: SharedFlow<WriteTogetherViewModel.TradeLocationEvent>
         get() = _tradeLocationEvent

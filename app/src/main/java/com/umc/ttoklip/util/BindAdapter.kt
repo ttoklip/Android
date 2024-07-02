@@ -1,9 +1,12 @@
 package com.umc.ttoklip.util
 
 import android.annotation.SuppressLint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.StyleRes
@@ -12,6 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.umc.ttoklip.R
 
 
 @BindingAdapter("bindTextViewStyle")
@@ -76,5 +80,20 @@ fun ConstraintLayout.setLayoutVisible(address: String){
         View.GONE
     } else {
         View.VISIBLE
+    }
+}
+
+@BindingAdapter("bind:totalMember")
+fun TextView.setCompoundDrawableColorFilter(totalMember: Long){
+    if(totalMember != 0L) {
+        this.compoundDrawables.forEach { drawable ->
+            if (drawable != null) {
+                drawable.colorFilter =
+                    PorterDuffColorFilter(
+                        this.context.getColor(R.color.black),
+                        PorterDuff.Mode.SRC_IN
+                    )
+            }
+        }
     }
 }

@@ -21,8 +21,6 @@ interface WriteTogetherViewModel {
     val address: StateFlow<String>
     val addressDetail: StateFlow<String>
     val isInputComplete: StateFlow<Boolean>
-    val latLng: SharedFlow<LatLng>
-    val toast: StateFlow<String>
     val tradeLocationEvent: SharedFlow<TradeLocationEvent>
 
     sealed class TradeLocationEvent{
