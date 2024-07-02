@@ -20,7 +20,7 @@ interface HomeViewModel {
     fun getMain()
     fun patchFCM(token: String)
 
-    fun fetchGeocoding(query: String)
+
 
     enum class ActivityEventBus {
         SEARCH,
