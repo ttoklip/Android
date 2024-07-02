@@ -2,6 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherViewModel" />
+    </data>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -13,17 +19,16 @@
             android:name="com.naver.maps.map.MapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:navermap_locationButtonEnabled="true"
-            android:layout_marginTop="56dp" />
+            android:layout_marginTop="56dp"
+            android:background="@color/gray40" />
 
         <ImageButton
             android:id="@+id/location_back_ib"
-            android:layout_width="19dp"
-            android:layout_height="19dp"
-            android:layout_marginStart="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:background="@color/white"
-            android:scaleType="centerCrop"
             android:src="@drawable/ic_arrow_back_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,7 +39,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:text="거래희망 장소"
-            android:textAppearance="@style/TextAppearance.App.20sp_600"
+            android:textAppearance="@style/TextAppearance.App.16sp_600"
             app:layout_constraintBottom_toBottomOf="@id/location_back_ib"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,36 +63,40 @@
             android:paddingBottom="32dp"
             app:layout_constraintBottom_toBottomOf="parent">
 
-            <TextView
+            <EditText
                 android:id="@+id/current_location_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="30dp"
-                android:text="우리동네"
+                android:text="@{viewModel.address}"
+                android:enabled="true"
+                android:background="@null"
+                android:inputType="textMultiLine"
                 android:textAppearance="@style/TextAppearance.App.16sp_600"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/additional_address_btn"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/additional_address_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/rectangle_corner_10_strok_1"
+                android:layout_marginEnd="24dp"
+                android:background="@{viewModel.isInputComplete ? @drawable/rectangle_corner_10_yellow : @drawable/rectangle_corner_10_strok_1}"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="7dp"
-                android:text="직접입력"
+                android:text='@{viewModel.isInputComplete ? "위치확인" : "직접 입력"}'
                 android:textAppearance="@style/TextAppearance.App.12sp_500"
-                android:textColor="@color/gray80"
-                app:layout_constraintStart_toStartOf="@id/current_location_tv"
-                app:layout_constraintTop_toBottomOf="@id/current_location_tv" />
+                android:textColor="@{viewModel.isInputComplete ? @color/black : @color/gray80}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="@id/current_location_tv" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/location_next_btn"
                 android:layout_width="312dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/yellow_btn_background"
                 android:stateListAnimator="@null"
@@ -95,7 +104,7 @@
                 android:textAppearance="@style/TextAppearance.App.16sp_600"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/additional_address_btn" />
+                app:layout_constraintTop_toBottomOf="@+id/current_location_tv" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

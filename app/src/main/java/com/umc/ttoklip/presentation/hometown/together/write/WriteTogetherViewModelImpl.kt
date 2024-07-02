@@ -4,22 +4,30 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.naver.maps.geometry.LatLng
+import com.umc.ttoklip.data.model.naver.GeocodingResponse
 import com.umc.ttoklip.data.model.town.CreateTogethersRequest
+import com.umc.ttoklip.data.repository.naver.NaverRepository
 import com.umc.ttoklip.data.repository.town.WriteTogetherRepository
 import com.umc.ttoklip.module.onError
+import com.umc.ttoklip.module.onException
 import com.umc.ttoklip.module.onSuccess
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.util.WriteHoneyTipUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class WriteTogetherViewModelImpl @Inject constructor(
     private val repository: WriteTogetherRepository,
+    private val naverRepository: NaverRepository,
     @ApplicationContext private val context: Context
 ) :
     ViewModel(), WriteTogetherViewModel {
@@ -71,6 +79,21 @@ class WriteTogetherViewModelImpl @Inject constructor(
     override val postId: StateFlow<Long>
         get() = _postId
 
+    private val _address = MutableStateFlow("")
+    override val address: StateFlow<String>
+        get() = _address
+
+    private val _addressDetail = MutableStateFlow("")
+    override val addressDetail: StateFlow<String>
+        get() = _addressDetail
+
+    private val _isInputComplete = MutableStateFlow(false)
+    override val isInputComplete: StateFlow<Boolean>
+        get() = _isInputComplete
+
+    private val _tradeLocationEvent = MutableSharedFlow<WriteTogetherViewModel.TradeLocationEvent>()
+    override val tradeLocationEvent: SharedFlow<WriteTogetherViewModel.TradeLocationEvent>
+        get() = _tradeLocationEvent
 
     override fun setTotalPrice(totalPrice: Long) {
         _totalPrice.value = totalPrice
@@ -79,6 +102,27 @@ class WriteTogetherViewModelImpl @Inject constructor(
 
     override fun setTotalMember(totalMember: Long) {
         _totalMember.value = totalMember
+    }
+
+    override fun setAddress(address: String) {
+        if (address.isEmpty()){
+            return
+        }
+        _address.value = address
+        _dealPlace.value = address
+    }
+
+    override fun setAddressDetail(addressDetail: String) {
+        if(addressDetail.isEmpty()){
+            return
+        }
+        _addressDetail.value = addressDetail
+        _dealPlace.value += "($addressDetail)"
+    }
+
+    override fun setIsInputComplete() {
+        _isInputComplete.value = _isInputComplete.value.not()
+        eventTradeLocation(WriteTogetherViewModel.TradeLocationEvent.InputAddressComplete(_isInputComplete.value))
     }
 
 
@@ -121,4 +165,30 @@ class WriteTogetherViewModelImpl @Inject constructor(
         }
     }
 
+    override fun fetchGeocoding(query: String) {
+        viewModelScope.launch {
+            naverRepository.fetchGeocoding(query).onSuccess {response ->
+                val result = response.addresses.firstOrNull()
+                if (result == null){
+                    eventTradeLocation(WriteTogetherViewModel.TradeLocationEvent.ToastException("주소를 정확히 입력해주세요."))
+                    return@launch
+                } else {
+                    with(result) {
+                        val latLng = LatLng(y.toDouble(), x.toDouble())
+                        eventTradeLocation(WriteTogetherViewModel.TradeLocationEvent.CheckLocation(latLng))
+                        setAddress(query)
+                    }
+                }
+                Log.d("naver", response.toString())
+            }.onException {
+                Log.d("error", it.toString())
+            }
+        }
+    }
+
+    override fun eventTradeLocation(event: WriteTogetherViewModel.TradeLocationEvent) {
+        viewModelScope.launch {
+            _tradeLocationEvent.emit(event)
+        }
+    }
 }

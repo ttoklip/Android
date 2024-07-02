@@ -53,48 +53,6 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="200dp"
-                    android:layout_height="38dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="11dp"
-                    android:background="@drawable/rectangle_corner_16"
-                    android:backgroundTint="@color/gray20"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/weatherImg"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginStart="10dp"
-                        android:src="@drawable/sun_img"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tempT"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:text="9º"
-                        android:textAppearance="@style/TextAppearance.App.12sp_400"
-                        app:layout_constraintBottom_toBottomOf="@id/weatherImg"
-                        app:layout_constraintStart_toEndOf="@id/weatherImg"
-                        app:layout_constraintTop_toTopOf="@id/weatherImg" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/weatherTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="지금은 맑아요"
-                        android:textAppearance="@style/TextAppearance.App.12sp_400"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/tempT"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layout"

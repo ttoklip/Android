@@ -16,7 +16,7 @@ class SplashActivity:BaseActivity<ActivitySplashBinding>(R.layout.activity_splas
         handler.postDelayed({
             val spf=getSharedPreferences("first", MODE_PRIVATE)
             val firstRun=spf.getBoolean("firstRun",true)
-            TtoklipApplication.prefs.setBoolean("isFirstLogin", true)
+            TtoklipApplication.prefs.setBoolean("isFirstLogin", false)
             val jwt=TtoklipApplication.prefs.getString("jwt","")
             val isFirstLogin=TtoklipApplication.prefs.getBoolean("isFirstLogin",true)
             if(firstRun){
