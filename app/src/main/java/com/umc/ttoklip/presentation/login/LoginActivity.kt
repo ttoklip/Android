@@ -17,6 +17,7 @@ import com.navercorp.nid.oauth.OAuthLoginCallback
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.login.LoginRequest
+import com.umc.ttoklip.databinding.ActivityLogin2Binding
 import com.umc.ttoklip.databinding.ActivityLoginBinding
 import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.base.BaseActivity
@@ -27,17 +28,22 @@ import kotlinx.coroutines.launch
 import kotlin.math.log
 
 @AndroidEntryPoint
-class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
+class LoginActivity : BaseActivity<ActivityLogin2Binding>(R.layout.activity_login2) {
 
     private val viewModel: LoginViewModel by viewModels()
 
-    override fun initView() {6
+    override fun initView() {
         loginActivity=this
         binding.loginNaverBtn.setOnClickListener {
             naverLogin()
         }
         binding.loginKakaoBtn.setOnClickListener {
             kakaoLogin()
+        }
+        binding.loginLocalSignup.setOnClickListener {
+            val intent = Intent(this, SignupActivity::class.java)
+            intent.putExtra("loginWay","local")
+            startActivity(intent)
         }
     }
 
@@ -46,6 +52,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     }
 
     private fun naverLogin(){
+        viewModel.setIsSocialLogin(true)
         val oauthLoginCallback = object : OAuthLoginCallback {
             override fun onError(errorCode: Int, message: String) {
                 onFailure(errorCode, message)
@@ -68,6 +75,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         Log.i("NAVER-LOGIN","${NaverIdLoginSDK.getAccessToken()}")
     }
     private fun kakaoLogin(){
+        viewModel.setIsSocialLogin(true)
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
                 Log.e("카카오로그인", "카카오계정으로 로그인 실패", error)
@@ -106,12 +114,20 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     private fun startactivity() {
 //            회원가입 만들기용 임시
 //            val intent = Intent(this, SignupActivity::class.java)
+//            intent.putExtra("loginWay","SNS")
 //            startActivity(intent)
 //            Log.i("JWT",TtoklipApplication.prefs.getString("jwt",""))
 
             //이쪽이 진짜
         if (viewModel.isFirstLogin.value) {
             val intent = Intent(this, SignupActivity::class.java)
+            if(viewModel.isSocialLogin.value){
+                //3단계부터 회원가입
+                intent.putExtra("loginWay","SNS")
+            }else{
+                //1단계부터 회원가입
+                intent.putExtra("loginWay","local")
+            }
             startActivity(intent)
         } else {
             startActivity(Intent(this, MainActivity::class.java))
