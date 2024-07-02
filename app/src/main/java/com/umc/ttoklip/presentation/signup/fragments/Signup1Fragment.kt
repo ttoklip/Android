@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.umc.ttoklip.R
@@ -12,11 +13,13 @@ import com.umc.ttoklip.databinding.FragmentSignup1Binding
 import com.umc.ttoklip.generated.callback.OnClickListener
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.signup.SignupActivity
+import com.umc.ttoklip.presentation.signup.SignupViewModel
 
 class Signup1Fragment: BaseFragment<FragmentSignup1Binding>(R.layout.fragment_signup1) {
 
     var sendbutton:Boolean=false
     var nextbutton:Boolean=false
+    val vm: SignupViewModel by activityViewModels()
 
     override fun initObserver() {
     }
@@ -24,6 +27,9 @@ class Signup1Fragment: BaseFragment<FragmentSignup1Binding>(R.layout.fragment_si
     override fun initView() {
         val activity=activity as SignupActivity
         activity?.setProg(1)
+
+        initValue()
+
         binding.signup1EmailEt.addTextChangedListener {
             val pattern=android.util.Patterns.EMAIL_ADDRESS;
             if(pattern.matcher(it).matches()){
@@ -61,12 +67,17 @@ class Signup1Fragment: BaseFragment<FragmentSignup1Binding>(R.layout.fragment_si
         }
         binding.signup1NextBtn.setOnClickListener {
             if(nextbutton){
-                val bundle= Bundle()
-                bundle.putString("userName",binding.signup1NameEt.text.toString())
-                bundle.putString("userBirth",binding.signup1BirthEt.text.toString())
-                bundle.putString("userEmail",binding.signup1EmailEt.text.toString())
-                findNavController().navigate(R.id.action_signup1_fragment_to_signup2_fragment,bundle)
+                vm.name.value=binding.signup1NameEt.text.toString()
+                vm.name.value=binding.signup1BirthEt.text.toString()
+                vm.name.value=binding.signup1EmailEt.text.toString()
+                findNavController().navigate(R.id.action_signup1_fragment_to_signup2_fragment)
             }
         }
+    }
+
+    private fun initValue() {
+        binding.signup1NameEt.setText(vm.name.value)
+        binding.signup1BirthEt.setText(vm.birth.value)
+        binding.signup1EmailEt.setText(vm.email.value)
     }
 }

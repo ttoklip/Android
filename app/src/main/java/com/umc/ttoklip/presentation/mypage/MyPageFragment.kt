@@ -56,7 +56,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
 
         binding.manageAccountFrame.setOnClickListener { //계정정보 화면 새로 만들 필요 있음
-            val intent = Intent(requireContext(), ManageMyInfoActivity::class.java)
+            val intent = Intent(requireContext(), AccountInfoActivity::class.java)
             startActivity(intent)
         }
 

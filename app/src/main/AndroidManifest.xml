@@ -117,7 +117,7 @@
         <activity
             android:name=".presentation.hometown.together.write.WriteTogetherActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".presentation.hometown.communication.write.WriteCommunicationActivity"
@@ -130,7 +130,7 @@
             android:windowSoftInputMode="adjustPan"
             android:exported="true" />
         <activity
-            android:name=".presentation.hometown.TradeLocationActivity"
+            android:name=".presentation.hometown.together.write.tradelocation.TradeLocationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             android:exported="false" />
@@ -154,6 +154,9 @@
             android:screenOrientation="portrait"
             android:exported="false"/>
         <activity android:name=".presentation.signup.location.DirectLocationActivity"
+            android:screenOrientation="portrait"
+            android:exported="false"/>
+        <activity android:name=".presentation.signup.fragments.WebviewActivity"
             android:screenOrientation="portrait"
             android:exported="false"/>
         <activity android:name=".presentation.mypage.MyInfoLocationActivity"

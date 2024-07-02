@@ -18,6 +18,13 @@ class SignupActivity:BaseActivity<ActivitySignupBinding>(R.layout.activity_signu
         
         navHostFragment = supportFragmentManager.findFragmentById(R.id.signup_frm)as NavHostFragment
         var navController=navHostFragment.findNavController()
+        val graphInflater=navController.navInflater
+        val navGraph=graphInflater.inflate(R.navigation.signup_graph)
+
+        val loginWay=intent.getStringExtra("loginWay")?:""
+        val startDestination=determineStartDestination(loginWay)
+        navGraph.setStartDestination(startDestination)
+        navController.graph=navGraph
 
         binding.signupBackIb.setOnClickListener {
             if(navHostFragment.childFragmentManager.backStackEntryCount==0){
@@ -61,6 +68,14 @@ class SignupActivity:BaseActivity<ActivitySignupBinding>(R.layout.activity_signu
     fun updateButtonForTerm(){
         binding.signupBackIb.visibility= View.INVISIBLE
         binding.signupCancelIb.visibility= View.VISIBLE
+    }
+
+    private fun determineStartDestination(loginWay:String): Int {
+        return if(loginWay=="local"){
+            R.id.signup1_fragment
+        }else{
+            R.id.signup3_fragment
+        }
     }
 
     companion object{

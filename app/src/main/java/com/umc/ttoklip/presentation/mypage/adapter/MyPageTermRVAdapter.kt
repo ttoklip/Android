@@ -1,4 +1,4 @@
-package com.umc.ttoklip.presentation.signup.fragments
+package com.umc.ttoklip.presentation.mypage.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,11 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.databinding.ItemTermBinding
+import com.umc.ttoklip.presentation.signup.fragments.TermViewModel
+import com.umc.ttoklip.presentation.signup.fragments.WebviewActivity
 
-class TermRVAdapter(
+class MyPageTermRVAdapter(
     private val context: Context,
     private val termList: ArrayList<TermViewModel.Term>) :
-    RecyclerView.Adapter<TermRVAdapter.ViewHolder>() {
+    RecyclerView.Adapter<MyPageTermRVAdapter.ViewHolder>() {
 
     interface MyItemClickListener {
         fun onItemClick(termId: Int)
@@ -41,27 +43,10 @@ class TermRVAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(termList[position])
-        holder.itemView.setOnClickListener {
-            mItemClickListener.onItemClick(termList[position].termId)
-        }
         holder.binding.termAgreeServiceBtn.setOnClickListener {
-//            if(holder.binding.termDetailSv.visibility.equals(View.VISIBLE)){
-//                holder.binding.termDetailSv.visibility=View.GONE
-//            }else{
-//                holder.binding.termDetailSv.visibility=View.VISIBLE
-//            }
-//            checkTerm()
             val intent = Intent(context, WebviewActivity::class.java)
             intent.putExtra("url",termList[position].content)
             context.startActivity(intent)
-        }
-        holder.binding.termAgreeServiceOnIv.setOnClickListener {
-            mItemClickListener.onCheckTermOff(termList[position].termId)
-            checkTerm()
-        }
-        holder.binding.termAgreeServiceOffIv.setOnClickListener {
-            mItemClickListener.onCheckTermOn(termList[position].termId)
-            checkTerm()
         }
     }
 
@@ -69,13 +54,8 @@ class TermRVAdapter(
         fun bind(term: TermViewModel.Term) {
             binding.termAgreeServiceTv.text = term.title
             binding.termDetailTv.text=term.content
-            if (term.check) {
-                binding.termAgreeServiceOnIv.visibility = View.VISIBLE
-                binding.termAgreeServiceOffIv.visibility = View.INVISIBLE
-            } else {
-                binding.termAgreeServiceOnIv.visibility = View.INVISIBLE
-                binding.termAgreeServiceOffIv.visibility = View.VISIBLE
-            }
+            binding.termAgreeServiceOnIv.visibility = View.INVISIBLE
+            binding.termAgreeServiceOffIv.visibility = View.INVISIBLE
         }
     }
 

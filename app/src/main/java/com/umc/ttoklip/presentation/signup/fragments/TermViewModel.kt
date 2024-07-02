@@ -3,6 +3,7 @@ package com.umc.ttoklip.presentation.signup.fragments
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.api.ResourceProto.resource
 import com.umc.ttoklip.R
 import com.umc.ttoklip.data.repository.signup.TermRepositoryImpl
 import com.umc.ttoklip.module.onFail
@@ -18,9 +19,7 @@ class TermViewModel @Inject constructor(
     private val termRepository: TermRepositoryImpl,
 ) : ViewModel() {
 
-    private val _termDatas= MutableStateFlow<ArrayList<Term>>(ArrayList())
-    val termDatas: StateFlow<ArrayList<Term>>
-        get() = _termDatas
+    val termDatas= MutableStateFlow<ArrayList<Term>>(ArrayList())
 
     private val _nextok= MutableStateFlow<Boolean>(false)
     val nextok:StateFlow<Boolean>
@@ -36,26 +35,27 @@ class TermViewModel @Inject constructor(
         _allCheck.value=check
     }
     fun setTermsCheck(check:Boolean){
-        for(term in _termDatas.value){
-            _termDatas.value[term.termId-1].check=check
+        for(term in termDatas.value){
+            termDatas.value[term.termId].check=check
         }
     }
     fun setTermCheck(position:Int,check:Boolean){
-        _termDatas.value[position].check=check
+        termDatas.value[position].check=check
     }
     fun getTerm() {
-        viewModelScope.launch {
-            termRepository.getTerm(0)
-                .onSuccess {
-                    for(term in it.terms){
-                        _termDatas.value.add(Term(term.termId,term.title,term.content))
-                    }
-                    _termCount.value=it.totalElements
-                    Log.i("TERM","term 불러오기 성공")
-                }.onFail {
-                    Log.d("TERM","term 불러오기 실패")
-                }
-        }
+
+//        viewModelScope.launch {
+//            termRepository.getTerm(0)
+//                .onSuccess {
+//                    for(term in it.terms){
+//                        _termDatas.value.add(Term(term.termId,term.title,term.content))
+//                    }
+//                    _termCount.value=it.totalElements
+//                    Log.i("TERM","term 불러오기 성공")
+//                }.onFail {
+//                    Log.d("TERM","term 불러오기 실패")
+//                }
+//        }
     }
 
     private val _termCount=MutableStateFlow<Int>(0)

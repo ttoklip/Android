@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/trade_location_graph"
+    app:startDestination="@id/writeTogetherFragment">
+
+    <fragment
+        android:id="@+id/tradeLocationFragment"
+        android:name="com.umc.ttoklip.presentation.hometown.together.write.tradelocation.TradeLocationFragment"
+        android:label="TradeLocationFragment" >
+        <action
+            android:id="@+id/action_tradeLocationFragment_to_placeFragment"
+            app:destination="@id/placeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/placeFragment"
+        android:name="com.umc.ttoklip.presentation.hometown.together.write.tradelocation.PlaceFragment"
+        android:label="PlaceFragment" >
+        <action
+            android:id="@+id/action_placeFragment_to_addressDetailFragment"
+            app:destination="@id/addressDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/writeTogetherFragment"
+        android:name="com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherFragment"
+        android:label="WriteTogetherFragment" >
+        <action
+            android:id="@+id/action_writeTogetherFragment_to_tradeLocationFragment"
+            app:destination="@id/tradeLocationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addressDetailFragment"
+        android:name="com.umc.ttoklip.presentation.hometown.together.write.tradelocation.AddressDetailFragment"
+        android:label="AddressDetailFragment" />
+</navigation>

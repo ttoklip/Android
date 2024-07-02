@@ -20,6 +20,7 @@ import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.signup.SignupActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -27,6 +28,7 @@ class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_s
 
     private val viewModel: TermViewModel by activityViewModels()
     private lateinit var termRVAdapter: TermRVAdapter
+    private val termDatas= ArrayList<TermViewModel.Term>(ArrayList())
 
     override fun initObserver() {
         lifecycleScope.launch {
@@ -72,9 +74,17 @@ class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_s
         activity?.setProg(3)
 
         //약관 불러오기
-        viewModel.getTerm()
+//        viewModel.getTerm()
+        val termName=getAllString(R.array.term_name)
+        val termContent=getAllString(R.array.term_content)
+        for(i in 0 until termName.size){
+            termDatas.add(TermViewModel.Term(i,termName[i],termContent[i],false))
+        }
+        viewModel.termDatas.value=termDatas
+
+
         //약관 rv 초기화하고 넣기-업데이트는 ovserve에서
-        termRVAdapter = TermRVAdapter(viewModel.termDatas.value)
+        termRVAdapter = TermRVAdapter(activity,viewModel.termDatas.value)
         binding.signup3TermsRV.adapter = termRVAdapter
         binding.signup3TermsRV.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -88,15 +98,13 @@ class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_s
 
             //off인 term을 누름
             override fun onCheckTermOn(termId: Int) {
-                val id=viewModel.termCount.value-termId
-                viewModel.setTermCheck(id, true)
+                viewModel.setTermCheck(termId, true)
                 nextcheck()
             }
 
             //on인 term을 누름
             override fun onCheckTermOff(termId: Int) {
-                val id=viewModel.termCount.value-termId
-                viewModel.setTermCheck(id, false)
+                viewModel.setTermCheck(termId, false)
                 nextcheck()
             }
         })
@@ -134,5 +142,9 @@ class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_s
         }
         viewModel.allcheck(true)
         viewModel.nextcheck(true)
+    }
+
+    private fun getAllString(resId: Int): Array<String> {
+        return resources.getStringArray(resId)
     }
 }

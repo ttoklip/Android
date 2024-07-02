@@ -21,12 +21,19 @@ class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepositoryImpl
 ) : ViewModel() {
 
+    private val _isSocialLogin=MutableStateFlow<Boolean>(false)
+    val isSocialLogin:StateFlow<Boolean>
+        get() = _isSocialLogin
     private val _isFirstLogin = MutableStateFlow<Boolean>(true)
     val isFirstLogin: StateFlow<Boolean>
         get() = _isFirstLogin
     private val _isLogin=MutableStateFlow<Boolean>(false)
     val isLogin:StateFlow<Boolean>
         get() = _isLogin
+
+    fun setIsSocialLogin(isSL:Boolean){
+        _isSocialLogin.value=isSL
+    }
 
     fun postLogin(request: LoginRequest) {
         viewModelScope.launch {

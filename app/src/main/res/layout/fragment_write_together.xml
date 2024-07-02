@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -10,15 +11,8 @@
             type="com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherViewModelImpl" />
     </data>
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/nav_host_fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/trade_location_graph"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 
-    <!--androidx.core.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -117,7 +111,8 @@
                     android:layout_marginStart="8dp"
                     android:background="@drawable/rectangle_corner_10_strok_1"
                     android:drawablePadding="6dp"
-                    android:hint="공구 최대 인원"
+                    android:text='@{vm.totalMember.equals(0L) ? null : String.valueOf(vm.totalMember) + "명"}'
+                    android:hint='@{vm.totalMember.equals(0L) ? "공구 최대 인원" : null}'
                     android:paddingHorizontal="15dp"
                     android:paddingVertical="7dp"
                     android:textAppearance="@style/TextAppearance.App.12sp_500"
@@ -125,7 +120,8 @@
                     android:textColorHint="@color/gray80"
                     app:drawableStartCompat="@drawable/ic_face_off_18"
                     app:layout_constraintStart_toEndOf="@id/total_price_tv"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    bind:totalMember="@{vm.totalMember}"/>
 
                 <TextView
                     android:id="@+id/trading_place_tv"
@@ -322,5 +318,5 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.core.widget.NestedScrollView-->
+    </androidx.core.widget.NestedScrollView>
 </layout>
