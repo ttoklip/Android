@@ -31,7 +31,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
     private val viewModel: LoginViewModel by viewModels()
 
-    override fun initView() {6
+    override fun initView() {
         loginActivity=this
         binding.loginNaverBtn.setOnClickListener {
             naverLogin()

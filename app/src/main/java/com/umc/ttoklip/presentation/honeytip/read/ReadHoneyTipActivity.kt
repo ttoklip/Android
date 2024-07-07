@@ -2,6 +2,7 @@ package com.umc.ttoklip.presentation.honeytip.read
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -26,8 +27,6 @@ import com.umc.ttoklip.presentation.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
-import com.umc.ttoklip.presentation.news.detail.ArticleActivity
-import com.umc.ttoklip.presentation.news.detail.ArticleActivity.Companion.ARTICLE
 import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -157,6 +156,7 @@ class ReadHoneyTipActivity :
                     showReportBtn()
                 }
             }
+
             else -> {}
         }
     }
@@ -181,8 +181,10 @@ class ReadHoneyTipActivity :
         binding.replyT.setOnClickListener {
             viewModel.replyCommentParentId.value = 0
         }
+
         postId = intent.getIntExtra("postId", 0)
         Log.d("read postid", postId.toString())
+
         binding.commentRV.adapter = commentRVA
         binding.SendCardView.setOnClickListener {
             viewModel.postHoneyTipComment(postId)
@@ -194,6 +196,8 @@ class ReadHoneyTipActivity :
         binding.backBtn.setOnClickListener {
             finish()
         }
+        //showReportBtn()
+        showHoneyTipWriterMenu()
         initImageRVA()
         showDeleteDialog()
         showReportDialog()
@@ -282,21 +286,28 @@ class ReadHoneyTipActivity :
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        if (isShowMenu && !isTouchInside(binding.dotBtn, ev?.x!!, ev?.y!!)) {
-            if (!isTouchInside(binding.honeyTipMenu, ev?.x!!, ev?.y!!)) {
-                binding.honeyTipMenu.visibility = View.GONE
-                isShowMenu = false
-            }
-        }
+        if (ev?.action == MotionEvent.ACTION_DOWN) {
+            val dotBtnRect = Rect()
+            val reportBtnRect = Rect()
+            val writerMenuRect = Rect()
+            binding.dotBtn.getGlobalVisibleRect(dotBtnRect)
+            binding.reportBtn.getGlobalVisibleRect(reportBtnRect)
+            binding.honeyTipMenu.getGlobalVisibleRect(writerMenuRect)
 
-        if (isShowMenu && !isTouchInside(binding.dotBtn, ev?.x!!, ev?.y!!)) {
-            if (!isTouchInside(binding.reportBtn, ev?.x!!, ev?.y!!)) {
-                binding.reportBtn.visibility = View.GONE
+            if (isShowMenu && !dotBtnRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
+                if(!reportBtnRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
+                    binding.reportBtn.visibility = View.GONE
+                }
+
+                if(!writerMenuRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
+                    binding.honeyTipMenu.visibility = View.GONE
+                }
                 isShowMenu = false
             }
         }
         return super.dispatchTouchEvent(ev)
     }
+
 
     private fun isTouchInside(view: View, x: Float, y: Float): Boolean {
         val location = IntArray(2)
