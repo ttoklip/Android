@@ -95,8 +95,8 @@ class ReadHoneyTipActivity :
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.menuEvent.collect {
-                    handleMenuEvent(it)
+                viewModel.toastEvent.collect { text ->
+                    Toast.makeText(this@ReadHoneyTipActivity, text, Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -161,21 +161,6 @@ class ReadHoneyTipActivity :
         }
     }
 
-    private fun handleMenuEvent(event: ReadHoneyTipViewModel.MenuEvent) {
-        val toastText =
-            when (event) {
-                ReadHoneyTipViewModel.MenuEvent.DeleteLike -> "좋아요 취소"
-                ReadHoneyTipViewModel.MenuEvent.DeleteScrap -> "스크랩 취소"
-                ReadHoneyTipViewModel.MenuEvent.PostLike -> "좋아요"
-                ReadHoneyTipViewModel.MenuEvent.PostScrap -> "스크랩"
-                ReadHoneyTipViewModel.MenuEvent.ReportHoneyTip -> "해당 게시글에 대한 신고가 접수되었습니다."
-                ReadHoneyTipViewModel.MenuEvent.DeleteHoneyTipComment -> "댓글이 삭제되었습니다."
-                ReadHoneyTipViewModel.MenuEvent.ReportHoneyTipComment -> "해당 댓글에 대한 신고가 접수되었습니다."
-                else -> {}
-            }
-        Toast.makeText(this, "$toastText", Toast.LENGTH_SHORT)
-    }
-
     override fun initView() {
         binding.vm = viewModel
         binding.replyT.setOnClickListener {
@@ -196,8 +181,6 @@ class ReadHoneyTipActivity :
         binding.backBtn.setOnClickListener {
             finish()
         }
-        //showReportBtn()
-        showHoneyTipWriterMenu()
         initImageRVA()
         showDeleteDialog()
         showReportDialog()
@@ -306,15 +289,6 @@ class ReadHoneyTipActivity :
             }
         }
         return super.dispatchTouchEvent(ev)
-    }
-
-
-    private fun isTouchInside(view: View, x: Float, y: Float): Boolean {
-        val location = IntArray(2)
-        view.getLocationOnScreen(location)
-        val realRight = location[0] + view.width
-        val realBottom = location[1] + view.height
-        return x >= location[0] && x <= realRight && y >= location[1] && y <= realBottom
     }
 
     override fun onClick(imageUrl: String) {
