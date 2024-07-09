@@ -130,6 +130,7 @@ class LoginActivity : BaseActivity<ActivityLogin2Binding>(R.layout.activity_logi
             }
             startActivity(intent)
         } else {
+            TtoklipApplication.prefs.setBoolean("isFirstLogin", false)
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
