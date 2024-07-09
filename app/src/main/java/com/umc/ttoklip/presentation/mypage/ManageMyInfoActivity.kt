@@ -21,6 +21,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -59,6 +60,7 @@ class ManageMyInfoActivity :
     private var address = ""
     private var locationX = 0
     private var locationY = 0
+    private var nickname = ""
 
     private val pickMultipleMedia = registerForActivityResult(
         ActivityResultContracts.PickVisualMedia(
@@ -157,6 +159,14 @@ class ManageMyInfoActivity :
         binding.manageProfileImg.setOnClickListener {
             pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
+
+        binding.inputNicknameEt.addTextChangedListener {
+            binding.finishUpdateProfileBtn.isEnabled = if(it.toString() == nickname){
+                true
+            } else {
+                false
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -180,6 +190,7 @@ class ManageMyInfoActivity :
                 viewModel.myPageInfo.collect {
                     with(binding) {
                         inputNicknameEt.setText(it.nickname)
+                        nickname = it.nickname
                         inputIndependentCareerEt.text =
                             "${it.independentYear}년 ${it.independentMonth}개월"
                         inputAddressTv.text = it.street
@@ -198,9 +209,11 @@ class ManageMyInfoActivity :
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.nickok.collect {
                     if (it) {
+                        binding.finishUpdateProfileBtn.isEnabled = true
                         binding.signup4NickokTv.visibility = View.VISIBLE
                         binding.signup4NicknotokTv.visibility = View.GONE
                     } else {
+                        binding.finishUpdateProfileBtn.isEnabled = false
                         binding.signup4NickokTv.visibility = View.GONE
                         binding.signup4NicknotokTv.visibility = View.VISIBLE
                     }
