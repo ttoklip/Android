@@ -1,5 +1,11 @@
 package com.umc.ttoklip.presentation.mypage
 
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.util.Log
+import android.widget.Toast
 import androidx.core.view.isGone
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityCustomerServiceCenterBinding
@@ -31,10 +37,30 @@ class CustomerServiceCenterActivity :
             binding.faqSub2Content.isGone = binding.faqSub2Content.isGone.not()
         }
         binding.oneOnOneInquriesBtn.setOnClickListener {
-            val dialog = OneOnOneInquiriesDialog()
+            val dialog = OneOnOneInquiriesDialog{content->
+                sendEmail(content)
+            }
             dialog.show(supportFragmentManager, dialog.tag)
         }
     }
 
     override fun initObserver() = Unit
+
+    @SuppressLint("QueryPermissionsNeeded")
+    private fun sendEmail(content:String){
+        val email = getString(R.string.contact_email)
+        Log.d("sendEmail", "Email address: $email")
+        val intent= Intent(Intent.ACTION_SENDTO).apply {
+            type="text/plain"
+            data = Uri.parse("mailto:")
+            putExtra(Intent.EXTRA_EMAIL,arrayOf(email))
+            putExtra(Intent.EXTRA_SUBJECT,"[똑립] 1:1 문의")
+            putExtra(Intent.EXTRA_TEXT,content)
+        }
+        if(intent.resolveActivity(packageManager)!=null){
+            startActivity(Intent.createChooser(intent,"메일 전송"))
+        }else{
+            Toast.makeText(this,"메일 전송 실패",Toast.LENGTH_LONG).show()
+        }
+    }
 }

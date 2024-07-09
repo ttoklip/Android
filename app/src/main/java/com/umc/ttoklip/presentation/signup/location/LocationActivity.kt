@@ -22,6 +22,7 @@ import com.naver.maps.map.overlay.CircleOverlay
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
 import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.databinding.ActivityLocationBinding
 import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.base.BaseActivity
@@ -119,6 +120,7 @@ class LocationActivity :
                     }
                 viewModel.savePrivacy()
                 startActivity(Intent(this, MainActivity::class.java))
+                TtoklipApplication.prefs.setBoolean("isFirstLogin", false)
                 val loginActivity=LoginActivity.loginActivity
                 loginActivity?.finish()
                 val signupActivity= SignupActivity.signupActivity
