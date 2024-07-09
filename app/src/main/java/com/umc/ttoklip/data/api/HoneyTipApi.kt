@@ -68,7 +68,8 @@ interface HoneyTipApi {
         @Part("title") title: RequestBody,
         @Part("content") content: RequestBody,
         @Part("category") category: RequestBody,
-        @Part images: List<MultipartBody.Part?>,
+        @Part("deleteImageIds") deleteImageIds: RequestBody,
+        @Part addImages: List<MultipartBody.Part?>,
         @Part("url") url: RequestBody
     ): Response<ResponseBody<CreateHoneyTipResponse>>
 

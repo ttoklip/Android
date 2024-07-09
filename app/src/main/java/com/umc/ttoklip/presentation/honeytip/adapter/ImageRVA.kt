@@ -36,7 +36,7 @@ class ImageRVA(private val context: Context, private var listener: OnImageClickL
                 listener?.onClick(image)
             }
             binding.deleteBtn.setOnClickListener {
-                listener?.deleteImage(bindingAdapterPosition)
+                listener?.deleteImage(bindingAdapterPosition, image.id)
             }
         }
     }
@@ -56,10 +56,11 @@ class ImageRVA(private val context: Context, private var listener: OnImageClickL
 
 interface OnImageClickListener {
     fun onClick(image: Image)
-    fun deleteImage(position: Int)
+    fun deleteImage(position: Int, id: Int)
 }
 
 data class Image(
+    val id: Int,
     val uri: Uri,
     val url: String
 )

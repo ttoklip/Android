@@ -16,6 +16,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.google.api.LogDescriptor
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentWriteTogetherBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
@@ -26,6 +27,9 @@ import com.umc.ttoklip.presentation.hometown.together.read.ReadTogetherActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -109,10 +113,21 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
         binding.tradingPlaceTv.setOnClickListener {
             navigator.navigate(R.id.action_writeTogetherFragment_to_tradeLocationFragment)
         }
+
+        binding.writeDoneBtn.setOnClickListener {
+            val together = TogetherDialog()
+            together.setDialogClickListener(object :
+                TogetherDialog.TogetherDialogClickListener {
+                override fun onClick() {
+                    viewModel.writeTogether()
+                }
+            })
+            together.show(childFragmentManager, together.tag)
+        }
     }
 
     override fun initObserver() {
-        with(lifecycleScope) {
+        with(viewLifecycleOwner.lifecycleScope) {
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.doneButtonActivated.collect {
@@ -185,25 +200,9 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
             }
 
             launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.doneWriteTogether.collect {
-                        if (it) {
-                            val together = TogetherDialog()
-                            together.setDialogClickListener(object :
-                                TogetherDialog.TogetherDialogClickListener {
-                                override fun onClick() {
-                                    viewModel.writeTogether()
-                                }
-                            })
-                            together.show(childFragmentManager, together.tag)
-                        }
-                    }
-                }
-            }
-
-            launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED){
-                    viewModel.postId.collect{
+                    viewModel.postId.collectLatest{
+                        Log.d("post id together", it.toString())
                         if(it != 0L) {
                             startActivity(
                                 ReadTogetherActivity.newIntent(
@@ -245,7 +244,7 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
 
     private fun updateImages(uriList: List<Uri>) {
         Log.d("uri", uriList.toString())
-        val images = uriList.map { Image(it, "") }
+        val images = uriList.map { Image(0, it, "") }
         viewModel.addImages(images)
     }
 

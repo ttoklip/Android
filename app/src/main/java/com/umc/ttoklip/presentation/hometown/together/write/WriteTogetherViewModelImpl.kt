@@ -16,11 +16,13 @@ import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.util.WriteHoneyTipUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -159,6 +161,7 @@ class WriteTogetherViewModelImpl @Inject constructor(
             repository.createTogether(request).onSuccess {
                 _postId.value = it.message.replace(("[^\\d]").toRegex(), "").toLong()
                 _closePage.value = true
+                delay(1000)
             }.onError {
                 Log.d("writetogethererror", it.toString())
             }

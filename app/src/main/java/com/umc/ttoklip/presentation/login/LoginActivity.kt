@@ -65,7 +65,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         }
         NaverIdLoginSDK.authenticate(this, oauthLoginCallback)
         //네이버 토큰 임시확인용
-        Log.i("NAVER-LOGIN","${NaverIdLoginSDK.getAccessToken()}")
+        //Log.i("NAVER-LOGIN","${NaverIdLoginSDK.getAccessToken()}")
     }
     private fun kakaoLogin(){
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
@@ -105,18 +105,18 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
     private fun startactivity() {
 //            회원가입 만들기용 임시
+            /*val intent = Intent(this, SignupActivity::class.java)
+            startActivity(intent)
+            Log.i("JWT",TtoklipApplication.prefs.getString("jwt",""))*/
+
+
+        if (viewModel.isFirstLogin.value) {
             val intent = Intent(this, SignupActivity::class.java)
             startActivity(intent)
-            Log.i("JWT",TtoklipApplication.prefs.getString("jwt",""))
-
-            //이쪽이 진짜
-//        if (viewModel.isFirstLogin.value) {
-//            val intent = Intent(this, SignupActivity::class.java)
-//            startActivity(intent)
-//        } else {
-//            startActivity(Intent(this, MainActivity::class.java))
-//            finish()
-//        }
+        } else {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
     }
 
     override fun onBackPressed() {

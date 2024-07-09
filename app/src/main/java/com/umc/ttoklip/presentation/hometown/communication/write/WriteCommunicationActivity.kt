@@ -113,7 +113,7 @@ class WriteCommunicationActivity :
 
     private fun updateImages(uriList: List<Uri>) {
         Log.d("uri", uriList.toString())
-        val images = uriList.map { Image(it, "") }
+        val images = uriList.map { Image(0, it, "") }
         viewModel.addImages(images)
     }
 

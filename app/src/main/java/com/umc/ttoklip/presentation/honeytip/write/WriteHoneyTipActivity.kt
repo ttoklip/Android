@@ -71,6 +71,7 @@ class WriteHoneyTipActivity :
     private var postId = 0
     private var editImage = mutableListOf<Uri>()
     private var selectedImageUris: List<Uri>? = null
+    private var deleteImages = mutableListOf<Int>()
 
     private val pickMultipleMedia = registerForActivityResult(
         ActivityResultContracts.PickMultipleVisualMedia(
@@ -151,8 +152,9 @@ class WriteHoneyTipActivity :
             }
             val images = editHoneyTip?.image?.toList()
             Log.d("edit images", images.toString())
-            convertURLtoURI(images)
-            imageAdapter.submitList(images?.map { Image(Uri.EMPTY ,it) })
+            images?.map { it.imageId }
+            //convertURLtoURI(images)
+            imageAdapter.submitList(images?.map { Image(it.imageId, Uri.EMPTY ,it.imageUrl) })
             postId = editHoneyTip?.postId ?: 0
             category = editHoneyTip?.category?:""
             binding.tabLayout.selectTab(binding.tabLayout.getTabAt(stringToNum(category)))
@@ -271,13 +273,11 @@ class WriteHoneyTipActivity :
             Log.d("selectedImageUris", selectedImageUris.toString())
             val imageParts = mutableListOf<MultipartBody.Part?>()
             val images = imageAdapter.currentList.filterIsInstance<Image>().map { it.uri }.filter { it != Uri.EMPTY }.toList()
-            if(selectedImageUris == null || selectedImageUris!!.isEmpty()){
-                imageParts.add(null)
-            }
+            Log.d("images", images.toString())
             images.forEachIndexed { index, uri ->
                 val file = uriToFile(uri)
                 val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-                val body = MultipartBody.Part.createFormData("images", file.name, requestFile)
+                val body = MultipartBody.Part.createFormData("addImages", file.name, requestFile)
                 imageParts.add(body)
             }
             imageParts.forEach {
@@ -297,7 +297,8 @@ class WriteHoneyTipActivity :
 
             if(isEdit){
                 Log.d("it Edit", isEdit.toString())
-                viewModel.editHoneyTip(postId, title, content, category, imageParts, url)
+                Log.d("imageParts", imageParts.toString())
+                viewModel.editHoneyTip(postId, title, content, category, deleteImages, imageParts, url)
                 Log.d("edit image imagepart", imageParts.toString())
                 editImage.forEach{
                     val delete = deleteImage(this@WriteHoneyTipActivity, it)
@@ -307,7 +308,7 @@ class WriteHoneyTipActivity :
                 if (board == HONEY_TIPS) {
                     viewModel.createHoneyTip(title, content, category, imageParts, url)
                 } else {
-                    //viewModel.createQuestion(title, content, category, imageParts)
+                    viewModel.createQuestion(title, content, category, imageParts)
                 }
             }
         }
@@ -410,7 +411,7 @@ class WriteHoneyTipActivity :
             applicationContext.contentResolver.takePersistableUriPermission(it, flag)
         }
 
-        val images = selectedImageUris!!.map { Image(it, "") }
+        val images = selectedImageUris!!.map { Image(0, it, "") }
         val updatedImages = imageAdapter.currentList.toMutableList().apply { addAll(images) }
         imageAdapter.submitList(updatedImages)
     }
@@ -452,7 +453,8 @@ class WriteHoneyTipActivity :
         startActivity(intent)
     }
 
-    override fun deleteImage(position: Int) {
+    override fun deleteImage(position: Int, id: Int) {
+        deleteImages.add(id)
         val imageList = imageAdapter.currentList.toMutableList()
         Log.d("imageList", imageList.toString())
         imageList.removeAt(position)

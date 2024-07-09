@@ -59,6 +59,11 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.mainData.collect { re ->
+                    re.communityRecent3.forEach {
+                        if(it.street.isNullOrEmpty()){
+                            it.street = "수도권"
+                        }
+                    }
                     togetherAdapter.submitList(re.cartRecent3.map { it.toModel() })
                     communicationAdapter.submitList(re.communityRecent3.map { it.toModel() })
                     binding.myHometownFilterTv.text = re.street

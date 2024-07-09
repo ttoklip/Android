@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ReadCommunicationActivity :
     BaseActivity<ActivityReadCommunicationBinding>(R.layout.activity_read_communication),
-    OnReadImageClickListener {
+    com.umc.ttoklip.presentation.hometown.adapter.OnReadImageClickListener {
     private val commentRVA by lazy {
         CommentRVA({ id ->
             viewModel.replyCommentParentId.value = id
@@ -68,8 +68,8 @@ class ReadCommunicationActivity :
             startActivity(OtherUserActivity.newIntent(this, nick))
         })
     }
-    private val imageAdapter: ReadImageRVA by lazy {
-        ReadImageRVA(this, this@ReadCommunicationActivity)
+    private val imageAdapter: com.umc.ttoklip.presentation.hometown.adapter.ReadImageRVA by lazy {
+        com.umc.ttoklip.presentation.hometown.adapter.ReadImageRVA(this, this@ReadCommunicationActivity)
     }
     private val viewModel: ReadCommunicationViewModel by viewModels<ReadCommunicationViewModelImpl>()
     private var postId = 0L
@@ -177,7 +177,7 @@ class ReadCommunicationActivity :
 
                             Log.d("image", response.imageUrls.toString())
                             imageAdapter.submitList(response.imageUrls.map { url ->
-                                ImageUrl(url.imageUrl)
+                                com.umc.ttoklip.data.model.town.ImageUrl(url.communityImageId, url.communityImageUrl)
                             })
                             if (response.writer == "  1") {
                                 communityMenu.bringToFront()

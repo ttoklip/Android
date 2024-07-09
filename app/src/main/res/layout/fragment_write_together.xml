@@ -50,7 +50,6 @@
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:text="작성완료"
-                android:onClick="@{()->vm.doneButtonClick()}"
                 android:textAppearance="@style/TextAppearance.App.12sp_400"
                 android:textColor="@color/write_btn_selector"
                 app:layout_constraintBottom_toBottomOf="@id/title_tv"

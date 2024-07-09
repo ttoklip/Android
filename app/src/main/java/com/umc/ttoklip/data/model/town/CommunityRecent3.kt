@@ -4,7 +4,7 @@ import com.umc.ttoklip.presentation.hometown.adapter.Together
 
 data class CommunityRecent3(
     val communityId: Int,
-    val street: String,
+    var street: String,
     val title: String
 ){
     fun toModel()= Together(title,street, communityId,"소통해요")

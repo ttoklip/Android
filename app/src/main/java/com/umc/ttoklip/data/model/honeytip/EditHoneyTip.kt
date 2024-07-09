@@ -7,6 +7,6 @@ data class EditHoneyTip(
     val title: String,
     val content: String,
     val category: String,
-    val image: Array<String>,
+    val image: List<ImageUrl>,
     val url: String,
 ): Serializable

@@ -4,7 +4,7 @@ data class ViewTogetherResponse(
     val writer: String,
     val cartId: Long,
     val content: String,
-    val imageUrls: List<ImageUrl>,
+    val imageUrls: List<TownImageUrl>,
     val title: String,
     val writtenTime: String,
     val totalPrice: Long,

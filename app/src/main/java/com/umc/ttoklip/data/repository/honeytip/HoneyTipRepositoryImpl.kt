@@ -65,10 +65,11 @@ class HoneyTipRepositoryImpl @Inject constructor(
         title: RequestBody,
         content: RequestBody,
         category: RequestBody,
-        images: List<MultipartBody.Part?>,
+        deleteImageIds: RequestBody,
+        addImages: List<MultipartBody.Part?>,
         url: RequestBody
     ): NetworkResult<CreateHoneyTipResponse> {
-        return handleApi({ api.patchHoneyTip(honeyTipId, title, content, category, images, url) })
+        return handleApi({ api.patchHoneyTip(honeyTipId, title, content, category, deleteImageIds, addImages, url) })
         { response: ResponseBody<CreateHoneyTipResponse> -> response.result }
     }
 

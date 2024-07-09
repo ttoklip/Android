@@ -44,7 +44,8 @@ interface HoneyTipRepository {
         title: RequestBody,
         content: RequestBody,
         category: RequestBody,
-        images: List<MultipartBody.Part?>,
+        deleteImageIds: RequestBody,
+        addImages: List<MultipartBody.Part?>,
         url: RequestBody
     ): NetworkResult<CreateHoneyTipResponse>
 

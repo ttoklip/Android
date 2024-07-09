@@ -222,14 +222,13 @@ class ReadHoneyTipActivity :
             val intent = Intent(this, WriteHoneyTipActivity::class.java)
             intent.putExtra("isEdit", true)
             intent.putExtra(BOARD, com.umc.ttoklip.presentation.honeytip.HONEY_TIPS)
-            val images = imageAdapter.currentList.filterIsInstance<ImageUrl>()?.map { it.imageUrl }
-                ?.toTypedArray()
+            val images = imageAdapter.currentList.filterIsInstance<ImageUrl>()
             val editHoneyTip = EditHoneyTip(
                 postId,
                 binding.titleTv.text.toString(),
                 binding.contentT.text.toString(),
                 category,
-                images ?: emptyArray(),
+                images,
                 binding.linkT.text.toString()
             )
             Log.d("honeyTip", editHoneyTip.toString())

@@ -208,6 +208,7 @@ class ReadTogetherActivity :
 
                         imageAdapter.submitList(response.imageUrls.map { url ->
                             ImageUrl(
+                                0,
                                 imageUrl = url.imageUrl
                             )
                         })
