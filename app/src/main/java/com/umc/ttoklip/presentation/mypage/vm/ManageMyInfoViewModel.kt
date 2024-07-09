@@ -52,6 +52,11 @@ class ManageMyInfoViewModel @Inject constructor(
         return string.toRequestBody("text/plain".toMediaTypeOrNull())
     }
 
+    private fun createRequestBodyFromList(list: List<String>): RequestBody {
+        val listString = list.joinToString(",") // List를 쉼표로 구분된 문자열로 변환
+        return RequestBody.create("text/plain".toMediaTypeOrNull(), listString)
+    }
+
     private fun event(event: Event) {
         viewModelScope.launch {
             _myPageEvent.emit(event)
@@ -69,29 +74,21 @@ class ManageMyInfoViewModel @Inject constructor(
 
     fun editMyPageInfo(
         street: String,
-        locationX:Int,
-        locationY:Int,
         nickname: String,
-        categories: List<String>?,
+        categories: List<String>,
         profileImage: MultipartBody.Part?,
         independentYear: Int,
         independentMonth: Int
     ) {
-        val cate=ArrayList<MultipartBody.Part>()
-        categories?.forEach {
-            cate.add(MultipartBody.Part.createFormData("categories",it))
-        }
-
-        val requestMap= hashMapOf<String, RequestBody>()
-        requestMap["street"] = street.toRequestBody("text/plain".toMediaTypeOrNull())
-        requestMap["nickname"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
-        requestMap["independentYear"] = independentYear.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        requestMap["independentMonth"] = independentMonth.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        createRequestBodyFromList(categories)
         viewModelScope.launch(Dispatchers.IO) {
             repository.editMyPageInfo(
+                convertStringToTextPlain(street),
+                convertStringToTextPlain(nickname),
+                createRequestBodyFromList(categories),
                 profileImage,
-                requestMap,
-                cate
+                convertStringToTextPlain(independentYear.toString()),
+                convertStringToTextPlain(independentMonth.toString())
             ).onSuccess {
                 Log.d("edit info", it.toString())
                 event(Event.EditMyPageInfo)

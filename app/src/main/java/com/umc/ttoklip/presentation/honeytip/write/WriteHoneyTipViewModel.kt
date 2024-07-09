@@ -62,7 +62,7 @@ class WriteHoneyTipViewModel @Inject constructor(
         return string.toRequestBody("text/plain".toMediaTypeOrNull())
     }
 
-    fun createRequestBodyFromList(list: List<Int>): RequestBody {
+    private fun createRequestBodyFromList(list: List<Int>): RequestBody {
         val listString = list.joinToString(",") // List를 쉼표로 구분된 문자열로 변환
         return RequestBody.create("text/plain".toMediaTypeOrNull(), listString)
     }

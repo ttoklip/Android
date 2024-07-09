@@ -30,8 +30,9 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                     Log.d("mypage", it.toString())
                     binding.addressTv.text = it.street ?: "주소"
                     binding.nicknameTv.text = it.nickname
+                    Log.d("profile image", it.profileImgUrl.toString())
                     Glide.with(this@MyPageFragment)
-                        .load(it.profileImage)
+                        .load(it.profileImgUrl)
                         .into(binding.profileImg)
                 }
             }
@@ -45,7 +46,6 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     }
 
     override fun initView() {
-        //viewModel.getMyPageInfo()
         binding.userExpBar.isEnabled = false
         binding.noticeBtn.setOnClickListener {
             startActivity(AlarmActivity.newIntent(requireContext()))

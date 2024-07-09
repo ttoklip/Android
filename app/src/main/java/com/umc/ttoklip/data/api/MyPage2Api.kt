@@ -22,9 +22,12 @@ interface MyPage2Api {
     @Multipart
     @PATCH("/api/v1/my-page/edit")
     suspend fun editMyPageInfo(
+        @Part("street") street: RequestBody,
+        @Part("nickname") nickname: RequestBody,
+        @Part("categories") categories: RequestBody,
         @Part profileImage: MultipartBody.Part?,
-        @Part categories:List<MultipartBody.Part>?,
-        @PartMap params:MutableMap<String,RequestBody>
+        @Part("independentYear") independentYear: RequestBody,
+        @Part("independentMonth") independentMonth: RequestBody
     ): Response<ResponseBody<CreateHoneyTipResponse>>
 
     @GET("/api/v1/privacy/check-nickname")

@@ -132,7 +132,7 @@ class WriteHoneyTipActivity :
 
     private fun edit() {
         isEdit = intent.getBooleanExtra("isEdit", false)
-        if (!isEdit){
+        if (!isEdit) {
             return
         } else {
             viewModel.isEdit.value = true
@@ -154,33 +154,10 @@ class WriteHoneyTipActivity :
             Log.d("edit images", images.toString())
             images?.map { it.imageId }
             //convertURLtoURI(images)
-            imageAdapter.submitList(images?.map { Image(it.imageId, Uri.EMPTY ,it.imageUrl) })
+            imageAdapter.submitList(images?.map { Image(it.imageId, Uri.EMPTY, it.imageUrl) })
             postId = editHoneyTip?.postId ?: 0
-            category = editHoneyTip?.category?:""
+            category = editHoneyTip?.category ?: ""
             binding.tabLayout.selectTab(binding.tabLayout.getTabAt(stringToNum(category)))
-        }
-    }
-
-    private fun convertURLtoURI(photos: List<String>?) {
-        val uris = mutableListOf<Uri>()
-        photos?.forEach {
-            Glide.with(this).asBitmap().load(it)
-                .into(object : CustomTarget<Bitmap>() {
-                    override fun onResourceReady(
-                        resource: Bitmap,
-                        transition: Transition<in Bitmap>?
-                    ) {
-                        Log.d("bittmap", resource.toString())
-                        uris.add(getImageUri(this@WriteHoneyTipActivity, resource))
-                        if (uris.size == photos.size) {
-                            Log.d("uris", uris.toString())
-                            //imageAdapter.submitList(uris.map { it -> Image(it, "") })
-                            editImage.addAll(uris)
-                        }
-                    }
-                    override fun onLoadCleared(placeholder: Drawable?) {
-                    }
-                })
         }
     }
 
@@ -227,7 +204,7 @@ class WriteHoneyTipActivity :
     }
 
     private fun enableWriteDoneButton() {
-        binding.titleEt.addTextChangedListener(object : TextWatcher{
+        binding.titleEt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
@@ -235,7 +212,7 @@ class WriteHoneyTipActivity :
             }
 
             override fun afterTextChanged(s: Editable?) {
-                if(s.toString().isNotBlank()){
+                if (s.toString().isNotBlank()) {
                     viewModel.setTitle(false)
                 } else {
                     viewModel.setTitle(true)
@@ -244,7 +221,7 @@ class WriteHoneyTipActivity :
 
         })
 
-        binding.bodyEt.addTextChangedListener(object : TextWatcher{
+        binding.bodyEt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
@@ -252,7 +229,7 @@ class WriteHoneyTipActivity :
             }
 
             override fun afterTextChanged(s: Editable?) {
-                if(s.toString().isNotBlank()){
+                if (s.toString().isNotBlank()) {
                     viewModel.setContent(false)
                 } else {
                     viewModel.setContent(true)
@@ -264,24 +241,19 @@ class WriteHoneyTipActivity :
 
     private fun writeDone() {
         binding.writeDoneBtn.setOnClickListener {
-            /*val beforeEditImages =
-                imageAdapter.currentList.filterIsInstance<Image>().map { it.url }.toList()
-            //convertURLtoURI(beforeEditImages)
-            val images = editImage + imageAdapter.currentList.filterIsInstance<Image>().map { it.uri }.filter { it != Uri.EMPTY }.toList()
-            Log.d("write done", images.size.toString())
-            val imageParts = WriteHoneyTipUtil(this).convertUriListToMultiBody(images)*/
-            Log.d("selectedImageUris", selectedImageUris.toString())
             val imageParts = mutableListOf<MultipartBody.Part?>()
-            val images = imageAdapter.currentList.filterIsInstance<Image>().map { it.uri }.filter { it != Uri.EMPTY }.toList()
-            Log.d("images", images.toString())
+            val images = imageAdapter.currentList.filterIsInstance<Image>().map { it.uri }
+                .filter { it != Uri.EMPTY }.toList()
+
             images.forEachIndexed { index, uri ->
                 val file = uriToFile(uri)
                 val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
                 val body = MultipartBody.Part.createFormData("addImages", file.name, requestFile)
                 imageParts.add(body)
             }
+
             imageParts.forEach {
-                if(it != null) {
+                if (it != null) {
                     Log.d("용량", "${it.body.contentLength().toDouble() / (1024 * 1024)}")
                     if (it.body.contentLength().toDouble() / (1024 * 1024) > 10) {
                         Toast.makeText(this, "사진 용량은 10MB로 제한되어있습니다.", Toast.LENGTH_SHORT).show()
@@ -295,12 +267,20 @@ class WriteHoneyTipActivity :
             val category = category
             val url = binding.inputUrlEt.text.toString()
 
-            if(isEdit){
+            if (isEdit) {
                 Log.d("it Edit", isEdit.toString())
                 Log.d("imageParts", imageParts.toString())
-                viewModel.editHoneyTip(postId, title, content, category, deleteImages, imageParts, url)
+                viewModel.editHoneyTip(
+                    postId,
+                    title,
+                    content,
+                    category,
+                    deleteImages,
+                    imageParts,
+                    url
+                )
                 Log.d("edit image imagepart", imageParts.toString())
-                editImage.forEach{
+                editImage.forEach {
                     val delete = deleteImage(this@WriteHoneyTipActivity, it)
                     Log.d("delete", delete.toString())
                 }
@@ -315,7 +295,6 @@ class WriteHoneyTipActivity :
     }
 
     private fun initImageRVA() {
-        //imageAdapter = ImageRVA(this)
         binding.imageRv.adapter = imageAdapter
     }
 
@@ -402,7 +381,7 @@ class WriteHoneyTipActivity :
     }
 
     private fun updateImages() {
-        if(selectedImageUris.isNullOrEmpty()){
+        if (selectedImageUris.isNullOrEmpty()) {
             return
         }
         // uri 권한 확장

@@ -32,9 +32,11 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.databinding.ActivityManageMyInfoBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
+import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.mypage.vm.ManageMyInfoViewModel
 import com.umc.ttoklip.presentation.signup.SignupActivity
+import com.umc.ttoklip.util.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -50,8 +52,7 @@ import java.io.InputStream
 class ManageMyInfoActivity :
     BaseActivity<ActivityManageMyInfoBinding>(R.layout.activity_manage_my_info) {
     private val viewModel: ManageMyInfoViewModel by viewModels()
-    private lateinit var profileImage: Uri
-    private lateinit var tempImage: Uri
+    private var profileImage = Uri.EMPTY
     private var independentYear = 0
     private var independentMonth = 0
     private val category = mutableListOf<String>()
@@ -136,26 +137,21 @@ class ManageMyInfoActivity :
         }
 
         binding.finishUpdateProfileBtn.setOnClickListener {
-            val imageList = listOf(profileImage)
-            val image = convertUriListToMultiBody(imageList)
-            val imageRequest = image[0]
             val categories = category.map { it -> tabTextToCategory(it) }
-            Log.d("categories", categories.toString())
-            Log.d("imageRequest", imageRequest.toString())
-            Log.d("EditInfo",address+" "+binding.inputNicknameEt.text.toString()+" "+categories.toString()+" "+imageRequest+" "+independentYear+" "+independentMonth)
-            //카테고리 설정이 비는 게 문제임 자고일어나서 고치기
+            val body = if(profileImage != Uri.EMPTY){
+                val file = uriToFile(profileImage)
+                val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+                MultipartBody.Part.createFormData("profileImage", file.name, requestFile)
+            } else {
+                null
+            }
             viewModel.editMyPageInfo(
                 address,
-                locationX,
-                locationY,
                 binding.inputNicknameEt.text.toString(),
                 categories,
-                imageRequest,
+                body,
                 independentYear, independentMonth
             )
-            val delete = deleteImage(tempImage)
-            Log.d("delete", delete.toString())
-            finish()
         }
 
         binding.manageProfileImg.setOnClickListener {
@@ -190,10 +186,8 @@ class ManageMyInfoActivity :
                         address= it.street.toString()
                         independentYear = it.independentYear
                         independentMonth = it.independentMonth
-                        convertURLtoURI(it.profileImage)
-                        Log.d("image",it.profileImage.toString())
                         Glide.with(this@ManageMyInfoActivity)
-                            .load(it.profileImage)
+                            .load(it.profileImgUrl)
                             .into(binding.manageProfileImg)
                     }
                 }
@@ -210,6 +204,14 @@ class ManageMyInfoActivity :
                         binding.signup4NickokTv.visibility = View.GONE
                         binding.signup4NicknotokTv.visibility = View.VISIBLE
                     }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.myPageEvent.collect{
+                    finish()
                 }
             }
         }
@@ -240,37 +242,6 @@ class ManageMyInfoActivity :
         binding.manageProfileImg.setImageURI(profileImage)
     }
 
-    private fun convertURLtoURI(photos: String?) {
-        Glide.with(this).asBitmap().load(photos)
-            .into(object : CustomTarget<Bitmap>() {
-                override fun onResourceReady(
-                    resource: Bitmap,
-                    transition: Transition<in Bitmap>?
-                ) {
-                    Log.d("bittmap", resource.toString())
-                    profileImage = getImageUri(this@ManageMyInfoActivity, resource)
-                    tempImage = profileImage
-                }
-
-                override fun onLoadCleared(placeholder: Drawable?) {
-                }
-            })
-
-    }
-
-    private fun getImageUri(inContext: Context, inImage: Bitmap): Uri {
-        val bytes = ByteArrayOutputStream()
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path = MediaStore.Images.Media.insertImage(
-            inContext.contentResolver,
-            inImage,
-            "Title",
-            null
-        )
-        val uri = Uri.parse(path)
-        Log.d("uri", uri.toString())
-        return Uri.parse(path)
-    }
 
     private fun deleteImage(imageUri: Uri): Boolean {
         val contentResolver: ContentResolver = this.contentResolver
@@ -290,56 +261,6 @@ class ManageMyInfoActivity :
         return deletedRows > 0
 
         //불러오면 파일 저장
-    }
-
-    fun convertUriListToMultiBody(images: List<Uri>): Array<MultipartBody.Part> {
-        val imageParts: MutableList<MultipartBody.Part> = mutableListOf()
-        if (images.isNotEmpty()) {
-            for (i in images.indices) {
-                //Log.d("images", images[i].toString())
-                val imagePath = images[i]
-                Log.d("path", imagePath.lastPathSegment.toString())
-                val imageFile =
-                    convertUriToJpegFile(this, imagePath, imagePath.lastPathSegment.toString())
-                if (imageFile == null) {
-                    null
-                } else {
-                    val imageRequestBody =
-                        imageFile.asRequestBody("image/*".toMediaTypeOrNull())
-                    val imagePart = MultipartBody.Part.createFormData(
-                        "profileImage",
-                        imageFile.name,
-                        imageRequestBody
-                    )
-                    imageParts.add(imagePart)
-                }
-            }
-        }
-        return imageParts.toTypedArray()
-    }
-
-    private fun convertUriToJpegFile(
-        context: Context,
-        uri: Uri,
-        targetFilename: kotlin.String
-    ): File? {
-        val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
-        val outputFile = File(context.cacheDir, "$targetFilename.jpeg")
-        Log.d("outfile", outputFile.toString())
-
-        inputStream?.use { input ->
-            FileOutputStream(outputFile).use { output ->
-                val buffer = ByteArray(4 * 1024) // 4KB buffer size
-                while (true) {
-                    val byteCount = input.read(buffer)
-                    if (byteCount < 0) break
-                    output.write(buffer, 0, byteCount)
-                }
-                output.flush()
-            }
-        }
-
-        return if (outputFile.exists()) outputFile else null
     }
 
     private fun tabTextToCategory(string: kotlin.String): String {
