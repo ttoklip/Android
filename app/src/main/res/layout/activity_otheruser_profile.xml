@@ -166,102 +166,90 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/otherprofile_level_cl"
-            android:layout_width="330dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/rectangle_corner_10_strok_1_gray40"
+            android:id="@+id/level_frame"
+            android:layout_width="match_parent"
+            android:layout_height="102dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/round_profile"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="27dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/otherprofile_userinfo_cl">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <ImageView
+                android:id="@+id/level_img"
+                android:layout_width="60dp"
+                android:layout_height="54dp"
+                android:src="@drawable/base_level"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/leve_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/my_level_tv"
+                android:textAppearance="@style/TextAppearance.App.14sp_600"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toEndOf="@id/level_img"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/otherprofile_level_iv"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/ic_ttoklip1_78"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/otherprofile_level_nick_tv"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/level_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="2dp"
+                android:text="LV.새싹이"
+                android:textAppearance="@style/TextAppearance.App.12sp_400"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toEndOf="@id/leve_title"
+                app:layout_constraintTop_toTopOf="@id/leve_title" />
 
-                <TextView
-                    android:id="@+id/otherprofile_level_nick_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:maxWidth="100dp"
-                    android:text="@{vm.strangerInfo.nickname}"
-                    android:textAppearance="@style/TextAppearance.App.14sp_600"
-                    app:layout_constraintStart_toEndOf="@id/otherprofile_level_iv"
-                    app:layout_constraintTop_toTopOf="@id/otherprofile_level_iv" />
+            <TextView
+                android:id="@+id/next_level_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/next_level_tv"
+                android:textAppearance="@style/TextAppearance.App.10sp_500"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toEndOf="@id/level_img"
+                app:layout_constraintTop_toBottomOf="@id/leve_title" />
 
-                <TextView
-                    android:id="@+id/otherprofile_leveldesc_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="님의 레벨"
-                    android:textAppearance="@style/TextAppearance.App.14sp_600"
-                    app:layout_constraintStart_toEndOf="@id/otherprofile_level_nick_tv"
-                    app:layout_constraintTop_toTopOf="@id/otherprofile_level_nick_tv" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="0%"
+                android:textAppearance="@style/TextAppearance.App.10sp_500"
+                android:textColor="@color/blue"
+                app:layout_constraintStart_toEndOf="@id/next_level_title"
+                app:layout_constraintTop_toTopOf="@id/next_level_title" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="LV. 새싹이"
-                    android:textAppearance="@style/TextAppearance.App.12sp_400"
-                    app:layout_constraintBottom_toBottomOf="@id/otherprofile_leveldesc_tv"
-                    app:layout_constraintStart_toEndOf="@id/otherprofile_leveldesc_tv"
-                    app:layout_constraintTop_toTopOf="@id/otherprofile_leveldesc_tv" />
+            <SeekBar
+                android:id="@+id/user_exp_bar"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-16dp"
+                android:layout_marginTop="4dp"
+                android:background="@null"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/level_bar_background"
+                android:thumb="@null"
+                app:layout_constraintStart_toStartOf="@id/next_level_title"
+                app:layout_constraintTop_toBottomOf="@id/next_level_title" />
 
-                <TextView
-                    android:id="@+id/otherprofile_tonextlevel_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="다음 레벨까지"
-                    android:textAppearance="@style/TextAppearance.App.10sp_500"
-                    app:layout_constraintStart_toStartOf="@id/otherprofile_level_nick_tv"
-                    app:layout_constraintTop_toBottomOf="@id/otherprofile_level_nick_tv" />
-
-                <TextView
-                    android:id="@+id/otherprofile_nextlevel_percent_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="100%"
-                    android:textAppearance="@style/TextAppearance.App.10sp_500"
-                    android:textColor="@color/blue"
-                    app:layout_constraintStart_toEndOf="@id/otherprofile_tonextlevel_tv"
-                    app:layout_constraintTop_toTopOf="@id/otherprofile_tonextlevel_tv" />
-
-                <SeekBar
-                    android:id="@+id/otehrprofile_exp_bar"
-                    android:layout_width="190dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="-16dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@null"
-                    android:max="100"
-                    android:progress="50"
-                    android:progressDrawable="@drawable/level_bar_background"
-                    android:thumb="@null"
-                    app:layout_constraintStart_toStartOf="@id/otherprofile_tonextlevel_tv"
-                    app:layout_constraintTop_toBottomOf="@id/otherprofile_tonextlevel_tv" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <TextView
             android:id="@+id/otherprofile_history_nick_tv"
@@ -273,8 +261,8 @@
             android:maxWidth="150dp"
             android:text="@{vm.strangerInfo.nickname}"
             android:textAppearance="@style/TextAppearance.App.14sp_700"
-            app:layout_constraintStart_toStartOf="@id/otherprofile_level_cl"
-            app:layout_constraintTop_toBottomOf="@id/otherprofile_level_cl" />
+            app:layout_constraintStart_toStartOf="@id/level_frame"
+            app:layout_constraintTop_toBottomOf="@id/level_frame" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -288,11 +276,11 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/otherprofile_trade_cl"
             android:layout_width="120dp"
-            android:visibility="gone"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/rectangle_corner_10"
             android:backgroundTint="@color/yellow"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@id/otherprofile_history_nick_tv"
             app:layout_constraintTop_toBottomOf="@id/otherprofile_history_nick_tv">
 
