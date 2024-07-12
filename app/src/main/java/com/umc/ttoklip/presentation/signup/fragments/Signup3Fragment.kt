@@ -1,34 +1,27 @@
 package com.umc.ttoklip.presentation.signup.fragments
 
-import android.content.Context
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentSignup3Binding
-import com.umc.ttoklip.databinding.ItemTermBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.signup.SignupActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_signup3) {
 
-    private val viewModel: TermViewModel by activityViewModels()
+    private lateinit var viewModel: TermViewModel
     private lateinit var termRVAdapter: TermRVAdapter
-    private val termDatas= ArrayList<TermViewModel.Term>(ArrayList())
+    private val termDatas = ArrayList<TermViewModel.Term>(ArrayList())
 
     override fun initObserver() {
         lifecycleScope.launch {
@@ -70,18 +63,12 @@ class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_s
     }
 
     override fun initView() {
+        viewModel= ViewModelProvider(requireActivity()).get(TermViewModel::class.java)
         val activity = activity as SignupActivity
         activity?.setProg(3)
 
         //약관 불러오기
-//        viewModel.getTerm()
-        val termName=getAllString(R.array.term_name)
-        val termContent=getAllString(R.array.term_content)
-        for(i in 0 until termName.size){
-            termDatas.add(TermViewModel.Term(i,termName[i],termContent[i],false))
-        }
-        viewModel.termDatas.value=termDatas
-
+        //추후 가능하면 api 연결
 
         //약관 rv 초기화하고 넣기-업데이트는 ovserve에서
         termRVAdapter = TermRVAdapter(activity,viewModel.termDatas.value)
@@ -132,6 +119,10 @@ class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_s
         }
     }
 
+    private fun getTerm(){
+
+    }
+
     private fun nextcheck() {
         for (term in viewModel.termDatas.value) {
             if (term.check == false) {
@@ -142,9 +133,5 @@ class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_s
         }
         viewModel.allcheck(true)
         viewModel.nextcheck(true)
-    }
-
-    private fun getAllString(resId: Int): Array<String> {
-        return resources.getStringArray(resId)
     }
 }

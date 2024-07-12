@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="아이디"
+                android:text="이메일"
                 android:textAppearance="@style/TextAppearance.App.14sp_700" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -64,22 +64,23 @@
                     android:layout_height="50dp"
                     android:background="@drawable/rectangle_corner_10"
                     android:backgroundTint="@color/gray20"
-                    android:hint="영문, 숫자 5 - 11자"
+                    android:hint="ttoklip@gmail.com"
                     android:paddingLeft="10dp"
                     android:textAppearance="@style/TextAppearance.App.12sp_400"
                     android:textColorHint="@color/gray60"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:enabled="false"/>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/signup2_idcheck_button"
                     android:layout_width="100dp"
                     android:layout_height="50dp"
                     android:layout_marginEnd="10dp"
-                    android:background="@drawable/rectangle_corner_10_strok_1_black"
+                    android:background="@drawable/rectangle_corner_10_yellow"
                     android:stateListAnimator="@null"
                     android:text="중복 확인"
-                    android:textAppearance="@style/TextAppearance.App.14sp_500"
+                    android:textAppearance="@style/TextAppearance.App.14sp_700"
                     android:textColor="@color/black"
                     android:layout_marginStart="10dp"
                     app:layout_constraintStart_toEndOf="@id/signup2_id_et"
@@ -93,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:text="사용가능한 아이디입니다."
+                android:text="사용가능한 이메일입니다."
                 android:textAppearance="@style/TextAppearance.App.12sp_500"
                 android:textColor="@color/blue"
                 android:textSize="11sp"
@@ -149,6 +150,7 @@
                         android:textColorHint="@color/gray60"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageView
@@ -218,6 +220,19 @@
                     app:layout_constraintBottom_toBottomOf="@id/signup2_pweng_iv"
                     app:layout_constraintStart_toEndOf="@id/signup2_pwspe_iv"
                     app:layout_constraintTop_toTopOf="@id/signup2_pweng_iv" />
+
+                <TextView
+                    android:id="@+id/signup_pwsizeNotok_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="최소 8자입니다."
+                    android:textAppearance="@style/TextAppearance.App.12sp_400"
+                    android:textColor="@color/orange"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
