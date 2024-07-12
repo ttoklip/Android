@@ -6,7 +6,7 @@
     <data>
         <variable
             name="vm"
-            type="com.umc.ttoklip.presentation.mypage.vm.ManageMyInfoViewModel" />
+            type="com.umc.ttoklip.presentation.mypage.manageinfo.ManageMyInfoViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

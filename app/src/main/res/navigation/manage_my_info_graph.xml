@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/manage_my_info_graph"
+    app:startDestination="@id/manageMyInfoFragment">
+
+    <fragment
+        android:id="@+id/manageMyInfoFragment"
+        android:name="com.umc.ttoklip.presentation.mypage.manageinfo.ManageMyInfoFragment"
+        android:label="ManageMyInfoFragment" >
+        <action
+            android:id="@+id/action_manageMyInfoFragment_to_myHomeTownAddressFragment"
+            app:destination="@id/myHomeTownAddressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myHomeTownAddressFragment"
+        android:name="com.umc.ttoklip.presentation.mypage.manageinfo.MyHomeTownAddressFragment"
+        android:label="MyHomeTownAddressFragment" />
+</navigation>

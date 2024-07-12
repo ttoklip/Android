@@ -1,4 +1,4 @@
-package com.umc.ttoklip.data.model.naver
+package com.umc.ttoklip.data.model.naver.geocoding
 
 data class AddressElements(
     val types: List<String>,

@@ -10,12 +10,12 @@ import com.bumptech.glide.Glide
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.databinding.FragmentMyPageBinding
-import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.login.LoginActivity
 import com.umc.ttoklip.presentation.mypage.dialog.LogoutDialog
-import com.umc.ttoklip.presentation.mypage.vm.ManageMyInfoViewModel
+import com.umc.ttoklip.presentation.mypage.manageinfo.ManageMyInfoActivity
+import com.umc.ttoklip.presentation.mypage.manageinfo.ManageMyInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

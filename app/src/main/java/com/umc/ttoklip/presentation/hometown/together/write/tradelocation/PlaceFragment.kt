@@ -54,9 +54,9 @@ class PlaceFragment : BaseFragment<FragmentPlaceBinding>(R.layout.fragment_place
     override fun initView() {
         binding.viewModel = viewModel
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-        /*if (!hasPermission()) {
+        if (!hasPermission()) {
             ActivityCompat.requestPermissions(requireActivity(), PERMISSIONS, LOCATION_PERMISSION_REQUEST_CODE)
-        }*/
+        }
         initMapView()
 
         binding.locationNextBtn.setOnClickListener {

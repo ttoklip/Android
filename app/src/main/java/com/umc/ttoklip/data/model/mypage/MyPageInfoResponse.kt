@@ -5,9 +5,10 @@ data class MyPageInfoResponse(
     var nickname: String,
     var profileImgUrl: String?,
     var independentYear: Int,
-    var independentMonth: Int
+    var independentMonth: Int,
+    var interests: List<Interest>
 ){
-    constructor(): this(null, "", null, 0, 0)
+    constructor(): this(null, "", null, 0, 0, emptyList())
 }
 /*
 street": null,

@@ -1,4 +1,4 @@
-package com.umc.ttoklip.presentation.mypage
+package com.umc.ttoklip.presentation.mypage.manageinfo
 
 import android.app.Activity
 import android.content.Intent
@@ -6,6 +6,7 @@ import android.widget.SeekBar
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityMyHomtownAddressBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
+import com.umc.ttoklip.presentation.mypage.MyInfoLocationActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -61,7 +62,7 @@ class MyHometownAddressActivity :
         })
 
         binding.gpsBtn.setOnClickListener {
-            val intent= Intent(this,MyInfoLocationActivity::class.java)
+            val intent= Intent(this, MyInfoLocationActivity::class.java)
             val Location_Type=2
             startActivityForResult(intent,Location_Type)
         }

@@ -34,7 +34,7 @@
             android:value="a6zjlu88zi" />
 
         <activity
-            android:name=".presentation.mypage.ManageMyInfoActivity"
+            android:name=".presentation.mypage.manageinfo.ManageMyInfoActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
@@ -65,7 +65,7 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".presentation.mypage.MyHometownAddressActivity"
+            android:name=".presentation.mypage.manageinfo.MyHometownAddressActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
