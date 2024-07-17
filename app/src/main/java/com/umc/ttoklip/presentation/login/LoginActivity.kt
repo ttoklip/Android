@@ -39,9 +39,9 @@ class LoginActivity : BaseActivity<ActivityLogin2Binding>(R.layout.activity_logi
         binding.loginNaverBtn.setOnClickListener {
             naverLogin()
         }
-        binding.loginKakaoBtn.setOnClickListener {
-            kakaoLogin()
-        }
+//        binding.loginKakaoBtn.setOnClickListener {
+//            kakaoLogin()
+//        }
         binding.loginLocalSignup.setOnClickListener {
             val intent = Intent(this, SignupActivity::class.java)
             intent.putExtra("loginWay","local")

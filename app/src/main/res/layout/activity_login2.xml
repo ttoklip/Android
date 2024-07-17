@@ -138,29 +138,29 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="10dp">
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/login_kakao_btn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:stateListAnimator="@null"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:background="@drawable/oval_gray40"
-                    android:backgroundTint="@color/kakao"/>
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/ic_kakaotalk_18"
-                    app:layout_constraintTop_toTopOf="@id/login_kakao_btn"
-                    app:layout_constraintStart_toStartOf="@id/login_kakao_btn"
-                    app:layout_constraintEnd_toEndOf="@id/login_kakao_btn"
-                    app:layout_constraintBottom_toBottomOf="@id/login_kakao_btn" />
+<!--                <androidx.appcompat.widget.AppCompatButton-->
+<!--                    android:id="@+id/login_kakao_btn"-->
+<!--                    android:layout_width="50dp"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:stateListAnimator="@null"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    android:background="@drawable/oval_gray40"-->
+<!--                    android:backgroundTint="@color/kakao"/>-->
+<!--                <ImageView-->
+<!--                    android:layout_width="25dp"-->
+<!--                    android:layout_height="25dp"-->
+<!--                    android:src="@drawable/ic_kakaotalk_18"-->
+<!--                    app:layout_constraintTop_toTopOf="@id/login_kakao_btn"-->
+<!--                    app:layout_constraintStart_toStartOf="@id/login_kakao_btn"-->
+<!--                    app:layout_constraintEnd_toEndOf="@id/login_kakao_btn"-->
+<!--                    app:layout_constraintBottom_toBottomOf="@id/login_kakao_btn" />-->
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/login_naver_btn"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:stateListAnimator="@null"
-                    app:layout_constraintStart_toEndOf="@id/login_kakao_btn"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginStart="10dp"
                     android:background="@drawable/oval_gray40"
