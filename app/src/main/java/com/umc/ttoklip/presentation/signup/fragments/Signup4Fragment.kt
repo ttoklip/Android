@@ -167,10 +167,10 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
 //                    bundle.putString("birth",viewModel.birth.value)
                 }
                 bundle.putString("nickname",binding.signup4NicknameEt.text.toString())
-                bundle.putStringArrayList("interest",viewModel.categories.value)
-                bundle.putString("imageUri",viewModel.profileImage.value)
-                bundle.putInt("independentCareerYear",viewModel.independenctYear.value)
-                bundle.putInt("independentCareerMonth",viewModel.independenctMonth.value)
+                bundle.putStringArrayList("interest",interestArray)
+                bundle.putString("imageUri",imageSource)
+                bundle.putInt("independentCareerYear",independentCareerYear?:0)
+                bundle.putInt("independentCareerMonth",independentCareerMonth?:0)
                 bundle.putString("signupType",viewModel.signupType.value)
 
                 val intent=Intent(activity, LocationActivity::class.java)

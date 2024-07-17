@@ -143,6 +143,7 @@
 <!--                    android:layout_width="50dp"-->
 <!--                    android:layout_height="50dp"-->
 <!--                    android:stateListAnimator="@null"-->
+<!--                marginend 10dp-->
 <!--                    app:layout_constraintStart_toStartOf="parent"-->
 <!--                    app:layout_constraintTop_toTopOf="parent"-->
 <!--                    android:background="@drawable/oval_gray40"-->
@@ -161,8 +162,8 @@
                     android:layout_height="50dp"
                     android:stateListAnimator="@null"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginStart="10dp"
                     android:background="@drawable/oval_gray40"
                     android:backgroundTint="@color/naver"/>
                 <ImageView
