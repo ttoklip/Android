@@ -80,20 +80,20 @@
                     android:layout_marginStart="10dp"
                     android:text="전체 약관 동의"
                     android:textAppearance="@style/TextAppearance.App.14sp_400"
-                    app:layout_constraintBottom_toTopOf="@id/signup3_agreeAllDesc_tv"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/signup3_agreeAll_iv"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/signup3_agreeAllDesc_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="(선택) 광고 수신을 포함하여 동의합니다"
-                    android:textAppearance="@style/TextAppearance.App.12sp_400"
-                    android:textColor="@color/gray40"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/signup3_agreeAll_tv"
-                    app:layout_constraintTop_toBottomOf="@id/signup3_agreeAll_tv" />
+<!--                <TextView-->
+<!--                    android:id="@+id/signup3_agreeAllDesc_tv"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="(선택) 광고 수신을 포함하여 동의합니다"-->
+<!--                    android:textAppearance="@style/TextAppearance.App.12sp_400"-->
+<!--                    android:textColor="@color/gray40"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="@id/signup3_agreeAll_tv"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/signup3_agreeAll_tv" />-->
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View

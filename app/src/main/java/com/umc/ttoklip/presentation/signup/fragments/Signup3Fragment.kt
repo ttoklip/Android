@@ -1,21 +1,15 @@
 package com.umc.ttoklip.presentation.signup.fragments
 
-import android.content.Context
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentSignup3Binding
-import com.umc.ttoklip.databinding.ItemTermBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.signup.SignupActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,8 +19,9 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_signup3) {
 
-    private val viewModel: TermViewModel by activityViewModels()
+    private lateinit var viewModel: TermViewModel
     private lateinit var termRVAdapter: TermRVAdapter
+    private val termDatas = ArrayList<TermViewModel.Term>(ArrayList())
 
     override fun initObserver() {
         lifecycleScope.launch {
@@ -68,13 +63,15 @@ class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_s
     }
 
     override fun initView() {
+        viewModel= ViewModelProvider(requireActivity()).get(TermViewModel::class.java)
         val activity = activity as SignupActivity
         activity?.setProg(3)
 
         //약관 불러오기
-        viewModel.getTerm()
+        //추후 가능하면 api 연결
+
         //약관 rv 초기화하고 넣기-업데이트는 ovserve에서
-        termRVAdapter = TermRVAdapter(viewModel.termDatas.value)
+        termRVAdapter = TermRVAdapter(activity,viewModel.termDatas.value)
         binding.signup3TermsRV.adapter = termRVAdapter
         binding.signup3TermsRV.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -88,15 +85,13 @@ class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_s
 
             //off인 term을 누름
             override fun onCheckTermOn(termId: Int) {
-                val id=viewModel.termCount.value-termId
-                viewModel.setTermCheck(id, true)
+                viewModel.setTermCheck(termId, true)
                 nextcheck()
             }
 
             //on인 term을 누름
             override fun onCheckTermOff(termId: Int) {
-                val id=viewModel.termCount.value-termId
-                viewModel.setTermCheck(id, false)
+                viewModel.setTermCheck(termId, false)
                 nextcheck()
             }
         })
@@ -122,6 +117,10 @@ class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_s
                 findNavController().navigate(R.id.action_signup3_fragment_to_signup4_fragment)
             }
         }
+    }
+
+    private fun getTerm(){
+
     }
 
     private fun nextcheck() {

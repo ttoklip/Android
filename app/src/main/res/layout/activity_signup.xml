@@ -49,7 +49,8 @@
             android:thumb="@color/yellow"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/signup_back_ib" />
+            app:layout_constraintTop_toBottomOf="@id/signup_back_ib"
+            android:enabled="false"/>
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/signup_frm"

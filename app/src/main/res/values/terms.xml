@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="termOfUse">이용약관</string>
+    <string name="termOfUseContent">https://broad-supernova-f53.notion.site/adf02561ee4c4c0b9dd817bb1d428007</string>
+    <string name="privacyPolicy">개인정보처리방침</string>
+    <string name="privacyPolicyContent">https://broad-supernova-f53.notion.site/b552fb062fb9489098ad463874b98a03</string>
+    <string name="locationTerm">위치기반서비스 이용약관</string>
+    <string name="locationTermContent">https://broad-supernova-f53.notion.site/efd4caa1caeb4a6182bac8e4f112482b</string>
+    <string name="accountDelete">사용자 계정 및 데이터 삭제 요청</string>
+    <string name="accountDeleteContent">https://broad-supernova-f53.notion.site/9d07faee9d4c4a969af9ec78ee0b3f3f</string>
+
+    <string-array name="term_name">
+        <item>@string/termOfUse</item>
+        <item>@string/privacyPolicy</item>
+        <item>@string/locationTerm</item>
+        <item>@string/accountDelete</item>
+    </string-array>
+    <string-array name="term_content">
+        <item>@string/termOfUseContent</item>
+        <item>@string/privacyPolicyContent</item>
+        <item>@string/locationTermContent</item>
+        <item>@string/accountDeleteContent</item>
+    </string-array>
+</resources>

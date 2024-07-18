@@ -10,7 +10,7 @@
     <string name="scrap_btn_text">스크랩</string>
     <string name="my_writing_btn_text">내가 작성한 글</string>
     <string name="transaction_history_btn_text">거래내역</string>
-    <string name="manage_account_text">계정 관리</string>
+    <string name="manage_account_text">계정 정보</string>
     <string name="announcement_text">공지사항</string>
     <string name="usage_manage_text">이용 관리</string>
     <string name="customer_service_center_text">고객센터</string>
@@ -131,4 +131,5 @@
     <string name="userNews">%s님! 속보에요</string>
     <string name="userTown">%s님! 마감임박</string>
 
+    <string name="contact_email">food0204@gmail.com</string>
 </resources>

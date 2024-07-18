@@ -2,6 +2,7 @@ package com.umc.ttoklip.data.repository.login
 
 import com.umc.ttoklip.data.api.LoginApi
 import com.umc.ttoklip.data.model.ResponseBody
+import com.umc.ttoklip.data.model.login.LoginLocalRequest
 import com.umc.ttoklip.data.model.login.LoginRequest
 import com.umc.ttoklip.data.model.login.LoginResponse
 import com.umc.ttoklip.module.NetworkResult
@@ -14,5 +15,8 @@ class LoginRepositoryImpl @Inject constructor(
 
     override suspend fun postLogin(request: LoginRequest): NetworkResult<LoginResponse> {
         return handleApi({api.postLogin(request)}){response:ResponseBody<LoginResponse>->response.result}
+    }
+    override suspend fun postLoginLocal(request: LoginLocalRequest): NetworkResult<LoginResponse> {
+        return handleApi({api.postLocalLogin(request)}){response:ResponseBody<LoginResponse>->response.result}
     }
 }

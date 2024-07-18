@@ -1,24 +1,29 @@
 package com.umc.ttoklip.presentation.signup.fragments
 
-import android.content.Context
-import android.os.Bundle
+import android.util.Log
 import android.view.View
-import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.umc.ttoklip.R
-import com.umc.ttoklip.databinding.FragmentSignup1Binding
 import com.umc.ttoklip.databinding.FragmentSignup2Binding
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.signup.SignupActivity
+import com.umc.ttoklip.presentation.signup.SignupViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 
+@AndroidEntryPoint
 class Signup2Fragment: BaseFragment<FragmentSignup2Binding>(R.layout.fragment_signup2) {
 
-    var idok:Boolean=false
-    var pwok:Boolean=false
+    private lateinit var vm: SignupViewModel
 
     val num="([0-9].*)"
     val symbol="([-_.;!?@#,$%^&*].*)"
@@ -28,81 +33,112 @@ class Signup2Fragment: BaseFragment<FragmentSignup2Binding>(R.layout.fragment_si
     val pattern_eng= Pattern.compile(eng)
 
     override fun initObserver() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    vm.iddupcheckbtn.collect{
+                        if(it){
+                            delay(200)
+                            vm.idok.collect {
+                                if (it) {
+                                    binding.signup2IdnotokTv.visibility=View.GONE
+                                    binding.signup2IdokTv.visibility= View.VISIBLE
+                                } else {
+                                    binding.signup2IdnotokTv.visibility=View.VISIBLE
+                                    binding.signup2IdokTv.visibility= View.GONE
+                                }
+                                nextOk()
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun initView() {
+        vm= ViewModelProvider(requireActivity()).get(SignupViewModel::class.java)
+        Log.i("type test",vm.signupType.value)
+
         val activity=activity as SignupActivity
         activity?.setProg(2)
-        binding.signup2IdEt.addTextChangedListener {
-            if(it.toString().isNotEmpty()){
-                binding.signup2IdcheckButton.setBackgroundResource(R.drawable.rectangle_corner_10_yellow)
-                binding.signup2IdcheckButton.setTextAppearance(R.style.TextAppearance_App_14sp_700)
-            }else{
-                binding.signup2IdcheckButton.setBackgroundResource(R.drawable.rectangle_corner_10_strok_1_black)
-                binding.signup2IdcheckButton.setTextAppearance(R.style.TextAppearance_App_14sp_500)
-            }
-        }
+
+        initValue()
+
         binding.signup2IdcheckButton.setOnClickListener {
-            if(binding.signup2IdEt.text.toString().equals("aa")){
-                //아이디 중복 확인 체크 로직
-                idok=true
-                binding.signup2IdnotokTv.visibility=View.GONE
-                binding.signup2IdokTv.visibility= View.VISIBLE
-            }else{
-                idok=false
-                binding.signup2IdnotokTv.visibility=View.VISIBLE
-                binding.signup2IdokTv.visibility= View.GONE
-            }
-            nextOk()
+            //아이디 중복 확인 체크 로직
+            vm.checkId(binding.signup2IdEt.text.toString())
+            vm.idDupCheckOk()
         }
         binding.signup2PwEt.addTextChangedListener {
-            val matcher_num=pattern_num.matcher(it.toString())
-            val matcher_symbol=pattern_symbol.matcher(it.toString())
-            val matcher_eng=pattern_eng.matcher(it.toString())
-            if(matcher_eng.find()){
-                binding.signup2PwengIv.setImageResource(R.drawable.item_pwcheck_on)
-                binding.signup2PwengTv.setTextColor(ContextCompat.getColor(activity,R.color.black))
-            }else{
-                binding.signup2PwengIv.setImageResource(R.drawable.item_pwcheck_off)
-                binding.signup2PwengTv.setTextColor(ContextCompat.getColor(activity,R.color.gray60))
+            pwcheck(it.toString())
+            if(it.toString().length>=8) {
+                vm.pwSizeOk.value=true
+                binding.signupPwsizeNotokTv.visibility=View.GONE
             }
-            if(matcher_symbol.find()){
-                binding.signup2PwspeIv.setImageResource(R.drawable.item_pwcheck_on)
-                binding.signup2PwspeTv.setTextColor(ContextCompat.getColor(activity,R.color.black))
-            }else{
-                binding.signup2PwspeIv.setImageResource(R.drawable.item_pwcheck_off)
-                binding.signup2PwspeTv.setTextColor(ContextCompat.getColor(activity,R.color.gray60))
-            }
-            if(matcher_num.find()){
-                binding.signup2PwnumIv.setImageResource(R.drawable.item_pwcheck_on)
-                binding.signup2PwnumTv.setTextColor(ContextCompat.getColor(activity,R.color.black))
-            }else{
-                binding.signup2PwnumIv.setImageResource(R.drawable.item_pwcheck_off)
-                binding.signup2PwnumTv.setTextColor(ContextCompat.getColor(activity,R.color.gray60))
+            else {
+                vm.pwSizeOk.value=false
+                binding.signupPwsizeNotokTv.visibility=View.VISIBLE
             }
         }
         binding.signup2PwcheckEt.addTextChangedListener {
             if(it.toString().equals(binding.signup2PwEt.text.toString())){
-                pwok=true
+                vm.pwok.value=true
                 binding.signupPwokTv.visibility=View.VISIBLE
                 binding.signupPwnotokTv.visibility=View.GONE
             }else{
-                pwok=false
+                vm.pwok.value=false
                 binding.signupPwokTv.visibility=View.GONE
                 binding.signupPwnotokTv.visibility=View.VISIBLE
             }
             nextOk()
         }
         binding.signup2NextBtn.setOnClickListener {
-            if(idok&&pwok){
-                val bundle=Bundle()
+            if(vm.idok.value&&vm.pwok.value&&vm.pwSizeOk.value){
+                vm.pw.value=binding.signup2PwEt.text.toString()
+                vm.repw.value=binding.signup2PwcheckEt.text.toString()
                 findNavController().navigate(R.id.action_signup2_fragment_to_signup3_fragment)
             }
         }
     }
 
+    private fun initValue() {
+        binding.signup2IdEt.setText(vm.email.value)
+        binding.signup2PwEt.setText(vm.pw.value)
+        binding.signup2PwcheckEt.setText(vm.repw.value)
+        pwcheck(vm.pw.value)
+        nextOk()
+    }
+
+    private fun pwcheck(pw: String){
+        val matcher_num=pattern_num.matcher(pw)
+        val matcher_symbol=pattern_symbol.matcher(pw)
+        val matcher_eng=pattern_eng.matcher(pw)
+        if(matcher_eng.find()){
+            binding.signup2PwengIv.setImageResource(R.drawable.item_pwcheck_on)
+            binding.signup2PwengTv.setTextColor(ContextCompat.getColor(requireActivity(),R.color.black))
+        }else{
+            binding.signup2PwengIv.setImageResource(R.drawable.item_pwcheck_off)
+            binding.signup2PwengTv.setTextColor(ContextCompat.getColor(requireActivity(),R.color.gray60))
+        }
+        if(matcher_symbol.find()){
+            binding.signup2PwspeIv.setImageResource(R.drawable.item_pwcheck_on)
+            binding.signup2PwspeTv.setTextColor(ContextCompat.getColor(requireActivity(),R.color.black))
+        }else{
+            binding.signup2PwspeIv.setImageResource(R.drawable.item_pwcheck_off)
+            binding.signup2PwspeTv.setTextColor(ContextCompat.getColor(requireActivity(),R.color.gray60))
+        }
+        if(matcher_num.find()){
+            binding.signup2PwnumIv.setImageResource(R.drawable.item_pwcheck_on)
+            binding.signup2PwnumTv.setTextColor(ContextCompat.getColor(requireActivity(),R.color.black))
+        }else{
+            binding.signup2PwnumIv.setImageResource(R.drawable.item_pwcheck_off)
+            binding.signup2PwnumTv.setTextColor(ContextCompat.getColor(requireActivity(),R.color.gray60))
+        }
+    }
+
     private fun nextOk(){
-        if(idok&&pwok){
+        if(vm.idok.value&&vm.pwok.value){
             binding.signup2NextBtn.isClickable=true
             binding.signup2NextBtn.setBackgroundResource(R.drawable.rectangle_corner_10_yellow)
             binding.signup2NextBtn.setTextAppearance(R.style.TextAppearance_App_16sp_700)

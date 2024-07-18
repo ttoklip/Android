@@ -7,10 +7,14 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.LocationManager
 import android.os.Build
+import android.util.Log
 import android.widget.SeekBar
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
@@ -22,6 +26,7 @@ import com.naver.maps.map.overlay.CircleOverlay
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
 import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.databinding.ActivityLocationBinding
 import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.base.BaseActivity
@@ -29,6 +34,8 @@ import com.umc.ttoklip.presentation.login.LoginActivity
 import com.umc.ttoklip.presentation.signup.SignupActivity
 import com.umc.ttoklip.presentation.signup.SignupViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 @AndroidEntryPoint
@@ -110,20 +117,19 @@ class LocationActivity :
                 val bundle = intent.getBundleExtra("userInfo")
                 if (bundle != null) {
                     viewModel.saveUserStreet(address)
+                    val type=bundle.getString("signupType")
                     viewModel.saveUserInfoAt4(
+                        bundle.getString("email")?:"",
+                        bundle.getString("password")?:"",
+                        bundle.getString("originName")?:"",
+                        bundle.getString("birth")?:"",
                         bundle.getString("nickname")!!,
                         bundle.getStringArrayList("interest")!!,
                         bundle.getString("imageUri")!!,
-                        bundle.getInt("independentCareerYear")!!,
-                        bundle.getInt("independentCareerMonth")!!)
-                    }
-                viewModel.savePrivacy()
-                startActivity(Intent(this, MainActivity::class.java))
-                val loginActivity=LoginActivity.loginActivity
-                loginActivity?.finish()
-                val signupActivity= SignupActivity.signupActivity
-                signupActivity?.finish()
-                finish()
+                        bundle.getInt("independentCareerYear"),
+                        bundle.getInt("independentCareerMonth"))
+                    viewModel.savePrivacy(type!!)
+                }
             }
         }
     }
@@ -220,7 +226,33 @@ class LocationActivity :
         }
     }
 
+    private fun startActivity(){
+        val bundle = intent.getBundleExtra("userInfo")
+        if(bundle!!.getString("signupType")=="local"){
+            val signupActivity= SignupActivity.signupActivity
+            signupActivity?.finish()
+            finish()
+        }else{
+            startActivity(Intent(this, MainActivity::class.java))
+            TtoklipApplication.prefs.setBoolean("isFirstLogin", false)
+            val loginActivity=LoginActivity.loginActivity
+            loginActivity?.finish()
+            val signupActivity= SignupActivity.signupActivity
+            signupActivity?.finish()
+            finish()
+        }
+    }
+
     override fun initObserver() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.saveok.collect{
+                    if(it){
+                        startActivity()
+                    }
+                }
+            }
+        }
     }
 
     private fun setRange15km() {
