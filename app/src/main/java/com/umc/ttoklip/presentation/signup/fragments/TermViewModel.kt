@@ -1,23 +1,21 @@
 package com.umc.ttoklip.presentation.signup.fragments
 
+import android.app.Application
+import android.content.res.Resources
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.google.api.ResourceProto.resource
 import com.umc.ttoklip.R
 import com.umc.ttoklip.data.repository.signup.TermRepositoryImpl
-import com.umc.ttoklip.module.onFail
-import com.umc.ttoklip.module.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class TermViewModel @Inject constructor(
-    private val termRepository: TermRepositoryImpl,
-) : ViewModel() {
+    private val termRepository: TermRepositoryImpl, application: Application
+) : AndroidViewModel(application) {
 
     val termDatas= MutableStateFlow<ArrayList<Term>>(ArrayList())
 
@@ -42,8 +40,12 @@ class TermViewModel @Inject constructor(
     fun setTermCheck(position:Int,check:Boolean){
         termDatas.value[position].check=check
     }
-    fun getTerm() {
-
+    fun getTerm(resource: Resources) {
+        val termName=getAllString(resource,R.array.term_name)
+        val termContent=getAllString(resource,R.array.term_content)
+        for(i in 0 until termName.size){
+            termDatas.value.add(Term(i,termName[i],termContent[i],false))
+        }
 //        viewModelScope.launch {
 //            termRepository.getTerm(0)
 //                .onSuccess {
@@ -56,6 +58,9 @@ class TermViewModel @Inject constructor(
 //                    Log.d("TERM","term 불러오기 실패")
 //                }
 //        }
+    }
+    private fun getAllString(resource: Resources,resId: Int): Array<String> {
+        return resource.getStringArray(resId)
     }
 
     private val _termCount=MutableStateFlow<Int>(0)

@@ -3,29 +3,25 @@ package com.umc.ttoklip.presentation.login
 import android.content.Intent
 import android.util.Log
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
-import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
+import com.umc.ttoklip.data.model.login.LoginLocalRequest
 import com.umc.ttoklip.data.model.login.LoginRequest
 import com.umc.ttoklip.databinding.ActivityLogin2Binding
-import com.umc.ttoklip.databinding.ActivityLoginBinding
 import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.search.dialog.BottomDialogSearchFragment
 import com.umc.ttoklip.presentation.signup.SignupActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
 @AndroidEntryPoint
 class LoginActivity : BaseActivity<ActivityLogin2Binding>(R.layout.activity_login2) {
@@ -34,12 +30,18 @@ class LoginActivity : BaseActivity<ActivityLogin2Binding>(R.layout.activity_logi
 
     override fun initView() {
         loginActivity=this
+
+        binding.loginLoginBtn.setOnClickListener {
+            viewModel.postLocalLogin(LoginLocalRequest(binding.loginEmailEt.text.toString(),binding.loginPwEt.text.toString()),
+                this)
+        }
+
         binding.loginNaverBtn.setOnClickListener {
             naverLogin()
         }
-        binding.loginKakaoBtn.setOnClickListener {
-            kakaoLogin()
-        }
+//        binding.loginKakaoBtn.setOnClickListener {
+//            kakaoLogin()
+//        }
         binding.loginLocalSignup.setOnClickListener {
             val intent = Intent(this, SignupActivity::class.java)
             intent.putExtra("loginWay","local")

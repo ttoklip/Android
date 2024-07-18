@@ -20,6 +20,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
@@ -50,7 +51,7 @@ import java.net.URI
 @AndroidEntryPoint
 class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_signup4) {
 
-    private val viewModel: SignupViewModel by activityViewModels()
+    private lateinit var viewModel: SignupViewModel
     private lateinit var interestArray: ArrayList<String>
 
     private var independentCareerYear: Int? = null
@@ -81,6 +82,9 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
     }
 
     override fun initView() {
+        viewModel= ViewModelProvider(requireActivity()).get(SignupViewModel::class.java)
+        Log.i("type test",viewModel.signupType.value)
+
         interestArray = ArrayList()
         val activity = activity as SignupActivity
         activity?.setProg(4)
@@ -156,11 +160,19 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
                 viewModel.nickok.value
             ) {
                 val bundle=Bundle()
-                bundle.putString("nickname",viewModel.nickname.value)
-                bundle.putStringArrayList("interest",viewModel.categories.value)
-                bundle.putString("imageUri",viewModel.profileImage.value)
-                bundle.putInt("independentCareerYear",viewModel.independenctYear.value)
-                bundle.putInt("independentCareerMonth",viewModel.independenctMonth.value)
+                if(viewModel.signupType.value=="local"){
+                    bundle.putString("email",viewModel.email.value)
+                    bundle.putString("password",viewModel.pw.value)
+                    bundle.putString("originName",viewModel.name.value)
+//                    bundle.putString("birth",viewModel.birth.value)
+                }
+                bundle.putString("nickname",binding.signup4NicknameEt.text.toString())
+                bundle.putStringArrayList("interest",interestArray)
+                bundle.putString("imageUri",imageSource)
+                bundle.putInt("independentCareerYear",independentCareerYear?:0)
+                bundle.putInt("independentCareerMonth",independentCareerMonth?:0)
+                bundle.putString("signupType",viewModel.signupType.value)
+
                 val intent=Intent(activity, LocationActivity::class.java)
                 intent.putExtra("userInfo",bundle)
                 startActivity(intent)
