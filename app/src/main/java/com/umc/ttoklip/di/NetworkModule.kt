@@ -75,9 +75,9 @@ object NetworkModule {
         return OkHttpClient.Builder().apply {
 
             addInterceptor (interceptor)
-            connectTimeout(5, TimeUnit.SECONDS)
-            readTimeout(5, TimeUnit.SECONDS)
-            writeTimeout(5, TimeUnit.SECONDS)
+            connectTimeout(25, TimeUnit.SECONDS)
+            readTimeout(25, TimeUnit.SECONDS)
+            writeTimeout(25, TimeUnit.SECONDS)
         }.build()
     }
 
