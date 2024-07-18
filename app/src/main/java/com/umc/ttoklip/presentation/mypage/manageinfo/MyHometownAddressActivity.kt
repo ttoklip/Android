@@ -6,7 +6,6 @@ import android.widget.SeekBar
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityMyHomtownAddressBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.mypage.MyInfoLocationActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

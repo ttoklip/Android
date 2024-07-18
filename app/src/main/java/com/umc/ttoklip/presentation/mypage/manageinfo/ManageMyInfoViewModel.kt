@@ -44,7 +44,7 @@ class ManageMyInfoViewModel @Inject constructor(
 
     val toast = MutableSharedFlow<String>()
 
-    private val _isButtonEnabled = MutableStateFlow<Boolean>(false)
+    private val _isButtonEnabled = MutableStateFlow<Boolean>(true)
     val isButtonEnabled: StateFlow<Boolean> get() = _isButtonEnabled
 
     private var isRequireNickCheck = false
@@ -55,29 +55,52 @@ class ManageMyInfoViewModel @Inject constructor(
     private var editedIndependentYear = -1
     private var editedIndependentMonth = -1
 
+    private val _isAddressEdit = MutableStateFlow(false)
+    val isAddressEdit = _isAddressEdit.asStateFlow()
+
     sealed class Event {
         object EditMyPageInfo : Event()
     }
 
+    fun setIsAddressEdit(isEdit: Boolean){
+        this._isAddressEdit.value = isEdit
+        _isButtonEnabled.value = true
+        Log.d("isbutton", isButtonEnabled.value.toString())
+    }
+
+    fun setAddress(address: String, isInputDirect: Boolean){
+        if(isInputDirect){
+            _myPageInfo.value = _myPageInfo.value.copy().apply { street = address }
+        } else {
+            this.address.value = address
+        }
+    }
+
     fun editNickname(nickname: String) {
+        if (isAddressEdit.value){
+            return
+        }
         isRequireNickCheck = nickname != _myPageInfo.value.nickname
         _isButtonEnabled.value = isRequireNickCheck
+        Log.d("editNickname", _isButtonEnabled.value.toString())
         editedNickname = nickname
         Log.d("isRequireNickCheck", isRequireNickCheck.toString())
     }
 
     fun editCategory(category: List<String>) {
+        if (isAddressEdit.value){
+            return
+        }
         editedCategory = category
         if (!isRequireNickCheck) {
             _isButtonEnabled.value = category != _myPageInfo.value.interests.map { it.categoryName }
         }
     }
 
-    fun editAddress(address: String) {
-        editedAddress = address
-    }
-
     fun editIndependentCareer(independentYear: Int, independentMonth: Int) {
+        if (isAddressEdit.value){
+            return
+        }
         editedIndependentYear = independentYear
         editedIndependentMonth = independentMonth
         if (!isRequireNickCheck) {
@@ -86,7 +109,7 @@ class ManageMyInfoViewModel @Inject constructor(
         }
     }
 
-    fun setIsButtonEnabled() {
+    private fun setIsButtonEnabled() {
         if (editedNickname != _myPageInfo.value.nickname) {
             _isButtonEnabled.value = true
         }
@@ -120,6 +143,9 @@ class ManageMyInfoViewModel @Inject constructor(
     }
 
     fun getMyPageInfo() {
+        if(isAddressEdit.value) {
+            return
+        }
         viewModelScope.launch(Dispatchers.IO) {
             repository.getMyPageInfo().onSuccess {
                 _myPageInfo.emit(it)
@@ -179,7 +205,7 @@ class ManageMyInfoViewModel @Inject constructor(
     fun fetchReverseGeocoding(coords: LatLng, output: String) {
         viewModelScope.launch {
             naverRepository.fetchReverseGeocodingInfo(
-                "127.123456,37.123456",
+                "${coords.longitude}, ${coords.latitude}",
                 output
             ).onSuccess {
                 Log.d("gc", it.toString())
@@ -197,6 +223,8 @@ class ManageMyInfoViewModel @Inject constructor(
                                 " " + land.number1 + "-" + land.number2
                     }
                 }
+                _myPageInfo.value = _myPageInfo.value.copy().apply { street = address.value }
+                Log.d("address value", address.value)
             }
         }
     }

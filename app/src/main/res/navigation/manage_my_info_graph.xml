@@ -15,5 +15,13 @@
     <fragment
         android:id="@+id/myHomeTownAddressFragment"
         android:name="com.umc.ttoklip.presentation.mypage.manageinfo.MyHomeTownAddressFragment"
-        android:label="MyHomeTownAddressFragment" />
+        android:label="MyHomeTownAddressFragment" >
+        <action
+            android:id="@+id/action_myHomeTownAddressFragment_to_myInfoLocationFragment"
+            app:destination="@id/myInfoLocationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myInfoLocationFragment"
+        android:name="com.umc.ttoklip.presentation.mypage.manageinfo.MyInfoLocationFragment"
+        android:label="MyInfoLocationFragment" />
 </navigation>

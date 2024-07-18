@@ -14,7 +14,6 @@ import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -31,7 +30,8 @@ import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.mypage.ChooseMainInterestDialogFragment
 import com.umc.ttoklip.presentation.mypage.InputIndependentCareerDialogFragment
 import com.umc.ttoklip.util.uriToFile
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -77,7 +77,7 @@ class ManageMyInfoFragment :
 
     private fun initViewListener() {
         binding.manageMyInfoBackBtn.setOnClickListener {
-            navigator.navigateUp()
+            requireActivity().finish()
         }
 
 
@@ -140,7 +140,9 @@ class ManageMyInfoFragment :
         }
 
         binding.manageProfileImg.setOnClickListener {
+
             pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            binding.finishUpdateProfileBtn.isEnabled = true
         }
         validateFinishUpdateProfileBtn()
 
@@ -161,10 +163,12 @@ class ManageMyInfoFragment :
         }
     }
 
+    @OptIn(FlowPreview::class)
     override fun initObserver() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.myPageInfo.collect {
+                viewModel.myPageInfo.collectLatest {
+                    Log.d("myinfo", it.toString())
                     with(binding) {
                         inputNicknameEt.setText(it.nickname)
                         nickname = it.nickname
@@ -175,6 +179,7 @@ class ManageMyInfoFragment :
                                 "${it.independentYear}년 ${it.independentMonth}개월"
                             }
                         inputAddressTv.text = it.street
+                        viewModel.setAddress(it.street.toString(), false)
                         address = it.street.toString()
                         independentYear = it.independentYear
                         independentMonth = it.independentMonth
@@ -188,7 +193,7 @@ class ManageMyInfoFragment :
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.nickok.collect {
                     if (it) {
@@ -202,7 +207,7 @@ class ManageMyInfoFragment :
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.myPageEvent.collect {
                     requireActivity().finish()
@@ -210,10 +215,20 @@ class ManageMyInfoFragment :
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.toast.collect {
                     Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.isButtonEnabled.collect{
+                    binding.finishUpdateProfileBtn.isEnabled = it
+                    Log.d("ise", it.toString())
                 }
             }
         }

@@ -134,14 +134,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <EditText
                 android:id="@+id/input_direct_address_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:background="@drawable/round_input_background"
                 android:padding="16dp"
-                android:text="서울 어딘가에"
+                android:hint="주소를 입력해주세요."
                 android:textAppearance="@style/TextAppearance.App.12sp_400"
                 android:textColor="@color/gray80"
                 app:layout_constraintTop_toBottomOf="@id/direct_input_title_tv" />

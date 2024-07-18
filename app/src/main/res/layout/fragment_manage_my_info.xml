@@ -48,7 +48,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:text="@string/finish_setting"
-                android:enabled="@{vm.isButtonEnabled}"
+                android:enabled="true"
                 android:textColor="@color/write_btn_selector"
                 android:textAppearance="@style/TextAppearance.App.12sp_400"
                 app:layout_constraintBottom_toBottomOf="parent" />
@@ -222,7 +222,7 @@
                         android:layout_height="50dp"
                         android:background="@drawable/round_input_background"
                         android:padding="16dp"
-                        android:text=""
+                        android:text="@{vm.address}"
                         android:textColor="@color/black"
                         android:textAppearance="@style/TextAppearance.App.12sp_400"
                         app:layout_constraintEnd_toEndOf="parent"

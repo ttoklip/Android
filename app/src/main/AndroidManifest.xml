@@ -156,7 +156,7 @@
         <activity android:name=".presentation.signup.location.DirectLocationActivity"
             android:screenOrientation="portrait"
             android:exported="false"/>
-        <activity android:name=".presentation.mypage.MyInfoLocationActivity"
+        <activity android:name=".presentation.mypage.manageinfo.MyInfoLocationActivity"
             android:screenOrientation="portrait"
             android:exported="false"/>
         <activity
