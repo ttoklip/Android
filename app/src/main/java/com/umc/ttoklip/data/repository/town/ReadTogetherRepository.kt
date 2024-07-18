@@ -4,6 +4,7 @@ import com.umc.ttoklip.data.model.CommonResponse
 import com.umc.ttoklip.data.model.StandardResponse
 import com.umc.ttoklip.data.model.town.CommentResponse
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
+import com.umc.ttoklip.data.model.town.ParticipantsResponse
 import com.umc.ttoklip.data.model.town.PatchCartStatusRequest
 import com.umc.ttoklip.data.model.town.ReportRequest
 import com.umc.ttoklip.data.model.town.ViewTogetherResponse
@@ -22,4 +23,6 @@ interface ReadTogetherRepository {
     suspend fun fetchParticipantsCount(postId: Long): NetworkResult<CommonResponse>
 
     suspend fun patchPostStatus(postId: Long, request: PatchCartStatusRequest): NetworkResult<CommonResponse>
+
+    suspend fun fetchParticipants(cartId: Int): NetworkResult<ParticipantsResponse>
 }

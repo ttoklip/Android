@@ -139,7 +139,9 @@ class ReadTogetherActivity :
         }
 
         binding.ownerCheckBtn.setOnClickListener {
-            viewModel.fetchParticipantsCount()
+            viewModel.fetchParticipants()
+            /*val dialog = ParticipantDialogFragment()
+            dialog.show(supportFragmentManager, dialog.tag)*/
         }
 
         binding.ownerJoinBtn.setOnClickListener {
@@ -277,6 +279,25 @@ class ReadTogetherActivity :
                         binding.replyT.text = ""
                     } else {
                         binding.replyT.text = "@${id}"
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.participants.collect{
+
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.participants.collect{
+                    if(it.cartMemberResponses.isNotEmpty()){
+                        val dialog = ParticipantDialogFragment()
+                        dialog.show(supportFragmentManager, dialog.tag)
                     }
                 }
             }

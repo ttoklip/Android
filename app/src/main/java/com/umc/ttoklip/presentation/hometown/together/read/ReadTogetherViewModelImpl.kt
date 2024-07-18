@@ -5,11 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.data.model.town.CommentResponse
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
+import com.umc.ttoklip.data.model.town.ParticipantsResponse
 import com.umc.ttoklip.data.model.town.PatchCartStatusRequest
 import com.umc.ttoklip.data.model.town.ReportRequest
 import com.umc.ttoklip.data.model.town.ViewTogetherResponse
 import com.umc.ttoklip.data.repository.town.ReadTogetherRepository
 import com.umc.ttoklip.module.onError
+import com.umc.ttoklip.module.onException
 import com.umc.ttoklip.module.onFail
 import com.umc.ttoklip.module.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -54,6 +56,14 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
     override val replyCommentParentId = MutableStateFlow(0)
     override val commentContent = MutableStateFlow("")
 
+    private val _participants = MutableStateFlow(ParticipantsResponse(emptyList()))
+    override val participants: StateFlow<ParticipantsResponse>
+        get() = _participants
+
+    private val _participantsCnt = MutableStateFlow(0)
+    override val participantsCnt: StateFlow<Int>
+        get() = _participantsCnt
+
     private val _postContent: MutableStateFlow<ViewTogetherResponse> =
         MutableStateFlow<ViewTogetherResponse>(
             ViewTogetherResponse(
@@ -76,6 +86,10 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
         )
     override val postContent: StateFlow<ViewTogetherResponse>
         get() = _postContent
+
+    override fun resetParticipants(){
+        _participants.value = ParticipantsResponse(emptyList())
+    }
 
     override fun joinBtnClick() {
         viewModelScope.launch {
@@ -210,6 +224,16 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
                     readTogether(postId.value)
                     Log.d("patchPostStatus", it.toString())
                 }
+            }
+        }
+    }
+
+    override fun fetchParticipants() {
+        viewModelScope.launch {
+            repository.fetchParticipants(_postId.value.toInt()).onSuccess {
+                _participants.value = it
+            }.onException {
+                Log.d("part", it.toString())
             }
         }
     }
