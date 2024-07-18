@@ -74,7 +74,7 @@ class LoginActivity : BaseActivity<ActivityLogin2Binding>(R.layout.activity_logi
         }
         NaverIdLoginSDK.authenticate(this, oauthLoginCallback)
         //네이버 토큰 임시확인용
-        Log.i("NAVER-LOGIN","${NaverIdLoginSDK.getAccessToken()}")
+        //Log.i("NAVER-LOGIN","${NaverIdLoginSDK.getAccessToken()}")
     }
     private fun kakaoLogin(){
         viewModel.setIsSocialLogin(true)

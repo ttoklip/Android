@@ -1,10 +1,14 @@
 package com.umc.ttoklip.data.api
 
 import com.umc.ttoklip.data.model.ResponseBody
+import com.umc.ttoklip.data.model.honeytip.CreateHoneyTipResponse
 import com.umc.ttoklip.data.model.town.CreateCommunicationsResponse
+import com.umc.ttoklip.data.model.town.EditCommunication
 import com.umc.ttoklip.data.model.town.PatchCommunicationResponse
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -25,9 +29,11 @@ interface WriteCommsApi {
     @Multipart
     @PATCH("/api/v1/town/comms/{postId}")
     suspend fun patchCommunications(
-        @Part("title") title: String,
-        @Part("content") content: String,
-        @Part images: List<MultipartBody.Part>,
-        @Path("postId") postId: Long
+        @Path("postId") postId: Long,
+        @Part("title") title: RequestBody,
+        @Part("content") content: RequestBody,
+        @Part("deleteImageIds") deleteImageIds: RequestBody,
+        @Part addImages: List<MultipartBody.Part?>,
+        @Part("url") url: RequestBody
     ): Response<ResponseBody<PatchCommunicationResponse>>
 }

@@ -87,12 +87,13 @@ class ReadQuestionActivity : BaseActivity<ActivityReadQuestionBinding>(R.layout.
         }
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.menuEvent.collect{
-                    handleMenuEvent(it)
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.toastEvent.collect { text ->
+                    Toast.makeText(this@ReadQuestionActivity, text, Toast.LENGTH_SHORT).show()
                 }
             }
         }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.comments.collect {
@@ -138,15 +139,6 @@ class ReadQuestionActivity : BaseActivity<ActivityReadQuestionBinding>(R.layout.
         }
     }
 
-    private fun handleMenuEvent(event: ReadHoneyTipViewModel.MenuEvent){
-        when(event){
-            ReadHoneyTipViewModel.MenuEvent.ReportQuestion ->
-            Toast.makeText(this, "해당 게시글에 대한 신고가 접수되었습니다.", Toast.LENGTH_SHORT).show()
-            ReadHoneyTipViewModel.MenuEvent.DeleteQuestionComment -> "댓글이 삭제되었습니다."
-            ReadHoneyTipViewModel.MenuEvent.ReportQuestion -> "해당 댓글에 대한 신고가 접수되었습니다."
-            else -> {}
-        }
-    }
     override fun initView() {
         binding.vm = viewModel
         postId = intent.getIntExtra("postId", 0)

@@ -18,6 +18,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -51,8 +52,8 @@ class ReadHoneyTipViewModel @Inject constructor(
     private val _readEvent = MutableSharedFlow<ReadEvent>()
     val readEvent = _readEvent.asSharedFlow()
 
-    private val _menuEvent = MutableSharedFlow<MenuEvent>()
-    val menuEvent = _menuEvent.asSharedFlow()
+    private val _toastEvent = MutableSharedFlow<String>()
+    val toastEvent: SharedFlow<String> get() = _toastEvent
 
     private val _comments = MutableStateFlow(listOf<CommentResponse>())
     val comments = _comments.asStateFlow()
@@ -79,35 +80,9 @@ class ReadHoneyTipViewModel @Inject constructor(
             ReadEvent()
     }
 
-    sealed class MenuEvent {
-        object DeleteHoneyTip : MenuEvent()
-        object ReportHoneyTip : MenuEvent()
-
-        object DeleteHoneyTipComment: MenuEvent()
-
-        object ReportHoneyTipComment : MenuEvent()
-        object ReportQuestion : MenuEvent()
-
-        object ReportQuestionComment : MenuEvent()
-
-        object DeleteQuestionComment: MenuEvent()
-
-        object PostScrap : MenuEvent()
-        object DeleteScrap : MenuEvent()
-
-        object PostLike : MenuEvent()
-        object DeleteLike : MenuEvent()
-    }
-
     private fun eventRead(event: ReadEvent) {
         viewModelScope.launch {
             _readEvent.emit(event)
-        }
-    }
-
-    private fun eventMenu(event: MenuEvent) {
-        viewModelScope.launch {
-            _menuEvent.emit(event)
         }
     }
 
@@ -138,7 +113,8 @@ class ReadHoneyTipViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.reportHoneyTip(honeyTipId, request).onSuccess {
                 Log.d("report HoneyTip", it.toString())
-                eventMenu(MenuEvent.ReportHoneyTip)
+                _toastEvent.emit("해당 게시글에 대한 신고가 접수되었습니다.")
+
             }
         }
     }
@@ -147,7 +123,7 @@ class ReadHoneyTipViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteHoneyTip(honeyTipId).onSuccess {
                 Log.d("delete honeyTip", it.toString())
-                eventMenu(MenuEvent.DeleteHoneyTip)
+                _toastEvent.emit("해당 게시글이 삭제되었습니다.")
             }
         }
     }
@@ -159,7 +135,6 @@ class ReadHoneyTipViewModel @Inject constructor(
                 _honeyTip.emit(honeyTip.value.copy().also {
                     it.scrapCount += 1
                 })
-                eventMenu(MenuEvent.PostScrap)
             }
         }
     }
@@ -171,7 +146,6 @@ class ReadHoneyTipViewModel @Inject constructor(
                 _honeyTip.emit(honeyTip.value.copy().also {
                     it.scrapCount -= 1
                 })
-                eventMenu(MenuEvent.DeleteScrap)
             }
         }
     }
@@ -183,7 +157,6 @@ class ReadHoneyTipViewModel @Inject constructor(
                 _honeyTip.emit(honeyTip.value.copy().also {
                     it.likeCount += 1
                 })
-                eventMenu(MenuEvent.PostLike)
             }
         }
     }
@@ -195,7 +168,6 @@ class ReadHoneyTipViewModel @Inject constructor(
                 _honeyTip.emit(honeyTip.value.copy().also {
                     it.likeCount -= 1
                 })
-                eventMenu(MenuEvent.DeleteLike)
             }
         }
     }
@@ -217,7 +189,7 @@ class ReadHoneyTipViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteCommentHoneyTip(commentId).onSuccess {
                 inquireHoneyTip(postId)
-                eventMenu(MenuEvent.DeleteHoneyTipComment)
+                _toastEvent.emit("댓글이 삭제되었습니다.")
             }
         }
     }
@@ -225,7 +197,7 @@ class ReadHoneyTipViewModel @Inject constructor(
     fun postReportHoneyTipComment(commentId: Int, request: ReportRequest) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.postReportCommentHoneyTip(commentId, request).onSuccess {
-                eventMenu(MenuEvent.ReportHoneyTipComment)
+                _toastEvent.emit("해당 댓글에 대한 신고가 접수되었습니다.")
             }
         }
     }
@@ -245,7 +217,7 @@ class ReadHoneyTipViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteCommentQuestion(commentId).onSuccess {
                 inquireQuestion(postId)
-                eventMenu(MenuEvent.DeleteQuestionComment)
+                _toastEvent.emit("댓글이 삭제되었습니다.")
             }
         }
     }
@@ -253,7 +225,7 @@ class ReadHoneyTipViewModel @Inject constructor(
     fun postReportQuestionComment(commentId: Int, request: ReportRequest) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.postReportCommentQuestion(commentId, request).onSuccess {
-                eventMenu(MenuEvent.ReportQuestionComment)
+                _toastEvent.emit("해당 댓글에 대한 신고가 접수되었습니다.")
             }
         }
     }
@@ -279,7 +251,7 @@ class ReadHoneyTipViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.reportQuestion(questionId, request).onSuccess {
                 Log.d("report Question", it.toString())
-                eventMenu(MenuEvent.ReportQuestion)
+                _toastEvent.emit("해당 게시글에 대한 신고가 접수되었습니다.")
             }
         }
     }

@@ -62,6 +62,11 @@ class WriteHoneyTipViewModel @Inject constructor(
         return string.toRequestBody("text/plain".toMediaTypeOrNull())
     }
 
+    private fun createRequestBodyFromList(list: List<Int>): RequestBody {
+        val listString = list.joinToString(",") // List를 쉼표로 구분된 문자열로 변환
+        return RequestBody.create("text/plain".toMediaTypeOrNull(), listString)
+    }
+
     private fun event(event: WriteDoneEvent) {
         viewModelScope.launch {
             _writeDoneEvent.emit(event)
@@ -95,7 +100,8 @@ class WriteHoneyTipViewModel @Inject constructor(
         title: String,
         content: String,
         category: String,
-        images: List<MultipartBody.Part?>,
+        deleteImageIds: List<Int>,
+        addImages: List<MultipartBody.Part?>,
         url: String
     ) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -104,7 +110,8 @@ class WriteHoneyTipViewModel @Inject constructor(
                 convertStringToTextPlain(title),
                 convertStringToTextPlain(content),
                 convertStringToTextPlain(category),
-                images,
+                createRequestBodyFromList(deleteImageIds),
+                addImages,
                 convertStringToTextPlain(url)
             ).onSuccess {
                 val postId = it.message.replace(("[^\\d]").toRegex(), "").toInt()

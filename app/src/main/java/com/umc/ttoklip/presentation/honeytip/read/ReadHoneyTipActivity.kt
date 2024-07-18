@@ -2,6 +2,7 @@ package com.umc.ttoklip.presentation.honeytip.read
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -26,8 +27,6 @@ import com.umc.ttoklip.presentation.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
-import com.umc.ttoklip.presentation.news.detail.ArticleActivity
-import com.umc.ttoklip.presentation.news.detail.ArticleActivity.Companion.ARTICLE
 import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -96,8 +95,8 @@ class ReadHoneyTipActivity :
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.menuEvent.collect {
-                    handleMenuEvent(it)
+                viewModel.toastEvent.collect { text ->
+                    Toast.makeText(this@ReadHoneyTipActivity, text, Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -157,23 +156,9 @@ class ReadHoneyTipActivity :
                     showReportBtn()
                 }
             }
+
             else -> {}
         }
-    }
-
-    private fun handleMenuEvent(event: ReadHoneyTipViewModel.MenuEvent) {
-        val toastText =
-            when (event) {
-                ReadHoneyTipViewModel.MenuEvent.DeleteLike -> "좋아요 취소"
-                ReadHoneyTipViewModel.MenuEvent.DeleteScrap -> "스크랩 취소"
-                ReadHoneyTipViewModel.MenuEvent.PostLike -> "좋아요"
-                ReadHoneyTipViewModel.MenuEvent.PostScrap -> "스크랩"
-                ReadHoneyTipViewModel.MenuEvent.ReportHoneyTip -> "해당 게시글에 대한 신고가 접수되었습니다."
-                ReadHoneyTipViewModel.MenuEvent.DeleteHoneyTipComment -> "댓글이 삭제되었습니다."
-                ReadHoneyTipViewModel.MenuEvent.ReportHoneyTipComment -> "해당 댓글에 대한 신고가 접수되었습니다."
-                else -> {}
-            }
-        Toast.makeText(this, "$toastText", Toast.LENGTH_SHORT)
     }
 
     override fun initView() {
@@ -181,8 +166,10 @@ class ReadHoneyTipActivity :
         binding.replyT.setOnClickListener {
             viewModel.replyCommentParentId.value = 0
         }
+
         postId = intent.getIntExtra("postId", 0)
         Log.d("read postid", postId.toString())
+
         binding.commentRV.adapter = commentRVA
         binding.SendCardView.setOnClickListener {
             viewModel.postHoneyTipComment(postId)
@@ -235,14 +222,13 @@ class ReadHoneyTipActivity :
             val intent = Intent(this, WriteHoneyTipActivity::class.java)
             intent.putExtra("isEdit", true)
             intent.putExtra(BOARD, com.umc.ttoklip.presentation.honeytip.HONEY_TIPS)
-            val images = imageAdapter.currentList.filterIsInstance<ImageUrl>()?.map { it.imageUrl }
-                ?.toTypedArray()
+            val images = imageAdapter.currentList.filterIsInstance<ImageUrl>()
             val editHoneyTip = EditHoneyTip(
                 postId,
                 binding.titleTv.text.toString(),
                 binding.contentT.text.toString(),
                 category,
-                images ?: emptyArray(),
+                images,
                 binding.linkT.text.toString()
             )
             Log.d("honeyTip", editHoneyTip.toString())
@@ -282,28 +268,26 @@ class ReadHoneyTipActivity :
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        if (isShowMenu && !isTouchInside(binding.dotBtn, ev?.x!!, ev?.y!!)) {
-            if (!isTouchInside(binding.honeyTipMenu, ev?.x!!, ev?.y!!)) {
-                binding.honeyTipMenu.visibility = View.GONE
-                isShowMenu = false
-            }
-        }
+        if (ev?.action == MotionEvent.ACTION_DOWN) {
+            val dotBtnRect = Rect()
+            val reportBtnRect = Rect()
+            val writerMenuRect = Rect()
+            binding.dotBtn.getGlobalVisibleRect(dotBtnRect)
+            binding.reportBtn.getGlobalVisibleRect(reportBtnRect)
+            binding.honeyTipMenu.getGlobalVisibleRect(writerMenuRect)
 
-        if (isShowMenu && !isTouchInside(binding.dotBtn, ev?.x!!, ev?.y!!)) {
-            if (!isTouchInside(binding.reportBtn, ev?.x!!, ev?.y!!)) {
-                binding.reportBtn.visibility = View.GONE
+            if (isShowMenu && !dotBtnRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
+                if(!reportBtnRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
+                    binding.reportBtn.visibility = View.GONE
+                }
+
+                if(!writerMenuRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
+                    binding.honeyTipMenu.visibility = View.GONE
+                }
                 isShowMenu = false
             }
         }
         return super.dispatchTouchEvent(ev)
-    }
-
-    private fun isTouchInside(view: View, x: Float, y: Float): Boolean {
-        val location = IntArray(2)
-        view.getLocationOnScreen(location)
-        val realRight = location[0] + view.width
-        val realBottom = location[1] + view.height
-        return x >= location[0] && x <= realRight && y >= location[1] && y <= realBottom
     }
 
     override fun onClick(imageUrl: String) {

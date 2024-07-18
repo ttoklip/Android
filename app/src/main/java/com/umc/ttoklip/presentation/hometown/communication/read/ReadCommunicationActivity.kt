@@ -17,14 +17,14 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.honeytip.ImageUrl
 import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
+import com.umc.ttoklip.data.model.town.EditCommunication
 import com.umc.ttoklip.data.model.town.ReportRequest
 import com.umc.ttoklip.databinding.ActivityReadCommunicationBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
-import com.umc.ttoklip.presentation.honeytip.adapter.OnReadImageClickListener
-import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
 import com.umc.ttoklip.presentation.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
+import com.umc.ttoklip.presentation.hometown.communication.write.WriteCommunicationActivity
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ReadCommunicationActivity :
     BaseActivity<ActivityReadCommunicationBinding>(R.layout.activity_read_communication),
-    OnReadImageClickListener {
+    com.umc.ttoklip.presentation.hometown.adapter.OnReadImageClickListener {
     private val commentRVA by lazy {
         CommentRVA({ id ->
             viewModel.replyCommentParentId.value = id
@@ -68,8 +68,8 @@ class ReadCommunicationActivity :
             startActivity(OtherUserActivity.newIntent(this, nick))
         })
     }
-    private val imageAdapter: ReadImageRVA by lazy {
-        ReadImageRVA(this, this@ReadCommunicationActivity)
+    private val imageAdapter: com.umc.ttoklip.presentation.hometown.adapter.ReadImageRVA by lazy {
+        com.umc.ttoklip.presentation.hometown.adapter.ReadImageRVA(this, this@ReadCommunicationActivity)
     }
     private val viewModel: ReadCommunicationViewModel by viewModels<ReadCommunicationViewModelImpl>()
     private var postId = 0L
@@ -124,9 +124,13 @@ class ReadCommunicationActivity :
         }
 
 
-        binding.editBtn.setOnClickListener {
-
-        }
+        /*binding.editBtn.setOnClickListener {
+            startActivity(WriteCommunicationActivity.newIntent(this, EditCommunication(
+                postId,
+                binding.titleTv.text.toString(),
+                binding.contentT.text.toString()
+            )))
+        }*/
     }
 
     private fun showReportBtn() {
@@ -177,7 +181,7 @@ class ReadCommunicationActivity :
 
                             Log.d("image", response.imageUrls.toString())
                             imageAdapter.submitList(response.imageUrls.map { url ->
-                                ImageUrl(url.imageUrl)
+                                com.umc.ttoklip.data.model.town.ImageUrl(url.communityImageId, url.communityImageUrl)
                             })
                             if (response.writer == "  1") {
                                 communityMenu.bringToFront()

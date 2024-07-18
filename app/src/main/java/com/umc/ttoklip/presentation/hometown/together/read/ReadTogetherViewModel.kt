@@ -1,6 +1,8 @@
 package com.umc.ttoklip.presentation.hometown.together.read
 
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
+import com.umc.ttoklip.data.model.town.Participants
+import com.umc.ttoklip.data.model.town.ParticipantsResponse
 import com.umc.ttoklip.data.model.town.ReportRequest
 import com.umc.ttoklip.data.model.town.ViewTogetherResponse
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,6 +20,8 @@ interface ReadTogetherViewModel {
     val replyCommentParentId : MutableStateFlow<Int>
     val comments: StateFlow<List<com.umc.ttoklip.data.model.town.CommentResponse>>
     val commentContent: MutableStateFlow<String>
+    val participants: StateFlow<ParticipantsResponse>
+    val participantsCnt: StateFlow<Int>
 
     fun joinBtnClick()
 
@@ -36,4 +40,8 @@ interface ReadTogetherViewModel {
     fun fetchParticipantsCount()
 
     fun patchPostStatus(status: String)
+
+    fun fetchParticipants()
+
+    fun resetParticipants()
 }

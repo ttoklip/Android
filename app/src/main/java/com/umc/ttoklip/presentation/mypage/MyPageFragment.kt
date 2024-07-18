@@ -10,12 +10,12 @@ import com.bumptech.glide.Glide
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.databinding.FragmentMyPageBinding
-import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.alarm.AlarmActivity
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.login.LoginActivity
 import com.umc.ttoklip.presentation.mypage.dialog.LogoutDialog
-import com.umc.ttoklip.presentation.mypage.vm.ManageMyInfoViewModel
+import com.umc.ttoklip.presentation.mypage.manageinfo.ManageMyInfoActivity
+import com.umc.ttoklip.presentation.mypage.manageinfo.ManageMyInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -30,8 +30,9 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                     Log.d("mypage", it.toString())
                     binding.addressTv.text = it.street ?: "주소"
                     binding.nicknameTv.text = it.nickname
+                    Log.d("profile image", it.profileImgUrl.toString())
                     Glide.with(this@MyPageFragment)
-                        .load(it.profileImage)
+                        .load(it.profileImgUrl)
                         .into(binding.profileImg)
                 }
             }
@@ -45,7 +46,6 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     }
 
     override fun initView() {
-        //viewModel.getMyPageInfo()
         binding.userExpBar.isEnabled = false
         binding.noticeBtn.setOnClickListener {
             startActivity(AlarmActivity.newIntent(requireContext()))

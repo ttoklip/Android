@@ -21,7 +21,7 @@ class SplashActivity:BaseActivity<ActivitySplashBinding>(R.layout.activity_splas
             if(firstRun){
                 startActivity(Intent(this, IntroActivity::class.java))
                 finish()
-            }else if(jwt.isNotEmpty()&&!isFirstLogin){ //로그인 토큰 확인 필요시 해당 부분 주석
+            } else if(jwt.isNotEmpty()&&!isFirstLogin){ //로그인 토큰 확인 필요시 해당 부분 주석
                 startActivity(Intent(this,MainActivity::class.java))
                 finish()
             } else{

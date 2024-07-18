@@ -22,7 +22,7 @@ import com.umc.ttoklip.presentation.hometown.communication.write.WriteCommunicat
 import com.umc.ttoklip.presentation.hometown.together.read.ReadTogetherActivity
 import com.umc.ttoklip.presentation.hometown.together.TogetherActivity
 import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherActivity
-import com.umc.ttoklip.presentation.mypage.MyHometownAddressActivity
+import com.umc.ttoklip.presentation.mypage.manageinfo.MyHometownAddressActivity
 import com.umc.ttoklip.presentation.search.SearchActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -59,6 +59,11 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.mainData.collect { re ->
+                    re.communityRecent3.forEach {
+                        if(it.street.isNullOrEmpty()){
+                            it.street = "수도권"
+                        }
+                    }
                     togetherAdapter.submitList(re.cartRecent3.map { it.toModel() })
                     communicationAdapter.submitList(re.communityRecent3.map { it.toModel() })
                     binding.myHometownFilterTv.text = re.street

@@ -105,8 +105,8 @@ class ReadTogetherActivity :
 
         binding.dotBtn.setOnClickListener {
             if (isWriter) {
-                binding.editBtn.bringToFront()
-                binding.editBtn.isVisible = binding.editBtn.isVisible.not()
+                /*binding.editBtn.bringToFront()
+                binding.editBtn.isVisible = binding.editBtn.isVisible.not()*/
             } else {
                 binding.reportBtn.bringToFront()
                 binding.reportBtn.isVisible = binding.reportBtn.isVisible.not()
@@ -139,7 +139,9 @@ class ReadTogetherActivity :
         }
 
         binding.ownerCheckBtn.setOnClickListener {
-            viewModel.fetchParticipantsCount()
+            viewModel.fetchParticipants()
+            /*val dialog = ParticipantDialogFragment()
+            dialog.show(supportFragmentManager, dialog.tag)*/
         }
 
         binding.ownerJoinBtn.setOnClickListener {
@@ -208,6 +210,7 @@ class ReadTogetherActivity :
 
                         imageAdapter.submitList(response.imageUrls.map { url ->
                             ImageUrl(
+                                0,
                                 imageUrl = url.imageUrl
                             )
                         })
@@ -276,6 +279,25 @@ class ReadTogetherActivity :
                         binding.replyT.text = ""
                     } else {
                         binding.replyT.text = "@${id}"
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.participants.collect{
+
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.participants.collect{
+                    if(it.cartMemberResponses.isNotEmpty()){
+                        val dialog = ParticipantDialogFragment()
+                        dialog.show(supportFragmentManager, dialog.tag)
                     }
                 }
             }

@@ -3,11 +3,12 @@ package com.umc.ttoklip.data.model.mypage
 data class MyPageInfoResponse(
     var street: String?,
     var nickname: String,
-    var profileImage: String?,
+    var profileImgUrl: String?,
     var independentYear: Int,
-    var independentMonth: Int
+    var independentMonth: Int,
+    var interests: List<Interest>
 ){
-    constructor(): this(null, "", null, 0, 0)
+    constructor(): this(null, "", null, 0, 0, emptyList())
 }
 /*
 street": null,

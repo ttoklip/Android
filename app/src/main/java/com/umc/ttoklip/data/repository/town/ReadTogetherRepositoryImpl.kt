@@ -6,6 +6,7 @@ import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.StandardResponse
 import com.umc.ttoklip.data.model.town.CommentResponse
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
+import com.umc.ttoklip.data.model.town.ParticipantsResponse
 import com.umc.ttoklip.data.model.town.PatchCartStatusRequest
 import com.umc.ttoklip.data.model.town.ReportRequest
 import com.umc.ttoklip.data.model.town.ViewTogetherResponse
@@ -73,5 +74,9 @@ class ReadTogetherRepositoryImpl @Inject constructor(private val api: ReadTogeth
 
     override suspend fun patchPostStatus(postId: Long, request: PatchCartStatusRequest): NetworkResult<CommonResponse> {
         return handleApi({api.patchPostStatus(postId, request)}) {response: ResponseBody<CommonResponse> -> response.result}
+    }
+
+    override suspend fun fetchParticipants(cartId: Int): NetworkResult<ParticipantsResponse> {
+        return handleApi({api.fetchParticipants(cartId)}) {response: ResponseBody<ParticipantsResponse> -> response.result}
     }
 }
