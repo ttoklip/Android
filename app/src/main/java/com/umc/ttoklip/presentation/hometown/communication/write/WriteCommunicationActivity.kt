@@ -1,8 +1,10 @@
 package com.umc.ttoklip.presentation.hometown.communication.write
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -15,6 +17,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
+import com.umc.ttoklip.data.model.town.EditCommunication
 import com.umc.ttoklip.databinding.ActivityWriteCommunicationBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
@@ -41,6 +44,7 @@ class WriteCommunicationActivity :
             Log.d("PhotoPicker", "No media selected")
         }
     }
+    private var isEdit = false
 
     override fun initView() {
         binding.vm = viewModel as WriteCommunicationViewModelImpl
@@ -49,6 +53,33 @@ class WriteCommunicationActivity :
 
         binding.backBtn.setOnClickListener {
             finish()
+        }
+
+        val edit = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getSerializableExtra("edit", EditCommunication::class.java)
+        } else {
+            intent.getSerializableExtra("edit") as EditCommunication
+        }
+
+        Log.d("edit", edit.toString())
+
+        if(edit != null){
+            isEdit = true
+            with(binding){
+                writeDoneBtn.text = "수정완료"
+                viewModel.setTitle(edit.title)
+                viewModel.setBody(edit.content)
+                viewModel.setPostId(edit.postId)
+            }
+        }
+
+        binding.writeDoneBtn.setOnClickListener {
+            if(isEdit){
+                Log.d("isEdit", "뭔데")
+                //viewModel.patchCommunication(EditCommunication(edit?.postId!!, binding.titleEt.text.toString(), binding.bodyEt.text.toString()))
+            } else {
+                viewModel.doneButtonClick()
+            }
         }
     }
 
@@ -132,5 +163,12 @@ class WriteCommunicationActivity :
             }
         }
         return super.dispatchTouchEvent(event)
+    }
+
+    companion object{
+        fun newIntent(context: Context, editCommunication: EditCommunication) =
+            Intent(context, WriteCommunicationActivity::class.java).apply {
+                putExtra("edit", editCommunication)
+            }
     }
 }

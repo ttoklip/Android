@@ -105,8 +105,8 @@ class ReadTogetherActivity :
 
         binding.dotBtn.setOnClickListener {
             if (isWriter) {
-                binding.editBtn.bringToFront()
-                binding.editBtn.isVisible = binding.editBtn.isVisible.not()
+                /*binding.editBtn.bringToFront()
+                binding.editBtn.isVisible = binding.editBtn.isVisible.not()*/
             } else {
                 binding.reportBtn.bringToFront()
                 binding.reportBtn.isVisible = binding.reportBtn.isVisible.not()

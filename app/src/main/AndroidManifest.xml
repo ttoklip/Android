@@ -133,11 +133,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             android:exported="true" />
-        <activity
-            android:name=".presentation.hometown.together.write.tradelocation.TradeLocationActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="false" />
 
         <activity
             android:name=".presentation.otheruser.OtherUserActivity"
@@ -160,23 +155,11 @@
         <activity android:name=".presentation.signup.location.DirectLocationActivity"
             android:screenOrientation="portrait"
             android:exported="false"/>
-        <activity android:name=".presentation.mypage.manageinfo.MyInfoLocationActivity"
+        <activity android:name=".presentation.mypage.manageinfo.MyInfoLocationActivity"/>
         <activity android:name=".presentation.signup.fragments.WebviewActivity"
             android:screenOrientation="portrait"
             android:exported="false"/>
-        <activity android:name=".presentation.mypage.MyInfoLocationActivity"
-            android:screenOrientation="portrait"
-            android:exported="false"/>
-        <activity
-            android:name=".presentation.hometown.PlaceActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="false" />
-        <activity
-            android:name=".presentation.hometown.AddressDetailActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="false" />
+
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">

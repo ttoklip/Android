@@ -17,14 +17,14 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.honeytip.ImageUrl
 import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
+import com.umc.ttoklip.data.model.town.EditCommunication
 import com.umc.ttoklip.data.model.town.ReportRequest
 import com.umc.ttoklip.databinding.ActivityReadCommunicationBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
-import com.umc.ttoklip.presentation.honeytip.adapter.OnReadImageClickListener
-import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
 import com.umc.ttoklip.presentation.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
+import com.umc.ttoklip.presentation.hometown.communication.write.WriteCommunicationActivity
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -124,9 +124,13 @@ class ReadCommunicationActivity :
         }
 
 
-        binding.editBtn.setOnClickListener {
-
-        }
+        /*binding.editBtn.setOnClickListener {
+            startActivity(WriteCommunicationActivity.newIntent(this, EditCommunication(
+                postId,
+                binding.titleTv.text.toString(),
+                binding.contentT.text.toString()
+            )))
+        }*/
     }
 
     private fun showReportBtn() {
