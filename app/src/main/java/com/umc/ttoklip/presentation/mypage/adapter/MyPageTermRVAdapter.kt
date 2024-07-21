@@ -2,13 +2,12 @@ package com.umc.ttoklip.presentation.mypage.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.databinding.ItemTermBinding
+import com.umc.ttoklip.presentation.signup.fragments.TermRVAdapter
 import com.umc.ttoklip.presentation.signup.fragments.TermViewModel
 import com.umc.ttoklip.presentation.signup.fragments.WebviewActivity
 
@@ -19,8 +18,6 @@ class MyPageTermRVAdapter(
 
     interface MyItemClickListener {
         fun onItemClick(termId: Int)
-        fun onCheckTermOn(termId: Int)
-        fun onCheckTermOff(termId: Int)
     }
 
     private lateinit var mItemClickListener: MyItemClickListener
@@ -44,9 +41,10 @@ class MyPageTermRVAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(termList[position])
         holder.binding.termAgreeServiceBtn.setOnClickListener {
-            val intent = Intent(context, WebviewActivity::class.java)
-            intent.putExtra("url",termList[position].content)
-            context.startActivity(intent)
+            mItemClickListener.onItemClick(termList[position].termId-1)
+//            val intent = Intent(context, WebviewActivity::class.java)
+//            intent.putExtra("url",termList[position].content)
+//            context.startActivity(intent)
         }
     }
 

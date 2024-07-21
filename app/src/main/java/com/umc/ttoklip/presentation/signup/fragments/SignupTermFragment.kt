@@ -20,8 +20,11 @@ class SignupTermFragment : BaseFragment<FragmentSignupTermBinding>(R.layout.frag
     }
 
     override fun initView() {
-        val title = arguments?.getString("title")
-        val content = arguments?.getString("content")
+        val termId=arguments?.getInt("termId")?:0
+        val title = viewModel.termDatas.value[termId].title
+//            arguments?.getString("title")
+        val content = viewModel.termDatas.value[termId].content
+//            arguments?.getString("content")
         binding.signupTermTitleTv.text = title
         binding.signupTermDetailTv.text = content
     }

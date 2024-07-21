@@ -89,6 +89,9 @@
             android:name=".presentation.mypage.TermsPolicesActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
+        <activity android:name=".presentation.mypage.TermsPolicesDetailActivity"
+            android:screenOrientation="portrait"
+            android:exported="false"/>
         <activity
             android:name=".presentation.mypage.TransactionHistoryActivity"
             android:screenOrientation="portrait"
