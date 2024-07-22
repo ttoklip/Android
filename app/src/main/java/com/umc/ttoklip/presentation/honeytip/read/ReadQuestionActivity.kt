@@ -23,11 +23,13 @@ import com.umc.ttoklip.presentation.honeytip.adapter.QuestionCommentRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
 import com.umc.ttoklip.presentation.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
+import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ReadQuestionActivity : BaseActivity<ActivityReadQuestionBinding>(R.layout.activity_read_question),
+class ReadQuestionActivity :
+    BaseActivity<ActivityReadQuestionBinding>(R.layout.activity_read_question),
     OnReadImageClickListener {
     private val viewModel: ReadHoneyTipViewModel by viewModels()
 
@@ -64,8 +66,8 @@ class ReadQuestionActivity : BaseActivity<ActivityReadQuestionBinding>(R.layout.
                 reportDialog.show(supportFragmentManager, reportDialog.tag)
             }
         },
-            {id, myComment ->
-                if (myComment){
+            { id, myComment ->
+                if (myComment) {
                     viewModel.likeQuestionComment(id)
                 }
             })
@@ -79,8 +81,8 @@ class ReadQuestionActivity : BaseActivity<ActivityReadQuestionBinding>(R.layout.
 
     override fun initObserver() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.readEvent.collect{
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.readEvent.collect {
                     handleEvent(it)
                 }
             }
@@ -97,7 +99,15 @@ class ReadQuestionActivity : BaseActivity<ActivityReadQuestionBinding>(R.layout.
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.comments.collect {
-                    val list = it.map { it -> NewsCommentResponse(it.commentContent?:"", it.commentId, it.parentId, it.writer, it.writtenTime) }
+                    val list = it.map { it ->
+                        NewsCommentResponse(
+                            it.commentContent ?: "",
+                            it.commentId,
+                            it.parentId,
+                            it.writer,
+                            it.writtenTime
+                        )
+                    }
                     commentRVA.submitList(list)
                 }
             }
@@ -116,8 +126,8 @@ class ReadQuestionActivity : BaseActivity<ActivityReadQuestionBinding>(R.layout.
         }
     }
 
-    private fun handleEvent(event: ReadHoneyTipViewModel.ReadEvent){
-        when(event){
+    private fun handleEvent(event: ReadHoneyTipViewModel.ReadEvent) {
+        when (event) {
             is ReadHoneyTipViewModel.ReadEvent.ReadQuestionEvent -> {
                 val question = event.inquireQuestionResponse
                 with(binding) {
@@ -126,16 +136,17 @@ class ReadQuestionActivity : BaseActivity<ActivityReadQuestionBinding>(R.layout.
                     contentT.text = question.content
                     commitT.text = question.commentCount.toString()
                 }
-                if (question.imageUrls.isNotEmpty()){
+                if (question.imageUrls.isNotEmpty()) {
                     binding.imageRv.visibility = View.VISIBLE
                     imageAdapter.submitList(question.imageUrls)
                 }
                 val writer = TtoklipApplication.prefs.getString("nickname", "")
-                if(question.writer != writer){
+                if (question.writer != writer) {
                     showReportBtn()
                 }
             }
-           else -> {}
+
+            else -> {}
         }
     }
 
@@ -145,6 +156,11 @@ class ReadQuestionActivity : BaseActivity<ActivityReadQuestionBinding>(R.layout.
         Log.d("read postid", postId.toString())
         binding.replyT.setOnClickListener {
             viewModel.replyCommentParentId.value = 0
+        }
+
+        binding.profileImg.setOnClickListener {
+            Log.d("왜왜왜", "안됨?")
+            startActivity(OtherUserActivity.newIntent(this, binding.writerTv.text.toString()))
         }
         binding.commentRv.adapter = commentRVA
         binding.SendCardView.setOnClickListener {
@@ -162,10 +178,12 @@ class ReadQuestionActivity : BaseActivity<ActivityReadQuestionBinding>(R.layout.
         //showDeleteDialog()
         showReportDialog()
     }
+
     private fun initImageRVA() {
         binding.imageRv.adapter = imageAdapter
     }
-    private fun showReportBtn(){
+
+    private fun showReportBtn() {
         binding.dotBtn.setOnClickListener {
             if (!isShowMenu) {
                 binding.reportBtn.bringToFront()
@@ -177,6 +195,7 @@ class ReadQuestionActivity : BaseActivity<ActivityReadQuestionBinding>(R.layout.
             }
         }
     }
+
     private fun showReportDialog() {
         binding.reportBtn.setOnClickListener {
             val reportDialog = ReportDialogFragment()
@@ -185,24 +204,27 @@ class ReadQuestionActivity : BaseActivity<ActivityReadQuestionBinding>(R.layout.
 
                 override fun onClick(type: String, content: String) {
                     Log.d("report request", content.toString())
-                    viewModel.reportQuestion(postId, ReportRequest(content = content, reportType = type))
+                    viewModel.reportQuestion(
+                        postId,
+                        ReportRequest(content = content, reportType = type)
+                    )
                 }
             })
             reportDialog.show(supportFragmentManager, reportDialog.tag)
         }
     }
 
- /*   private fun showDeleteDialog() {
-        binding.deleteBtn.setOnClickListener {
-            val deleteDialog = DeleteDialogFragment()
-            deleteDialog.setDialogClickListener(object : DeleteDialogFragment.DialogClickListener {
-                override fun onClick() {
-                    finish()
-                }
-            })
-            deleteDialog.show(supportFragmentManager, deleteDialog.tag)
-        }
-    }*/
+    /*   private fun showDeleteDialog() {
+           binding.deleteBtn.setOnClickListener {
+               val deleteDialog = DeleteDialogFragment()
+               deleteDialog.setDialogClickListener(object : DeleteDialogFragment.DialogClickListener {
+                   override fun onClick() {
+                       finish()
+                   }
+               })
+               deleteDialog.show(supportFragmentManager, deleteDialog.tag)
+           }
+       }*/
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         if (isShowMenu && !isTouchInside(binding.dotBtn, ev?.x!!, ev?.y!!)) {
