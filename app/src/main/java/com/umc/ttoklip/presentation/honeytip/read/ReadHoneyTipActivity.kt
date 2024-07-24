@@ -27,6 +27,7 @@ import com.umc.ttoklip.presentation.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
+import com.umc.ttoklip.presentation.otheruser.OtherTipActivity
 import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -36,6 +37,7 @@ class ReadHoneyTipActivity :
     BaseActivity<ActivityReadHoneyTipBinding>(R.layout.activity_read_honey_tip),
     OnReadImageClickListener {
     private val viewModel: ReadHoneyTipViewModel by viewModels()
+
 
     private val commentRVA by lazy {
         CommentRVA({ id ->
@@ -165,6 +167,11 @@ class ReadHoneyTipActivity :
         binding.vm = viewModel
         binding.replyT.setOnClickListener {
             viewModel.replyCommentParentId.value = 0
+        }
+
+        binding.profileImg.setOnClickListener {
+            Log.d("왜왜왜", "안됨?" )
+            startActivity(OtherUserActivity.newIntent(this,viewModel.honeyTip.value.writer.toString()))
         }
 
         postId = intent.getIntExtra("postId", 0)

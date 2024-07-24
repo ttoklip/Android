@@ -30,7 +30,7 @@ interface MyPage2Api {
         @Part("independentMonth") independentMonth: RequestBody
     ): Response<ResponseBody<CreateHoneyTipResponse>>
 
-    @GET("/api/v1/privacy/check-nickname")
+    @GET("/api/v1/privacy/local/check-nickname")
     suspend fun nickCheck(@Query("nickname") nickname:String)
             : Response<ResponseBody<SignupResponse>>
 }
