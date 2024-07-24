@@ -150,12 +150,14 @@ class SignupViewModel @Inject constructor(
     private var _independenctMonth = MutableStateFlow<Int>(0)
     val independenctMonth: StateFlow<Int>
         get() = _independenctMonth
+    val agreeTermsOfService = MutableStateFlow<Boolean>(false)
+    val agreePrivacyPolicy=MutableStateFlow<Boolean>(false)
+    val agreeLocationService=MutableStateFlow<Boolean>(false)
 
     fun saveUserInfoAt4(
-        uemail:String,
-        upw:String,
-        uoriginName:String,
-        ubirth:String,
+        uemail:String, upw:String, uoriginName:String,
+//        ubirth:String,
+        termsOfService:Boolean, privacyPolicy:Boolean, locationService:Boolean,
         unick: String,
         ucategories: ArrayList<String>,
         uprofileImage: String,
@@ -165,7 +167,10 @@ class SignupViewModel @Inject constructor(
         email.value=uemail
         pw.value=upw
         name.value=uoriginName
-        birth.value=ubirth
+//        birth.value=ubirth
+        agreeTermsOfService.value=termsOfService
+        agreePrivacyPolicy.value=privacyPolicy
+        agreeLocationService.value=locationService
         _nickname.value = unick
         _categories.value = ucategories
         _profileImage.value = uprofileImage
@@ -183,7 +188,6 @@ class SignupViewModel @Inject constructor(
 
     fun savePrivacy(type:String) {
         viewModelScope.launch {
-
             //이미지
             var fileToUpload:MultipartBody.Part
             if(profileImage.value.isEmpty()){
@@ -211,6 +215,9 @@ class SignupViewModel @Inject constructor(
                 requestMap["password"]=pw.value.toRequestBody("text/plain".toMediaTypeOrNull())
                 requestMap["originName"]=name.value.toRequestBody("text/plain".toMediaTypeOrNull())
                 //생일 추가되면 추가
+                requestMap["agreeTermsOfService"]=agreeTermsOfService.value.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+                requestMap["agreePrivacyPolicy"]=agreePrivacyPolicy.value.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+                requestMap["agreeLocationService"]=agreeLocationService.value.toString().toRequestBody("text/plain".toMediaTypeOrNull())
             }
             requestMap["street"] = street.toRequestBody("text/plain".toMediaTypeOrNull())
             requestMap["nickname"] = nickname.value.toRequestBody("text/plain".toMediaTypeOrNull())
