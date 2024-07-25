@@ -18,6 +18,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.api.LogDescriptor
 import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.databinding.FragmentWriteTogetherBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.dialog.ImageDialogFragment
@@ -246,14 +247,23 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
 
     private fun addImage() {
         binding.addImageBtn.setOnClickListener {
-            val imageDialog = ImageDialogFragment()
-            imageDialog.setDialogClickListener(object : ImageDialogFragment.DialogClickListener {
-                override fun onClick() {
-                    binding.imageRv.visibility = View.VISIBLE
-                    pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-                }
-            })
-            imageDialog.show(childFragmentManager, imageDialog.tag)
+            // 이미지 권한 여부 확인
+            val imagePermission = TtoklipApplication.prefs.getString("getImagePermission", "")
+            if (imagePermission != "true") {
+                val imageDialog = ImageDialogFragment()
+                imageDialog.setDialogClickListener(object :
+                    ImageDialogFragment.DialogClickListener {
+                    override fun onClick() {
+                        TtoklipApplication.prefs.setString("getImagePermission", "true")
+                        binding.imageRv.visibility = View.VISIBLE
+                        pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                    }
+                })
+                imageDialog.show(childFragmentManager, imageDialog.toString())
+            } else {
+                binding.imageRv.visibility = View.VISIBLE
+                pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }
         }
     }
 

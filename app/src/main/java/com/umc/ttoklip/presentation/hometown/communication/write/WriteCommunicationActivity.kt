@@ -17,6 +17,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.town.EditCommunication
 import com.umc.ttoklip.databinding.ActivityWriteCommunicationBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
@@ -154,14 +155,23 @@ class WriteCommunicationActivity :
 
     private fun addImage() {
         binding.addImageBtn.setOnClickListener {
-            val imageDialog = ImageDialogFragment()
-            imageDialog.setDialogClickListener(object : ImageDialogFragment.DialogClickListener {
-                override fun onClick() {
-                    binding.imageRv.visibility = View.VISIBLE
-                    pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-                }
-            })
-            imageDialog.show(supportFragmentManager, imageDialog.tag)
+            // 이미지 권한 여부 확인
+            val imagePermission = TtoklipApplication.prefs.getString("getImagePermission", "")
+            if (imagePermission != "true") {
+                val imageDialog = ImageDialogFragment()
+                imageDialog.setDialogClickListener(object :
+                    ImageDialogFragment.DialogClickListener {
+                    override fun onClick() {
+                        TtoklipApplication.prefs.setString("getImagePermission", "true")
+                        binding.imageRv.visibility = View.VISIBLE
+                        pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                    }
+                })
+                imageDialog.show(supportFragmentManager, imageDialog.toString())
+            } else {
+                binding.imageRv.visibility = View.VISIBLE
+                pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }
         }
     }
 
