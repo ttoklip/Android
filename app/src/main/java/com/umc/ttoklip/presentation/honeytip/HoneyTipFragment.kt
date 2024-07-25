@@ -15,6 +15,7 @@ import com.umc.ttoklip.presentation.honeytip.adapter.CategoryVPA
 import com.umc.ttoklip.presentation.honeytip.adapter.DailyPopularHoneyTipsVPA
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
+import com.umc.ttoklip.util.PageDecoration
 import kotlinx.coroutines.launch
 
 class HoneyTipFragment: BaseFragment<FragmentShareHoneyTipBinding>(R.layout.fragment_share_honey_tip) {

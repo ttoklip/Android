@@ -50,7 +50,7 @@
             android:name=".presentation.honeytip.write.WriteHoneyTipActivity"
             android:screenOrientation="portrait"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:screenOrientation="portrait"
             android:name=".presentation.alarm.AlarmActivity"

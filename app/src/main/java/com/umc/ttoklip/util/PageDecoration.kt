@@ -1,4 +1,4 @@
-package com.umc.ttoklip.presentation.honeytip
+package com.umc.ttoklip.util
 
 import android.graphics.Rect
 import android.view.View

@@ -140,6 +140,7 @@ class WriteHoneyTipActivity :
                 imageRv.visibility = View.VISIBLE
                 addLinkBtn.visibility = View.GONE
                 inputUrlBtn.visibility = View.VISIBLE
+                category = editHoneyTip?.category ?: ""
                 tabLayout.selectTab(tabLayout.getTabAt(stringToTabPosition(category)))
             }
 
@@ -147,7 +148,6 @@ class WriteHoneyTipActivity :
 
             imageAdapter.submitList(images?.map { Image(it.imageId, Uri.EMPTY, it.imageUrl) })
             postId = editHoneyTip?.postId ?: 0
-            category = editHoneyTip?.category ?: ""
         }
     }
 
@@ -165,17 +165,17 @@ class WriteHoneyTipActivity :
     // 작성완료 버튼 활성화
     private fun enableWriteDoneButton() {
         binding.titleEt.addTextChangedListener(
-            onTextChanged = { text: CharSequence?, _: Int, _: Int, _: Int ->
+            afterTextChanged = { text ->
                 if (text.toString().isNotBlank()) {
-                    viewModel.setContent(false)
+                    viewModel.setTitle(false)
                 } else {
-                    viewModel.setContent(true)
+                    viewModel.setTitle(true)
                 }
             }
         )
 
         binding.bodyEt.addTextChangedListener(
-            onTextChanged = { text: CharSequence?, _: Int, _: Int, _: Int ->
+            afterTextChanged = { text ->
                 if (text.toString().isNotBlank()) {
                     viewModel.setContent(false)
                 } else {
@@ -196,9 +196,9 @@ class WriteHoneyTipActivity :
                 val file = uriToFile(uri)
                 val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
                 val body = if(isEdit){
-                    MultipartBody.Part.createFormData("images", file.name, requestFile)
-                } else {
                     MultipartBody.Part.createFormData("addImages", file.name, requestFile)
+                } else {
+                    MultipartBody.Part.createFormData("images", file.name, requestFile)
                 }
                 imageParts.add(body)
             }
