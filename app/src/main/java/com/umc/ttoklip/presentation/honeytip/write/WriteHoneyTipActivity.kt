@@ -349,15 +349,9 @@ class WriteHoneyTipActivity :
         }
     }
 
-    override fun onClick(image: Image) {
-        val index = imageAdapter.currentList.indexOf(image)
-        Log.d("image index", index.toString())
-        val images = imageAdapter.currentList.filterIsInstance<Image>().map { it.uri.toString() }
-            .toTypedArray()
-        val intent = Intent(this, ReadImageViewActivity::class.java)
-        intent.putExtra("images", images)
-        intent.putExtra("position", index)
-        startActivity(intent)
+    override fun onClick(image: Image, position: Int) {
+        val images = imageAdapter.currentList.filterIsInstance<Image>().map { it.uri.toString() }.toTypedArray()
+        startActivity(WriteImageViewActivity.newIntent(this, images, position))
     }
 
     override fun deleteImage(position: Int, id: Int) {

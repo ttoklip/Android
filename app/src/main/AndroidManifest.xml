@@ -226,6 +226,7 @@
             android:exported="false" />
 
         <activity android:name=".presentation.honeytip.read.ReadQuestionActivity" />
+        <activity android:name=".presentation.honeytip.write.WriteImageViewActivity" />
 
         <service
             android:name=".util.TtoklipFirebaseMessagingService"
