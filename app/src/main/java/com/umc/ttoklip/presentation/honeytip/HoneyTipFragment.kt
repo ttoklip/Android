@@ -2,6 +2,7 @@ package com.umc.ttoklip.presentation.honeytip
 
 import android.content.Intent
 import android.util.Log
+import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -25,25 +26,14 @@ class HoneyTipFragment : BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment
     private var board = HONEY_TIPS
     private val viewModel: HoneyTipViewModel by viewModels()
     override fun initObserver() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.honeyTipMainEvent.collect {
-                    Log.d("it", it.toString())
-                    if(it) {
-                        //viewModel.getHoneyTipMain()
-                    }
-                }
-            }
-        }
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         viewModel.getHoneyTipMain()
     }
 
     override fun initView() {
-        //viewModel.getHoneyTipMain()
         initTabLayout()
         goWriteActivity()
         binding.searchBtn.setOnClickListener {
@@ -57,11 +47,7 @@ class HoneyTipFragment : BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment
 
     private fun goWriteActivity() {
         binding.writeFab.setOnClickListener {
-            val intent = Intent(activity, WriteHoneyTipActivity::class.java)
-            board = viewModel.boardLiveData.value ?: ""
-            intent.putExtra(BOARD, board)
-            Log.d("GoWriteHoneyTip", board)
-            startActivity(intent)
+            startActivity(WriteHoneyTipActivity.newIntent(requireContext(), board))
         }
     }
 
@@ -85,8 +71,7 @@ class HoneyTipFragment : BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment
         binding.boardTablayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 board = tab?.text.toString()
-                viewModel.setBoardLiveData(board)
-                Log.d("HoneyTipFragment", board)
+                //Log.d("HoneyTipFragment", board)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {

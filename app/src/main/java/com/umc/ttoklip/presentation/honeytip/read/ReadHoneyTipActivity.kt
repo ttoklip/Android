@@ -6,7 +6,6 @@ import android.graphics.Rect
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -19,7 +18,6 @@ import com.umc.ttoklip.data.model.honeytip.request.ReportRequest
 import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
 import com.umc.ttoklip.databinding.ActivityReadHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.honeytip.BOARD
 import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.OnReadImageClickListener
 import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
@@ -28,7 +26,6 @@ import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.honeytip.HONEY_TIPS
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
-import com.umc.ttoklip.presentation.otheruser.OtherTipActivity
 import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
 import com.umc.ttoklip.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -241,7 +238,7 @@ class ReadHoneyTipActivity :
                 binding.linkT.text.toString()
             )
 
-            startActivity(WriteHoneyTipActivity.newIntent(this, true, HONEY_TIPS, editHoneyTip))
+            startActivity(WriteHoneyTipActivity.editIntent(this, true, HONEY_TIPS, editHoneyTip))
             finish()
         }
     }

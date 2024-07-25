@@ -1,16 +1,10 @@
 package com.umc.ttoklip.presentation.honeytip.write
 
-import android.content.ContentResolver
-import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
-import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +40,6 @@ import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.ByteArrayOutputStream
 
 
 @AndroidEntryPoint
@@ -384,7 +377,11 @@ class WriteHoneyTipActivity :
     }
 
     companion object{
-        fun newIntent(context: Context, isEdit: Boolean, board: String, editHoneyTip: EditHoneyTip): Intent =
+        fun newIntent(context: Context, board: String): Intent =
+            Intent(context, WriteHoneyTipActivity::class.java).apply {
+                putExtra("board", board)
+            }
+        fun editIntent(context: Context, isEdit: Boolean, board: String, editHoneyTip: EditHoneyTip): Intent =
             Intent(context, WriteHoneyTipActivity::class.java).apply {
                 putExtra("isEdit", isEdit)
                 putExtra("board", board)

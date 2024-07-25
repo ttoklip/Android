@@ -2,6 +2,7 @@ package com.umc.ttoklip.presentation.honeytip
 
 import android.content.Intent
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -9,7 +10,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.umc.ttoklip.R
-import com.umc.ttoklip.databinding.FragmentShareHoneyTipBinding
+import com.umc.ttoklip.databinding.FragmentInnerHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.honeytip.adapter.CategoryVPA
 import com.umc.ttoklip.presentation.honeytip.adapter.DailyPopularHoneyTipsVPA
@@ -18,7 +19,7 @@ import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.util.PageDecoration
 import kotlinx.coroutines.launch
 
-class QuestionFragment: BaseFragment<FragmentShareHoneyTipBinding>(R.layout.fragment_share_honey_tip) {
+class QuestionFragment: BaseFragment<FragmentInnerHoneyTipBinding>(R.layout.fragment_inner_honey_tip) {
     private val viewModel: HoneyTipViewModel by viewModels(
         ownerProducer = {requireParentFragment()}
     )
@@ -58,13 +59,14 @@ class QuestionFragment: BaseFragment<FragmentShareHoneyTipBinding>(R.layout.frag
         initPopularHoneyTipsViewPager(65, 30)
         binding.scrollV.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             if ((!v.canScrollVertically(1))) {
-                Log.d("end", "end")
-                when(category){
+                viewModel.getQuestionPage(category)
+                //Log.d("end", "end")
+                /*when(category){
                     WriteHoneyTipActivity.Category.HOUSEWORK.toString() -> viewModel.getHouseQuestionPage()
                     WriteHoneyTipActivity.Category.RECIPE.toString() -> viewModel.getRecipeQuestionPage()
                     WriteHoneyTipActivity.Category.SAFE_LIVING.toString() -> viewModel.getSafeQuestionPage()
                     WriteHoneyTipActivity.Category.WELFARE_POLICY.toString() -> viewModel.getWelQuestionPage()
-                }
+                }*/
             }
         }
 
@@ -98,17 +100,17 @@ class QuestionFragment: BaseFragment<FragmentShareHoneyTipBinding>(R.layout.frag
                 when {
                     position < -1 -> {
                         page.background =
-                            resources.getDrawable(R.drawable.item_daily_popular_honey_tip_external_background)
+                            ContextCompat.getDrawable(requireContext(), R.drawable.item_daily_popular_honey_tip_external_background)
                     }
 
                     position <= 0.5 && position >= -0.5 -> {
                         page.background =
-                            resources.getDrawable(R.drawable.item_daily_popular_honey_tip_background)
+                            ContextCompat.getDrawable(requireContext(), R.drawable.item_daily_popular_honey_tip_background)
                     }
 
                     else -> {
                         page.background =
-                            resources.getDrawable(R.drawable.item_daily_popular_honey_tip_external_background)
+                            ContextCompat.getDrawable(requireContext(), R.drawable.item_daily_popular_honey_tip_external_background)
                     }
                 }
             }

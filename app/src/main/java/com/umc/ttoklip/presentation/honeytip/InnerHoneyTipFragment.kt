@@ -10,7 +10,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.umc.ttoklip.R
-import com.umc.ttoklip.databinding.FragmentShareHoneyTipBinding
+import com.umc.ttoklip.databinding.FragmentInnerHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.honeytip.adapter.CategoryVPA
 import com.umc.ttoklip.presentation.honeytip.adapter.DailyPopularHoneyTipsVPA
@@ -19,36 +19,20 @@ import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.util.PageDecoration
 import kotlinx.coroutines.launch
 
-class InnerHoneyTipFragment: BaseFragment<FragmentShareHoneyTipBinding>(R.layout.fragment_share_honey_tip) {
+class InnerHoneyTipFragment: BaseFragment<FragmentInnerHoneyTipBinding>(R.layout.fragment_inner_honey_tip) {
     private val viewModel: HoneyTipViewModel by viewModels(
         ownerProducer = {requireParentFragment()}
     )
     private val popularHoneyTipsVPA by lazy {
         DailyPopularHoneyTipsVPA{
-            val intent = Intent(requireContext(), ReadHoneyTipActivity::class.java)
-            intent.putExtra("postId", it.id)
-            intent.putExtra(BOARD, HONEY_TIPS)
-            startActivity(intent)
+            startActivity(ReadHoneyTipActivity.newIntent(requireContext(), it.id))
         }
     }
     private var category = WriteHoneyTipActivity.Category.HOUSEWORK.toString()
-    private var page = 0
-    private var isLast = false
     override fun initObserver() {
-        /*lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.honeyTipMain.collect{
-                    honeyTipMainResponse = it
-                }
-            }
-        }*/
-        /*viewModel.boardLiveData.observe(viewLifecycleOwner){
-            changeCategory(it)
-        }*/
         lifecycleScope.launch{
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.topFiveQuestions.collect{
-                    //Log.d("housework honeytip", it.toString())
                     popularHoneyTipsVPA.submitList(it)
                 }
             }
@@ -61,12 +45,13 @@ class InnerHoneyTipFragment: BaseFragment<FragmentShareHoneyTipBinding>(R.layout
         binding.scrollV.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             if ((!v.canScrollVertically(1))) {
                 Log.d("end", "end")
-                when(category){
+                viewModel.getHoneyTipPage(category)
+                /*when(category){
                     WriteHoneyTipActivity.Category.HOUSEWORK.toString() -> viewModel.getHouseHoneyTipPage()
                     WriteHoneyTipActivity.Category.RECIPE.toString() -> viewModel.getRecipeHoneyTipPage()
                     WriteHoneyTipActivity.Category.SAFE_LIVING.toString() -> viewModel.getSafeLivingHoneyTipPage()
                     WriteHoneyTipActivity.Category.WELFARE_POLICY.toString() -> viewModel.getWelFareHoneyTipPage()
-                }
+                }*/
             }
         }
 

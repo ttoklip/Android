@@ -51,11 +51,6 @@ class HoneyTipListFragment() :
                     }
                 }
         }
-
-
-        viewModel.boardLiveData.observe(viewLifecycleOwner){
-            board = it
-        }
     }
 
     override fun initView() {
@@ -79,12 +74,6 @@ class HoneyTipListFragment() :
     }
 
     override fun onClick(honeyTip: HoneyTipMain) {
-        //viewModel.inquireHoneyTip(honeyTipResponse.honeyTipId)
-        Log.d("honeyTipId", honeyTip.id.toString())
-        val intent = Intent(activity, ReadHoneyTipActivity::class.java)
-        intent.putExtra(BOARD, board)
-        intent.putExtra("honeyTipId", honeyTip.id)
-        Log.d("HoneyTipListFragment", honeyTip.toString())
-        startActivity(intent)
+        startActivity(ReadHoneyTipActivity.newIntent(requireContext(), honeyTip.id))
     }
 }
