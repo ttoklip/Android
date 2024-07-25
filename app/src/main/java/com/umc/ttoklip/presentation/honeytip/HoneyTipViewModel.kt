@@ -29,9 +29,6 @@ class HoneyTipViewModel @Inject constructor(
     private var questionPagingObjects =
         listOf(PagingObject(), PagingObject(), PagingObject(), PagingObject())
 
-    private val _honeyTipMainEvent = MutableSharedFlow<Boolean>()
-    val honeyTipMainEvent = _honeyTipMainEvent.asSharedFlow()
-
     //꿀팁 리스트
     private val _topFiveQuestions = MutableStateFlow<List<HoneyTipMain>>(listOf())
     val topFiveQuestions = _topFiveQuestions.asStateFlow()
@@ -83,7 +80,6 @@ class HoneyTipViewModel @Inject constructor(
                 questionPagingObjects[SAFE_LIVING].initList(it.questionCategory.safeLiving)
                 questionPagingObjects[WELFARE_POLICY].initList(it.questionCategory.welfarePolicy)
 
-                _honeyTipMainEvent.emit(true)
                 Log.d("HoneyTipMain api", it.toString())
             }
         }

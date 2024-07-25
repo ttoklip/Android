@@ -34,6 +34,7 @@ import com.umc.ttoklip.presentation.honeytip.adapter.OnImageClickListener
 import com.umc.ttoklip.presentation.dialog.ImageDialogFragment
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.honeytip.read.ReadQuestionActivity
+import com.umc.ttoklip.util.tabTextToCategory
 import com.umc.ttoklip.util.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -249,7 +250,7 @@ class WriteHoneyTipActivity :
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                category = tabTextToCategory(tab?.text.toString())
+                category = tab?.text.toString().tabTextToCategory()
                 setSelectedTabTextStyleBold(
                     R.font.pretendard_bold,
                     binding.tabLayout.selectedTabPosition
@@ -337,15 +338,6 @@ class WriteHoneyTipActivity :
         RECIPE,
         SAFE_LIVING,
         WELFARE_POLICY
-    }
-
-    private fun tabTextToCategory(string: String): String {
-        return when (string) {
-            "집안일" -> Category.HOUSEWORK.toString()
-            "레시피" -> Category.RECIPE.toString()
-            "안전한 생활" -> Category.SAFE_LIVING.toString()
-            else -> Category.WELFARE_POLICY.toString()
-        }
     }
 
     private fun stringToTabPosition(category: String): Int {

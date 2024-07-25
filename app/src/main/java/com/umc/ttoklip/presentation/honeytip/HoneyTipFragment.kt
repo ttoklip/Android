@@ -57,7 +57,6 @@ class HoneyTipFragment : BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment
             adapter = HoneyTipAndQuestionVPA(this@HoneyTipFragment)
             isUserInputEnabled = false
         }
-        Log.d("position", binding.boardTablayout.selectedTabPosition.toString())
 
         TabLayoutMediator(binding.boardTablayout, binding.boardVp) { tab, position ->
             for (i in tabTitles.indices) {
@@ -71,7 +70,6 @@ class HoneyTipFragment : BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment
         binding.boardTablayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 board = tab?.text.toString()
-                //Log.d("HoneyTipFragment", board)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {

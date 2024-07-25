@@ -17,6 +17,7 @@ import com.umc.ttoklip.presentation.honeytip.adapter.DailyPopularHoneyTipsVPA
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.util.PageDecoration
+import com.umc.ttoklip.util.tabTextToCategory
 import kotlinx.coroutines.launch
 
 class QuestionFragment: BaseFragment<FragmentInnerHoneyTipBinding>(R.layout.fragment_inner_honey_tip) {
@@ -34,20 +35,9 @@ class QuestionFragment: BaseFragment<FragmentInnerHoneyTipBinding>(R.layout.frag
 
     private var category = WriteHoneyTipActivity.Category.HOUSEWORK.toString()
     override fun initObserver() {
-        /*lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.honeyTipMain.collect{
-                    honeyTipMainResponse = it
-                }
-            }
-        }*/
-        /*viewModel.boardLiveData.observe(viewLifecycleOwner){
-            changeCategory(it)
-        }*/
         lifecycleScope.launch{
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.topFiveQuestions.collect{
-                    //Log.d("housework honeytip", it.toString())
                     popularHoneyTipsVPA.submitList(it)
                 }
             }
@@ -60,19 +50,13 @@ class QuestionFragment: BaseFragment<FragmentInnerHoneyTipBinding>(R.layout.frag
         binding.scrollV.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             if ((!v.canScrollVertically(1))) {
                 viewModel.getQuestionPage(category)
-                //Log.d("end", "end")
-                /*when(category){
-                    WriteHoneyTipActivity.Category.HOUSEWORK.toString() -> viewModel.getHouseQuestionPage()
-                    WriteHoneyTipActivity.Category.RECIPE.toString() -> viewModel.getRecipeQuestionPage()
-                    WriteHoneyTipActivity.Category.SAFE_LIVING.toString() -> viewModel.getSafeQuestionPage()
-                    WriteHoneyTipActivity.Category.WELFARE_POLICY.toString() -> viewModel.getWelQuestionPage()
-                }*/
             }
         }
 
-        binding.categoryTablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+        binding.categoryTablayout.addOnTabSelectedListener(
+            object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                category = tabTextToCategory(tab?.text.toString())
+                category = tab?.text.toString().tabTextToCategory()
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -123,14 +107,5 @@ class QuestionFragment: BaseFragment<FragmentInnerHoneyTipBinding>(R.layout.frag
         TabLayoutMediator(binding.categoryTablayout, binding.categoryVp) { tab, position ->
             tab.text = tabTitles[position]
         }.attach()
-    }
-
-    private fun tabTextToCategory(string: kotlin.String): String {
-        return when (string) {
-            "집안일" -> WriteHoneyTipActivity.Category.HOUSEWORK.toString()
-            "레시피" -> WriteHoneyTipActivity.Category.RECIPE.toString()
-            "안전한생활" -> WriteHoneyTipActivity.Category.SAFE_LIVING.toString()
-            else -> WriteHoneyTipActivity.Category.WELFARE_POLICY.toString()
-        }
     }
 }

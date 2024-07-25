@@ -17,6 +17,7 @@ import com.umc.ttoklip.presentation.honeytip.adapter.DailyPopularHoneyTipsVPA
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.util.PageDecoration
+import com.umc.ttoklip.util.tabTextToCategory
 import kotlinx.coroutines.launch
 
 class InnerHoneyTipFragment: BaseFragment<FragmentInnerHoneyTipBinding>(R.layout.fragment_inner_honey_tip) {
@@ -46,18 +47,12 @@ class InnerHoneyTipFragment: BaseFragment<FragmentInnerHoneyTipBinding>(R.layout
             if ((!v.canScrollVertically(1))) {
                 Log.d("end", "end")
                 viewModel.getHoneyTipPage(category)
-                /*when(category){
-                    WriteHoneyTipActivity.Category.HOUSEWORK.toString() -> viewModel.getHouseHoneyTipPage()
-                    WriteHoneyTipActivity.Category.RECIPE.toString() -> viewModel.getRecipeHoneyTipPage()
-                    WriteHoneyTipActivity.Category.SAFE_LIVING.toString() -> viewModel.getSafeLivingHoneyTipPage()
-                    WriteHoneyTipActivity.Category.WELFARE_POLICY.toString() -> viewModel.getWelFareHoneyTipPage()
-                }*/
             }
         }
 
         binding.categoryTablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                category = tabTextToCategory(tab?.text.toString())
+                category = tab?.text.toString().tabTextToCategory()
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -108,14 +103,5 @@ class InnerHoneyTipFragment: BaseFragment<FragmentInnerHoneyTipBinding>(R.layout
         TabLayoutMediator(binding.categoryTablayout, binding.categoryVp) { tab, position ->
             tab.text = tabTitles[position]
         }.attach()
-    }
-
-    private fun tabTextToCategory(string: kotlin.String): String {
-        return when (string) {
-            "집안일" -> WriteHoneyTipActivity.Category.HOUSEWORK.toString()
-            "레시피" -> WriteHoneyTipActivity.Category.RECIPE.toString()
-            "안전한생활" -> WriteHoneyTipActivity.Category.SAFE_LIVING.toString()
-            else -> WriteHoneyTipActivity.Category.WELFARE_POLICY.toString()
-        }
     }
 }
