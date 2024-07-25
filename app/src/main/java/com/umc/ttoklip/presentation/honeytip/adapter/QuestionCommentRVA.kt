@@ -13,19 +13,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
+import com.umc.ttoklip.data.model.question.QuestionCommentResponse
 import com.umc.ttoklip.databinding.ItemCommentBinding
 import com.umc.ttoklip.databinding.ItemQuestionCommentBinding
+import com.umc.ttoklip.databinding.ItemQuestionReplyBinding
 import com.umc.ttoklip.databinding.ItemReplyBinding
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipViewModel
 
 class QuestionCommentRVA (val context: Context, val replyComment: (Int) -> Unit, val ReportOrDelete: (Int, Boolean) -> Unit, val like: (Int, Boolean) -> Unit) :
-    ListAdapter<NewsCommentResponse, RecyclerView.ViewHolder>(differ) {
-    private var likeBtnState = false
+    ListAdapter<QuestionCommentResponse, RecyclerView.ViewHolder>(differ) {
     inner class ItemViewHolder(
         private val binding: ItemQuestionCommentBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: NewsCommentResponse) {
+        fun bind(data: QuestionCommentResponse) {
             binding.item = data
             binding.replyBtn.setOnClickListener {
                 replyComment(data.commentId)
@@ -37,35 +38,16 @@ class QuestionCommentRVA (val context: Context, val replyComment: (Int) -> Unit,
                 )
             }
             binding.likeBtn.setOnClickListener {
-                Log.d("commentId", data.commentId.toString())
-                likeBtnState = !likeBtnState
-                if(likeBtnState) {
-                    binding.likeBtn.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            context,
-                            R.drawable.ic_heart_on_20
-                        )
-                    )
-                    binding.likeBtn.setColorFilter(ContextCompat.getColor(context, R.color.orange))
-                } else {
-                    binding.likeBtn.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            context,
-                            R.drawable.ic_heart_off_20
-                        )
-                    )
-                    binding.likeBtn.setColorFilter(ContextCompat.getColor(context, R.color.gray60))
-                }
-                like(data.commentId, data.writer != TtoklipApplication.prefs.getString("nickname", ""))
+                like(data.commentId, data.likedByCurrentUser)
             }
         }
     }
 
     inner class ItemReplyViewHolder(
-        private val binding: ItemReplyBinding
+        private val binding: ItemQuestionReplyBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: NewsCommentResponse) {
+        fun bind(data: QuestionCommentResponse) {
             binding.item = data
 
             binding.deleteBtn.setOnClickListener {
@@ -74,6 +56,10 @@ class QuestionCommentRVA (val context: Context, val replyComment: (Int) -> Unit,
                     data.commentId,
                     data.writer == TtoklipApplication.prefs.getString("nickname", "")
                 )
+            }
+
+            binding.likeBtn.setOnClickListener {
+                like(data.commentId, data.likedByCurrentUser)
             }
         }
     }
@@ -95,7 +81,7 @@ class QuestionCommentRVA (val context: Context, val replyComment: (Int) -> Unit,
 
             else -> {
                 ItemReplyViewHolder(
-                    ItemReplyBinding.inflate(
+                    ItemQuestionReplyBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
                         false
@@ -122,17 +108,17 @@ class QuestionCommentRVA (val context: Context, val replyComment: (Int) -> Unit,
     }
 
     companion object {
-        val differ = object : DiffUtil.ItemCallback<NewsCommentResponse>() {
+        val differ = object : DiffUtil.ItemCallback<QuestionCommentResponse>() {
             override fun areItemsTheSame(
-                oldItem: NewsCommentResponse,
-                newItem: NewsCommentResponse
+                oldItem: QuestionCommentResponse,
+                newItem: QuestionCommentResponse
             ): Boolean {
                 return oldItem.commentId == newItem.commentId
             }
 
             override fun areContentsTheSame(
-                oldItem: NewsCommentResponse,
-                newItem: NewsCommentResponse
+                oldItem: QuestionCommentResponse,
+                newItem: QuestionCommentResponse
             ): Boolean {
                 return oldItem == newItem
             }

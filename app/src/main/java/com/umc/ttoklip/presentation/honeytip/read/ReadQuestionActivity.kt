@@ -15,6 +15,7 @@ import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.honeytip.ImageUrl
 import com.umc.ttoklip.data.model.honeytip.request.ReportRequest
 import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
+import com.umc.ttoklip.data.model.question.QuestionCommentResponse
 import com.umc.ttoklip.databinding.ActivityReadQuestionBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
@@ -66,9 +67,12 @@ class ReadQuestionActivity :
                 reportDialog.show(supportFragmentManager, reportDialog.tag)
             }
         },
-            { id, myComment ->
-                if (myComment) {
-                    viewModel.likeQuestionComment(id)
+            { id, likedByCurrentUser ->
+                Log.d("likedByCurrentUser", likedByCurrentUser.toString())
+                if (likedByCurrentUser) {
+                    viewModel.disLikeQuestionComment(postId, id)
+                } else {
+                    viewModel.likeQuestionComment(postId, id)
                 }
             })
     }
@@ -98,17 +102,8 @@ class ReadQuestionActivity :
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.comments.collect {
-                    val list = it.map { it ->
-                        NewsCommentResponse(
-                            it.commentContent ?: "",
-                            it.commentId,
-                            it.parentId,
-                            it.writer,
-                            it.writtenTime
-                        )
-                    }
-                    commentRVA.submitList(list)
+                viewModel.questionComments.collect {
+                    commentRVA.submitList(it)
                 }
             }
         }
@@ -159,10 +154,12 @@ class ReadQuestionActivity :
         }
 
         binding.profileImg.setOnClickListener {
-            Log.d("왜왜왜", "안됨?")
             startActivity(OtherUserActivity.newIntent(this, binding.writerTv.text.toString()))
         }
-        binding.commentRv.adapter = commentRVA
+        binding.commentRv.apply {
+            adapter = commentRVA
+            itemAnimator = null
+        }
         binding.SendCardView.setOnClickListener {
             viewModel.postQuestionComment(postId)
             binding.commentEt.setText("")
@@ -175,7 +172,6 @@ class ReadQuestionActivity :
         }
 
         initImageRVA()
-        //showDeleteDialog()
         showReportDialog()
     }
 
@@ -244,7 +240,7 @@ class ReadQuestionActivity :
     companion object {
         const val QUESTION = "postId"
         fun newIntent(context: Context, id: Int) =
-            Intent(context, ReadHoneyTipActivity::class.java).apply {
+            Intent(context, ReadQuestionActivity::class.java).apply {
                 putExtra(QUESTION, id)
             }
     }

@@ -240,7 +240,7 @@ class ReadHoneyTipActivity :
                 images,
                 binding.linkT.text.toString()
             )
-            
+
             startActivity(WriteHoneyTipActivity.newIntent(this, true, HONEY_TIPS, editHoneyTip))
             finish()
         }
