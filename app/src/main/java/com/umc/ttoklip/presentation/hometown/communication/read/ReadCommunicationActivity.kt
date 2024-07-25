@@ -259,13 +259,10 @@ class ReadCommunicationActivity :
         return super.dispatchTouchEvent(event)
     }
 
-    override fun onClick(imageUrl: String) {
-        val images = imageAdapter.currentList.filterIsInstance<ImageUrl>().map { it.imageUrl }
+    override fun onClick(imageUrl: String, position: Int) {
+        val images = imageAdapter.currentList.filterIsInstance<com.umc.ttoklip.data.model.town.ImageUrl>().map { it.communityImageUrl }
             .toTypedArray()
-        Log.d("images", images.toString())
-        val intent = Intent(this, ReadImageViewActivity::class.java)
-        intent.putExtra("images", images)
-        startActivity(intent)
+        startActivity(ReadImageViewActivity.newIntent(this, images, position))
     }
 
     companion object {
