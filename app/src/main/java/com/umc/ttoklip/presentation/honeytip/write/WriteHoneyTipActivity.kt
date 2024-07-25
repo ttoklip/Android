@@ -64,8 +64,11 @@ class WriteHoneyTipActivity :
     private var category = Category.HOUSEWORK.toString()
     private var isEdit = false
     private var postId = 0
+
+    // 꿀팁 공유해요 수정시 전송할 삭제된 이미지 index
     private var editDeleteImages = mutableListOf<Int>()
 
+    // 이미지 불러오기
     private val pickMultipleMedia = registerForActivityResult(
         ActivityResultContracts.PickMultipleVisualMedia(
             100
@@ -103,6 +106,7 @@ class WriteHoneyTipActivity :
         }
     }
 
+    // 글 작성완료 시 글 확인 화면으로 이동
     private fun handleWriteDoneEvent(event: WriteHoneyTipViewModel.WriteDoneEvent) {
         when (event) {
             is WriteHoneyTipViewModel.WriteDoneEvent.WriteDoneHoneyTip -> {
@@ -116,6 +120,7 @@ class WriteHoneyTipActivity :
         finish()
     }
 
+    // 글 수정시 원본 글 Data 반영
     private fun initEditView() {
         isEdit = intent.getBooleanExtra("isEdit", false)
         if (isEdit) {
@@ -146,6 +151,7 @@ class WriteHoneyTipActivity :
         }
     }
 
+    // 게시판 종류에 따른 Title 변경
     private fun checkHoneyTipOrQuestion() {
         if (board == HONEY_TIPS) {
             binding.titleTv.text = "꿀팁 공유하기"
@@ -156,6 +162,7 @@ class WriteHoneyTipActivity :
         }
     }
 
+    // 작성완료 버튼 활성화
     private fun enableWriteDoneButton() {
         binding.titleEt.addTextChangedListener(
             onTextChanged = { text: CharSequence?, _: Int, _: Int, _: Int ->
@@ -178,6 +185,7 @@ class WriteHoneyTipActivity :
         )
     }
 
+    // 글 작성완료시 로직
     private fun writeDone() {
         binding.writeDoneBtn.setOnClickListener {
             val imageParts = mutableListOf<MultipartBody.Part?>()
@@ -300,6 +308,7 @@ class WriteHoneyTipActivity :
 
     private fun showAddImageDialog() {
         binding.addImageBtn.setOnClickListener {
+            // 이미지 권한 여부 확인
             val imagePermission = TtoklipApplication.prefs.getString("getImagePermission", "")
             if (imagePermission != "true") {
                 val imageDialog = ImageDialogFragment()
