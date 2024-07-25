@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Typeface
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -25,9 +24,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.tabs.TabLayout
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
@@ -43,7 +39,6 @@ import com.umc.ttoklip.presentation.honeytip.adapter.OnImageClickListener
 import com.umc.ttoklip.presentation.dialog.ImageDialogFragment
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.honeytip.read.ReadQuestionActivity
-import com.umc.ttoklip.util.WriteHoneyTipUtil
 import com.umc.ttoklip.util.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -51,7 +46,6 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.ByteArrayOutputStream
-import java.io.File
 
 
 @AndroidEntryPoint
@@ -157,7 +151,7 @@ class WriteHoneyTipActivity :
             imageAdapter.submitList(images?.map { Image(it.imageId, Uri.EMPTY, it.imageUrl) })
             postId = editHoneyTip?.postId ?: 0
             category = editHoneyTip?.category ?: ""
-            binding.tabLayout.selectTab(binding.tabLayout.getTabAt(stringToNum(category)))
+            binding.tabLayout.selectTab(binding.tabLayout.getTabAt(stringToTabPosition(category)))
         }
     }
 
@@ -411,7 +405,7 @@ class WriteHoneyTipActivity :
         }
     }
 
-    private fun stringToNum(category: kotlin.String): Int {
+    private fun stringToTabPosition(category: kotlin.String): Int {
         return when (category) {
             "HOUSEWORK" -> 0
             "RECIPE" -> 1
@@ -434,10 +428,9 @@ class WriteHoneyTipActivity :
 
     override fun deleteImage(position: Int, id: Int) {
         deleteImages.add(id)
-        val imageList = imageAdapter.currentList.toMutableList()
-        Log.d("imageList", imageList.toString())
-        imageList.removeAt(position)
-        Log.d("after imageList", imageList.toString())
-        imageAdapter.submitList(imageList)
+
+        imageAdapter.submitList(imageAdapter.currentList.toMutableList().apply {
+            removeAt(position)
+        })
     }
 }
