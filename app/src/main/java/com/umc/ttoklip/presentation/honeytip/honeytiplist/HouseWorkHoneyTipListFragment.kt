@@ -123,11 +123,6 @@ class HouseWorkHoneyTipListFragment : Fragment(),
 
     override fun onClick(honeyTip: HoneyTipMain) {
         startActivity(ReadHoneyTipActivity.newIntent(requireContext(), honeyTip.id))
-        /*val intent = Intent(activity, ReadHoneyTipActivity::class.java)
-        intent.putExtra("postId", honeyTip.id)
-        Log.d("Clicked honeyTip", honeyTip.toString())
-        Log.d("postId", honeyTip.id.toString())
-        startActivity(intent)*/
     }
 
     override fun onResume() {
