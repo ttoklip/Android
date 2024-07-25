@@ -18,7 +18,6 @@ import com.umc.ttoklip.data.model.honeytip.request.ReportRequest
 import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
 import com.umc.ttoklip.databinding.ActivityReadHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.OnReadImageClickListener
 import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
 import com.umc.ttoklip.presentation.dialog.DeleteDialogFragment
@@ -295,13 +294,10 @@ class ReadHoneyTipActivity :
         return super.dispatchTouchEvent(ev)
     }
 
-    override fun onClick(imageUrl: String) {
+    override fun onClick(imageUrl: String, position: Int) {
         val images = imageAdapter.currentList.filterIsInstance<ImageUrl>().map { it.imageUrl }
             .toTypedArray()
-        Log.d("images", images.toString())
-        val intent = Intent(this, ImageViewActivity::class.java)
-        intent.putExtra("images", images)
-        startActivity(intent)
+        startActivity(ReadImageViewActivity.newIntent(this, images, position))
     }
 
     companion object {

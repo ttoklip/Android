@@ -14,11 +14,8 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.honeytip.ImageUrl
 import com.umc.ttoklip.data.model.honeytip.request.ReportRequest
-import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
-import com.umc.ttoklip.data.model.question.QuestionCommentResponse
 import com.umc.ttoklip.databinding.ActivityReadQuestionBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.OnReadImageClickListener
 import com.umc.ttoklip.presentation.honeytip.adapter.QuestionCommentRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
@@ -228,11 +225,11 @@ class ReadQuestionActivity :
         return x >= location[0] && x <= realRight && y >= location[1] && y <= realBottom
     }
 
-    override fun onClick(imageUrl: String) {
+    override fun onClick(imageUrl: String, position: Int) {
         val images = imageAdapter.currentList.filterIsInstance<ImageUrl>().map { it.imageUrl }
             .toTypedArray()
         Log.d("images", images.toString())
-        val intent = Intent(this, ImageViewActivity::class.java)
+        val intent = Intent(this, ReadImageViewActivity::class.java)
         intent.putExtra("images", images)
         startActivity(intent)
     }

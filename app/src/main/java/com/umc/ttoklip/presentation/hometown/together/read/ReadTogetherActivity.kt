@@ -19,27 +19,19 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.honeytip.ImageUrl
-import com.umc.ttoklip.data.model.honeytip.request.ReportRequest
 import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
-import com.umc.ttoklip.data.model.town.CreateCommentRequest
 import com.umc.ttoklip.databinding.ActivityReadTogetherBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.hometown.adapter.TownCommentAdapter
-import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
+import com.umc.ttoklip.presentation.honeytip.read.ReadImageViewActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.OnReadImageClickListener
 import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
 import com.umc.ttoklip.presentation.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.dialog.FinishCartDialogFragment
 import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.hometown.dialog.TogetherDialog
-import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -333,11 +325,11 @@ class ReadTogetherActivity :
             }
     }
 
-    override fun onClick(imageUrl: String) {
+    override fun onClick(imageUrl: String, position: Int) {
         val images = imageAdapter.currentList.filterIsInstance<ImageUrl>().map { it.imageUrl }
             .toTypedArray()
         Log.d("images", images.toString())
-        val intent = Intent(this, ImageViewActivity::class.java)
+        val intent = Intent(this, ReadImageViewActivity::class.java)
         intent.putExtra("images", images)
         startActivity(intent)
     }

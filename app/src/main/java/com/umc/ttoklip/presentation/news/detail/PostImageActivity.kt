@@ -1,15 +1,10 @@
 package com.umc.ttoklip.presentation.news.detail
 
-import android.net.Uri
 import androidx.viewpager2.widget.ViewPager2
 import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.news.detail.ImageUrl
 import com.umc.ttoklip.databinding.ActivityImageViewBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
-import com.umc.ttoklip.presentation.honeytip.adapter.Image
-import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
-import com.umc.ttoklip.presentation.honeytip.adapter.ImageVPA
-import com.umc.ttoklip.presentation.news.adapter.PostImageRVA
 import com.umc.ttoklip.presentation.news.adapter.PostImageVPA
 
 class PostImageActivity : BaseActivity<ActivityImageViewBinding>(R.layout.activity_image_view) {

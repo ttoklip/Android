@@ -218,7 +218,7 @@
             android:screenOrientation="portrait"
             android:exported="false" />
 
-        <activity android:name="com.umc.ttoklip.presentation.honeytip.ImageViewActivity" />
+        <activity android:name="com.umc.ttoklip.presentation.honeytip.read.ReadImageViewActivity" />
 
         <activity
             android:name=".presentation.news.detail.PostImageActivity"

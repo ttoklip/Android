@@ -27,7 +27,7 @@ import com.umc.ttoklip.databinding.ActivityWriteHoneyTipBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.BOARD
 import com.umc.ttoklip.presentation.honeytip.HONEY_TIPS
-import com.umc.ttoklip.presentation.honeytip.ImageViewActivity
+import com.umc.ttoklip.presentation.honeytip.read.ReadImageViewActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.OnImageClickListener
@@ -354,7 +354,7 @@ class WriteHoneyTipActivity :
         Log.d("image index", index.toString())
         val images = imageAdapter.currentList.filterIsInstance<Image>().map { it.uri.toString() }
             .toTypedArray()
-        val intent = Intent(this, ImageViewActivity::class.java)
+        val intent = Intent(this, ReadImageViewActivity::class.java)
         intent.putExtra("images", images)
         intent.putExtra("position", index)
         startActivity(intent)
