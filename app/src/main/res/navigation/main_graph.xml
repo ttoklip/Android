@@ -29,7 +29,7 @@
         tools:layout="@layout/fragment_my_page" />
     <fragment
         android:id="@+id/honeyTipFragment"
-        android:name="com.umc.ttoklip.presentation.honeytip.HoneyTipMainFragment"
+        android:name="com.umc.ttoklip.presentation.honeytip.HoneyTipFragment"
         android:label="HoneyTipFragment" />
 
 </navigation>
