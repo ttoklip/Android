@@ -10,5 +10,5 @@ data class CreateTogethersRequest(
     val chatUrl: String,
     val party: Long,
     val itemUrls: List<String>,
-    val images: List<MultipartBody.Part>
+    val images: List<MultipartBody.Part?>
 )

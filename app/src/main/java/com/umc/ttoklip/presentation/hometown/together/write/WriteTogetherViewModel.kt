@@ -4,6 +4,7 @@ import com.naver.maps.geometry.LatLng
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import okhttp3.MultipartBody
 
 interface WriteTogetherViewModel {
     val totalPrice: StateFlow<Long>
@@ -42,7 +43,7 @@ interface WriteTogetherViewModel {
     fun addImages(images: List<Image>)
     fun checkDone()
     fun doneButtonClick()
-    fun writeTogether()
+    fun writeTogether(images: List<MultipartBody.Part?>)
 
     fun fetchGeocoding(query: String)
 
