@@ -214,18 +214,6 @@ class ReadQuestionActivity :
         }
     }
 
-    /*   private fun showDeleteDialog() {
-           binding.deleteBtn.setOnClickListener {
-               val deleteDialog = DeleteDialogFragment()
-               deleteDialog.setDialogClickListener(object : DeleteDialogFragment.DialogClickListener {
-                   override fun onClick() {
-                       finish()
-                   }
-               })
-               deleteDialog.show(supportFragmentManager, deleteDialog.tag)
-           }
-       }*/
-
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         if (isShowMenu && !isTouchInside(binding.dotBtn, ev?.x!!, ev?.y!!)) {
             if (!isTouchInside(binding.reportBtn, ev?.x!!, ev?.y!!)) {
