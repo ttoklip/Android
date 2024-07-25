@@ -2,7 +2,6 @@ package com.umc.ttoklip.presentation.honeytip.write
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.viewpager2.widget.ViewPager2
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityImageViewBinding
@@ -33,7 +32,7 @@ class WriteImageViewActivity: BaseActivity<ActivityImageViewBinding>(R.layout.ac
 
     private fun initVPA(){
         val writeImageVPA = WriteImageVPA(this)
-        writeImageVPA.submitList(images.map { Uri.parse(it) })
+        writeImageVPA.submitList(images)
         binding.vp.apply {
             adapter = writeImageVPA
             currentItem = index

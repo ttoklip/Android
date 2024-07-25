@@ -23,8 +23,14 @@ import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.presentation.dialog.ImageDialogFragment
+import com.umc.ttoklip.presentation.hometown.communication.read.ReadCommunicationActivity
+import com.umc.ttoklip.util.isValidUri
+import com.umc.ttoklip.util.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 
 @AndroidEntryPoint
 class WriteCommunicationActivity :
@@ -78,7 +84,21 @@ class WriteCommunicationActivity :
                 Log.d("isEdit", "뭔데")
                 //viewModel.patchCommunication(EditCommunication(edit?.postId!!, binding.titleEt.text.toString(), binding.bodyEt.text.toString()))
             } else {
-                viewModel.doneButtonClick()
+                val imageParts = mutableListOf<MultipartBody.Part?>()
+                val images = imageAdapter.currentList.filterIsInstance<Image>().map { it.src }
+                    .filter { it.isValidUri() }.toList()
+
+                images.forEach { uri ->
+                    val file = uriToFile(Uri.parse(uri))
+                    val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+                    val body = if(isEdit){
+                        MultipartBody.Part.createFormData("addImages", file.name, requestFile)
+                    } else {
+                        MultipartBody.Part.createFormData("images", file.name, requestFile)
+                    }
+                    imageParts.add(body)
+                }
+                viewModel.doneButtonClick(imageParts)
             }
         }
     }
@@ -118,7 +138,10 @@ class WriteCommunicationActivity :
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.closePage.collect {
                         Log.d("close page", it.toString())
-                        if (it) finish()
+                        if (it != 0L) {
+                            startActivity(ReadCommunicationActivity.newIntent(this@WriteCommunicationActivity, it))
+                            finish()
+                        }
                     }
                 }
             }
@@ -144,7 +167,7 @@ class WriteCommunicationActivity :
 
     private fun updateImages(uriList: List<Uri>) {
         Log.d("uri", uriList.toString())
-        val images = uriList.map { Image(0, it, "") }
+        val images = uriList.map { Image(0, it.toString()) }
         viewModel.addImages(images)
     }
 

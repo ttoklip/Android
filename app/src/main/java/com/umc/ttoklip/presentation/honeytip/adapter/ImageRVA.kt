@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.umc.ttoklip.databinding.ItemImageBinding
+import com.umc.ttoklip.util.isValidUri
 import okhttp3.internal.assertThreadDoesntHoldLock
 
 class ImageRVA(private val context: Context, private var listener: OnImageClickListener?): ListAdapter<Image, ImageRVA.ImageViewHolder>(object : DiffUtil.ItemCallback<Image>(){
@@ -24,14 +25,16 @@ class ImageRVA(private val context: Context, private var listener: OnImageClickL
 }) {
     inner class ImageViewHolder(private val binding: ItemImageBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(image: Image){
-            if (image.url.isNotEmpty()){
+            if (image.src.isValidUri()){
                 Glide.with(context)
-                    .load(image.url)
+                    .load(Uri.parse(image.src))
                     .into(binding.iv)
-                Log.d("url not empty", "not")
             } else {
-                binding.iv.setImageURI(image.uri)
+                Glide.with(context)
+                    .load(image.src)
+                    .into(binding.iv)
             }
+
             binding.iv.setOnClickListener {
                 listener?.onClick(image, bindingAdapterPosition)
             }
@@ -61,6 +64,5 @@ interface OnImageClickListener {
 
 data class Image(
     val id: Int,
-    val uri: Uri,
-    val url: String
+    val src: String
 )

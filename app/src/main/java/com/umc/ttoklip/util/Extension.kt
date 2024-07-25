@@ -64,3 +64,13 @@ fun String.tabTextToCategory(): String {
         else -> WriteHoneyTipActivity.Category.WELFARE_POLICY.toString()
     }
 }
+
+fun String.isValidUri(): Boolean {
+    return try {
+        val uri = Uri.parse(this)
+        // 기본적으로 scheme이나 path가 비어있지 않은지를 체크
+        uri.scheme != null && uri.scheme!!.isNotEmpty() && uri.path != null
+    } catch (e: Exception) {
+        false
+    }
+}

@@ -34,6 +34,7 @@ import com.umc.ttoklip.presentation.honeytip.adapter.OnImageClickListener
 import com.umc.ttoklip.presentation.dialog.ImageDialogFragment
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.honeytip.read.ReadQuestionActivity
+import com.umc.ttoklip.util.isValidUri
 import com.umc.ttoklip.util.tabTextToCategory
 import com.umc.ttoklip.util.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
@@ -140,7 +141,7 @@ class WriteHoneyTipActivity :
 
             val images = editHoneyTip?.image?.toList()
 
-            imageAdapter.submitList(images?.map { Image(it.imageId, Uri.EMPTY, it.imageUrl) })
+            imageAdapter.submitList(images?.map { Image(it.imageId, it.imageUrl) })
             postId = editHoneyTip?.postId ?: 0
         }
     }
@@ -183,11 +184,11 @@ class WriteHoneyTipActivity :
     private fun writeDone() {
         binding.writeDoneBtn.setOnClickListener {
             val imageParts = mutableListOf<MultipartBody.Part?>()
-            val images = imageAdapter.currentList.filterIsInstance<Image>().map { it.uri }
-                .filter { it != Uri.EMPTY }.toList()
+            val images = imageAdapter.currentList.filterIsInstance<Image>().map { it.src }
+                .filter { it.isValidUri() }.toList()
 
             images.forEach { uri ->
-                val file = uriToFile(uri)
+                val file = uriToFile(Uri.parse(uri))
                 val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
                 val body = if(isEdit){
                     MultipartBody.Part.createFormData("addImages", file.name, requestFile)
@@ -329,7 +330,7 @@ class WriteHoneyTipActivity :
             applicationContext.contentResolver.takePersistableUriPermission(it, flag)
         }
 
-        val imageList = uriList.map { Image(0, it, "") }
+        val imageList = uriList.map { Image(0, it.toString()) }
         imageAdapter.submitList(imageAdapter.currentList.toMutableList().apply { addAll(imageList) })
     }
 
@@ -350,7 +351,7 @@ class WriteHoneyTipActivity :
     }
 
     override fun onClick(image: Image, position: Int) {
-        val images = imageAdapter.currentList.filterIsInstance<Image>().map { it.uri.toString() }.toTypedArray()
+        val images = imageAdapter.currentList.map { it.src }.toTypedArray()
         startActivity(WriteImageViewActivity.newIntent(this, images, position))
     }
 

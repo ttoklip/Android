@@ -1,6 +1,7 @@
 package com.umc.ttoklip.presentation.hometown.together.write
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -150,7 +151,7 @@ class WriteTogetherViewModelImpl @Inject constructor(
             chatUrl = openLink.value,
             party = totalMember.value,
             itemUrls = listOf(extraUrl.value),
-            images = WriteHoneyTipUtil(context).convertUriListToMultiBody(images.value.map { it.uri })
+            images = WriteHoneyTipUtil(context).convertUriListToMultiBody(images.value.map { Uri.parse(it.src) })
                 .toList()
         )
         Log.d("request", request.toString())
