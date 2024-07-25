@@ -2,6 +2,7 @@ package com.umc.ttoklip.presentation.honeytip
 
 import android.content.Intent
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -99,17 +100,17 @@ class HoneyTipFragment: BaseFragment<FragmentShareHoneyTipBinding>(R.layout.frag
                 when {
                     position < -1 -> {
                         page.background =
-                            resources.getDrawable(R.drawable.item_daily_popular_honey_tip_external_background)
+                            ContextCompat.getDrawable(requireContext(), R.drawable.item_daily_popular_honey_tip_external_background)
                     }
 
                     position <= 0.5 && position >= -0.5 -> {
                         page.background =
-                            resources.getDrawable(R.drawable.item_daily_popular_honey_tip_background)
+                            ContextCompat.getDrawable(requireContext(), R.drawable.item_daily_popular_honey_tip_background)
                     }
 
                     else -> {
                         page.background =
-                            resources.getDrawable(R.drawable.item_daily_popular_honey_tip_external_background)
+                            ContextCompat.getDrawable(requireContext(), R.drawable.item_daily_popular_honey_tip_external_background)
                     }
                 }
             }

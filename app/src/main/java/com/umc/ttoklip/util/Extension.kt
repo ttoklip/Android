@@ -1,5 +1,6 @@
 package com.umc.ttoklip.util
 
+import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
@@ -48,4 +49,8 @@ fun EditText.showKeyboard(){
 
 fun Fragment.showToast(text: String){
     Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
+}
+
+fun Activity.showToast(text: String){
+    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }

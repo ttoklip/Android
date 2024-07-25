@@ -55,7 +55,7 @@ class ReadQuestionActivity :
                     ReportDialogFragment.DialogClickListener {
                     override fun onClick(type: String, content: String) {
                         viewModel.postReportQuestionComment(
-                            postId,
+                            id,
                             ReportRequest(
                                 content = content,
                                 reportType = type

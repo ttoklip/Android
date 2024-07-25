@@ -25,10 +25,12 @@ import com.umc.ttoklip.presentation.honeytip.adapter.OnReadImageClickListener
 import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
 import com.umc.ttoklip.presentation.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
+import com.umc.ttoklip.presentation.honeytip.HONEY_TIPS
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import com.umc.ttoklip.presentation.otheruser.OtherTipActivity
 import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
+import com.umc.ttoklip.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -62,7 +64,7 @@ class ReadHoneyTipActivity :
                     ReportDialogFragment.DialogClickListener {
                     override fun onClick(type: String, content: String) {
                         viewModel.postReportHoneyTipComment(
-                            postId,
+                            id,
                             ReportRequest(
                                 content = content,
                                 reportType = type
@@ -98,7 +100,7 @@ class ReadHoneyTipActivity :
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.toastEvent.collect { text ->
-                    Toast.makeText(this@ReadHoneyTipActivity, text, Toast.LENGTH_SHORT).show()
+                    showToast(text)
                 }
             }
         }
@@ -135,6 +137,7 @@ class ReadHoneyTipActivity :
 
     private fun handleReadEvent(event: ReadHoneyTipViewModel.ReadEvent) {
         when (event) {
+            // 게시글 Data 반영
             is ReadHoneyTipViewModel.ReadEvent.ReadHoneyTipEvent -> {
                 val honeyTip = event.inquireHoneyTipResponse
                 with(binding) {
@@ -146,11 +149,14 @@ class ReadHoneyTipActivity :
                     bookmarkT.text = honeyTip.scrapCount.toString()
                     commitT.text = honeyTip.commentCount.toString()
                 }
+
                 if (honeyTip.imageUrls.isNotEmpty()) {
                     binding.imageRv.visibility = View.VISIBLE
                     imageAdapter.submitList(honeyTip.imageUrls)
                 }
+
                 category = honeyTip.category
+
                 val writer = TtoklipApplication.prefs.getString("nickname", "")
                 if (honeyTip.writer == writer) {
                     showHoneyTipWriterMenu()
@@ -170,7 +176,6 @@ class ReadHoneyTipActivity :
         }
 
         binding.profileImg.setOnClickListener {
-            Log.d("왜왜왜", "안됨?" )
             startActivity(OtherUserActivity.newIntent(this,viewModel.honeyTip.value.writer.toString()))
         }
 
@@ -226,9 +231,6 @@ class ReadHoneyTipActivity :
 
     private fun editHoneyTip() {
         binding.editBtn.setOnClickListener {
-            val intent = Intent(this, WriteHoneyTipActivity::class.java)
-            intent.putExtra("isEdit", true)
-            intent.putExtra(BOARD, com.umc.ttoklip.presentation.honeytip.HONEY_TIPS)
             val images = imageAdapter.currentList.filterIsInstance<ImageUrl>()
             val editHoneyTip = EditHoneyTip(
                 postId,
@@ -238,9 +240,8 @@ class ReadHoneyTipActivity :
                 images,
                 binding.linkT.text.toString()
             )
-            Log.d("honeyTip", editHoneyTip.toString())
-            intent.putExtra("honeyTip", editHoneyTip)
-            startActivity(intent)
+            
+            startActivity(WriteHoneyTipActivity.newIntent(this, true, HONEY_TIPS, editHoneyTip))
             finish()
         }
     }

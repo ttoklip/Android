@@ -382,4 +382,13 @@ class WriteHoneyTipActivity :
             removeAt(position)
         })
     }
+
+    companion object{
+        fun newIntent(context: Context, isEdit: Boolean, board: String, editHoneyTip: EditHoneyTip): Intent =
+            Intent(context, WriteHoneyTipActivity::class.java).apply {
+                putExtra("isEdit", isEdit)
+                putExtra("board", board)
+                putExtra("honeyTip", editHoneyTip)
+            }
+    }
 }
