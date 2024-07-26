@@ -61,9 +61,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/otherprofile_userinfo_cl"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
+            android:layout_marginHorizontal="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/otherprofile_back_ib">
@@ -90,9 +91,10 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/otherprofile_image_cl"
                 app:layout_constraintTop_toTopOf="@id/otherprofile_image_cl">
 
@@ -160,8 +162,8 @@
                     android:background="@drawable/rectangle_corner_10_strok_1_gray40"
                     android:text="신고하기"
                     android:textColor="@color/orange"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="@id/otherprofile_recom_cl"
-                    app:layout_constraintStart_toEndOf="@id/otherprofile_recom_cl"
                     app:layout_constraintTop_toTopOf="@id/otherprofile_recom_cl" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -369,13 +371,14 @@
 
         <TextView
             android:id="@+id/otherprofile_independence_tv"
-            android:layout_width="330dp"
+            android:layout_width="0dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_height="50dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:background="@drawable/rectangle_corner_10"
             android:backgroundTint="@color/gray20"
             android:gravity="center_vertical"
-            android:paddingStart="10dp"
             android:text="@{@string/my_independent_career_base_format(vm.strangerInfo.independentYear, vm.strangerInfo.independentMonth)}"
             android:textAppearance="@style/TextAppearance.App.12sp_400"
             android:textColorHint="@color/black"
