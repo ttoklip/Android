@@ -29,6 +29,7 @@ import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.mypage.ChooseMainInterestDialogFragment
 import com.umc.ttoklip.presentation.mypage.InputIndependentCareerDialogFragment
+import com.umc.ttoklip.util.tabTextToCategory
 import com.umc.ttoklip.util.uriToFile
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collectLatest
@@ -122,7 +123,7 @@ class ManageMyInfoFragment :
 
         binding.finishUpdateProfileBtn.setOnClickListener {
             TtoklipApplication.prefs.setString("nickname", binding.inputNicknameEt.text.toString())
-            val categories = category.map { it -> tabTextToCategory(it) }
+            val categories = category.map { it -> it.tabTextToCategory() }
             val body = if (profileImage != Uri.EMPTY) {
                 val file = requireContext().uriToFile(profileImage)
                 val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
@@ -261,15 +262,6 @@ class ManageMyInfoFragment :
         return deletedRows > 0
 
         //불러오면 파일 저장
-    }
-
-    private fun tabTextToCategory(string: kotlin.String): String {
-        return when (string) {
-            "집안일" -> WriteHoneyTipActivity.Category.HOUSEWORK.toString()
-            "레시피" -> WriteHoneyTipActivity.Category.RECIPE.toString()
-            "안전한 생활" -> WriteHoneyTipActivity.Category.SAFE_LIVING.toString()
-            else -> WriteHoneyTipActivity.Category.WELFARE_POLICY.toString()
-        }
     }
 
     private fun addInterest(list: List<String>) {

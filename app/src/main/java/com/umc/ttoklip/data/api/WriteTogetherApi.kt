@@ -23,7 +23,7 @@ interface WriteTogetherApi {
         @Part("location") location: String,
         @Part("chatUrl") chatUrl: String,
         @Part("partyMax") party: Long,
-        @Part images: List<MultipartBody.Part>,
+        @Part images: List<MultipartBody.Part?>,
         @Part("itemUrls") itemUrls: List<String>
     ): Response<ResponseBody<CommonResponse>>
 
@@ -37,7 +37,7 @@ interface WriteTogetherApi {
         @Part("location") location: String,
         @Part("chatUrl") chatUrl: String,
         @Part("party") party: Long,
-        @Part images: List<MultipartBody.Part>,
+        @Part images: List<MultipartBody.Part?>,
         @Part("itemUrls") itemUrls: List<String>,
         @Path("postId") postId: Long
     ): Response<ResponseBody<PatchTogetherResponse>>

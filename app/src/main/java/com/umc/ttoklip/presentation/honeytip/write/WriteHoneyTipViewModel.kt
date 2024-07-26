@@ -1,8 +1,6 @@
 package com.umc.ttoklip.presentation.honeytip.write
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.data.repository.honeytip.HoneyTipRepositoryImpl
@@ -12,10 +10,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -44,18 +42,29 @@ class WriteHoneyTipViewModel @Inject constructor(
     private val _title = MutableStateFlow("")
     val title = _title.asStateFlow()
 
-    val isEdit = MutableStateFlow(false)
+    private val _isEdit = MutableStateFlow<Boolean>(false)
+    val isEdit: StateFlow<Boolean> get() = _isEdit
 
-    val isWriteDoneBtnEnable = MutableStateFlow(false)
+    private val _isWriteDoneBtnEnable = MutableStateFlow(false)
+    val isWriteDoneBtnEnable: StateFlow<Boolean> get() = _isWriteDoneBtnEnable
 
-    fun setTitle(boolean: Boolean) {
-        _isTitleNull.value = boolean
-        isWriteDoneBtnEnable.value = (_isTitleNull.value.not() && _isContentNull.value.not()) or isEdit.value
+
+    fun setTitle(isTitleNull: Boolean) {
+        _isTitleNull.value = isTitleNull
+        _isWriteDoneBtnEnable.value = (_isTitleNull.value.not() && _isContentNull.value.not()) or isEdit.value
     }
 
-    fun setContent(boolean: Boolean) {
-        _isContentNull.value = boolean
-        isWriteDoneBtnEnable.value = (_isTitleNull.value.not() && _isContentNull.value.not()) or isEdit.value
+    fun setContent(isContentNull: Boolean) {
+        _isContentNull.value = isContentNull
+        _isWriteDoneBtnEnable.value = (_isTitleNull.value.not() && _isContentNull.value.not()) or isEdit.value
+    }
+
+    fun setIsWriteDoneBtnEnable(isWriteDoneEnable: Boolean){
+        _isWriteDoneBtnEnable.value = isWriteDoneEnable
+    }
+
+    fun setIsEdit(isEdit: Boolean){
+        _isEdit.value = isEdit
     }
 
     private fun convertStringToTextPlain(string: String): RequestBody {

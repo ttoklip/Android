@@ -18,6 +18,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.api.LogDescriptor
 import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.databinding.FragmentWriteTogetherBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.dialog.ImageDialogFragment
@@ -26,11 +27,16 @@ import com.umc.ttoklip.presentation.hometown.dialog.TogetherDialog
 import com.umc.ttoklip.presentation.hometown.together.read.ReadTogetherActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
+import com.umc.ttoklip.util.isValidUri
+import com.umc.ttoklip.util.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 
 @AndroidEntryPoint
 class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout.fragment_write_together) {
@@ -119,7 +125,17 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
             together.setDialogClickListener(object :
                 TogetherDialog.TogetherDialogClickListener {
                 override fun onClick() {
-                    viewModel.writeTogether()
+                    val imageParts = mutableListOf<MultipartBody.Part?>()
+                    val images = imageAdapter.currentList.filterIsInstance<Image>().map { it.src }
+                        .filter { it.isValidUri() }.toList()
+
+                    images.forEach { uri ->
+                        val file = requireContext().uriToFile(Uri.parse(uri))
+                        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+                        val body = MultipartBody.Part.createFormData("images", file.name, requestFile)
+                        imageParts.add(body)
+                    }
+                    viewModel.writeTogether(imageParts)
                 }
             })
             together.show(childFragmentManager, together.tag)
@@ -231,20 +247,29 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
 
     private fun addImage() {
         binding.addImageBtn.setOnClickListener {
-            val imageDialog = ImageDialogFragment()
-            imageDialog.setDialogClickListener(object : ImageDialogFragment.DialogClickListener {
-                override fun onClick() {
-                    binding.imageRv.visibility = View.VISIBLE
-                    pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-                }
-            })
-            imageDialog.show(childFragmentManager, imageDialog.tag)
+            // 이미지 권한 여부 확인
+            val imagePermission = TtoklipApplication.prefs.getString("getImagePermission", "")
+            if (imagePermission != "true") {
+                val imageDialog = ImageDialogFragment()
+                imageDialog.setDialogClickListener(object :
+                    ImageDialogFragment.DialogClickListener {
+                    override fun onClick() {
+                        TtoklipApplication.prefs.setString("getImagePermission", "true")
+                        binding.imageRv.visibility = View.VISIBLE
+                        pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                    }
+                })
+                imageDialog.show(childFragmentManager, imageDialog.toString())
+            } else {
+                binding.imageRv.visibility = View.VISIBLE
+                pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }
         }
     }
 
     private fun updateImages(uriList: List<Uri>) {
         Log.d("uri", uriList.toString())
-        val images = uriList.map { Image(0, it, "") }
+        val images = uriList.map { Image(0, it.toString()) }
         viewModel.addImages(images)
     }
 

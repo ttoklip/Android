@@ -50,7 +50,7 @@
             android:name=".presentation.honeytip.write.WriteHoneyTipActivity"
             android:screenOrientation="portrait"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:screenOrientation="portrait"
             android:name=".presentation.alarm.AlarmActivity"
@@ -221,7 +221,7 @@
             android:screenOrientation="portrait"
             android:exported="false" />
 
-        <activity android:name="com.umc.ttoklip.presentation.honeytip.ImageViewActivity" />
+        <activity android:name="com.umc.ttoklip.presentation.honeytip.read.ReadImageViewActivity" />
 
         <activity
             android:name=".presentation.news.detail.PostImageActivity"
@@ -229,6 +229,7 @@
             android:exported="false" />
 
         <activity android:name=".presentation.honeytip.read.ReadQuestionActivity" />
+        <activity android:name=".presentation.honeytip.write.WriteImageViewActivity" />
 
         <service
             android:name=".util.TtoklipFirebaseMessagingService"

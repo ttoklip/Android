@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.umc.ttoklip.data.model.news.comment.NewsCommentResponse" />
+            type="com.umc.ttoklip.data.model.question.QuestionCommentResponse" />
 
         <variable
             name="vm"
@@ -84,9 +84,8 @@
                 android:id="@+id/likeBtn"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:src="@drawable/ic_heart_off_20"
-                app:tint="@color/gray60"
-                android:layout_marginHorizontal="2dp"/>
+                android:src="@{item.likedByCurrentUser ? @drawable/ic_heart_on_20 : @drawable/ic_heart_off_gray_20}"
+                android:layout_marginHorizontal="2dp" />
 
             <View
                 android:layout_width="1dp"

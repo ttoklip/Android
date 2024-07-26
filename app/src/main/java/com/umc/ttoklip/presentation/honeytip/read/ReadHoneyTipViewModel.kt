@@ -9,6 +9,7 @@ import com.umc.ttoklip.data.model.honeytip.InquireQuestionResponse
 import com.umc.ttoklip.data.model.honeytip.request.HoneyTipCommentRequest
 import com.umc.ttoklip.data.model.honeytip.request.ReportRequest
 import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
+import com.umc.ttoklip.data.model.question.QuestionCommentResponse
 import com.umc.ttoklip.data.repository.honeytip.HoneyTipRepositoryImpl
 import com.umc.ttoklip.module.onError
 import com.umc.ttoklip.module.onException
@@ -57,6 +58,9 @@ class ReadHoneyTipViewModel @Inject constructor(
 
     private val _comments = MutableStateFlow(listOf<CommentResponse>())
     val comments = _comments.asStateFlow()
+
+    private val _questionComments = MutableStateFlow(listOf<QuestionCommentResponse>())
+    val questionComments: StateFlow<List<QuestionCommentResponse>> get() = _questionComments
 
     val replyCommentParentId = MutableStateFlow(0)
     val honeyTipCommentContent = MutableStateFlow("")
@@ -235,7 +239,7 @@ class ReadHoneyTipViewModel @Inject constructor(
             viewModelScope.launch(Dispatchers.IO) {
                 repository.inquireQuestion(questionId).onSuccess {
                     eventRead(ReadEvent.ReadQuestionEvent(it))
-                    _comments.emit(it.questionCommentResponses.sortedBy { comment ->
+                    _questionComments.emit(it.questionCommentResponses.sortedBy { comment ->
                         comment.parentId ?: comment.commentId
                     })
                     _isCommentLike.emit(it.likedByCurrentUser)
@@ -256,18 +260,20 @@ class ReadHoneyTipViewModel @Inject constructor(
         }
     }
 
-    fun likeQuestionComment(commentId: Int){
+    fun likeQuestionComment(postId: Int, commentId: Int){
         viewModelScope.launch(Dispatchers.IO) {
             repository.postLikeAtQuestionComment(commentId).onSuccess {
                 Log.d("it", it.toString())
                 _isCommentLike.emit(true)
+                inquireQuestion(postId)
             }
         }
     }
-    fun disLikeQuestionComment(commentId: Int){
+    fun disLikeQuestionComment(postId: Int, commentId: Int){
         viewModelScope.launch(Dispatchers.IO) {
-            repository.postLikeAtQuestionComment(commentId).onSuccess {
+            repository.deleteLikeAtQuestionComment(commentId).onSuccess {
                 _isCommentLike.emit(false)
+                inquireQuestion(postId)
             }
         }
     }

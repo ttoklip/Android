@@ -214,6 +214,7 @@
                     android:layout_marginBottom="12dp"
                     android:orientation="horizontal"
                     android:visibility="gone"
+                    android:overScrollMode="never"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toTopOf="@id/input_url_btn"
                     tools:listitem="@layout/item_image"
