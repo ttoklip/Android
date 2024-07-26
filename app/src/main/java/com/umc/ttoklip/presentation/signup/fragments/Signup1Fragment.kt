@@ -1,9 +1,12 @@
 package com.umc.ttoklip.presentation.signup.fragments
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
@@ -13,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.airbnb.lottie.utils.Utils
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentSignup1Binding
 import com.umc.ttoklip.generated.callback.OnClickListener
@@ -113,6 +117,8 @@ class Signup1Fragment: BaseFragment<FragmentSignup1Binding>(R.layout.fragment_si
             if(sendcertbutton){
                 vm.verifyCheck(binding.signup1EmailEt.text.toString(),binding.signup1CertEt.text.toString())
                 vm.verifyCheckOk()
+
+                context?.hideKeybord(binding.signup1CertEt)
             }
         }
 
@@ -145,5 +151,10 @@ class Signup1Fragment: BaseFragment<FragmentSignup1Binding>(R.layout.fragment_si
              binding.signup1NextBtn.setBackgroundResource(R.drawable.rectangle_corner_10_strok_1_black)
              binding.signup1NextBtn.setTextAppearance(R.style.TextAppearance_App_16sp_500)
          }
+    }
+
+    fun Context.hideKeybord(editText: EditText){
+        val imm=getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(editText.windowToken,0)
     }
 }

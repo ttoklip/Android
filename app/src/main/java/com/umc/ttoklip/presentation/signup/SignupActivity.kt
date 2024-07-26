@@ -21,7 +21,7 @@ class SignupActivity:BaseActivity<ActivitySignupBinding>(R.layout.activity_signu
     override fun initView() {
         vm=ViewModelProvider(this).get(SignupViewModel::class.java)
         termVM=ViewModelProvider(this).get(TermViewModel::class.java)
-        termVM.getTerm(resources)
+        termVM.getTerm()
 
         navHostFragment = supportFragmentManager.findFragmentById(R.id.signup_frm)as NavHostFragment
         var navController=navHostFragment.findNavController()

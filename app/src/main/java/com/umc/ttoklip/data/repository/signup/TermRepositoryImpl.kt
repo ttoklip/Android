@@ -11,7 +11,7 @@ import javax.inject.Inject
 class TermRepositoryImpl @Inject constructor(
     private val api: TermApi
 ): TermRepository {
-    override suspend fun getTerm(page: Int): NetworkResult<TermResponse> {
-        return handleApi({api.getTerm(page)}) {response: ResponseBody<TermResponse> ->response.result}
+    override suspend fun getTerm(): NetworkResult<TermResponse> {
+        return handleApi({api.getTerm()}) {response: ResponseBody<TermResponse> ->response.result}
     }
 }
