@@ -88,11 +88,7 @@ class RecipeQuestionListFragment :
     }
 
     override fun onClick(honeyTip: HoneyTipMain) {
-        val intent = Intent(activity, ReadQuestionActivity::class.java)
-        intent.putExtra("postId", honeyTip.id)
-        Log.d("Clicked honeyTip", honeyTip.toString())
-        Log.d("postId", honeyTip.id.toString())
-        startActivity(intent)
+        startActivity(ReadQuestionActivity.newIntent(requireContext(), honeyTip.id))
     }
 
     override fun onResume() {

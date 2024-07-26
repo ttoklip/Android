@@ -8,14 +8,14 @@ import okhttp3.MultipartBody
 interface WriteCommunicationViewModel {
     val title: StateFlow<String>
     val content: StateFlow<String>
-    val closePage: StateFlow<Boolean>
+    val closePage: StateFlow<Long>
     val doneButtonActivated: StateFlow<Boolean>
     val images: StateFlow<List<Image>>
     val postId: StateFlow<Long>
 
     fun addImages(images: List<Image>)
     fun checkDone()
-    fun doneButtonClick()
+    fun doneButtonClick(images: List<MultipartBody.Part?>)
 
     fun setTitle(title: String)
 

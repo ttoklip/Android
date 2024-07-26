@@ -52,6 +52,7 @@ import java.net.URI
 class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_signup4) {
 
     private lateinit var viewModel: SignupViewModel
+    private lateinit var termVm: TermViewModel
     private lateinit var interestArray: ArrayList<String>
 
     private var independentCareerYear: Int? = null
@@ -83,6 +84,7 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
 
     override fun initView() {
         viewModel= ViewModelProvider(requireActivity()).get(SignupViewModel::class.java)
+        termVm=ViewModelProvider(requireActivity()).get(TermViewModel::class.java)
         Log.i("type test",viewModel.signupType.value)
 
         interestArray = ArrayList()
@@ -166,6 +168,11 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
                     bundle.putString("originName",viewModel.name.value)
 //                    bundle.putString("birth",viewModel.birth.value)
                 }
+                //약관 동의여부
+                bundle.putBoolean("agreeTermsOfService",termVm.termDatas.value[0].check)
+                bundle.putBoolean("agreePrivacyPolicy",termVm.termDatas.value[1].check)
+                bundle.putBoolean("agreeLocationService",termVm.termDatas.value[2].check)
+
                 bundle.putString("nickname",binding.signup4NicknameEt.text.toString())
                 bundle.putStringArrayList("interest",interestArray)
                 bundle.putString("imageUri",imageSource)

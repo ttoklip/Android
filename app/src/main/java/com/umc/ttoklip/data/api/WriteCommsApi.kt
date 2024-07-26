@@ -22,7 +22,7 @@ interface WriteCommsApi {
     suspend fun createCommunications(
         @Part("title") title: String,
         @Part("content") content: String,
-        @Part images: List<MultipartBody.Part>
+        @Part images: List<MultipartBody.Part?>
     ): Response<ResponseBody<CreateCommunicationsResponse>>
 
     //소통해요 게시글 수정

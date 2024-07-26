@@ -5,11 +5,15 @@ import android.content.res.Resources
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.R
 import com.umc.ttoklip.data.repository.signup.TermRepositoryImpl
+import com.umc.ttoklip.module.onFail
+import com.umc.ttoklip.module.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,30 +38,31 @@ class TermViewModel @Inject constructor(
     }
     fun setTermsCheck(check:Boolean){
         for(term in termDatas.value){
-            termDatas.value[term.termId].check=check
+            termDatas.value[term.termId-1].check=check
         }
     }
     fun setTermCheck(position:Int,check:Boolean){
         termDatas.value[position].check=check
     }
-    fun getTerm(resource: Resources) {
-        val termName=getAllString(resource,R.array.term_name)
-        val termContent=getAllString(resource,R.array.term_content)
-        for(i in 0 until termName.size){
-            termDatas.value.add(Term(i,termName[i],termContent[i],false))
-        }
-//        viewModelScope.launch {
-//            termRepository.getTerm(0)
-//                .onSuccess {
-//                    for(term in it.terms){
-//                        _termDatas.value.add(Term(term.termId,term.title,term.content))
-//                    }
-//                    _termCount.value=it.totalElements
-//                    Log.i("TERM","term 불러오기 성공")
-//                }.onFail {
-//                    Log.d("TERM","term 불러오기 실패")
-//                }
+    fun getTerm() {
+//        val termName=getAllString(resource,R.array.term_name)
+//        val termContent=getAllString(resource,R.array.term_content)
+//        for(i in 0 until termName.size){
+//            termDatas.value.add(Term(i,termName[i],termContent[i],false))
 //        }
+        viewModelScope.launch {
+            termRepository.getTerm()
+                .onSuccess {
+//                    for(term in it){
+                    termDatas.value.add(Term(it.agreeTermsOfService.termId,it.agreeTermsOfService.termTitle,it.agreeTermsOfService.termContent))
+                    termDatas.value.add(Term(it.agreePrivacyPolicy.termId,it.agreePrivacyPolicy.termTitle,it.agreePrivacyPolicy.termContent))
+                    termDatas.value.add(Term(it.agreeLocationService.termId,it.agreeLocationService.termTitle,it.agreeLocationService.termContent))
+//                    }
+                    Log.i("TERM","term 불러오기 성공")
+                }.onFail {
+                    Log.d("TERM","term 불러오기 실패")
+                }
+        }
     }
     private fun getAllString(resource: Resources,resId: Int): Array<String> {
         return resource.getStringArray(resId)

@@ -1,6 +1,7 @@
 package com.umc.ttoklip.presentation.hometown.communication.write
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -44,8 +45,8 @@ class WriteCommunicationViewModelImpl @Inject constructor(
     override val postId: StateFlow<Long>
         get() = _postId
 
-    private val _closePage: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    override val closePage: StateFlow<Boolean>
+    private val _closePage: MutableStateFlow<Long> = MutableStateFlow(0L)
+    override val closePage: StateFlow<Long>
         get() = _closePage
 
 
@@ -63,17 +64,16 @@ class WriteCommunicationViewModelImpl @Inject constructor(
             title.value.isNotBlank() && content.value.isNotBlank()
     }
 
-    override fun doneButtonClick() {
+    override fun doneButtonClick(images: List<MultipartBody.Part?>) {
         viewModelScope.launch {
             repository.createComms(
                 body = CreateCommunicationsRequest(
                     title = title.value,
                     content = content.value,
-                    images = WriteHoneyTipUtil(context).convertUriListToMultiBody(images.value.map { it.uri })
-                        .toList()
+                    images = images
                 )
             ).onSuccess {
-                _closePage.value = true
+                _closePage.value = it.message.replace(("[^\\d]").toRegex(), "").toLong()
             }.onError {
                 Log.d("writetogethererror", it.toString())
             }

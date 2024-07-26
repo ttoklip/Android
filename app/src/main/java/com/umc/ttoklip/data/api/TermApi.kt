@@ -7,8 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface TermApi {
-    @GET("/api/v1/term")
-    suspend fun getTerm(
-        @Query("page") page: Int)
+    @GET("/api/v1/auth/agree")
+    suspend fun getTerm()
             : Response<ResponseBody<TermResponse>>
 }

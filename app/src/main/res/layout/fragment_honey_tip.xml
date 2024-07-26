@@ -6,7 +6,7 @@
     <data>
         <variable
             name="view"
-            type="com.umc.ttoklip.presentation.honeytip.HoneyTipMainFragment" />
+            type="com.umc.ttoklip.presentation.honeytip.HoneyTipFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,16 +32,6 @@
             android:src="@drawable/ic_bell_off_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <!--ImageView
-            android:id="@+id/logoImg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:src="@drawable/ic_logo_24"
-            app:layout_constraintBottom_toBottomOf="@id/board_tablayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/board_tablayout" /-->
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/board_tablayout"

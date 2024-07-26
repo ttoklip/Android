@@ -1,6 +1,7 @@
 package com.umc.ttoklip.presentation.hometown.together.write
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,6 +22,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -141,7 +143,7 @@ class WriteTogetherViewModelImpl @Inject constructor(
         _doneWriteTogether.value = true
     }
 
-    override fun writeTogether() {
+    override fun writeTogether(images: List<MultipartBody.Part?>) {
         val request = CreateTogethersRequest(
             title = title.value,
             content = content.value,
@@ -150,8 +152,7 @@ class WriteTogetherViewModelImpl @Inject constructor(
             chatUrl = openLink.value,
             party = totalMember.value,
             itemUrls = listOf(extraUrl.value),
-            images = WriteHoneyTipUtil(context).convertUriListToMultiBody(images.value.map { it.uri })
-                .toList()
+            images = images
         )
         Log.d("request", request.toString())
         viewModelScope.launch {

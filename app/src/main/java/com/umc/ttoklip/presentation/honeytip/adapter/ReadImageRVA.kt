@@ -33,7 +33,7 @@ class ReadImageRVA(private val context: Context, private var listener: OnReadIma
                 .into(binding.iv)
 
             binding.iv.setOnClickListener {
-                listener?.onClick(imageUrl.imageUrl)
+                listener?.onClick(imageUrl.imageUrl, bindingAdapterPosition)
             }
         }
     }
@@ -52,5 +52,5 @@ class ReadImageRVA(private val context: Context, private var listener: OnReadIma
 }
 
 interface OnReadImageClickListener {
-    fun onClick(imageUrl: String)
+    fun onClick(imageUrl: String, position: Int)
 }
