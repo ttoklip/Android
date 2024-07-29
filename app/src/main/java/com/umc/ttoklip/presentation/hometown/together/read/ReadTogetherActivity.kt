@@ -255,7 +255,7 @@ class ReadTogetherActivity :
                         NewsCommentResponse(
                             it.commentContent,
                             it.commentId.toInt(),
-                            it.parentId.toInt(),
+                            it.parentId?.toInt(),
                             it.writer,
                             it.writtenTime
                         )
