@@ -1,6 +1,8 @@
 package com.umc.ttoklip.presentation.signup.fragments
 
+import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -21,7 +23,7 @@ class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_s
 
     private lateinit var viewModel: TermViewModel
     private lateinit var termRVAdapter: TermRVAdapter
-    private val termDatas = ArrayList<TermViewModel.Term>(ArrayList())
+//    private val termDatas = ArrayList<TermViewModel.Term>(ArrayList())
 
     override fun initObserver() {
         lifecycleScope.launch {
@@ -67,8 +69,7 @@ class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_s
         val activity = activity as SignupActivity
         activity?.setProg(3)
 
-        //약관 불러오기
-        //추후 가능하면 api 연결
+        //약관 불러오기는 signup actvitiy에서
 
         //약관 rv 초기화하고 넣기-업데이트는 ovserve에서
         termRVAdapter = TermRVAdapter(activity,viewModel.termDatas.value)
@@ -81,6 +82,10 @@ class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_s
         termRVAdapter.setMyItemClickListener(object : TermRVAdapter.MyItemClickListener {
             //fragment 이동
             override fun onItemClick(termId: Int) {
+                findNavController().navigate(R.id.action_signup3_fragment_to_signupTerm_fragment,
+                    bundleOf("termId" to termId)
+                )
+                activity.updateButtonForTerm()
             }
 
             //off인 term을 누름
@@ -117,10 +122,6 @@ class Signup3Fragment : BaseFragment<FragmentSignup3Binding>(R.layout.fragment_s
                 findNavController().navigate(R.id.action_signup3_fragment_to_signup4_fragment)
             }
         }
-    }
-
-    private fun getTerm(){
-
     }
 
     private fun nextcheck() {

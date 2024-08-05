@@ -46,7 +46,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     }
 
     override fun initView() {
-        binding.userExpBar.isEnabled = false
+        //binding.userExpBar.isEnabled = false
         binding.noticeBtn.setOnClickListener {
             startActivity(AlarmActivity.newIntent(requireContext()))
         }

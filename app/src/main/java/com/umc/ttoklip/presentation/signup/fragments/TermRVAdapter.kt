@@ -41,9 +41,9 @@ class TermRVAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(termList[position])
-        holder.itemView.setOnClickListener {
-            mItemClickListener.onItemClick(termList[position].termId)
-        }
+//        holder.itemView.setOnClickListener {
+//
+//        }
         holder.binding.termAgreeServiceBtn.setOnClickListener {
 //            if(holder.binding.termDetailSv.visibility.equals(View.VISIBLE)){
 //                holder.binding.termDetailSv.visibility=View.GONE
@@ -51,16 +51,19 @@ class TermRVAdapter(
 //                holder.binding.termDetailSv.visibility=View.VISIBLE
 //            }
 //            checkTerm()
-            val intent = Intent(context, WebviewActivity::class.java)
-            intent.putExtra("url",termList[position].content)
-            context.startActivity(intent)
+            mItemClickListener.onItemClick(termList[position].termId-1)
+
+            //webview로 이동
+//            val intent = Intent(context, WebviewActivity::class.java)
+//            intent.putExtra("url",termList[position].content)
+//            context.startActivity(intent)
         }
         holder.binding.termAgreeServiceOnIv.setOnClickListener {
-            mItemClickListener.onCheckTermOff(termList[position].termId)
+            mItemClickListener.onCheckTermOff(termList[position].termId-1)
             checkTerm()
         }
         holder.binding.termAgreeServiceOffIv.setOnClickListener {
-            mItemClickListener.onCheckTermOn(termList[position].termId)
+            mItemClickListener.onCheckTermOn(termList[position].termId-1)
             checkTerm()
         }
     }

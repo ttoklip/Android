@@ -9,6 +9,7 @@ import android.location.LocationManager
 import android.os.Build
 import android.util.Log
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -58,6 +59,7 @@ class LocationActivity :
     private lateinit var circle: CircleOverlay
     private lateinit var marker: Marker
 
+    private var nowlocationOn:Boolean=true
     private var locationok: Boolean = false
 
 
@@ -122,13 +124,22 @@ class LocationActivity :
                         bundle.getString("email")?:"",
                         bundle.getString("password")?:"",
                         bundle.getString("originName")?:"",
-                        bundle.getString("birth")?:"",
+//                        bundle.getString("birth")?:"",
+                        bundle.getBoolean("agreeTermsOfService"),
+                        bundle.getBoolean("agreePrivacyPolicy"),
+                        bundle.getBoolean("agreeLocationService"),
                         bundle.getString("nickname")!!,
                         bundle.getStringArrayList("interest")!!,
                         bundle.getString("imageUri")!!,
                         bundle.getInt("independentCareerYear"),
                         bundle.getInt("independentCareerMonth"))
-                    viewModel.savePrivacy(type!!)
+                    if(!viewModel.agreePrivacyPolicy.value||
+                        !viewModel.agreeTermsOfService.value||
+                        !viewModel.agreeLocationService.value){
+                        Toast.makeText(this,"동의하지 않은 약관이 있습니다.",Toast.LENGTH_LONG).show()
+                    }else{
+                        viewModel.savePrivacy(type!!)
+                    }
                 }
             }
         }
@@ -144,8 +155,19 @@ class LocationActivity :
         naverMap.locationSource = locationSource
         naverMap.locationTrackingMode = LocationTrackingMode.Follow
 
+//        binding.locationNowLocation.setOnClickListener {
+//            nowlocationOn=true
+//        }
+        naverMap.addOnLocationChangeListener {
+            if(nowlocationOn){
+                setlocation(it.latitude,it.longitude)
+                Toast.makeText(this,"장소를 눌러 정확한 위치를 설정하세요.",Toast.LENGTH_SHORT).show()
+                nowlocationOn=false
+            }
+        }
         naverMap.setOnMapClickListener { pointF, latLng ->
             setlocation(latLng.latitude,latLng.longitude)
+            nowlocationOn=false
         }
     }
 
