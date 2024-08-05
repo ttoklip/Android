@@ -7,5 +7,6 @@ data class CommunityX(
     val writer: String,
     val commentCount: Int,
     val likeCount: Int,
-    val scrapCount: Int
+    val scrapCount: Int,
+    val writerProfileImageUrl:String
 )

@@ -6,5 +6,6 @@ data class Community(
     val title: String,
     val writer: String,
     val category: String,
-    val commentCount: Int
+    val commentCount: Int,
+    val writerProfileImageUrl:String,
 )

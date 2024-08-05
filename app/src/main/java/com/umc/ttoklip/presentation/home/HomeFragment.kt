@@ -48,7 +48,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
         TransactionAdapter(requireContext(), this)
     }
     private val tipRVA by lazy {
-        HomeTipRVA(this)
+        HomeTipRVA(this,this)
     }
 
     override fun initObserver() {

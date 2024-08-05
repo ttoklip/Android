@@ -8,5 +8,6 @@ data class HoneyTipMain(
     val likeCount: Int,
     val commentCount: Int,
     val scrapCount: Int,
-    val writtenTime: String
+    val writtenTime: String,
+    val writerProfileImageUrl: String,
 )
