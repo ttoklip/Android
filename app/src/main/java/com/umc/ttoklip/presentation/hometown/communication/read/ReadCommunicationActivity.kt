@@ -33,7 +33,9 @@ class ReadCommunicationActivity :
     BaseActivity<ActivityReadCommunicationBinding>(R.layout.activity_read_communication),
     com.umc.ttoklip.presentation.hometown.adapter.OnReadImageClickListener {
     private val commentRVA by lazy {
-        CommentRVA({ id ->
+        CommentRVA(
+            this,
+            { id ->
             viewModel.replyCommentParentId.value = id
         }, { id, myComment ->
             if (myComment) {
@@ -211,7 +213,8 @@ class ReadCommunicationActivity :
                                 it.commentId.toInt(),
                                 it.parentId.toInt(),
                                 it.writer,
-                                it.writtenTime
+                                it.writtenTime,
+                                it.writerProfileImageUrl
                             )
                         }
                         commentRVA.submitList(list)

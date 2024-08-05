@@ -43,7 +43,9 @@ class ReadTogetherActivity :
         ReadImageRVA(this, this@ReadTogetherActivity)
     }
     private val commentRVA by lazy {
-        CommentRVA({ id ->
+        CommentRVA(
+            this,
+            { id ->
             viewModel.replyCommentParentId.value = id
         }, { id, myComment ->
             Log.d("mycomment", myComment.toString())
@@ -257,7 +259,8 @@ class ReadTogetherActivity :
                             it.commentId.toInt(),
                             it.parentId.toInt(),
                             it.writer,
-                            it.writtenTime
+                            it.writtenTime,
+                            it.writerProfileImageUrl
                         )
                     }
                     commentRVA.submitList(list)

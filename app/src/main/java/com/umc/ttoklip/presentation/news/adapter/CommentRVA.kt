@@ -1,18 +1,21 @@
 package com.umc.ttoklip.presentation.news.adapter
 
 
+import android.app.Activity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
 import com.umc.ttoklip.databinding.ItemCommentBinding
 import com.umc.ttoklip.databinding.ItemReplyBinding
 
 class CommentRVA(
+    val activity: Activity,
     val replyComment: (Int) -> Unit,
     val ReportOrDelete: (Int, Boolean) -> Unit,
     val strangerOnClick: (String) -> Unit
@@ -24,6 +27,9 @@ class CommentRVA(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: NewsCommentResponse) {
+            Glide.with(activity)
+                .load(data.writerProfileImageUrl)
+                .into(binding.profileImg)
             binding.item = data
             binding.replyBtn.setOnClickListener {
                 replyComment(data.commentId)
@@ -41,10 +47,14 @@ class CommentRVA(
     }
 
     inner class ItemReplyViewHolder(
+        private val activity: Activity,
         private val binding: ItemReplyBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: NewsCommentResponse) {
+            Glide.with(activity)
+                .load(data.writerProfileImageUrl)
+                .into(binding.profileImg)
             binding.item = data
             Log.d("item", data.toString())
             Log.d("spf", TtoklipApplication.prefs.getString("nickname", ""))
@@ -78,6 +88,7 @@ class CommentRVA(
 
             else -> {
                 ItemReplyViewHolder(
+                    activity,
                     ItemReplyBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
