@@ -1,7 +1,6 @@
 package com.umc.ttoklip.presentation.hometown.together.write
 
 import android.content.Context
-import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,7 +12,6 @@ import com.umc.ttoklip.module.onError
 import com.umc.ttoklip.module.onException
 import com.umc.ttoklip.module.onSuccess
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
-import com.umc.ttoklip.util.WriteHoneyTipUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
@@ -22,7 +20,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -96,6 +97,34 @@ class WriteTogetherViewModelImpl @Inject constructor(
     override val tradeLocationEvent: SharedFlow<WriteTogetherViewModel.TradeLocationEvent>
         get() = _tradeLocationEvent
 
+    private val _isEdit = MutableStateFlow(false)
+    override val isEdit: StateFlow<Boolean>
+        get() = _isEdit
+
+    private val _isEditDone = MutableSharedFlow<Boolean>()
+    override val isEditDone: MutableSharedFlow<Boolean>
+        get() = _isEditDone
+
+    override fun setIsEdit(isEdit: Boolean) {
+        _isEdit.value = isEdit
+    }
+
+    override fun setTitle(title: String) {
+        _title.value = title
+    }
+
+    override fun setContent(content: String) {
+        _content.value = content
+    }
+
+    override fun setImage(image: List<Image>) {
+        _images.value = image
+    }
+
+    override fun setOpenLink(openLink: String) {
+        _openLink.value = openLink
+    }
+
     override fun setTotalPrice(totalPrice: Long) {
         _totalPrice.value = totalPrice
         Log.d("set price", _totalPrice.value.toString())
@@ -111,6 +140,14 @@ class WriteTogetherViewModelImpl @Inject constructor(
         }
         _address.value = address
         _dealPlace.value = address
+    }
+
+    override fun setPostId(postId: Long) {
+        _postId.value = postId
+    }
+
+    override fun setDoneButtonActivated(doneButtonActivated: Boolean) {
+        _doneButtonActivated.value = doneButtonActivated
     }
 
     override fun setAddressDetail(addressDetail: String) {
@@ -191,5 +228,33 @@ class WriteTogetherViewModelImpl @Inject constructor(
         viewModelScope.launch {
             _tradeLocationEvent.emit(event)
         }
+    }
+
+    override fun patchTogether(images: List<MultipartBody.Part?>) {
+        viewModelScope.launch{
+            repository.patchTogether(
+                title = convertStringToTextPlain(title.value),
+                content = convertStringToTextPlain(content.value),
+                totalPrice = convertStringToTextPlain(totalPrice.value.toString()),
+                location = convertStringToTextPlain(address.value),
+                chatUrl = convertStringToTextPlain(openLink.value),
+                party = convertStringToTextPlain(totalMember.value.toString()),
+                images = images,
+                itemUrls = convertStringToTextPlain(extraUrl.value),
+                postId = postId.value
+                ).onSuccess {
+                    _isEditDone.emit(true)
+                    Log.d("patch Together", it.toString())
+            }
+        }
+    }
+
+    private fun convertStringToTextPlain(string: String): RequestBody {
+        return string.toRequestBody("text/plain".toMediaTypeOrNull())
+    }
+
+    private fun createRequestBodyFromList(list: List<Int>): RequestBody {
+        val listString = list.joinToString(",") // List를 쉼표로 구분된 문자열로 변환
+        return RequestBody.create("text/plain".toMediaTypeOrNull(), listString)
     }
 }
