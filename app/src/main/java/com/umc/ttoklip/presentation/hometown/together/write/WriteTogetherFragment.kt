@@ -192,6 +192,16 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
                 repeatOnLifecycle(Lifecycle.State.STARTED){
                     viewModel.isEdit.collect{
                         isEdit = it
+                        if(isEdit){
+                            with(binding){
+                                writeDoneBtn.text = "수정완료"
+                                requiredParameterFrame.visibility = View.GONE
+                                titleLine.visibility = View.GONE
+                                imageRv.visibility = View.GONE
+                                addLinkBtn.visibility  = View.GONE
+                                addImageBtn.visibility = View.GONE
+                            }
+                        }
                     }
                 }
             }
@@ -240,10 +250,12 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.images.collect {
                         if (it.isNotEmpty()) {
-                            binding.imageRv.visibility = View.VISIBLE
-                            binding.addImageBtn.visibility = View.GONE
-                            Log.d("uri image", it.toString())
-                            imageAdapter.submitList(it.toList())
+                            if(!isEdit) {
+                                binding.imageRv.visibility = View.VISIBLE
+                                binding.addImageBtn.visibility = View.GONE
+                                Log.d("uri image", it.toString())
+                                imageAdapter.submitList(it.toList())
+                            }
                         }
                     }
                 }
