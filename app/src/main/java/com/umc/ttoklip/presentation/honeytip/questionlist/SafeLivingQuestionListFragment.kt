@@ -33,7 +33,7 @@ class SafeLivingQuestionListFragment :
     Fragment(),
     OnQuestionClickListener {
     private val questionListRVA by lazy {
-        QuestionListRVA(this)
+        QuestionListRVA(this,this)
     }
     private val viewModel: HoneyTipViewModel by viewModels(
         ownerProducer = { requireParentFragment().requireParentFragment() }

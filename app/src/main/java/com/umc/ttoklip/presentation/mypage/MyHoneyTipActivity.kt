@@ -26,7 +26,7 @@ class MyHoneyTipActivity : BaseActivity<ActivityMyHoneyTipBinding>(R.layout.acti
     OnItemClickListener {
     private val viewModel: MyHoneyTipViewModel by viewModels<MyHoneyTipViewModel>()
     private val adapter by lazy {
-        HoneyTipListRVA(this)
+        HoneyTipListRVA(this,this)
     }
 
     override fun initView() {

@@ -38,7 +38,8 @@ class ReadCommunicationViewModelImpl @Inject constructor(
                 0,
                 listOf(CommentResponse(0L, "", 0, "", "","")),
                 false,
-                false
+                false,
+                ""
             )
         )
 

@@ -3,15 +3,17 @@ package com.umc.ttoklip.presentation.honeytip.adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
 import com.umc.ttoklip.databinding.ItemQuestionListBinding
 import java.text.SimpleDateFormat
 import java.util.Date
 
-class QuestionListRVA(private var listener: OnQuestionClickListener) :
+class QuestionListRVA(private val fragment: Fragment, private var listener: OnQuestionClickListener) :
     ListAdapter<HoneyTipMain, QuestionListRVA.QuestionListViewHolder>(object :
         DiffUtil.ItemCallback<HoneyTipMain>() {
         override fun areItemsTheSame(
@@ -47,6 +49,9 @@ class QuestionListRVA(private var listener: OnQuestionClickListener) :
     inner class QuestionListViewHolder(private val binding: ItemQuestionListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(honeyTip: HoneyTipMain) {
+            Glide.with(fragment)
+                .load(honeyTip.writerProfileImageUrl)
+                .into(binding.writerIv)
             binding.titleTv.text = honeyTip.title
             binding.writerTv.text = honeyTip.writer
             binding.dateTv.text = calculateDate(honeyTip.writtenTime)
