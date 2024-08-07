@@ -8,6 +8,8 @@ import com.umc.ttoklip.data.model.town.CreateTogethersResponse
 import com.umc.ttoklip.data.model.town.PatchTogetherResponse
 import com.umc.ttoklip.module.NetworkResult
 import com.umc.ttoklip.module.handleApi
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 class WriteTogetherRepositoryImpl @Inject constructor(private val api: WriteTogetherApi) :
@@ -28,21 +30,28 @@ class WriteTogetherRepositoryImpl @Inject constructor(private val api: WriteToge
     }
 
     override suspend fun patchTogether(
-        postId: Long,
-        body: CreateTogethersRequest
+        title: RequestBody,
+        content: RequestBody,
+        totalPrice: RequestBody,
+        location: RequestBody,
+        chatUrl: RequestBody,
+        party: RequestBody,
+        images: List<MultipartBody.Part?>,
+        itemUrls: RequestBody,
+        postId: Long
     ): NetworkResult<PatchTogetherResponse> {
         return handleApi({
             api.patchTogethers(
-                postId = postId,
-                title = body.title,
-                content = body.content,
-                totalPrice = body.totalPrice,
-                location = body.location,
-                chatUrl = body.chatUrl,
-                party = body.party,
-                images = body.images,
-                itemUrls = body.itemUrls
+                title,
+                content,
+                totalPrice,
+                location,
+                chatUrl,
+                party,
+                images,
+                itemUrls,
+                postId
             )
-        }) { response: ResponseBody<PatchTogetherResponse> -> response.result }
+        }) {response: ResponseBody<PatchTogetherResponse> -> response.result}
     }
 }

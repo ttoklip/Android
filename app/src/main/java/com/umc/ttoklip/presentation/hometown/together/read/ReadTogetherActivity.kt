@@ -20,6 +20,7 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.honeytip.ImageUrl
 import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
+import com.umc.ttoklip.data.model.town.EditTogether
 import com.umc.ttoklip.databinding.ActivityReadTogetherBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.read.ReadImageViewActivity
@@ -29,6 +30,7 @@ import com.umc.ttoklip.presentation.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.dialog.FinishCartDialogFragment
 import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.hometown.dialog.TogetherDialog
+import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherActivity
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -97,8 +99,8 @@ class ReadTogetherActivity :
 
         binding.dotBtn.setOnClickListener {
             if (isWriter) {
-                /*binding.editBtn.bringToFront()
-                binding.editBtn.isVisible = binding.editBtn.isVisible.not()*/
+                binding.editBtn.bringToFront()
+                binding.editBtn.isVisible = binding.editBtn.isVisible.not()
             } else {
                 binding.reportBtn.bringToFront()
                 binding.reportBtn.isVisible = binding.reportBtn.isVisible.not()
@@ -119,6 +121,19 @@ class ReadTogetherActivity :
 
             })
             reportDialog.show(supportFragmentManager, reportDialog.tag)
+        }
+
+        binding.editBtn.setOnClickListener {
+            val editTogether = EditTogether(postId,
+                binding.titleT.text.toString(),
+                binding.contentT.text.toString(),
+                binding.totalPriceTv.text.toString().replace(",",""),
+                binding.maxMemberTv.text.toString().toInt(),
+                binding.tradingPlaceTv.text.toString(),
+                imageAdapter.currentList.filterIsInstance<ImageUrl>(),
+                binding.openChatLinkTv.text.toString())
+            startActivity(WriteTogetherActivity.newIntent(this, editTogether))
+            finish()
         }
 
 
@@ -255,7 +270,7 @@ class ReadTogetherActivity :
                         NewsCommentResponse(
                             it.commentContent,
                             it.commentId.toInt(),
-                            it.parentId.toInt(),
+                            it.parentId?.toInt(),
                             it.writer,
                             it.writtenTime
                         )

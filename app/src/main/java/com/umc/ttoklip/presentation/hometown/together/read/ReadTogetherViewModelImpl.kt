@@ -127,7 +127,9 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
                 Log.d("_deadline", _deadlineState.value.toString())
                 _joinState.value = !it.alreadyJoin
                 _writer.value = it.writer
-                _comments.value = it.commentResponses
+                _comments.value = it.commentResponses.sortedBy { comment ->
+                    comment.parentId ?: comment.commentId
+                }
                 Log.d("response writer", _writer.value)
             }.onError {
 

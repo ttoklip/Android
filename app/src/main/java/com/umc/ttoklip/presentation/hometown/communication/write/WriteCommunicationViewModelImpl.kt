@@ -12,9 +12,13 @@ import com.umc.ttoklip.module.onError
 import com.umc.ttoklip.module.onSuccess
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.util.WriteHoneyTipUtil
+import com.umc.ttoklip.util.convertStringToTextPlain
+import com.umc.ttoklip.util.createRequestBodyFromList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -44,6 +48,10 @@ class WriteCommunicationViewModelImpl @Inject constructor(
     private val _postId = MutableStateFlow(0L)
     override val postId: StateFlow<Long>
         get() = _postId
+
+    private val _isEditDone = MutableSharedFlow<Boolean>()
+    override val isEditDone: SharedFlow<Boolean>
+        get() = _isEditDone
 
     private val _closePage: MutableStateFlow<Long> = MutableStateFlow(0L)
     override val closePage: StateFlow<Long>
@@ -96,32 +104,26 @@ class WriteCommunicationViewModelImpl @Inject constructor(
         addImages: List<MultipartBody.Part?>,
         url: String
     ) {
-        /*viewModelScope.launch {
+        viewModelScope.launch {
             repository.patchComms(
                 postId.value,
-                convertStringToTextPlain(title),
-                convertStringToTextPlain(content),
-                createRequestBodyFromList(deleteImageIds),
-                        MultipartBody.Part.createFormData("addImages", )
-                convertStringToTextPlain(url)
+                title.convertStringToTextPlain(),
+                content.convertStringToTextPlain(),
+                deleteImageIds.createRequestBodyFromList(),
+                addImages,
+                url.convertStringToTextPlain()
             )
                 .onSuccess {
-                    Log.d("patch communication", it.toString())
+                    _isEditDone.emit(true)
                 }
-        }*/
+        }
     }
 
     override fun setPostId(postId: Long) {
         _postId.value = postId
     }
 
-    private fun convertStringToTextPlain(string: String): RequestBody {
-        return string.toRequestBody("text/plain".toMediaTypeOrNull())
+    override fun setImage(image: List<Image>) {
+        _images.value = image
     }
-
-    private fun createRequestBodyFromList(list: List<Int>): RequestBody {
-        val listString = list.joinToString(",") // List를 쉼표로 구분된 문자열로 변환
-        return RequestBody.create("text/plain".toMediaTypeOrNull(), listString)
-    }
-
 }
