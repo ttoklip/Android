@@ -25,6 +25,8 @@ import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.presentation.dialog.ImageDialogFragment
 import com.umc.ttoklip.presentation.hometown.communication.read.ReadCommunicationActivity
+import com.umc.ttoklip.presentation.honeytip.adapter.OnImageClickListener
+import com.umc.ttoklip.presentation.honeytip.write.WriteImageViewActivity
 import com.umc.ttoklip.util.isValidUri
 import com.umc.ttoklip.util.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,9 +37,10 @@ import okhttp3.RequestBody.Companion.asRequestBody
 
 @AndroidEntryPoint
 class WriteCommunicationActivity :
-    BaseActivity<ActivityWriteCommunicationBinding>(R.layout.activity_write_communication) {
+    BaseActivity<ActivityWriteCommunicationBinding>(R.layout.activity_write_communication),
+OnImageClickListener{
     private val imageAdapter by lazy {
-        ImageRVA(this, null)
+        ImageRVA(this, this)
     }
     private val viewModel: WriteCommunicationViewModel by viewModels<WriteCommunicationViewModelImpl>()
     private val pickMultipleMedia = registerForActivityResult(
@@ -52,6 +55,7 @@ class WriteCommunicationActivity :
         }
     }
     private var isEdit = false
+    private var editDeleteImages = mutableListOf<Int>()
 
     override fun initView() {
         binding.vm = viewModel as WriteCommunicationViewModelImpl
@@ -62,30 +66,30 @@ class WriteCommunicationActivity :
             finish()
         }
 
-        val edit = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        val editCommunication = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getSerializableExtra("edit", EditCommunication::class.java)
         } else {
             intent.getSerializableExtra("edit") as EditCommunication
         }
 
-        Log.d("edit", edit.toString())
+        Log.d("edit", editCommunication.toString())
 
-        if(edit != null){
+        if(editCommunication != null){
             isEdit = true
             with(binding){
+                imageRv.visibility = View.VISIBLE
                 writeDoneBtn.text = "수정완료"
-                viewModel.setTitle(edit.title)
-                viewModel.setBody(edit.content)
-                viewModel.setPostId(edit.postId)
+                viewModel.setTitle(editCommunication.title)
+                viewModel.setBody(editCommunication.content)
+                viewModel.setPostId(editCommunication.postId)
             }
+            val images = editCommunication.image.toList()
+            imageAdapter.submitList(images.map { Image(it.communityImageId, it.communityImageUrl) })
+            viewModel.setImage(images.map { Image(it.communityImageId, it.communityImageUrl) })
         }
 
         binding.writeDoneBtn.setOnClickListener {
-            if(isEdit){
-                Log.d("isEdit", "뭔데")
-                //viewModel.patchCommunication(EditCommunication(edit?.postId!!, binding.titleEt.text.toString(), binding.bodyEt.text.toString()))
-            } else {
-                val imageParts = mutableListOf<MultipartBody.Part?>()
+            val imageParts = mutableListOf<MultipartBody.Part?>()
                 val images = imageAdapter.currentList.filterIsInstance<Image>().map { it.src }
                     .filter { it.isValidUri() }.toList()
 
@@ -99,6 +103,15 @@ class WriteCommunicationActivity :
                     }
                     imageParts.add(body)
                 }
+            if(isEdit){
+                viewModel.patchCommunication(
+                    binding.titleEt.text.toString(),
+                    binding.bodyEt.text.toString(),
+                    editDeleteImages,
+                    imageParts,
+                    ""
+                    )
+            } else {
                 viewModel.doneButtonClick(imageParts)
             }
         }
@@ -129,18 +142,20 @@ class WriteCommunicationActivity :
             }
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.images.collect {
-                        Log.d("uri image", it.toString())
-                        imageAdapter.submitList(it.toList())
-                    }
-                }
-            }
-            launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.closePage.collect {
                         Log.d("close page", it.toString())
                         if (it != 0L) {
                             startActivity(ReadCommunicationActivity.newIntent(this@WriteCommunicationActivity, it))
+                            finish()
+                        }
+                    }
+                }
+            }
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED){
+                    viewModel.isEditDone.collect{
+                        if(it){
+                            startActivity(ReadCommunicationActivity.newIntent(this@WriteCommunicationActivity, viewModel.postId.value))
                             finish()
                         }
                     }
@@ -177,8 +192,12 @@ class WriteCommunicationActivity :
 
     private fun updateImages(uriList: List<Uri>) {
         Log.d("uri", uriList.toString())
-        val images = uriList.map { Image(0, it.toString()) }
-        viewModel.addImages(images)
+        val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        uriList.forEach {
+            applicationContext.contentResolver.takePersistableUriPermission(it, flag)
+        }
+        val imageList = uriList.map { Image(0, it.toString()) }
+        imageAdapter.submitList(imageAdapter.currentList.toMutableList().apply { addAll(imageList) })
     }
 
     override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
@@ -203,5 +222,18 @@ class WriteCommunicationActivity :
             Intent(context, WriteCommunicationActivity::class.java).apply {
                 putExtra("edit", editCommunication)
             }
+    }
+
+    override fun onClick(image: Image, position: Int) {
+        val images = imageAdapter.currentList.map { it.src }.toTypedArray()
+        startActivity(WriteImageViewActivity.newIntent(this, images, position))
+    }
+
+    override fun deleteImage(position: Int, id: Int) {
+        editDeleteImages.add(id)
+
+        imageAdapter.submitList(imageAdapter.currentList.toMutableList().apply {
+            removeAt(position)
+        })
     }
 }

@@ -4,12 +4,16 @@ import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
+import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.FileOutputStream
 
@@ -68,9 +72,23 @@ fun String.tabTextToCategory(): String {
 fun String.isValidUri(): Boolean {
     return try {
         val uri = Uri.parse(this)
+        Log.d("isValidUri", uri.scheme.toString())
         // 기본적으로 scheme이나 path가 비어있지 않은지를 체크
-        uri.scheme != null && uri.scheme!!.isNotEmpty() && uri.path != null
+        if(uri.scheme == "https"){
+            false
+        } else {
+            uri.scheme != null && uri.scheme!!.isNotEmpty() && uri.path != null
+        }
     } catch (e: Exception) {
         false
     }
+}
+
+fun String.convertStringToTextPlain(): RequestBody {
+    return this.toRequestBody("text/plain".toMediaTypeOrNull())
+}
+
+fun List<Int>.createRequestBodyFromList(): RequestBody{
+    val listString = this.joinToString(",") // List를 쉼표로 구분된 문자열로 변환
+    return RequestBody.create("text/plain".toMediaTypeOrNull(), listString)
 }
