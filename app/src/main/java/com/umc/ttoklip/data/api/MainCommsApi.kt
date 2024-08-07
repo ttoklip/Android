@@ -8,5 +8,7 @@ import retrofit2.http.Query
 
 interface MainCommsApi {
     @GET("/api/v1/town/main/community")
-    suspend fun commsList(): Response<ResponseBody<CommsResponse>>
+    suspend fun commsList(
+        @Query("page") page :Int
+    ): Response<ResponseBody<CommsResponse>>
 }

@@ -10,7 +10,7 @@ import javax.inject.Inject
 class MainTogethersRepositoryImpl @Inject constructor(private val api: MainTogethersApi) :
     MainTogethersRepository {
     override suspend fun getTogethers(
-        page: Long,
+        page: Int,
         startMoney: Long?,
         lastMoney: Long?,
         startParty: Long?,

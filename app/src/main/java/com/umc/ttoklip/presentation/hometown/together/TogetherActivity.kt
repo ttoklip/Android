@@ -8,6 +8,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.town.Togethers
 import com.umc.ttoklip.databinding.ActivityTogetherBinding
@@ -38,7 +39,6 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
         binding.backBtn.setOnClickListener {
             finish()
         }
-        viewModel.get()
 
         binding.noticeBtn.setOnClickListener {
             startActivity(AlarmActivity.newIntent(this))
@@ -46,6 +46,22 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
 
         binding.togetherRv.adapter = adapter
         binding.togetherRv.layoutManager = LinearLayoutManager(this)
+
+        binding.togetherRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if (newState == RecyclerView.SCROLL_STATE_IDLE || newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    val totalItemCount = layoutManager.itemCount
+                    val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+
+                    if (totalItemCount - lastVisibleItemPosition <= 2) {
+                        viewModel.getTogether()
+                    }
+                }
+            }
+        })
     }
 
     override fun onStart() {
@@ -55,7 +71,7 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
     override fun onResume() {
         super.onResume()
         Log.d("resume", "resume")
-        viewModel.get()
+        viewModel.getTogether()
     }
 
     override fun initObserver() {

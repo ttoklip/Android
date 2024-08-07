@@ -3,6 +3,7 @@ package com.umc.ttoklip.presentation.intro
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.databinding.ActivitySplashBinding

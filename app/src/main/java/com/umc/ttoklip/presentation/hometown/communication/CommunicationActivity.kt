@@ -1,12 +1,16 @@
 package com.umc.ttoklip.presentation.hometown.communication
 
 import android.content.Intent
+import android.util.Log
+import android.view.View
+import android.view.ViewTreeObserver
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.town.Communities
 import com.umc.ttoklip.databinding.ActivityCommunicationBinding
@@ -48,7 +52,6 @@ class CommunicationActivity :
         binding.honeyTipFilterSpinner.setSelection(0)
 
 
-
         binding.communicationRv.apply {
             adapter = adapter
             layoutManager = LinearLayoutManager(this@CommunicationActivity)
@@ -60,6 +63,22 @@ class CommunicationActivity :
                 )
             )
         }
+        binding.communicationRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if (newState == RecyclerView.SCROLL_STATE_IDLE || newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    val totalItemCount = layoutManager.itemCount
+                    val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+
+                    if (totalItemCount - lastVisibleItemPosition <= 2) {
+                        viewModel.getCommunities()
+                    }
+                }
+            }
+        })
+
 
         binding.backBtn.setOnClickListener {
             finish()
