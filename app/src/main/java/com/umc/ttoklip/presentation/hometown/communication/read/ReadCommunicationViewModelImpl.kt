@@ -89,7 +89,9 @@ class ReadCommunicationViewModelImpl @Inject constructor(
                 _postContent.value = it
                 _like.value = it.likedByCurrentUser
                 _scrap.value = it.scrapedByCurrentUser
-                _comments.value = it.commentResponses
+                _comments.value = it.commentResponses.sortedBy { comment ->
+                    comment.parentId ?: comment.commentId
+                }
             }.onError {
 
             }

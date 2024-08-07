@@ -23,6 +23,8 @@ interface WriteTogetherViewModel {
     val addressDetail: StateFlow<String>
     val isInputComplete: StateFlow<Boolean>
     val tradeLocationEvent: SharedFlow<TradeLocationEvent>
+    val isEdit: StateFlow<Boolean>
+    val isEditDone: SharedFlow<Boolean>
 
     sealed class TradeLocationEvent{
         data class InputAddressComplete(val isInputComplete: Boolean): TradeLocationEvent()
@@ -32,10 +34,24 @@ interface WriteTogetherViewModel {
         data class ToastException(val text: String): TradeLocationEvent()
     }
 
+    fun setIsEdit(isEdit: Boolean)
+
+    fun setTitle(title: String)
+
+    fun setContent(content: String)
+
+    fun setImage(image: List<Image>)
+
+    fun setOpenLink(openLink: String)
+
     fun setTotalPrice(totalPrice: Long)
     fun setTotalMember(totalMember: Long)
 
     fun setAddress(address: String)
+
+    fun setPostId(postId: Long)
+
+    fun setDoneButtonActivated(doneButtonActivated: Boolean)
 
     fun setAddressDetail(addressDetail: String)
 
@@ -48,4 +64,6 @@ interface WriteTogetherViewModel {
     fun fetchGeocoding(query: String)
 
     fun eventTradeLocation(event: TradeLocationEvent)
+
+    fun patchTogether(images: List<MultipartBody.Part?>)
 }

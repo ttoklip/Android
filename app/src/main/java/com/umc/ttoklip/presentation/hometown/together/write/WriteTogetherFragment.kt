@@ -25,6 +25,7 @@ import com.umc.ttoklip.presentation.dialog.ImageDialogFragment
 import com.umc.ttoklip.presentation.hometown.dialog.InputMaxMemberDialogFragment
 import com.umc.ttoklip.presentation.hometown.dialog.TogetherDialog
 import com.umc.ttoklip.presentation.hometown.together.read.ReadTogetherActivity
+import com.umc.ttoklip.presentation.hometown.together.write.adapter.TogetherImageRVA
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.util.isValidUri
@@ -42,7 +43,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout.fragment_write_together) {
 
     private val imageAdapter by lazy {
-        ImageRVA(requireContext(), null)
+        TogetherImageRVA(requireContext(), null)
     }
 
     private val pickMultipleMedia = registerForActivityResult(
@@ -61,6 +62,8 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
     private val navigator by lazy {
         findNavController()
     }
+
+    private var isEdit = false
     override fun initView() {
         binding.vm = viewModel as WriteTogetherViewModelImpl
         initImageRVA()
@@ -71,31 +74,35 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
             requireActivity().finish()
         }
 
-        var result = ""
-
         binding.totalPriceTv.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) =
-                Unit
+            private var result = ""
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(!TextUtils.isEmpty(s.toString()) && s.toString() != result){
-                    result = s.toString().replace(",","")
-                    viewModel.setTotalPrice(result.toLong())
-                    result = AMOUNT_FORMAT.format(result.toDouble())
-                    binding.totalPriceTv.setText(result)
-                    binding.totalPriceTv.setSelection(result.length)
-                }
-                s?.let {
-                    if (it.isBlank()) {
-                        viewModel.setTotalPrice(0)
-                        viewModel.checkDone()
-                        result = ""
+                if (!s.isNullOrEmpty() && s.toString() != result) {
+                    // 숫자로 변환하기 전에 콤마 제거
+                    val plainNumber = s.toString().replace(",", "")
+                    try {
+                        // 숫자로 변환
+                        viewModel.setTotalPrice(plainNumber.toLong())
+
+                        // 콤마를 추가하여 형식 지정
+                        result = AMOUNT_FORMAT.format(plainNumber.toDouble())
+                        binding.totalPriceTv.setText(result)
+                        binding.totalPriceTv.setSelection(result.length)
+                    } catch (e: NumberFormatException) {
+                        // 잘못된 형식의 숫자일 경우 예외 처리
+                        Log.e("NumberFormatException", e.message.toString())
                     }
+                } else if (s.isNullOrBlank()) {
+                    viewModel.setTotalPrice(0)
+                    viewModel.checkDone()
+                    result = ""
                 }
             }
 
             override fun afterTextChanged(s: Editable?) = Unit
-
         })
 
         binding.maxMemberTv.setOnClickListener {
@@ -121,25 +128,38 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
         }
 
         binding.writeDoneBtn.setOnClickListener {
-            val together = TogetherDialog()
-            together.setDialogClickListener(object :
-                TogetherDialog.TogetherDialogClickListener {
-                override fun onClick() {
-                    val imageParts = mutableListOf<MultipartBody.Part?>()
-                    val images = imageAdapter.currentList.filterIsInstance<Image>().map { it.src }
-                        .filter { it.isValidUri() }.toList()
-
-                    images.forEach { uri ->
-                        val file = requireContext().uriToFile(Uri.parse(uri))
-                        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-                        val body = MultipartBody.Part.createFormData("images", file.name, requestFile)
-                        imageParts.add(body)
+            if (isEdit) {
+                viewModel.patchTogether(emptyList())
+            } else {
+                val together = TogetherDialog()
+                together.setDialogClickListener(object :
+                    TogetherDialog.TogetherDialogClickListener {
+                    override fun onClick() {
+                        viewModel.writeTogether(makeImageParts())
                     }
-                    viewModel.writeTogether(imageParts)
-                }
-            })
-            together.show(childFragmentManager, together.tag)
+                })
+                together.show(childFragmentManager, together.tag)
+            }
         }
+    }
+
+    private fun makeImageParts(): MutableList<MultipartBody.Part?>{
+        val imageParts = mutableListOf<MultipartBody.Part?>()
+        val images =
+            imageAdapter.currentList.filterIsInstance<Image>().map { it.src }
+                .filter { it.isValidUri() }.toList()
+
+        Log.d("images", images.toString())
+        if(images.isNotEmpty()) {
+            images.forEach { uri ->
+                val file = requireContext().uriToFile(Uri.parse(uri))
+                val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+                val body =
+                    MultipartBody.Part.createFormData("images", file.name, requestFile)
+                imageParts.add(body)
+            }
+        }
+        return imageParts
     }
 
     override fun initObserver() {
@@ -169,10 +189,30 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
                 }
             }
             launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED){
+                    viewModel.isEdit.collect{
+                        isEdit = it
+                        if(isEdit){
+                            with(binding){
+                                writeDoneBtn.text = "수정완료"
+                                requiredParameterFrame.visibility = View.GONE
+                                titleLine.visibility = View.GONE
+                                imageRv.visibility = View.GONE
+                                addLinkBtn.visibility  = View.GONE
+                                addImageBtn.visibility = View.GONE
+                            }
+                        }
+                    }
+                }
+            }
+            launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.totalPrice.collect {
-                        Log.d("price", it.toString())
-                        viewModel.checkDone()
+                        if(it!=0L) {
+                            binding.totalPriceTv.setText(AMOUNT_FORMAT.format(it))
+                            Log.d("price", it.toString())
+                            viewModel.checkDone()
+                        }
                     }
                 }
             }
@@ -209,8 +249,14 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.images.collect {
-                        Log.d("uri image", it.toString())
-                        imageAdapter.submitList(it.toList())
+                        if (it.isNotEmpty()) {
+                            if(!isEdit) {
+                                binding.imageRv.visibility = View.VISIBLE
+                                binding.addImageBtn.visibility = View.GONE
+                                Log.d("uri image", it.toString())
+                                imageAdapter.submitList(it.toList())
+                            }
+                        }
                     }
                 }
             }
@@ -219,6 +265,9 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
                 repeatOnLifecycle(Lifecycle.State.STARTED){
                     viewModel.postId.collectLatest{
                         Log.d("post id together", it.toString())
+                        if(isEdit){
+                            return@collectLatest
+                        }
                         if(it != 0L) {
                             startActivity(
                                 ReadTogetherActivity.newIntent(
@@ -226,6 +275,17 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
                                     it
                                 )
                             )
+                            requireActivity().finish()
+                        }
+                    }
+                }
+            }
+
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED){
+                    viewModel.isEditDone.collect{
+                        if(it){
+                            startActivity(ReadTogetherActivity.newIntent(requireContext(), viewModel.postId.value))
                             requireActivity().finish()
                         }
                     }

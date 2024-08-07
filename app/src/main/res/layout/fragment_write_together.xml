@@ -91,6 +91,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rectangle_corner_10_strok_1"
+                    android:drawableStart="@{vm.totalPrice > 0 ? @drawable/ic_price_on_18 : @drawable/ic_price_off_18}"
                     android:drawablePadding="6dp"
                     android:hint="총가격"
                     android:inputType="number"
@@ -99,7 +100,6 @@
                     android:textAppearance="@style/TextAppearance.App.12sp_500"
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray80"
-                    android:drawableStart="@{vm.totalPrice > 0 ? @drawable/ic_price_on_18 : @drawable/ic_price_off_18}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
