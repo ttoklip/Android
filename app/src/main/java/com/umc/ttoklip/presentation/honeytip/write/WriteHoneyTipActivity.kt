@@ -129,6 +129,7 @@ class WriteHoneyTipActivity :
             }
 
             with(binding) {
+                binding.tabLayout.visibility=View.GONE //수정시 카테고리 변경 불가함=>아예 안 보이도록 함
                 titleEt.setText(editHoneyTip?.title)
                 bodyEt.setText(editHoneyTip?.content)
                 inputUrlEt.setText(editHoneyTip?.url)
