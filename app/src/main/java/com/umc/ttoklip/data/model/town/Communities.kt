@@ -7,5 +7,6 @@ data class Communities(
     val commentCount: Long,
     val likeCount: Long,
     val scrapCount: Long,
-    val writer: String
+    val writer: String,
+    val writerProfileImageUrl: String,
 )

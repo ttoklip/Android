@@ -13,5 +13,6 @@ data class ViewCommunicationResponse(
     val commentResponses: List<CommentResponse>,
     val likedByCurrentUser: Boolean,
     val scrapedByCurrentUser: Boolean,
-    val writerProfileImageUrl: String
+//    val writerProfileImageUrl: String,
+    val userProfileImageUrl: String,
 )

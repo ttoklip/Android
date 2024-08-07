@@ -184,7 +184,7 @@ class ReadCommunicationActivity :
                     viewModel.postContent.collect { response ->
                         with(binding) {
                             Glide.with(this@ReadCommunicationActivity)
-                                .load(response.writerProfileImageUrl)
+                                .load(response.userProfileImageUrl)
                                 .into(binding.profileImg)
                             writerTv.text = response.writer
                             titleTv.text = response.title
