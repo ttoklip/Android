@@ -10,6 +10,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
@@ -28,6 +29,10 @@ class QuestionCommentRVA (val context: Context, val replyComment: (Int) -> Unit,
 
         fun bind(data: QuestionCommentResponse) {
             binding.item = data
+            Glide.with(context)
+                .load(data.writerProfileImageUrl)
+                .into(binding.writerIv)
+
             binding.replyBtn.setOnClickListener {
                 replyComment(data.commentId)
             }
@@ -49,6 +54,9 @@ class QuestionCommentRVA (val context: Context, val replyComment: (Int) -> Unit,
 
         fun bind(data: QuestionCommentResponse) {
             binding.item = data
+            Glide.with(context)
+                .load(data.writerProfileImageUrl)
+                .into(binding.profileImg)
 
             binding.deleteBtn.setOnClickListener {
                 Log.d("닉네임","${data.writer == TtoklipApplication.prefs.getString("nickname", "")}")

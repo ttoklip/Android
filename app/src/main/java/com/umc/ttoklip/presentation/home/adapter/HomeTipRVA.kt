@@ -3,9 +3,12 @@ package com.umc.ttoklip.presentation.home.adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
 import com.umc.ttoklip.databinding.ItemHomeHoneyTipBinding
 import com.umc.ttoklip.databinding.ItemListHoneyTipBinding
@@ -14,7 +17,7 @@ import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
 import java.text.SimpleDateFormat
 import java.util.Date
 
-class HomeTipRVA(private var listener: OnItemClickListener) :
+class HomeTipRVA(private val fragment:Fragment, private var listener: OnItemClickListener) :
     ListAdapter<HoneyTipMain, HomeTipRVA.HoneyTipListViewHolder>(object :
         DiffUtil.ItemCallback<HoneyTipMain>() {
         override fun areItemsTheSame(
@@ -50,6 +53,9 @@ class HomeTipRVA(private var listener: OnItemClickListener) :
     inner class HoneyTipListViewHolder(private val binding: ItemHomeHoneyTipBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(honeyTip: HoneyTipMain) {
+            Glide.with(fragment)
+                .load(honeyTip.writerProfileImageUrl)
+                .into(binding.writerIv)
             binding.titleTv.text = honeyTip.title
             binding.writerTv.text = honeyTip.writer
             binding.dateTv.text = calculateDate(honeyTip.writtenTime)

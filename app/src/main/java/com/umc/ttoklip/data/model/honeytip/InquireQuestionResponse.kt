@@ -12,5 +12,6 @@ data class InquireQuestionResponse(
     val commentCount: Int,
     val imageUrls: List<ImageUrl>,
     val questionCommentResponses: List<QuestionCommentResponse>,
-    val likedByCurrentUser: Boolean
+    val likedByCurrentUser: Boolean,
+    val writerProfileImageUrl: String
 )

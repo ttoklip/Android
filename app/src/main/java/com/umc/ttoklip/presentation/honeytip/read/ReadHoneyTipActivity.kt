@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.bumptech.glide.Glide
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.honeytip.EditHoneyTip
@@ -38,7 +39,9 @@ class ReadHoneyTipActivity :
 
 
     private val commentRVA by lazy {
-        CommentRVA({ id ->
+        CommentRVA(
+            this
+            ,{ id ->
             viewModel.replyCommentParentId.value = id
         }, { id, myComment ->
             Log.d("mycomment", myComment.toString())
@@ -110,7 +113,8 @@ class ReadHoneyTipActivity :
                             it.commentId,
                             it.parentId,
                             it.writer,
-                            it.writtenTime
+                            it.writtenTime,
+                            it.writerProfileImageUrl
                         )
                     }
                     commentRVA.submitList(list)
@@ -137,6 +141,9 @@ class ReadHoneyTipActivity :
             is ReadHoneyTipViewModel.ReadEvent.ReadHoneyTipEvent -> {
                 val honeyTip = event.inquireHoneyTipResponse
                 with(binding) {
+                    Glide.with(this@ReadHoneyTipActivity)
+                        .load(honeyTip.writerProfileImageUrl)
+                        .into(profileImg)
                     titleTv.text = honeyTip.title
                     writerTv.text = honeyTip.writer
                     contentT.text = honeyTip.content

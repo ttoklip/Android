@@ -3,6 +3,7 @@ package com.umc.ttoklip.presentation.otheruser
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
 import com.umc.ttoklip.data.model.mypage.HoneyTip
 import com.umc.ttoklip.data.repository.stranger.StrangerRepository
@@ -44,7 +45,8 @@ class OtherTipViewModel @Inject constructor(
                                 it.likeCount,
                                 it.commentCount,
                                 it.scrapCount,
-                                ""
+                                "",
+                                it.writerProfileImageUrl
                             )
                         })
                         page.value = page.value + 1

@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 class SafeLivingHoneyTipListFragment: BaseFragment<FragmentHoneyTipListBinding>(R.layout.fragment_honey_tip_list),
     OnItemClickListener {
     private val honeyTipListRVA by lazy {
-        HoneyTipListRVA(this)
+        HoneyTipListRVA(this.requireContext(),this)
     }
     private val viewModel: HoneyTipViewModel by viewModels(
         ownerProducer = {requireParentFragment().requireParentFragment()}

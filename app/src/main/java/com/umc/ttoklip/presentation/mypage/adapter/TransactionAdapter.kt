@@ -11,6 +11,7 @@ import androidx.core.view.isGone
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.town.Togethers
 import com.umc.ttoklip.databinding.ItemTransactionHistoryBinding
@@ -27,6 +28,11 @@ class TransactionAdapter(
 
         fun bind(data: Togethers, pos: Int) {
             with(binding) {
+
+                Glide.with(context)
+                    .load(data.writerProfileImageUrl)
+                    .into(binding.transactionOwnerIcon)
+
                 root.setOnClickListener {
                     listener.onClick(data)
                 }

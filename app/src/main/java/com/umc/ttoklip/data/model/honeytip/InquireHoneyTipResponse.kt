@@ -16,4 +16,5 @@ data class InquireHoneyTipResponse(
     val likedByCurrentUser: Boolean,
     val scrapedByCurrentUser: Boolean,
     val urlResponses: List<Urls>,
+    val writerProfileImageUrl: String,
 )

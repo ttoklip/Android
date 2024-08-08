@@ -15,5 +15,6 @@ data class ViewTogetherResponse(
     val currentPrice: Long,
     val commentResponses: List<CommentResponse>,
     val status: String,
-    val alreadyJoin : Boolean
+    val alreadyJoin : Boolean,
+    val writerProfileImageUrl: String,
 )

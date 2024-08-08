@@ -29,7 +29,7 @@ class CommunicationActivity :
     BaseActivity<ActivityCommunicationBinding>(R.layout.activity_communication),
     OnItemClickListener {
     private val rva by lazy {
-        CommunicationAdapter(this)
+        CommunicationAdapter(this,this)
     }
     private val viewModel: CommunicationViewModel by viewModels<CommunicationViewModelImpl>()
     override fun initView() {

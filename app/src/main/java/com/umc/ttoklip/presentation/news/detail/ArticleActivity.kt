@@ -26,7 +26,9 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>(R.layout.activity_a
     private val viewModel: ArticleViewModel by viewModels<ArticleViewModelImpl>()
 
     private val commentRVA by lazy {
-        CommentRVA({ id ->
+        CommentRVA(
+            this,
+            { id ->
             viewModel.replyCommentParentId.value = id
         }, { id, myComment ->
             if (myComment) {

@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.bumptech.glide.Glide
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.honeytip.ImageUrl
@@ -123,6 +124,9 @@ class ReadQuestionActivity :
             is ReadHoneyTipViewModel.ReadEvent.ReadQuestionEvent -> {
                 val question = event.inquireQuestionResponse
                 with(binding) {
+                    Glide.with(this@ReadQuestionActivity)
+                        .load(question.writerProfileImageUrl)
+                        .into(profileImg)
                     titleTv.text = question.title
                     writerTv.text = question.writer
                     contentT.text = question.content

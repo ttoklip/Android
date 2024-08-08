@@ -81,7 +81,8 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
                 0L,
                 emptyList(),
                 "",
-                false
+                false,
+                ""
             )
         )
     override val postContent: StateFlow<ViewTogetherResponse>

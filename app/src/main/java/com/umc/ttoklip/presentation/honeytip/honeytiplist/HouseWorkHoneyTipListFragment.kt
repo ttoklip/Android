@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 class HouseWorkHoneyTipListFragment : Fragment(),
     OnItemClickListener {
     private val honeyTipListRVA by lazy {
-        HoneyTipListRVA(this)
+        HoneyTipListRVA(this.requireContext(),this)
     }
     private val viewModel: HoneyTipViewModel by viewModels(
         ownerProducer = { requireParentFragment().requireParentFragment() }

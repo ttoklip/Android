@@ -10,5 +10,6 @@ data class Togethers(
     val partyCnt: Long,
     val commentCount: Long,
     val currentPrice: Long,
-    val tradeStatus: String
+    val tradeStatus: String,
+    val writerProfileImageUrl:String,
 )

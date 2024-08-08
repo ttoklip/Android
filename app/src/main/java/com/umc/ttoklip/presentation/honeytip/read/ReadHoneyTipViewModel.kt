@@ -45,7 +45,8 @@ class ReadHoneyTipViewModel @Inject constructor(
             listOf(),
             false,
             false,
-            listOf()
+            listOf(),
+            ""
         )
     )
     val honeyTip = _honeyTip.asStateFlow()
