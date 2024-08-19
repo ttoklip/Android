@@ -270,6 +270,7 @@ class LocationActivity :
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.saveok.collect{
                     if(it){
+                        Toast.makeText(this@LocationActivity,"회원가입이 완료되었습니다.",Toast.LENGTH_LONG).show()
                         startActivity()
                     }
                 }

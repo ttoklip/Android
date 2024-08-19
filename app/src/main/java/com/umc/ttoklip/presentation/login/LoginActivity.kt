@@ -1,6 +1,8 @@
 package com.umc.ttoklip.presentation.login
 
 import android.content.Intent
+import android.text.InputType
+import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
@@ -21,6 +23,7 @@ import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.signup.SignupActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -28,8 +31,23 @@ class LoginActivity : BaseActivity<ActivityLogin2Binding>(R.layout.activity_logi
 
     private val viewModel: LoginViewModel by viewModels()
 
+
     override fun initView() {
         loginActivity=this
+
+        binding.loginShowpwIv.setOnClickListener {
+            if(viewModel.pwshow.value){
+                viewModel.pwshow.value=false
+                binding.loginShowpwIv.setImageResource(R.drawable.ic_eye_on_24)
+                binding.loginPwEt.transformationMethod=null
+            }else{
+                viewModel.pwshow.value=true
+                binding.loginShowpwIv.setImageResource(R.drawable.ic_eye_off_24)
+                binding.loginPwEt.transformationMethod=PasswordTransformationMethod.getInstance()
+            }
+            //커서 위치 유지
+            binding.loginPwEt.setSelection(binding.loginPwEt.text?.length ?: 0)
+        }
 
         binding.loginLoginBtn.setOnClickListener {
             viewModel.postLocalLogin(LoginLocalRequest(binding.loginEmailEt.text.toString(),binding.loginPwEt.text.toString()),
@@ -152,6 +170,15 @@ class LoginActivity : BaseActivity<ActivityLogin2Binding>(R.layout.activity_logi
                 launch {
                     viewModel.isLogin.collect {
                         if (it) startactivity()
+                    }
+                }
+                launch {
+                    viewModel.pwshow.collect{
+                        if(it){
+
+                        }else{
+
+                        }
                     }
                 }
             }
