@@ -28,6 +28,7 @@ import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
+import com.umc.ttoklip.data.model.login.LoginLocalRequest
 import com.umc.ttoklip.databinding.ActivityLocationBinding
 import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.base.BaseActivity
@@ -251,6 +252,10 @@ class LocationActivity :
     private fun startActivity(){
         val bundle = intent.getBundleExtra("userInfo")
         if(bundle!!.getString("signupType")=="local"){
+            viewModel.postLocalLogin(LoginLocalRequest(viewModel.email.value,viewModel.pw.value),this)
+            startActivity(Intent(this, MainActivity::class.java))
+            val loginActivity=LoginActivity.loginActivity
+            loginActivity?.finish()
             val signupActivity= SignupActivity.signupActivity
             signupActivity?.finish()
             finish()
