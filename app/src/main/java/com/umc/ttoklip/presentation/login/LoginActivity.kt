@@ -1,6 +1,7 @@
 package com.umc.ttoklip.presentation.login
 
 import android.content.Intent
+import android.text.Editable
 import android.text.InputType
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
@@ -30,10 +31,25 @@ import kotlinx.coroutines.launch
 class LoginActivity : BaseActivity<ActivityLogin2Binding>(R.layout.activity_login2) {
 
     private val viewModel: LoginViewModel by viewModels()
-
+    private var saveId:Boolean=false
 
     override fun initView() {
         loginActivity=this
+
+        saveId=TtoklipApplication.prefs.getBoolean("saveId",false)
+        if(saveId){
+            binding.loginEmailEt.setText(TtoklipApplication.prefs.getString("savedId",""))
+            binding.loginSaveIdIb.setImageResource(R.drawable.ic_check_on_20)
+        }
+        binding.loginSaveIdIb.setOnClickListener {
+            if(saveId){
+                saveId=false
+                binding.loginSaveIdIb.setImageResource(R.drawable.ic_check_off_20)
+            }else{
+                saveId=true
+                binding.loginSaveIdIb.setImageResource(R.drawable.ic_check_on_20)
+            }
+        }
 
         binding.loginShowpwIv.setOnClickListener {
             if(viewModel.pwshow.value){
@@ -150,7 +166,13 @@ class LoginActivity : BaseActivity<ActivityLogin2Binding>(R.layout.activity_logi
             }
             startActivity(intent)
         } else {
-            TtoklipApplication.prefs.setBoolean("isFirstLogin", false)
+            TtoklipApplication.prefs.setBoolean("saveId",saveId) //아이디저장 여부
+            if(saveId){//아이디 text 저장or삭제
+                TtoklipApplication.prefs.setString("savedId",binding.loginEmailEt.text.toString())
+            }else{
+                TtoklipApplication.prefs.removeString("savedId")
+            }
+            TtoklipApplication.prefs.setBoolean("isFirstLogin", false) //첫 로그인이 아님을 저장
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
