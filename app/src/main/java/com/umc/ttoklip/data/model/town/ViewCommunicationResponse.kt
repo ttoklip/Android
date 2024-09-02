@@ -12,5 +12,7 @@ data class ViewCommunicationResponse(
     var commentCount: Int,
     val commentResponses: List<CommentResponse>,
     val likedByCurrentUser: Boolean,
-    val scrapedByCurrentUser: Boolean
+    val scrapedByCurrentUser: Boolean,
+//    val writerProfileImageUrl: String,
+    val userProfileImageUrl: String,
 )

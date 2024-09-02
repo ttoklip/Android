@@ -73,7 +73,7 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
     }
 
     override fun initView() {
-        Log.d("jwt", TtoklipApplication.prefs.getString("jwt", ""))
+//        Log.d("jwt", TtoklipApplication.prefs.getString("jwt", ""))
         binding.seeDetailTogetherBtn.setOnClickListener {
             val intent = Intent(requireContext(), TogetherActivity::class.java)
             startActivity(intent)

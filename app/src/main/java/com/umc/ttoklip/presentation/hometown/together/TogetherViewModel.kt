@@ -9,13 +9,13 @@ interface TogetherViewModel {
     val filterRequiredAmount: StateFlow<Long>
     val filterMaxMember: StateFlow<Long>
     val showDialog: SharedFlow<Boolean>
-    val page: StateFlow<Long>
     val togethers: StateFlow<List<Togethers>>
     val mainData : SharedFlow<TogethersResponse>
 
     fun onFilterClick()
 
-    fun get()
+    fun getTogether()
+
 
     fun getFilters(requiredAmount: Long, maxMember: Long)
 }

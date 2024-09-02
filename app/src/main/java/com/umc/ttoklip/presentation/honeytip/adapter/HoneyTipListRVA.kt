@@ -1,18 +1,20 @@
 package com.umc.ttoklip.presentation.honeytip.adapter
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
 import com.umc.ttoklip.databinding.ItemListHoneyTipBinding
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Date
 
-class HoneyTipListRVA(private var listener: OnItemClickListener) :
+class HoneyTipListRVA(private val context: Context, private var listener: OnItemClickListener) :
     ListAdapter<HoneyTipMain, HoneyTipListRVA.HoneyTipListViewHolder>(object :
         DiffUtil.ItemCallback<HoneyTipMain>() {
         override fun areItemsTheSame(
@@ -48,6 +50,9 @@ class HoneyTipListRVA(private var listener: OnItemClickListener) :
     inner class HoneyTipListViewHolder(private val binding: ItemListHoneyTipBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(honeyTip: HoneyTipMain) {
+            Glide.with(context)
+                .load(honeyTip.writerProfileImageUrl)
+                .into(binding.writerIv)
             binding.titleTv.text = honeyTip.title
             binding.writerTv.text = honeyTip.writer
             binding.dateTv.text = if (honeyTip.writtenTime.isNotBlank()) {

@@ -5,5 +5,6 @@ data class CommentResponse(
     val commentId: Int,
     val parentId: Int?,
     val writer: String?,
-    val writtenTime: String
+    val writtenTime: String,
+    val writerProfileImageUrl: String
 )

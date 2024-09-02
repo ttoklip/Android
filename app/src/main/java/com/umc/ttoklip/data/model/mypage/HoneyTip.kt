@@ -8,7 +8,8 @@ data class HoneyTip(
     val writer: String,
     val likeCount: Int,
     val scrapCount: Int,
-    val commentCount: Int
+    val commentCount: Int,
+    val writerProfileImageUrl: String,
 ){
-    constructor() : this("",0,"","","",0,0,0)
+    constructor() : this("",0,"","","",0,0,0,"")
 }

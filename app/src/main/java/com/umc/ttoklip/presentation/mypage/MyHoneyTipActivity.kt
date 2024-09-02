@@ -26,7 +26,7 @@ class MyHoneyTipActivity : BaseActivity<ActivityMyHoneyTipBinding>(R.layout.acti
     OnItemClickListener {
     private val viewModel: MyHoneyTipViewModel by viewModels<MyHoneyTipViewModel>()
     private val adapter by lazy {
-        HoneyTipListRVA(this)
+        HoneyTipListRVA(this,this)
     }
 
     override fun initView() {
@@ -108,7 +108,8 @@ class MyHoneyTipActivity : BaseActivity<ActivityMyHoneyTipBinding>(R.layout.acti
                             tips.likeCount,
                             tips.commentCount,
                             tips.scrapCount,
-                            ""
+                            "",
+                            tips.writerProfileImageUrl
                         )
                     })
                 }
@@ -125,7 +126,8 @@ class MyHoneyTipActivity : BaseActivity<ActivityMyHoneyTipBinding>(R.layout.acti
                             comms.likeCount,
                             comms.commentCount,
                             comms.scrapCount,
-                            ""
+                            "",
+                            comms.writerProfileImageUrl
                         )
                     })
                 }
@@ -142,7 +144,8 @@ class MyHoneyTipActivity : BaseActivity<ActivityMyHoneyTipBinding>(R.layout.acti
                             0,
                             question.commentCount,
                             0,
-                            ""
+                            "",
+                            question.writerProfileImageUrl
                         )
                     })
                 }

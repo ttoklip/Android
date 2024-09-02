@@ -25,7 +25,7 @@ class QuestionFragment: BaseFragment<FragmentInnerHoneyTipBinding>(R.layout.frag
         ownerProducer = {requireParentFragment()}
     )
     private val popularHoneyTipsVPA by lazy {
-        DailyPopularHoneyTipsVPA{
+        DailyPopularHoneyTipsVPA(this){
             val intent = Intent(requireContext(), ReadHoneyTipActivity::class.java)
             intent.putExtra("postId", it.id)
             intent.putExtra(BOARD, HONEY_TIPS)

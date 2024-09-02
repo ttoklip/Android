@@ -11,6 +11,7 @@ import com.umc.ttoklip.module.onException
 import com.umc.ttoklip.module.onFail
 import com.umc.ttoklip.module.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -33,9 +34,6 @@ class TogetherViewModelImpl @Inject constructor(private val repository: MainToge
     override val showDialog: SharedFlow<Boolean>
         get() = _showDialog
 
-    private val _page: MutableStateFlow<Long> = MutableStateFlow(0L)
-    override val page: StateFlow<Long>
-        get() = _page
 
     private val _togethers: MutableStateFlow<List<Togethers>> = MutableStateFlow(emptyList())
     override val togethers: StateFlow<List<Togethers>>
@@ -45,28 +43,14 @@ class TogetherViewModelImpl @Inject constructor(private val repository: MainToge
     override val mainData: SharedFlow<TogethersResponse>
         get() = _mainData
 
+    private val isEnd = MutableStateFlow<Boolean>(false)
+
+    private val page = MutableStateFlow<Int>(0)
+
+
     override fun onFilterClick() {
         viewModelScope.launch {
             _showDialog.emit(true)
-        }
-    }
-
-    override fun get() {
-        viewModelScope.launch {
-            try {
-                repository.getTogethers(0,1,10000000000,1,20)
-                    .onSuccess {
-                        _mainData.emit(it)
-                        Log.d("emit", "emit")
-                    }.onFail {
-
-                    }.onException {
-                        throw it
-                    }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.d("예외", "$e")
-            }
         }
     }
 
@@ -74,34 +58,52 @@ class TogetherViewModelImpl @Inject constructor(private val repository: MainToge
         viewModelScope.launch {
             _filterRequiredAmount.value = requiredAmount
             _filterMaxMember.value = maxMember
-            var require = when (requiredAmount) {
+            _togethers.value = listOf()
+            page.value = 0
+            isEnd.value = false
+            getTogether()
+        }
+    }
+
+    override fun getTogether() {
+        viewModelScope.launch {
+            var minAmount = 0L
+            var maxAmount = 100000000L
+            when (filterRequiredAmount.value) {
                 1L -> {
-                    10000L
+                    minAmount = 0L
+                    maxAmount = 10000L
                 }
 
                 2L -> {
-                    20000L
+                    minAmount = 0L
+                    maxAmount = 20000L
                 }
 
                 3L -> {
-                    30000L
+                    minAmount = 0L
+                    maxAmount = 30000L
                 }
 
                 4L -> {
-                    40000L
+                    minAmount = 0L
+                    maxAmount = 40000L
                 }
 
                 5L -> {
-                    50000L
+                    minAmount = 50000L
+                    maxAmount = 100000000L
+
                 }
 
                 else -> {
-                    0L
+                    minAmount = 0L
+                    maxAmount = 100000000L
                 }
             }
             var min = 1L
             var max = 20L
-            when (maxMember) {
+            when (filterMaxMember.value) {
                 1L -> {
                     min = 2L
                     max = 4L
@@ -133,13 +135,28 @@ class TogetherViewModelImpl @Inject constructor(private val repository: MainToge
                 }
 
                 else -> {
-
+                    min = 1L
+                    max = 20L
                 }
             }
-            repository.getTogethers(page.value, require, 10000000000, min, max).onSuccess {
-                _togethers.value = it.carts
-            }.onError {
-                Log.d("error", it.printStackTrace().toString())
+
+
+            if (!isEnd.value) {
+                viewModelScope.launch(Dispatchers.IO) {
+                    try {
+                        repository.getTogethers(page.value, minAmount, maxAmount, min, max)
+                            .onSuccess {
+                                _togethers.value = togethers.value + it.carts
+                                page.value += 1
+                                isEnd.value = it.isLast
+                            }.onError {
+                            Log.d("error", it.printStackTrace().toString())
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        Log.d("예외", "$e")
+                    }
+                }
             }
         }
     }

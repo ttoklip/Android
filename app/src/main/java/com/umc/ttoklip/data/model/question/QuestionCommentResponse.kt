@@ -6,5 +6,6 @@ data class QuestionCommentResponse(
     val parentId: Int?,
     val writer: String?,
     val writtenTime: String,
-    var likedByCurrentUser: Boolean
+    var likedByCurrentUser: Boolean,
+    val writerProfileImageUrl:String,
 )

@@ -25,7 +25,7 @@ class InnerHoneyTipFragment: BaseFragment<FragmentInnerHoneyTipBinding>(R.layout
         ownerProducer = {requireParentFragment()}
     )
     private val popularHoneyTipsVPA by lazy {
-        DailyPopularHoneyTipsVPA{
+        DailyPopularHoneyTipsVPA(this){
             startActivity(ReadHoneyTipActivity.newIntent(requireContext(), it.id))
         }
     }

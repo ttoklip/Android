@@ -9,7 +9,7 @@ import retrofit2.http.Query
 interface MainTogethersApi {
     @GET("/api/v1/town/main/cart")
     suspend fun commsList(
-        @Query("page") page: Long,
+        @Query("page") page:Int,
         @Query("startMoney") startMoney: Long?,
         @Query("lastMoney") lastMoney: Long?,
         @Query("startParty") startParty: Long?,

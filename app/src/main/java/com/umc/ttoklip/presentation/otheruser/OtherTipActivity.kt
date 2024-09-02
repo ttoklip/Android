@@ -28,7 +28,7 @@ class OtherTipActivity :
     private val viewModel: OtherTipViewModel by viewModels<OtherTipViewModel>()
 
     private val adapter by lazy {
-        HoneyTipListRVA(this)
+        HoneyTipListRVA(this,this)
     }
 
     override fun initView() {

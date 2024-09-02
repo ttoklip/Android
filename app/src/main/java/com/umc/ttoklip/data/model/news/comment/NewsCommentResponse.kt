@@ -5,5 +5,6 @@ data class NewsCommentResponse(
     val commentId: Int,
     val parentId: Int?,
     val writer: String?,
-    val writtenTime: String
+    val writtenTime: String,
+    val writerProfileImageUrl:String,
 )

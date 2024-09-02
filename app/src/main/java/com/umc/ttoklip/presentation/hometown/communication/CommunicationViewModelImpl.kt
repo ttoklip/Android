@@ -6,8 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.data.model.town.Communities
 import com.umc.ttoklip.data.repository.town.MainCommsRepository
 import com.umc.ttoklip.module.onError
+import com.umc.ttoklip.module.onException
+import com.umc.ttoklip.module.onFail
 import com.umc.ttoklip.module.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -20,17 +23,29 @@ class CommunicationViewModelImpl @Inject constructor(private val repository: Mai
     override val communities: StateFlow<List<Communities>>
         get() = _communities
 
-    val isEnd = MutableStateFlow<Boolean>(false)
 
-    val age = MutableStateFlow<Int>(1)
+    private val isEnd = MutableStateFlow<Boolean>(false)
+
+    private val page = MutableStateFlow<Int>(0)
 
     override fun getCommunities() {
-        viewModelScope.launch {
-            repository.getComms().onSuccess {
-                _communities.value = it.communities
-                Log.d("getComms", it.toString())
-            }.onError {
+        if (!isEnd.value) {
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    repository.getComms(page = page.value)
+                        .onSuccess {
+                            _communities.value = communities.value + it.communities
+                            page.value += 1
+                            isEnd.value = it.isLast
+                        }.onFail {
 
+                        }.onException {
+                            throw it
+                        }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.d("예외", "$e")
+                }
             }
         }
     }

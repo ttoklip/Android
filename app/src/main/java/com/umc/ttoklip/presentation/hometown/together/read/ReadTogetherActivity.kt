@@ -16,6 +16,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.bumptech.glide.Glide
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.honeytip.ImageUrl
@@ -45,7 +46,9 @@ class ReadTogetherActivity :
         ReadImageRVA(this, this@ReadTogetherActivity)
     }
     private val commentRVA by lazy {
-        CommentRVA({ id ->
+        CommentRVA(
+            this,
+            { id ->
             viewModel.replyCommentParentId.value = id
         }, { id, myComment ->
             Log.d("mycomment", myComment.toString())
@@ -207,6 +210,9 @@ class ReadTogetherActivity :
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.postContent.collect { response ->
                     with(binding) {
+                        Glide.with(this@ReadTogetherActivity)
+                            .load(response.writerProfileImageUrl)
+                            .into(profileImg)
                         writerTv.text = response.writer
                         titleT.text = response.title
                         contentT.text = response.content
@@ -272,7 +278,8 @@ class ReadTogetherActivity :
                             it.commentId.toInt(),
                             it.parentId?.toInt(),
                             it.writer,
-                            it.writtenTime
+                            it.writtenTime,
+                            it.writerProfileImageUrl
                         )
                     }
                     commentRVA.submitList(list)

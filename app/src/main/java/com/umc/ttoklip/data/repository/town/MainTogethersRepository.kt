@@ -5,7 +5,7 @@ import com.umc.ttoklip.module.NetworkResult
 
 interface MainTogethersRepository {
     suspend fun getTogethers(
-        page: Long,
+        page: Int,
         startMoney: Long?,
         lastMoney: Long?,
         startParty: Long?,
