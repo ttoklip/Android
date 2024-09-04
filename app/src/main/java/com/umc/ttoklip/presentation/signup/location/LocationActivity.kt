@@ -8,6 +8,7 @@ import android.location.Geocoder
 import android.location.LocationManager
 import android.os.Build
 import android.util.Log
+import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -115,7 +116,7 @@ class LocationActivity :
             finish()
         }
 
-        binding.locationNextBtn.setOnClickListener {
+        binding.locationNextBtn.setOnSingleClickListener {
             if (locationok) {
                 val bundle = intent.getBundleExtra("userInfo")
                 if (bundle != null) {
@@ -142,6 +143,21 @@ class LocationActivity :
                         viewModel.savePrivacy(type!!)
                     }
                 }
+            }
+        }
+    }
+
+    // 클릭 리스너 디바운스
+    inline fun View.setOnSingleClickListener(
+        delay: Long = 1000L,
+        crossinline block: (View) -> Unit,
+    ) {
+        var previousClickedTime = 0L
+        setOnClickListener { view ->
+            val clickedTime = System.currentTimeMillis()
+            if (clickedTime - previousClickedTime >= delay) {
+                block(view)
+                previousClickedTime = clickedTime
             }
         }
     }
