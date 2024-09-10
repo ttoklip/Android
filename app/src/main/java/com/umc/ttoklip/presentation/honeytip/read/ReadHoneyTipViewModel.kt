@@ -83,6 +83,8 @@ class ReadHoneyTipViewModel @Inject constructor(
 
         data class ReadQuestionEvent(val inquireQuestionResponse: InquireQuestionResponse) :
             ReadEvent()
+
+        data class IncludeSwear(val message: String): ReadEvent()
     }
 
     private fun eventRead(event: ReadEvent) {
@@ -186,6 +188,8 @@ class ReadHoneyTipViewModel @Inject constructor(
                 inquireHoneyTip(postId)
             }.onError {
                 it.printStackTrace()
+            }.onFail { message ->
+                eventRead(ReadEvent.IncludeSwear(message))
             }
         }
     }
@@ -214,6 +218,8 @@ class ReadHoneyTipViewModel @Inject constructor(
                 HoneyTipCommentRequest(questionCommentContent.value, replyCommentParentId.value)
             ).onSuccess {
                 inquireQuestion(postId)
+            }.onFail { message ->
+                eventRead(ReadEvent.IncludeSwear(message))
             }
         }
     }

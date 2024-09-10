@@ -1,5 +1,7 @@
 package com.umc.ttoklip.module
 
+import android.util.Log
+
 sealed class NetworkResult<out T> {
     data class Success<T>(val data: T) : NetworkResult<T>()
     data class Fail(val statusCode: Int, val message: String) : NetworkResult<Nothing>()
@@ -13,9 +15,9 @@ inline fun <T> NetworkResult<T>.onSuccess(action: (T) -> Unit): NetworkResult<T>
     return this
 }
 
-inline fun <T> NetworkResult<T>.onFail(resultCode: (Int) -> Unit): NetworkResult<T> {
+inline fun <T> NetworkResult<T>.onFail(resultCode: (String) -> Unit): NetworkResult<T> {
     if (this is NetworkResult.Fail) {
-        resultCode(this.statusCode)
+        resultCode(this.message)
     }
     return this
 }
