@@ -64,7 +64,7 @@ fun String.tabTextToCategory(): String {
     return when (this) {
         "집안일" -> WriteHoneyTipActivity.Category.HOUSEWORK.toString()
         "레시피" -> WriteHoneyTipActivity.Category.RECIPE.toString()
-        "안전한생활" -> WriteHoneyTipActivity.Category.SAFE_LIVING.toString()
+        "안전한 생활" -> WriteHoneyTipActivity.Category.SAFE_LIVING.toString()
         else -> WriteHoneyTipActivity.Category.WELFARE_POLICY.toString()
     }
 }

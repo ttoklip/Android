@@ -257,6 +257,7 @@ class WriteHoneyTipActivity :
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 category = tab?.text.toString().tabTextToCategory()
+                Log.d("category", category)
                 setSelectedTabTextStyleBold(
                     R.font.pretendard_bold,
                     binding.tabLayout.selectedTabPosition
