@@ -238,7 +238,7 @@ class ArticleViewModelImpl @Inject constructor(
                 ).onSuccess {
                     _toast.emit("댓글을 신고했습니다.")
                 }.onFail {
-
+                    _toast.emit("욕설이 포함되어 있거나 통신이 불안정합니다..")
                 }.onException {
                     throw it
                 }
