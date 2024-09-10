@@ -35,6 +35,7 @@ import com.umc.ttoklip.presentation.dialog.ImageDialogFragment
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.honeytip.read.ReadQuestionActivity
 import com.umc.ttoklip.util.isValidUri
+import com.umc.ttoklip.util.showToast
 import com.umc.ttoklip.util.tabTextToCategory
 import com.umc.ttoklip.util.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
@@ -106,13 +107,16 @@ class WriteHoneyTipActivity :
         when (event) {
             is WriteHoneyTipViewModel.WriteDoneEvent.WriteDoneHoneyTip -> {
                 startActivity(ReadHoneyTipActivity.newIntent(this@WriteHoneyTipActivity, event.postId))
+                finish()
             }
 
             is WriteHoneyTipViewModel.WriteDoneEvent.WriteDoneQuestion -> {
                 startActivity(ReadQuestionActivity.newIntent(this@WriteHoneyTipActivity, event.postId))
+                finish()
             }
+
+            is WriteHoneyTipViewModel.WriteDoneEvent.IncludeSwear -> showToast(event.message)
         }
-        finish()
     }
 
     // 글 수정시 원본 글 Data 반영

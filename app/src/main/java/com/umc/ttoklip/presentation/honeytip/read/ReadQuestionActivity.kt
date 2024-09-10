@@ -23,6 +23,7 @@ import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
 import com.umc.ttoklip.presentation.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
+import com.umc.ttoklip.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -140,6 +141,10 @@ class ReadQuestionActivity :
                 if (question.writer != writer) {
                     showReportBtn()
                 }
+            }
+
+            is ReadHoneyTipViewModel.ReadEvent.IncludeSwear -> {
+                showToast(event.message)
             }
 
             else -> {}
