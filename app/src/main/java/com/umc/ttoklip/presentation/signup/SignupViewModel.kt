@@ -1,17 +1,22 @@
 package com.umc.ttoklip.presentation.signup
 
 import android.app.Application
+import android.content.Context
 import android.content.res.AssetManager
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
+import com.umc.ttoklip.data.model.login.LoginLocalRequest
 import com.umc.ttoklip.data.model.signup.SignupRequest
 import com.umc.ttoklip.data.model.signup.VerifyRequest
+import com.umc.ttoklip.data.repository.login.LoginRepository
+import com.umc.ttoklip.data.repository.login.LoginRepositoryImpl
 import com.umc.ttoklip.data.repository.signup.SignupRepositoryImpl
 import com.umc.ttoklip.module.onError
 import com.umc.ttoklip.module.onFail
@@ -36,6 +41,7 @@ import javax.inject.Singleton
 
 @HiltViewModel
 class SignupViewModel @Inject constructor(
+    private val loginRepository: LoginRepositoryImpl,
     private val signupRepository: SignupRepositoryImpl, application: Application
 ) : AndroidViewModel(application) {
 
@@ -245,6 +251,19 @@ class SignupViewModel @Inject constructor(
                         Log.d("USERSAVE ERROR", it.toString())
                     }
             }
+        }
+    }
+
+    fun postLocalLogin(request: LoginLocalRequest, context: Context){
+        viewModelScope.launch {
+            loginRepository.postLoginLocal(request)
+                .onSuccess {
+                    TtoklipApplication.prefs.setString("jwt",it.jwtToken)
+                    TtoklipApplication.prefs.setBoolean("isFirstLogin",it.ifFirstLogin)
+                }.onFail {
+                    Toast.makeText(context,"회원가입 실패", Toast.LENGTH_LONG).show()
+                    Log.d("LOGIN-API", "local login 실패")
+                }
         }
     }
 }
