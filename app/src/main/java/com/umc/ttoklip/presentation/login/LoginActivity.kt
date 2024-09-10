@@ -1,6 +1,9 @@
 package com.umc.ttoklip.presentation.login
 
 import android.content.Intent
+import android.text.Editable
+import android.text.InputType
+import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
@@ -21,15 +24,46 @@ import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.signup.SignupActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginActivity : BaseActivity<ActivityLogin2Binding>(R.layout.activity_login2) {
 
     private val viewModel: LoginViewModel by viewModels()
+    private var saveId:Boolean=false
 
     override fun initView() {
         loginActivity=this
+
+        saveId=TtoklipApplication.prefs.getBoolean("saveId",false)
+        if(saveId){
+            binding.loginEmailEt.setText(TtoklipApplication.prefs.getString("savedId",""))
+            binding.loginSaveIdIb.setImageResource(R.drawable.ic_check_on_20)
+        }
+        binding.loginSaveIdIb.setOnClickListener {
+            if(saveId){
+                saveId=false
+                binding.loginSaveIdIb.setImageResource(R.drawable.ic_check_off_20)
+            }else{
+                saveId=true
+                binding.loginSaveIdIb.setImageResource(R.drawable.ic_check_on_20)
+            }
+        }
+
+        binding.loginShowpwIv.setOnClickListener {
+            if(viewModel.pwshow.value){
+                viewModel.pwshow.value=false
+                binding.loginShowpwIv.setImageResource(R.drawable.ic_eye_on_24)
+                binding.loginPwEt.transformationMethod=null
+            }else{
+                viewModel.pwshow.value=true
+                binding.loginShowpwIv.setImageResource(R.drawable.ic_eye_off_24)
+                binding.loginPwEt.transformationMethod=PasswordTransformationMethod.getInstance()
+            }
+            //커서 위치 유지
+            binding.loginPwEt.setSelection(binding.loginPwEt.text?.length ?: 0)
+        }
 
         binding.loginLoginBtn.setOnClickListener {
             viewModel.postLocalLogin(LoginLocalRequest(binding.loginEmailEt.text.toString(),binding.loginPwEt.text.toString()),
@@ -132,7 +166,13 @@ class LoginActivity : BaseActivity<ActivityLogin2Binding>(R.layout.activity_logi
             }
             startActivity(intent)
         } else {
-            TtoklipApplication.prefs.setBoolean("isFirstLogin", false)
+            TtoklipApplication.prefs.setBoolean("saveId",saveId) //아이디저장 여부
+            if(saveId){//아이디 text 저장or삭제
+                TtoklipApplication.prefs.setString("savedId",binding.loginEmailEt.text.toString())
+            }else{
+                TtoklipApplication.prefs.removeString("savedId")
+            }
+            TtoklipApplication.prefs.setBoolean("isFirstLogin", false) //첫 로그인이 아님을 저장
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
@@ -152,6 +192,15 @@ class LoginActivity : BaseActivity<ActivityLogin2Binding>(R.layout.activity_logi
                 launch {
                     viewModel.isLogin.collect {
                         if (it) startactivity()
+                    }
+                }
+                launch {
+                    viewModel.pwshow.collect{
+                        if(it){
+
+                        }else{
+
+                        }
                     }
                 }
             }
