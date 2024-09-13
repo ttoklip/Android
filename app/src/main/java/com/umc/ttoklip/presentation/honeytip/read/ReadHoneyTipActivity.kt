@@ -167,6 +167,9 @@ class ReadHoneyTipActivity :
                     showReportBtn()
                 }
             }
+            is ReadHoneyTipViewModel.ReadEvent.IncludeSwear -> {
+                showToast(event.message)
+            }
 
             else -> {}
         }

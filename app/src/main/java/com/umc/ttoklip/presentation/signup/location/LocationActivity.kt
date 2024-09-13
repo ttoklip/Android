@@ -8,6 +8,7 @@ import android.location.Geocoder
 import android.location.LocationManager
 import android.os.Build
 import android.util.Log
+import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -28,6 +29,7 @@ import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
+import com.umc.ttoklip.data.model.login.LoginLocalRequest
 import com.umc.ttoklip.databinding.ActivityLocationBinding
 import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.base.BaseActivity
@@ -114,7 +116,7 @@ class LocationActivity :
             finish()
         }
 
-        binding.locationNextBtn.setOnClickListener {
+        binding.locationNextBtn.setOnSingleClickListener {
             if (locationok) {
                 val bundle = intent.getBundleExtra("userInfo")
                 if (bundle != null) {
@@ -141,6 +143,21 @@ class LocationActivity :
                         viewModel.savePrivacy(type!!)
                     }
                 }
+            }
+        }
+    }
+
+    // 클릭 리스너 디바운스
+    inline fun View.setOnSingleClickListener(
+        delay: Long = 1000L,
+        crossinline block: (View) -> Unit,
+    ) {
+        var previousClickedTime = 0L
+        setOnClickListener { view ->
+            val clickedTime = System.currentTimeMillis()
+            if (clickedTime - previousClickedTime >= delay) {
+                block(view)
+                previousClickedTime = clickedTime
             }
         }
     }
@@ -251,6 +268,10 @@ class LocationActivity :
     private fun startActivity(){
         val bundle = intent.getBundleExtra("userInfo")
         if(bundle!!.getString("signupType")=="local"){
+            viewModel.postLocalLogin(LoginLocalRequest(viewModel.email.value,viewModel.pw.value),this)
+            startActivity(Intent(this, MainActivity::class.java))
+            val loginActivity=LoginActivity.loginActivity
+            loginActivity?.finish()
             val signupActivity= SignupActivity.signupActivity
             signupActivity?.finish()
             finish()
@@ -270,6 +291,7 @@ class LocationActivity :
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.saveok.collect{
                     if(it){
+                        Toast.makeText(this@LocationActivity,"회원가입이 완료되었습니다.",Toast.LENGTH_LONG).show()
                         startActivity()
                     }
                 }

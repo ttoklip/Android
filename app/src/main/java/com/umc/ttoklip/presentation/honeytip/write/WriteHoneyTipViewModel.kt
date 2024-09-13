@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.data.repository.honeytip.HoneyTipRepositoryImpl
 import com.umc.ttoklip.module.onError
+import com.umc.ttoklip.module.onFail
 import com.umc.ttoklip.module.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -31,6 +32,8 @@ class WriteHoneyTipViewModel @Inject constructor(
     sealed class WriteDoneEvent {
         data class WriteDoneHoneyTip(val postId: Int) : WriteDoneEvent()
         data class WriteDoneQuestion(val postId: Int) : WriteDoneEvent()
+
+        data class IncludeSwear(val message: String): WriteDoneEvent()
     }
 
     private val _isTitleNull = MutableStateFlow(true)
@@ -100,6 +103,8 @@ class WriteHoneyTipViewModel @Inject constructor(
                 val postId = it.message.replace(("[^\\d]").toRegex(), "").toInt()
                 event(WriteDoneEvent.WriteDoneHoneyTip(postId))
                 Log.d("honey tip api test", it.message)
+            }.onFail { message ->
+                event(WriteDoneEvent.IncludeSwear(message))
             }
         }
     }
@@ -147,6 +152,8 @@ class WriteHoneyTipViewModel @Inject constructor(
             ).onSuccess {
                 val postId = it.message.replace(("[^\\d]").toRegex(), "").toInt()
                 event(WriteDoneEvent.WriteDoneQuestion(postId))
+            }.onFail { message ->
+                event(WriteDoneEvent.IncludeSwear(message))
             }
         }
     }

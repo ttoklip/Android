@@ -73,31 +73,42 @@
                 android:hint="비밀번호를 입력해주세요"
                 android:textAppearance="@style/TextAppearance.App.12sp_400"
                 android:textColorHint="@color/gray80"
-                android:paddingStart="10dp" />
+                android:paddingStart="10dp"
+                android:inputType="textPassword"
+                />
+            <ImageView
+                android:id="@+id/login_showpw_iv"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintTop_toTopOf="@id/login_pw_et"
+                app:layout_constraintBottom_toBottomOf="@id/login_pw_et"
+                app:layout_constraintEnd_toEndOf="@id/login_pw_et"
+                android:src="@drawable/ic_eye_off_24" />
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/login_account_info_cl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/login_pw_et"
-
+                android:layout_marginTop="10dp"
                 android:layout_marginStart="5dp">
-<!--                <ImageButton-->
-<!--                    android:id="@+id/login_saveId_ib"-->
-<!--                    android:layout_width="20dp"-->
-<!--                    android:layout_height="20dp"-->
-<!--                    android:src="@drawable/ic_check_off_20"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"/>-->
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintStart_toEndOf="@id/login_saveId_ib"-->
-<!--                    android:layout_marginStart="5dp"-->
-<!--                    android:textAppearance="@style/TextAppearance.App.12sp_400"-->
-<!--                    android:textColor="@color/gray80"-->
-<!--                    android:text="아이디 저장"/>-->
+                <ImageButton
+                    android:id="@+id/login_saveId_ib"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_check_off_20"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/login_saveId_ib"
+                    android:layout_marginStart="5dp"
+                    android:textAppearance="@style/TextAppearance.App.12sp_400"
+                    android:textColor="@color/gray80"
+                    android:text="아이디 저장"/>
 <!--                <TextView-->
 <!--                    android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content"-->

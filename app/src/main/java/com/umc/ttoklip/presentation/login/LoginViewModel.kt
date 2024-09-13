@@ -22,8 +22,7 @@ class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepositoryImpl
 ) : ViewModel() {
 
-    val id=MutableStateFlow<String>("")
-    val pw=MutableStateFlow<String>("")
+    var pwshow=MutableStateFlow<Boolean>(false)
 
     private val _isSocialLogin=MutableStateFlow<Boolean>(false)
     val isSocialLogin:StateFlow<Boolean>

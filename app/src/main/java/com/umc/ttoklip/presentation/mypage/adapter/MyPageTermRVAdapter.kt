@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.databinding.ItemTermBinding
-import com.umc.ttoklip.presentation.signup.fragments.TermRVAdapter
 import com.umc.ttoklip.presentation.signup.fragments.TermViewModel
-import com.umc.ttoklip.presentation.signup.fragments.WebviewActivity
 
 class MyPageTermRVAdapter(
     private val context: Context,
