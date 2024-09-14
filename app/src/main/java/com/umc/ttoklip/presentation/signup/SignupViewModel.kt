@@ -2,47 +2,38 @@ package com.umc.ttoklip.presentation.signup
 
 import android.app.Application
 import android.content.Context
-import android.content.res.AssetManager
-import android.net.Uri
-import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.login.LoginLocalRequest
-import com.umc.ttoklip.data.model.signup.SignupRequest
 import com.umc.ttoklip.data.model.signup.VerifyRequest
-import com.umc.ttoklip.data.repository.login.LoginRepository
 import com.umc.ttoklip.data.repository.login.LoginRepositoryImpl
+import com.umc.ttoklip.data.repository.naver.NaverRepositoryImpl
 import com.umc.ttoklip.data.repository.signup.SignupRepositoryImpl
 import com.umc.ttoklip.module.onError
 import com.umc.ttoklip.module.onFail
 import com.umc.ttoklip.module.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.ResponseBody
 import java.io.File
-import java.io.InputStream
 import javax.inject.Inject
-import javax.inject.Singleton
 
 @HiltViewModel
 class SignupViewModel @Inject constructor(
     private val loginRepository: LoginRepositoryImpl,
-    private val signupRepository: SignupRepositoryImpl, application: Application
+    private val signupRepository: SignupRepositoryImpl,
+    private val naverRepository: NaverRepositoryImpl,
+    application: Application
 ) : AndroidViewModel(application) {
 
     val signupType=MutableStateFlow<String>("")
@@ -186,10 +177,20 @@ class SignupViewModel @Inject constructor(
     }
 
     ///////////////////////////////fragment 5
-    private var street: String = ""
+    var street=MutableStateFlow<String>("")
     val saveok=MutableStateFlow<Boolean>(false)
-    fun saveUserStreet(ustreet: String) {
-        street = ustreet
+
+    fun getAdmcode(coord: com.naver.maps.geometry.LatLng){
+        viewModelScope.launch {
+            naverRepository.getAdmcode("${coord.longitude}, ${coord.latitude}")
+                .onSuccess {
+                    val address=it.results.first()
+                    street.value=address.region.area1.name+" "+
+                            address.region.area2.name+" "+
+                            address.region.area3.name+" "+
+                            address.region.area4.name
+                }
+        }
     }
 
     fun savePrivacy(type:String) {
@@ -225,7 +226,7 @@ class SignupViewModel @Inject constructor(
                 requestMap["agreePrivacyPolicy"]=agreePrivacyPolicy.value.toString().toRequestBody("text/plain".toMediaTypeOrNull())
                 requestMap["agreeLocationService"]=agreeLocationService.value.toString().toRequestBody("text/plain".toMediaTypeOrNull())
             }
-            requestMap["street"] = street.toRequestBody("text/plain".toMediaTypeOrNull())
+            requestMap["street"] = street.value.toRequestBody("text/plain".toMediaTypeOrNull())
             requestMap["nickname"] = nickname.value.toRequestBody("text/plain".toMediaTypeOrNull())
             requestMap["independentYear"] = independenctYear.value.toString().toRequestBody("text/plain".toMediaTypeOrNull())
             requestMap["independentMonth"] = independenctMonth.value.toString().toRequestBody("text/plain".toMediaTypeOrNull())

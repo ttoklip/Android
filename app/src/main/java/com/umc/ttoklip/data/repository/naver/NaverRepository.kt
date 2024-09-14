@@ -8,4 +8,6 @@ interface NaverRepository {
     suspend fun fetchGeocoding(query: String): NetworkResult<GeocodingResponse>
 
     suspend fun fetchReverseGeocodingInfo(coords: String, output: String): NetworkResult<ReverseGeocodingResponse>
+
+    suspend fun getAdmcode(coords: String): NetworkResult<ReverseGeocodingResponse>
 }
