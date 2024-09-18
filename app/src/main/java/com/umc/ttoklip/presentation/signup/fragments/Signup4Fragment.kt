@@ -38,6 +38,7 @@ import com.umc.ttoklip.presentation.signup.SignupViewModel
 import com.umc.ttoklip.presentation.signup.location.LocationActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.BufferedReader
 import java.io.ByteArrayOutputStream
@@ -78,7 +79,15 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
                         }
                     }
                 }
+                launch {
+                    viewModel.fail_message.collect{
+                        binding.signup4NicknotokTv.text=viewModel.fail_message.value
+                    }
+                }
             }
+//            repeatOnLifecycle(Lifecycle.State.STARTED){
+//
+//            }
         }
     }
 

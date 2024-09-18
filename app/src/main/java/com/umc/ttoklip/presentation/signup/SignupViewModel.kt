@@ -37,6 +37,7 @@ class SignupViewModel @Inject constructor(
 ) : AndroidViewModel(application) {
 
     val signupType=MutableStateFlow<String>("")
+    val fail_message=MutableStateFlow<String>("")
 
     ///////////////////////////////fragment 1
     val name=MutableStateFlow<String>("")
@@ -98,19 +99,16 @@ class SignupViewModel @Inject constructor(
             if(signupType.value=="local"){
                 signupRepository.checkNicknameLocal(nick)
                     .onSuccess {
-                        Log.i("nick check", "성공")
                         nickok.emit(true)
-                    }.onFail {
-                        Log.d("nick check", "실패")
+                    }.onFail {message->
                         nickok.emit(false)
+                        fail_message.value=message
                     }
             }else{
                 signupRepository.checkNickname(nick)
                     .onSuccess {
-                        Log.i("nick check", "성공")
                         nickok.emit(true)
                     }.onFail {
-                        Log.d("nick check", "실패")
                         nickok.emit(false)
                     }
             }
