@@ -27,6 +27,7 @@ import com.umc.ttoklip.presentation.honeytip.HONEY_TIPS
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
+import com.umc.ttoklip.util.setOnSingleClickListener
 import com.umc.ttoklip.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -177,11 +178,11 @@ class ReadHoneyTipActivity :
 
     override fun initView() {
         binding.vm = viewModel
-        binding.replyT.setOnClickListener {
+        binding.replyT.setOnSingleClickListener {
             viewModel.replyCommentParentId.value = 0
         }
 
-        binding.profileImg.setOnClickListener {
+        binding.profileImg.setOnSingleClickListener {
             startActivity(OtherUserActivity.newIntent(this,viewModel.honeyTip.value.writer.toString()))
         }
 
@@ -189,14 +190,14 @@ class ReadHoneyTipActivity :
         Log.d("read postid", postId.toString())
 
         binding.commentRV.adapter = commentRVA
-        binding.SendCardView.setOnClickListener {
+        binding.SendCardView.setOnSingleClickListener {
             viewModel.postHoneyTipComment(postId)
             binding.commentEt.setText("")
             viewModel.replyCommentParentId.value = 0
         }
         viewModel.inquireHoneyTip(postId)
 
-        binding.backBtn.setOnClickListener {
+        binding.backBtn.setOnSingleClickListener {
             finish()
         }
         initImageRVA()
@@ -210,7 +211,7 @@ class ReadHoneyTipActivity :
     }
 
     private fun showReportBtn() {
-        binding.dotBtn.setOnClickListener {
+        binding.dotBtn.setOnSingleClickListener {
             if (!isShowMenu) {
                 binding.reportBtn.bringToFront()
                 binding.reportBtn.visibility = View.VISIBLE
@@ -223,7 +224,7 @@ class ReadHoneyTipActivity :
     }
 
     private fun showHoneyTipWriterMenu() {
-        binding.dotBtn.setOnClickListener {
+        binding.dotBtn.setOnSingleClickListener {
             if (!isShowMenu) {
                 binding.honeyTipMenu.bringToFront()
                 binding.honeyTipMenu.visibility = View.VISIBLE
@@ -236,7 +237,7 @@ class ReadHoneyTipActivity :
     }
 
     private fun editHoneyTip() {
-        binding.editBtn.setOnClickListener {
+        binding.editBtn.setOnSingleClickListener {
             val images = imageAdapter.currentList.filterIsInstance<ImageUrl>()
             val editHoneyTip = EditHoneyTip(
                 postId,
@@ -253,7 +254,7 @@ class ReadHoneyTipActivity :
     }
 
     private fun showReportDialog() {
-        binding.reportBtn.setOnClickListener {
+        binding.reportBtn.setOnSingleClickListener {
             val reportDialog = ReportDialogFragment()
             reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
 
@@ -269,7 +270,7 @@ class ReadHoneyTipActivity :
     }
 
     private fun showDeleteDialog() {
-        binding.deleteBtn.setOnClickListener {
+        binding.deleteBtn.setOnSingleClickListener {
             val deleteDialog = DeleteDialogFragment()
             deleteDialog.setDialogClickListener(object : DeleteDialogFragment.DialogClickListener {
                 override fun onClick() {

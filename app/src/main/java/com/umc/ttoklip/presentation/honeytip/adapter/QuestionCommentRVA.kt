@@ -20,6 +20,7 @@ import com.umc.ttoklip.databinding.ItemQuestionCommentBinding
 import com.umc.ttoklip.databinding.ItemQuestionReplyBinding
 import com.umc.ttoklip.databinding.ItemReplyBinding
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipViewModel
+import com.umc.ttoklip.util.setOnSingleClickListener
 
 class QuestionCommentRVA (val context: Context, val replyComment: (Int) -> Unit, val ReportOrDelete: (Int, Boolean) -> Unit, val like: (Int, Boolean) -> Unit) :
     ListAdapter<QuestionCommentResponse, RecyclerView.ViewHolder>(differ) {
@@ -33,16 +34,16 @@ class QuestionCommentRVA (val context: Context, val replyComment: (Int) -> Unit,
                 .load(data.writerProfileImageUrl)
                 .into(binding.writerIv)
 
-            binding.replyBtn.setOnClickListener {
+            binding.replyBtn.setOnSingleClickListener {
                 replyComment(data.commentId)
             }
-            binding.deleteBtn.setOnClickListener {
+            binding.deleteBtn.setOnSingleClickListener {
                 ReportOrDelete(
                     data.commentId,
                     data.writer == TtoklipApplication.prefs.getString("nickname", "")
                 )
             }
-            binding.likeBtn.setOnClickListener {
+            binding.likeBtn.setOnSingleClickListener {
                 like(data.commentId, data.likedByCurrentUser)
             }
         }
@@ -58,7 +59,7 @@ class QuestionCommentRVA (val context: Context, val replyComment: (Int) -> Unit,
                 .load(data.writerProfileImageUrl)
                 .into(binding.profileImg)
 
-            binding.deleteBtn.setOnClickListener {
+            binding.deleteBtn.setOnSingleClickListener {
                 Log.d("닉네임","${data.writer == TtoklipApplication.prefs.getString("nickname", "")}")
                 ReportOrDelete(
                     data.commentId,
@@ -66,7 +67,7 @@ class QuestionCommentRVA (val context: Context, val replyComment: (Int) -> Unit,
                 )
             }
 
-            binding.likeBtn.setOnClickListener {
+            binding.likeBtn.setOnSingleClickListener {
                 like(data.commentId, data.likedByCurrentUser)
             }
         }

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.umc.ttoklip.databinding.ItemImageBinding
 import com.umc.ttoklip.util.isValidUri
+import com.umc.ttoklip.util.setOnSingleClickListener
 import okhttp3.internal.assertThreadDoesntHoldLock
 
 class ImageRVA(private val context: Context, private var listener: OnImageClickListener?): ListAdapter<Image, ImageRVA.ImageViewHolder>(object : DiffUtil.ItemCallback<Image>(){
@@ -35,10 +36,10 @@ class ImageRVA(private val context: Context, private var listener: OnImageClickL
                     .into(binding.iv)
             }
 
-            binding.iv.setOnClickListener {
+            binding.iv.setOnSingleClickListener {
                 listener?.onClick(image, bindingAdapterPosition)
             }
-            binding.deleteBtn.setOnClickListener {
+            binding.deleteBtn.setOnSingleClickListener {
                 listener?.deleteImage(bindingAdapterPosition, image.id)
             }
         }

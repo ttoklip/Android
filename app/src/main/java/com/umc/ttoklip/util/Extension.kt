@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
@@ -91,4 +92,18 @@ fun String.convertStringToTextPlain(): RequestBody {
 fun List<Int>.createRequestBodyFromList(): RequestBody{
     val listString = this.joinToString(",") // List를 쉼표로 구분된 문자열로 변환
     return RequestBody.create("text/plain".toMediaTypeOrNull(), listString)
+}
+
+inline fun View.setOnSingleClickListener(
+    delay: Long = 1000L,
+    crossinline block: (View) -> Unit,
+) {
+    var previousClickedTime = 0L
+    setOnClickListener { view ->
+        val clickedTime = System.currentTimeMillis()
+        if (clickedTime - previousClickedTime >= delay) {
+            block(view)
+            previousClickedTime = clickedTime
+        }
+    }
 }

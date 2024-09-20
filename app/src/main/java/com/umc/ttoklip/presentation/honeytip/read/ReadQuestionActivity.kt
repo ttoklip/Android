@@ -23,6 +23,7 @@ import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageRVA
 import com.umc.ttoklip.presentation.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
+import com.umc.ttoklip.util.setOnSingleClickListener
 import com.umc.ttoklip.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -155,25 +156,25 @@ class ReadQuestionActivity :
         binding.vm = viewModel
         postId = intent.getIntExtra("postId", 0)
         Log.d("read postid", postId.toString())
-        binding.replyT.setOnClickListener {
+        binding.replyT.setOnSingleClickListener {
             viewModel.replyCommentParentId.value = 0
         }
 
-        binding.profileImg.setOnClickListener {
+        binding.profileImg.setOnSingleClickListener {
             startActivity(OtherUserActivity.newIntent(this, binding.writerTv.text.toString()))
         }
         binding.commentRv.apply {
             adapter = commentRVA
             itemAnimator = null
         }
-        binding.SendCardView.setOnClickListener {
+        binding.SendCardView.setOnSingleClickListener {
             viewModel.postQuestionComment(postId)
             binding.commentEt.setText("")
             viewModel.replyCommentParentId.value = 0
         }
         viewModel.inquireQuestion(postId)
 
-        binding.backBtn.setOnClickListener {
+        binding.backBtn.setOnSingleClickListener {
             finish()
         }
 
@@ -186,7 +187,7 @@ class ReadQuestionActivity :
     }
 
     private fun showReportBtn() {
-        binding.dotBtn.setOnClickListener {
+        binding.dotBtn.setOnSingleClickListener {
             if (!isShowMenu) {
                 binding.reportBtn.bringToFront()
                 binding.reportBtn.visibility = View.VISIBLE
@@ -199,7 +200,7 @@ class ReadQuestionActivity :
     }
 
     private fun showReportDialog() {
-        binding.reportBtn.setOnClickListener {
+        binding.reportBtn.setOnSingleClickListener {
             val reportDialog = ReportDialogFragment()
             reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
 
