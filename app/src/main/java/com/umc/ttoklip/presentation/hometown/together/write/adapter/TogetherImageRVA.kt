@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.umc.ttoklip.databinding.ItemImageBinding
 import com.umc.ttoklip.databinding.ItemTogetherImageBinding
 import com.umc.ttoklip.util.isValidUri
+import com.umc.ttoklip.util.setOnSingleClickListener
 
 class TogetherImageRVA(private val context: Context, private var listener: OnImageClickListener?): ListAdapter<com.umc.ttoklip.presentation.honeytip.adapter.Image, TogetherImageRVA.ImageViewHolder>(object : DiffUtil.ItemCallback<com.umc.ttoklip.presentation.honeytip.adapter.Image,>(){
     override fun areItemsTheSame(oldItem: com.umc.ttoklip.presentation.honeytip.adapter.Image, newItem: com.umc.ttoklip.presentation.honeytip.adapter.Image,): Boolean {
@@ -34,7 +35,7 @@ class TogetherImageRVA(private val context: Context, private var listener: OnIma
                     .into(binding.iv)
             }
 
-            binding.iv.setOnClickListener {
+            binding.iv.setOnSingleClickListener {
                 listener?.onClick(image, bindingAdapterPosition)
             }
         }

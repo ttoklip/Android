@@ -11,6 +11,7 @@ import com.umc.ttoklip.databinding.FragmentAddresDetailBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherViewModel
 import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherViewModelImpl
+import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -27,11 +28,11 @@ class AddressDetailFragment: BaseFragment<FragmentAddresDetailBinding>(R.layout.
     override fun initView() {
         binding.viewModel = viewModel
 
-        binding.locationNextBtn.setOnClickListener {
+        binding.locationNextBtn.setOnSingleClickListener {
             viewModel.setAddressDetail(binding.inputTradeLocationEt.text.toString())
             navigator.popBackStack(R.id.writeTogetherFragment, false)
         }
-        binding.gpsBaseSettingFrame.setOnClickListener {
+        binding.gpsBaseSettingFrame.setOnSingleClickListener {
             navigator.navigateUp()
         }
     }

@@ -12,6 +12,7 @@ import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.mypage.adapter.MyPageTermRVAdapter
 import com.umc.ttoklip.presentation.signup.fragments.TermRVAdapter
 import com.umc.ttoklip.presentation.signup.fragments.TermViewModel
+import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -35,7 +36,7 @@ class TermsPolicesActivity :
         //  termDatas.add(TermViewModel.Term(i,termName[i],termContent[i],false))
         //}
 
-        binding.termsPolicesBackBtn.setOnClickListener {
+        binding.termsPolicesBackBtn.setOnSingleClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 

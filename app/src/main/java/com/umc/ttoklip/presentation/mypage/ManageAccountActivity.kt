@@ -5,23 +5,24 @@ import androidx.core.view.isGone
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityManageAccountBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
+import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ManageAccountActivity :
     BaseActivity<ActivityManageAccountBinding>(R.layout.activity_manage_account) {
     override fun initView() {
-        binding.manageAccountInfoBackBtn.setOnClickListener {
+        binding.manageAccountInfoBackBtn.setOnSingleClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
-        binding.root.setOnClickListener {
+        binding.root.setOnSingleClickListener {
             removeKeyboard()
         }
-        binding.manageAccountInfoFrame.setOnClickListener {
+        binding.manageAccountInfoFrame.setOnSingleClickListener {
             removeKeyboard()
         }
 
-        binding.sendCertificationNumberBtn.setOnClickListener {
+        binding.sendCertificationNumberBtn.setOnSingleClickListener {
             binding.certificationNumberSentTv.isGone = false
         }
     }

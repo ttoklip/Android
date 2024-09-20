@@ -16,6 +16,7 @@ import com.umc.ttoklip.presentation.login.LoginActivity
 import com.umc.ttoklip.presentation.mypage.dialog.LogoutDialog
 import com.umc.ttoklip.presentation.mypage.manageinfo.ManageMyInfoActivity
 import com.umc.ttoklip.presentation.mypage.manageinfo.ManageMyInfoViewModel
+import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -47,10 +48,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
     override fun initView() {
         //binding.userExpBar.isEnabled = false
-        binding.noticeBtn.setOnClickListener {
+        binding.noticeBtn.setOnSingleClickListener {
             startActivity(AlarmActivity.newIntent(requireContext()))
         }
-        binding.updateProfileBtn.setOnClickListener { //카테고리 받아와야 제대로 업데이트 가능
+        binding.updateProfileBtn.setOnSingleClickListener { //카테고리 받아와야 제대로 업데이트 가능
             val intent = Intent(requireContext(), ManageMyInfoActivity::class.java)
             startActivity(intent)
         }
@@ -60,7 +61,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 //            startActivity(intent)
 //        }
 
-        binding.announcementFrame.setOnClickListener { //공지사항 두 개만 넣어달라, api 연결은 해놨음
+        binding.announcementFrame.setOnSingleClickListener { //공지사항 두 개만 넣어달라, api 연결은 해놨음
             val intent = Intent(requireContext(), SetAnnouncementActivity::class.java)
             startActivity(intent)
         }
@@ -70,22 +71,22 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 //            startActivity(intent)
 //        }
 
-        binding.customerServiceCenterFrame.setOnClickListener { //고객센터-faq 불러오기 연동 필요, 1:1 문의 보내기 필요
+        binding.customerServiceCenterFrame.setOnSingleClickListener { //고객센터-faq 불러오기 연동 필요, 1:1 문의 보내기 필요
             val intent = Intent(requireContext(), CustomerServiceCenterActivity::class.java)
             startActivity(intent)
         }
 
-        binding.noticeFrame.setOnClickListener {//알림 설정-알림이 되어야함
+        binding.noticeFrame.setOnSingleClickListener {//알림 설정-알림이 되어야함
             val intent = Intent(requireContext(), NoticeSettingActivity::class.java)
             startActivity(intent)
         }
 
-        binding.termsPolicesFrame.setOnClickListener {//약관 및 정책
+        binding.termsPolicesFrame.setOnSingleClickListener {//약관 및 정책
             val intent = Intent(requireContext(), TermsPolicesActivity::class.java)
             startActivity(intent)
         }
 
-        binding.logoutFrame.setOnClickListener {
+        binding.logoutFrame.setOnSingleClickListener {
             //로그아웃 다이얼로그 체크
             val dialog = LogoutDialog(logout = {
                 TtoklipApplication.prefs.removeString("jwt")
@@ -95,16 +96,16 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             dialog.show(parentFragmentManager, dialog.tag)
         }
 
-        binding.transactionHistoryBtn.setOnClickListener { //거래내역
+        binding.transactionHistoryBtn.setOnSingleClickListener { //거래내역
             startActivity(TransactionHistoryActivity.newIntent(requireContext(),1,""))
         }
 
-        binding.scrapBtn.setOnClickListener { //스크랩
+        binding.scrapBtn.setOnSingleClickListener { //스크랩
             val intent = Intent(requireContext(), SavedHoneyTipActivity::class.java)
             startActivity(intent)
         }
 
-        binding.myHoneyTipBtn.setOnClickListener { //꿀팁
+        binding.myHoneyTipBtn.setOnSingleClickListener { //꿀팁
             val intent = Intent(requireContext(), MyHoneyTipActivity::class.java)
             startActivity(intent)
         }

@@ -29,6 +29,7 @@ import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.mypage.ChooseMainInterestDialogFragment
 import com.umc.ttoklip.presentation.mypage.InputIndependentCareerDialogFragment
+import com.umc.ttoklip.util.setOnSingleClickListener
 import com.umc.ttoklip.util.tabTextToCategory
 import com.umc.ttoklip.util.uriToFile
 import kotlinx.coroutines.FlowPreview
@@ -77,12 +78,12 @@ class ManageMyInfoFragment :
     }
 
     private fun initViewListener() {
-        binding.manageMyInfoBackBtn.setOnClickListener {
+        binding.manageMyInfoBackBtn.setOnSingleClickListener {
             requireActivity().finish()
         }
 
 
-        binding.inputIndependentCareerEt.setOnClickListener {
+        binding.inputIndependentCareerEt.setOnSingleClickListener {
             val bottomSheet = InputIndependentCareerDialogFragment { year, month ->
                 independentYear = year
                 independentMonth = month
@@ -105,15 +106,15 @@ class ManageMyInfoFragment :
             bottomSheet.show(childFragmentManager, bottomSheet.tag)
         }
 
-        binding.findAddressBtn.setOnClickListener {
+        binding.findAddressBtn.setOnSingleClickListener {
             navigator.navigate(R.id.action_manageMyInfoFragment_to_myHomeTownAddressFragment)
         }
 
-        binding.checkDuplicationBtn.setOnClickListener {
+        binding.checkDuplicationBtn.setOnSingleClickListener {
             viewModel.nickCheck(binding.inputNicknameEt.text.toString())
         }
 
-        binding.mainInterestGroup.setOnClickListener {
+        binding.mainInterestGroup.setOnSingleClickListener {
             val bottomSheet = ChooseMainInterestDialogFragment { interests ->
                 binding.mainInterestGroup.removeAllViews()
                 addInterest(interests)
@@ -121,7 +122,7 @@ class ManageMyInfoFragment :
             bottomSheet.show(childFragmentManager, bottomSheet.tag)
         }
 
-        binding.finishUpdateProfileBtn.setOnClickListener {
+        binding.finishUpdateProfileBtn.setOnSingleClickListener {
             TtoklipApplication.prefs.setString("nickname", binding.inputNicknameEt.text.toString())
             val categories = category.map { it -> it.tabTextToCategory() }
             val body = if (profileImage != Uri.EMPTY) {
@@ -140,7 +141,7 @@ class ManageMyInfoFragment :
             )
         }
 
-        binding.manageProfileImg.setOnClickListener {
+        binding.manageProfileImg.setOnSingleClickListener {
 
             pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             binding.finishUpdateProfileBtn.isEnabled = true

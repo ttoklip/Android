@@ -10,6 +10,7 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.DialogParticipantsBinding
 import com.umc.ttoklip.presentation.base.BaseDialogFragment
 import com.umc.ttoklip.presentation.hometown.adapter.ParticipantsRVA
+import com.umc.ttoklip.util.setOnSingleClickListener
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -35,7 +36,7 @@ class ParticipantDialogFragment: BaseDialogFragment<DialogParticipantsBinding>(R
         /*viewModel.fetchParticipantsCount()
         viewModel.fetchParticipants()*/
         initRVA()
-        binding.acceptBtn.setOnClickListener {
+        binding.acceptBtn.setOnSingleClickListener {
             dismiss()
         }
     }

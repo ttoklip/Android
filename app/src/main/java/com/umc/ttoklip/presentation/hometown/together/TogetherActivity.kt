@@ -19,6 +19,7 @@ import com.umc.ttoklip.presentation.hometown.together.read.ReadTogetherActivity
 import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherActivity
 import com.umc.ttoklip.presentation.mypage.adapter.OnTogetherItemClickListener
 import com.umc.ttoklip.presentation.mypage.adapter.TransactionAdapter
+import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -32,15 +33,15 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
 
     override fun initView() {
         binding.vm = viewModel
-        binding.writeFab.setOnClickListener {
+        binding.writeFab.setOnSingleClickListener {
             val intent = Intent(this, WriteTogetherActivity::class.java)
             startActivity(intent)
         }
-        binding.backBtn.setOnClickListener {
+        binding.backBtn.setOnSingleClickListener {
             finish()
         }
 
-        binding.noticeBtn.setOnClickListener {
+        binding.noticeBtn.setOnSingleClickListener {
             startActivity(AlarmActivity.newIntent(this))
         }
 

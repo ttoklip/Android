@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentInputIndependentCareerBinding
 import com.umc.ttoklip.presentation.base.BaseBottomSheetDialogFragment
+import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,7 +33,7 @@ class InputIndependentCareerDialogFragment(private val btnClickListener: (Int, I
             descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
             selectionDividerHeight = DIVIDER_HEIGHT_ZERO
         }
-        binding.chooseBtn.setOnClickListener {
+        binding.chooseBtn.setOnSingleClickListener {
             btnClickListener(binding.yearSelector.value, binding.monthSelector.value)
             this@InputIndependentCareerDialogFragment.dismiss()
         }

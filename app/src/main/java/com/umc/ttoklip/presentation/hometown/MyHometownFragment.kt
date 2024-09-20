@@ -24,6 +24,7 @@ import com.umc.ttoklip.presentation.hometown.together.TogetherActivity
 import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherActivity
 import com.umc.ttoklip.presentation.mypage.manageinfo.MyHometownAddressActivity
 import com.umc.ttoklip.presentation.search.SearchActivity
+import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -74,38 +75,38 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
 
     override fun initView() {
 //        Log.d("jwt", TtoklipApplication.prefs.getString("jwt", ""))
-        binding.seeDetailTogetherBtn.setOnClickListener {
+        binding.seeDetailTogetherBtn.setOnSingleClickListener {
             val intent = Intent(requireContext(), TogetherActivity::class.java)
             startActivity(intent)
         }
 
-        binding.seeDetailCommunicationBtn.setOnClickListener {
+        binding.seeDetailCommunicationBtn.setOnSingleClickListener {
             val intent = Intent(requireContext(), CommunicationActivity::class.java)
             startActivity(intent)
         }
-        binding.bellBtn.setOnClickListener {
+        binding.bellBtn.setOnSingleClickListener {
             startActivity(AlarmActivity.newIntent(requireContext()))
         }
-        binding.searchBtn.setOnClickListener {
+        binding.searchBtn.setOnSingleClickListener {
             startActivity(SearchActivity.newIntent(requireContext()))
         }
-        binding.myHometownFilterTv.setOnClickListener {
+        binding.myHometownFilterTv.setOnSingleClickListener {
             val intent = Intent(requireContext(), MyHometownAddressActivity::class.java)
             activityResultLauncher.launch(intent)
         }
-        binding.writeTogetherBtn.setOnClickListener {
+        binding.writeTogetherBtn.setOnSingleClickListener {
             val intent = Intent(requireContext(), WriteTogetherActivity::class.java)
             startActivity(intent)
         }
-        binding.writeTogetherPlus.setOnClickListener {
+        binding.writeTogetherPlus.setOnSingleClickListener {
             val intent = Intent(requireContext(), WriteTogetherActivity::class.java)
             startActivity(intent)
         }
-        binding.writeCommunicationBtn.setOnClickListener {
+        binding.writeCommunicationBtn.setOnSingleClickListener {
             val intent = Intent(requireContext(), WriteCommunicationActivity::class.java)
             startActivity(intent)
         }
-        binding.writeCommunicationPlus.setOnClickListener {
+        binding.writeCommunicationPlus.setOnSingleClickListener {
             val intent = Intent(requireContext(), WriteCommunicationActivity::class.java)
             startActivity(intent)
         }

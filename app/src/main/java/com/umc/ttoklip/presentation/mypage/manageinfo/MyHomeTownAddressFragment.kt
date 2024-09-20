@@ -13,6 +13,7 @@ import com.naver.maps.geometry.LatLng
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentMyHomeTownAddressBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
+import com.umc.ttoklip.util.setOnSingleClickListener
 
 class MyHomeTownAddressFragment :
     BaseFragment<FragmentMyHomeTownAddressBinding>(R.layout.fragment_my_home_town_address) {
@@ -58,15 +59,15 @@ class MyHomeTownAddressFragment :
             //getLastKnownLocation()
         }
 
-        binding.gpsBtn.setOnClickListener {
+        binding.gpsBtn.setOnSingleClickListener {
             navigator.navigate(R.id.action_myHomeTownAddressFragment_to_myInfoLocationFragment)
         }
 
-        binding.myHometownAddressBackBtn.setOnClickListener {
+        binding.myHometownAddressBackBtn.setOnSingleClickListener {
             navigator.navigateUp()
         }
 
-        binding.finishAddressBtn.setOnClickListener {
+        binding.finishAddressBtn.setOnSingleClickListener {
             val inputDirectText = binding.inputDirectAddressEt.text.toString()
             if(inputDirectText.isNotEmpty()){
                 viewModel.setAddress(inputDirectText, true)

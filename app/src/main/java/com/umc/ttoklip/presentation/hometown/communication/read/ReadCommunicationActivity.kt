@@ -28,6 +28,7 @@ import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.hometown.communication.write.WriteCommunicationActivity
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
+import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -84,7 +85,7 @@ class ReadCommunicationActivity :
             adapter = imageAdapter
             itemAnimator = null
         }
-        binding.replyT.setOnClickListener {
+        binding.replyT.setOnSingleClickListener {
             viewModel.replyCommentParentId.value = 0
         }
         binding.commentRv.adapter = commentRVA
@@ -92,11 +93,11 @@ class ReadCommunicationActivity :
         postId = intent.getLongExtra("postId", 0)
         viewModel.savePostId(postId)
 
-        binding.backBtn.setOnClickListener {
+        binding.backBtn.setOnSingleClickListener {
             finish()
         }
 
-        binding.reportBtn.setOnClickListener {
+        binding.reportBtn.setOnSingleClickListener {
             val reportDialog = ReportDialogFragment()
             reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
                 override fun onClick(type: String, content: String) {
@@ -107,7 +108,7 @@ class ReadCommunicationActivity :
             reportDialog.show(supportFragmentManager, reportDialog.tag)
         }
 
-        binding.deleteBtn.setOnClickListener {
+        binding.deleteBtn.setOnSingleClickListener {
             val deleteDialog = DeleteDialogFragment()
             deleteDialog.setDialogClickListener(object : DeleteDialogFragment.DialogClickListener {
                 override fun onClick() {
@@ -118,7 +119,7 @@ class ReadCommunicationActivity :
             deleteDialog.show(supportFragmentManager, deleteDialog.tag)
         }
 
-        binding.SendCardView.setOnClickListener {
+        binding.SendCardView.setOnSingleClickListener {
             if (binding.commentEt.text.toString().isNotBlank()) {
                 viewModel.createComment()
             }
@@ -127,7 +128,7 @@ class ReadCommunicationActivity :
         }
 
 
-        binding.editBtn.setOnClickListener {
+        binding.editBtn.setOnSingleClickListener {
             val images = imageAdapter.currentList.filterIsInstance<com.umc.ttoklip.data.model.town.ImageUrl>()
             Log.d("editImages", images.toString())
             startActivity(
@@ -143,7 +144,7 @@ class ReadCommunicationActivity :
     }
 
     private fun showReportBtn() {
-        binding.dotBtn.setOnClickListener {
+        binding.dotBtn.setOnSingleClickListener {
             if (!isShowMenu) {
                 binding.reportBtn.bringToFront()
                 binding.reportBtn.visibility = View.VISIBLE
@@ -156,7 +157,7 @@ class ReadCommunicationActivity :
     }
 
     private fun showWriterMenu() {
-        binding.dotBtn.setOnClickListener {
+        binding.dotBtn.setOnSingleClickListener {
             if (!isShowMenu) {
                 binding.communityMenu.bringToFront()
                 binding.communityMenu.visibility = View.VISIBLE

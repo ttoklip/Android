@@ -5,6 +5,7 @@ import com.google.android.material.chip.Chip
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentChooseMainInterestBinding
 import com.umc.ttoklip.presentation.base.BaseBottomSheetDialogFragment
+import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -15,19 +16,19 @@ class ChooseMainInterestDialogFragment(private val btnClickListener: (List<Strin
 
     override fun initView() {
         with(binding) {
-            houseworkChip.setOnClickListener {
+            houseworkChip.setOnSingleClickListener {
                 changeInterest(houseworkChip)
             }
-            cookingChip.setOnClickListener {
+            cookingChip.setOnSingleClickListener {
                 changeInterest(cookingChip)
             }
-            safeLifeChip.setOnClickListener {
+            safeLifeChip.setOnSingleClickListener {
                 changeInterest(safeLifeChip)
             }
-            welfarePolicyChip.setOnClickListener {
+            welfarePolicyChip.setOnSingleClickListener {
                 changeInterest(welfarePolicyChip)
             }
-            chooseBtn.setOnClickListener {
+            chooseBtn.setOnSingleClickListener {
                 if (interest.isNotEmpty()) {
                     btnClickListener(interest.toList())
                     dismiss()

@@ -26,6 +26,7 @@ import com.umc.ttoklip.databinding.FragmentPlaceBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherViewModel
 import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherViewModelImpl
+import com.umc.ttoklip.util.setOnSingleClickListener
 import com.umc.ttoklip.util.showKeyboard
 import com.umc.ttoklip.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,7 +60,7 @@ class PlaceFragment : BaseFragment<FragmentPlaceBinding>(R.layout.fragment_place
         }
         initMapView()
 
-        binding.locationNextBtn.setOnClickListener {
+        binding.locationNextBtn.setOnSingleClickListener {
             if(isInputComplete){
                 showToast("먼저 위치확인을 해주세요.")
             } else {
@@ -67,11 +68,11 @@ class PlaceFragment : BaseFragment<FragmentPlaceBinding>(R.layout.fragment_place
             }
         }
 
-        binding.locationBackIb.setOnClickListener {
+        binding.locationBackIb.setOnSingleClickListener {
             navigator.navigateUp()
         }
 
-        binding.additionalAddressBtn.setOnClickListener {
+        binding.additionalAddressBtn.setOnSingleClickListener {
             if(!isInputComplete) {
                 binding.currentLocationTv.showKeyboard()
                 binding.currentLocationTv.setSelection(binding.currentLocationTv.text.length)

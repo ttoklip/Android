@@ -10,6 +10,7 @@ import com.umc.ttoklip.data.model.town.ReportRequest
 import com.umc.ttoklip.databinding.ItemTownCommentBinding
 import com.umc.ttoklip.databinding.ItemTownCommentReplyBinding
 import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
+import com.umc.ttoklip.util.setOnSingleClickListener
 
 class TownCommentAdapter(
     val replyComment: (Long) -> Unit,
@@ -23,10 +24,10 @@ class TownCommentAdapter(
 
         fun bind(data: CommentResponse) {
             binding.item = data
-            binding.replyBtn.setOnClickListener {
+            binding.replyBtn.setOnSingleClickListener {
                 replyComment(data.commentId)
             }
-            binding.deleteBtn.setOnClickListener {
+            binding.deleteBtn.setOnSingleClickListener {
                 val reportDialog = ReportDialogFragment()
                 reportDialog.setDialogClickListener(object :
                     ReportDialogFragment.DialogClickListener {
@@ -48,7 +49,7 @@ class TownCommentAdapter(
         fun bind(data: CommentResponse) {
             binding.item = data
 
-            binding.deleteBtn.setOnClickListener {
+            binding.deleteBtn.setOnSingleClickListener {
                 val reportDialog = ReportDialogFragment()
                 reportDialog.setDialogClickListener(object :
                     ReportDialogFragment.DialogClickListener {

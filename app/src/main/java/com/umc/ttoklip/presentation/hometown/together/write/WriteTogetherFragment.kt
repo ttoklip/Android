@@ -29,6 +29,7 @@ import com.umc.ttoklip.presentation.hometown.together.write.adapter.TogetherImag
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.util.isValidUri
+import com.umc.ttoklip.util.setOnSingleClickListener
 import com.umc.ttoklip.util.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.FlowPreview
@@ -70,7 +71,7 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
         addLink()
         addImage()
 
-        binding.backBtn.setOnClickListener {
+        binding.backBtn.setOnSingleClickListener {
             requireActivity().finish()
         }
 
@@ -105,7 +106,7 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
             override fun afterTextChanged(s: Editable?) = Unit
         })
 
-        binding.maxMemberTv.setOnClickListener {
+        binding.maxMemberTv.setOnSingleClickListener {
             val bottomSheet = InputMaxMemberDialogFragment { member ->
                 viewModel.setTotalMember(member.toLong())
                 binding.maxMemberTv.text = getString(R.string.max_member_format, member)
@@ -123,11 +124,11 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
             bottomSheet.show(childFragmentManager, bottomSheet.tag)
         }
 
-        binding.tradingPlaceTv.setOnClickListener {
+        binding.tradingPlaceTv.setOnSingleClickListener {
             navigator.navigate(R.id.action_writeTogetherFragment_to_tradeLocationFragment)
         }
 
-        binding.writeDoneBtn.setOnClickListener {
+        binding.writeDoneBtn.setOnSingleClickListener {
             if (isEdit) {
                 viewModel.patchTogether(emptyList())
             } else {
@@ -295,7 +296,7 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
     }
 
     private fun addLink() {
-        binding.addLinkBtn.setOnClickListener {
+        binding.addLinkBtn.setOnSingleClickListener {
             binding.addLinkBtn.visibility = View.GONE
             binding.inputUrlBtn.visibility = View.VISIBLE
         }
@@ -306,7 +307,7 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
     }
 
     private fun addImage() {
-        binding.addImageBtn.setOnClickListener {
+        binding.addImageBtn.setOnSingleClickListener {
             // 이미지 권한 여부 확인
             val imagePermission = TtoklipApplication.prefs.getString("getImagePermission", "")
             if (imagePermission != "true") {

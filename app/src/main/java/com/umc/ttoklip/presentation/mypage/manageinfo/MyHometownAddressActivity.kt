@@ -6,6 +6,7 @@ import android.widget.SeekBar
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityMyHomtownAddressBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
+import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -16,17 +17,17 @@ class MyHometownAddressActivity :
         range = getString(R.string.range_500m)
         binding.rangeSettingExplainTv.text =
             getString(R.string.range_setting_format, range)
-        binding.myHometownAddressBackBtn.setOnClickListener {
+        binding.myHometownAddressBackBtn.setOnSingleClickListener {
             finish()
         }
 
-        binding.range500mTv.setOnClickListener {
+        binding.range500mTv.setOnSingleClickListener {
             setRange500m()
         }
-        binding.range1kmTv.setOnClickListener {
+        binding.range1kmTv.setOnSingleClickListener {
             setRange1km()
         }
-        binding.range15kmTv.setOnClickListener {
+        binding.range15kmTv.setOnSingleClickListener {
             setRange15km()
         }
 
@@ -60,13 +61,13 @@ class MyHometownAddressActivity :
 
         })
 
-        binding.gpsBtn.setOnClickListener {
+        binding.gpsBtn.setOnSingleClickListener {
             val intent= Intent(this, MyInfoLocationActivity::class.java)
             val Location_Type=2
             startActivityForResult(intent,Location_Type)
         }
 
-        binding.finishAddressBtn.setOnClickListener {
+        binding.finishAddressBtn.setOnSingleClickListener {
             val intent=Intent()
             intent.putExtra("location",address)
             intent.putExtra("locationX",locationX)

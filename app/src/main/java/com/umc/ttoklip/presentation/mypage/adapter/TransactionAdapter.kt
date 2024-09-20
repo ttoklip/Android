@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.town.Togethers
 import com.umc.ttoklip.databinding.ItemTransactionHistoryBinding
+import com.umc.ttoklip.util.setOnSingleClickListener
 
 class TransactionAdapter(
     private val context: Context,
@@ -33,7 +34,7 @@ class TransactionAdapter(
                     .load(data.writerProfileImageUrl)
                     .into(binding.transactionOwnerIcon)
 
-                root.setOnClickListener {
+                root.setOnSingleClickListener {
                     listener.onClick(data)
                 }
                 if (pos == itemCount - 1) {

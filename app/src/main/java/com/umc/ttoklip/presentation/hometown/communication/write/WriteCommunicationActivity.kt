@@ -28,6 +28,7 @@ import com.umc.ttoklip.presentation.hometown.communication.read.ReadCommunicatio
 import com.umc.ttoklip.presentation.honeytip.adapter.OnImageClickListener
 import com.umc.ttoklip.presentation.honeytip.write.WriteImageViewActivity
 import com.umc.ttoklip.util.isValidUri
+import com.umc.ttoklip.util.setOnSingleClickListener
 import com.umc.ttoklip.util.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -62,7 +63,7 @@ OnImageClickListener{
         initImageRVA()
         addImage()
 
-        binding.backBtn.setOnClickListener {
+        binding.backBtn.setOnSingleClickListener {
             finish()
         }
 
@@ -88,7 +89,7 @@ OnImageClickListener{
             viewModel.setImage(images.map { Image(it.communityImageId, it.communityImageUrl) })
         }
 
-        binding.writeDoneBtn.setOnClickListener {
+        binding.writeDoneBtn.setOnSingleClickListener {
             val imageParts = mutableListOf<MultipartBody.Part?>()
                 val images = imageAdapter.currentList.filterIsInstance<Image>().map { it.src }
                     .filter { it.isValidUri() }.toList()
@@ -169,7 +170,7 @@ OnImageClickListener{
     }
 
     private fun addImage() {
-        binding.addImageBtn.setOnClickListener {
+        binding.addImageBtn.setOnSingleClickListener {
             // 이미지 권한 여부 확인
             val imagePermission = TtoklipApplication.prefs.getString("getImagePermission", "")
             if (imagePermission != "true") {

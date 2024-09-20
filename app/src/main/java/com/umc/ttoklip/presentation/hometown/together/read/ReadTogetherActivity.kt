@@ -34,6 +34,7 @@ import com.umc.ttoklip.presentation.hometown.dialog.TogetherDialog
 import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherActivity
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
+import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -89,18 +90,18 @@ class ReadTogetherActivity :
             adapter = imageAdapter
         }
         binding.commentRv.adapter = commentRVA
-        binding.replyT.setOnClickListener {
+        binding.replyT.setOnSingleClickListener {
             viewModel.replyCommentParentId.value = 0
         }
         binding.vm = viewModel
         postId = intent.getLongExtra("postId", 0)
         viewModel.savePostId(postId)
 
-        binding.backBtn.setOnClickListener {
+        binding.backBtn.setOnSingleClickListener {
             finish()
         }
 
-        binding.dotBtn.setOnClickListener {
+        binding.dotBtn.setOnSingleClickListener {
             if (isWriter) {
                 binding.editBtn.bringToFront()
                 binding.editBtn.isVisible = binding.editBtn.isVisible.not()
@@ -110,7 +111,7 @@ class ReadTogetherActivity :
             }
         }
 
-        binding.reportBtn.setOnClickListener {
+        binding.reportBtn.setOnSingleClickListener {
             val reportDialog = ReportDialogFragment()
             reportDialog.setDialogClickListener(object : ReportDialogFragment.DialogClickListener {
                 override fun onClick(type: String, content: String) {
@@ -126,7 +127,7 @@ class ReadTogetherActivity :
             reportDialog.show(supportFragmentManager, reportDialog.tag)
         }
 
-        binding.editBtn.setOnClickListener {
+        binding.editBtn.setOnSingleClickListener {
             val editTogether = EditTogether(postId,
                 binding.titleT.text.toString(),
                 binding.contentT.text.toString(),
@@ -140,7 +141,7 @@ class ReadTogetherActivity :
         }
 
 
-        binding.SendCardView.setOnClickListener {
+        binding.SendCardView.setOnSingleClickListener {
             if (binding.commentEt.text.toString().isNotBlank()) {
                 viewModel.createComment()
             }
@@ -148,13 +149,13 @@ class ReadTogetherActivity :
             viewModel.replyCommentParentId.value = 0
         }
 
-        binding.ownerCheckBtn.setOnClickListener {
+        binding.ownerCheckBtn.setOnSingleClickListener {
             viewModel.fetchParticipants()
             /*val dialog = ParticipantDialogFragment()
             dialog.show(supportFragmentManager, dialog.tag)*/
         }
 
-        binding.ownerJoinBtn.setOnClickListener {
+        binding.ownerJoinBtn.setOnSingleClickListener {
             val finishCartDialog = FinishCartDialogFragment()
             finishCartDialog.setDialogClickListener(object : FinishCartDialogFragment.DialogClickListener{
                 override fun onClick() {
@@ -164,7 +165,7 @@ class ReadTogetherActivity :
             finishCartDialog.show(supportFragmentManager, finishCartDialog.tag)
         }
 
-        binding.joinBtn.setOnClickListener {
+        binding.joinBtn.setOnSingleClickListener {
             val joinDialog = TogetherDialog()
             joinDialog.setDialogClickListener(object : TogetherDialog.TogetherDialogClickListener{
                 override fun onClick() {
@@ -175,7 +176,7 @@ class ReadTogetherActivity :
             joinDialog.show(supportFragmentManager, joinDialog.tag)
         }
 
-        binding.joinCancelBtn.setOnClickListener {
+        binding.joinCancelBtn.setOnSingleClickListener {
             viewModel.setJoinState(false)
             viewModel.cancelTogether()
         }
