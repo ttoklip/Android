@@ -29,6 +29,7 @@ import com.umc.ttoklip.presentation.hometown.communication.write.WriteCommunicat
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
 import com.umc.ttoklip.util.setOnSingleClickListener
+import com.umc.ttoklip.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -250,8 +251,7 @@ class ReadCommunicationActivity :
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.toast.collect {
-                        Toast.makeText(this@ReadCommunicationActivity, it, Toast.LENGTH_SHORT)
-                            .show()
+                        showToast(it)
                     }
                 }
             }

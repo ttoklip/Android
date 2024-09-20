@@ -35,6 +35,7 @@ import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherActivit
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
 import com.umc.ttoklip.util.setOnSingleClickListener
+import com.umc.ttoklip.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -314,6 +315,14 @@ class ReadTogetherActivity :
                         val dialog = ParticipantDialogFragment()
                         dialog.show(supportFragmentManager, dialog.tag)
                     }
+                }
+            }
+        }
+
+        lifecycleScope.launch{
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.includeSwear.collect{
+                    showToast(it)
                 }
             }
         }
