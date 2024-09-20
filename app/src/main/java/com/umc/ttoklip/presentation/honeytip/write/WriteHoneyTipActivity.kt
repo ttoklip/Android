@@ -160,6 +160,8 @@ class WriteHoneyTipActivity :
         } else {
             binding.titleTv.text = "질문하기"
             binding.addLinkBtn.visibility = View.GONE
+            binding.bodyEt.hint = "똑리비들에게 어려운 점을 물어보세요.\n" +
+                    "(최대 1000자) "
         }
     }
 
