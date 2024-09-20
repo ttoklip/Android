@@ -10,6 +10,7 @@ import com.umc.ttoklip.data.repository.naver.NaverRepository
 import com.umc.ttoklip.data.repository.town.WriteTogetherRepository
 import com.umc.ttoklip.module.onError
 import com.umc.ttoklip.module.onException
+import com.umc.ttoklip.module.onFail
 import com.umc.ttoklip.module.onSuccess
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -105,6 +106,11 @@ class WriteTogetherViewModelImpl @Inject constructor(
     override val isEditDone: MutableSharedFlow<Boolean>
         get() = _isEditDone
 
+    private val _includeSwear = MutableSharedFlow<String>()
+    override val includeSwear: SharedFlow<String>
+        get() = _includeSwear
+
+
     override fun setIsEdit(isEdit: Boolean) {
         _isEdit.value = isEdit
     }
@@ -199,6 +205,8 @@ class WriteTogetherViewModelImpl @Inject constructor(
                 delay(1000)
             }.onError {
                 Log.d("writetogethererror", it.toString())
+            }.onFail {  message ->
+                _includeSwear.emit(message)
             }
         }
     }

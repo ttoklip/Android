@@ -30,6 +30,7 @@ import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.presentation.honeytip.adapter.ImageRVA
 import com.umc.ttoklip.util.isValidUri
 import com.umc.ttoklip.util.setOnSingleClickListener
+import com.umc.ttoklip.util.showToast
 import com.umc.ttoklip.util.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.FlowPreview
@@ -289,6 +290,14 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
                             startActivity(ReadTogetherActivity.newIntent(requireContext(), viewModel.postId.value))
                             requireActivity().finish()
                         }
+                    }
+                }
+            }
+
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED){
+                    viewModel.includeSwear.collect{
+                        showToast(it)
                     }
                 }
             }
