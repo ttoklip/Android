@@ -29,6 +29,7 @@ import com.umc.ttoklip.presentation.honeytip.adapter.OnImageClickListener
 import com.umc.ttoklip.presentation.honeytip.write.WriteImageViewActivity
 import com.umc.ttoklip.util.isValidUri
 import com.umc.ttoklip.util.setOnSingleClickListener
+import com.umc.ttoklip.util.showToast
 import com.umc.ttoklip.util.uriToFile
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -159,6 +160,14 @@ OnImageClickListener{
                             startActivity(ReadCommunicationActivity.newIntent(this@WriteCommunicationActivity, viewModel.postId.value))
                             finish()
                         }
+                    }
+                }
+            }
+
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED){
+                    viewModel.includeSwear.collect{
+                        showToast(it)
                     }
                 }
             }

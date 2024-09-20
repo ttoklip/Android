@@ -14,6 +14,7 @@ interface WriteCommunicationViewModel {
     val images: StateFlow<List<Image>>
     val postId: StateFlow<Long>
     val isEditDone: SharedFlow<Boolean>
+    val includeSwear: SharedFlow<String>
 
     fun addImages(images: List<Image>)
     fun checkDone()
