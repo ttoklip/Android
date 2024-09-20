@@ -274,6 +274,51 @@
                     app:layout_constraintTop_toBottomOf="@id/contentT"
                     tools:listitem="@layout/item_image" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/link_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/rectangle_corner_10_strok_1"
+                    android:gravity="start"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="5dp"
+                    android:visibility="@{vm.linkUrl.empty ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintTop_toBottomOf="@id/image_rv">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/linkImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:src="@drawable/ic_link_24"
+                        android:tint="@color/blue"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/linkT"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:autoLink="web"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:linksClickable="true"
+                        android:textAppearance="@style/TextAppearance.App.18sp_700"
+                        android:textColor="@color/blue"
+                        android:textColorLink="@color/blue"
+                        android:textSize="12sp"
+                        android:text="@{vm.linkUrl}"
+                        app:layout_constraintBottom_toBottomOf="@id/linkImg"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/linkImg"
+                        app:layout_constraintTop_toTopOf="@id/linkImg" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <View
                     android:id="@+id/image_line"
                     android:layout_width="0dp"
@@ -283,7 +328,7 @@
                     android:background="@color/gray20"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/image_rv" />
+                    app:layout_constraintTop_toBottomOf="@id/link_layout" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/current_member_stat_frame"

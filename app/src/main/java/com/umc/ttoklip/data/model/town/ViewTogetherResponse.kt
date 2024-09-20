@@ -17,4 +17,9 @@ data class ViewTogetherResponse(
     val status: String,
     val alreadyJoin : Boolean,
     val writerProfileImageUrl: String,
-)
+    val itemUrls: List<ItemUrl>
+){
+    data class ItemUrl(
+        val itemUrl: String
+    )
+}

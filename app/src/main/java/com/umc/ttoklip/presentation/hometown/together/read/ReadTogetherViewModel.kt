@@ -22,6 +22,7 @@ interface ReadTogetherViewModel {
     val commentContent: MutableStateFlow<String>
     val participants: StateFlow<ParticipantsResponse>
     val participantsCnt: StateFlow<Int>
+    val linkUrl: StateFlow<String>
 
     fun joinBtnClick()
 
