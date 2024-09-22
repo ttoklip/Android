@@ -38,7 +38,7 @@ class HoneyTipFragment : BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment
         initTabLayout()
         goWriteActivity()
         binding.searchBtn.setOnSingleClickListener {
-            startActivity(SearchActivity2.newIntent(requireContext()))
+            startActivity(SearchActivity.newIntent(requireContext()))
         }
 
         binding.alarmBtn.setOnSingleClickListener {
