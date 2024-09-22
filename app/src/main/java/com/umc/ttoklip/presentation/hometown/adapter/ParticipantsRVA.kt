@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.town.Participants
 import com.umc.ttoklip.databinding.ItemParticipantBinding
 
@@ -32,6 +33,7 @@ class ParticipantsRVA : ListAdapter<Participants, ParticipantsRVA.ParticipantVie
                     model = participants
                     Glide.with(ivParticipant.context)
                         .load(participants.profileImgUrl)
+                        .placeholder(R.drawable.ic_defeault_logo)
                         .into(ivParticipant)
                 }
             }

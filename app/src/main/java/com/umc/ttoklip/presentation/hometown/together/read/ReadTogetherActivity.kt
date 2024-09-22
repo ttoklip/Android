@@ -214,6 +214,7 @@ class ReadTogetherActivity :
                     with(binding) {
                         Glide.with(this@ReadTogetherActivity)
                             .load(response.writerProfileImageUrl)
+                            .placeholder(R.drawable.ic_defeault_logo)
                             .into(profileImg)
                         writerTv.text = response.writer
                         titleT.text = response.title

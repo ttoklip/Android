@@ -187,6 +187,7 @@ class ReadCommunicationActivity :
                         with(binding) {
                             Glide.with(this@ReadCommunicationActivity)
                                 .load(response.userProfileImageUrl)
+                                .placeholder(R.drawable.ic_defeault_logo)
                                 .into(binding.profileImg)
                             writerTv.text = response.writer
                             titleTv.text = response.title

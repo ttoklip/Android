@@ -88,7 +88,7 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
             startActivity(AlarmActivity.newIntent(requireContext()))
         }
         binding.searchBtn.setOnSingleClickListener {
-            startActivity(SearchActivity.newIntent(requireContext()))
+            startActivity(SearchActivity2.newIntent(requireContext()))
         }
         binding.myHometownFilterTv.setOnSingleClickListener {
             val intent = Intent(requireContext(), MyHometownAddressActivity::class.java)

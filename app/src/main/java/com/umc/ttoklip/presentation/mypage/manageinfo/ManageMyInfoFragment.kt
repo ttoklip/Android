@@ -187,6 +187,7 @@ class ManageMyInfoFragment :
                         independentMonth = it.independentMonth
                         Glide.with(requireContext())
                             .load(it.profileImgUrl)
+                            .placeholder(R.drawable.ic_defeault_logo)
                             .into(binding.manageProfileImg)
                         addInterest(it.interests.map { it.categoryName })
                         isFetchMyPageInfo = true

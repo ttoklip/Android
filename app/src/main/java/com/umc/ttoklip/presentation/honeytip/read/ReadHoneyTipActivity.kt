@@ -144,6 +144,7 @@ class ReadHoneyTipActivity :
                 with(binding) {
                     Glide.with(this@ReadHoneyTipActivity)
                         .load(honeyTip.writerProfileImageUrl)
+                        .placeholder(R.drawable.ic_defeault_logo)
                         .into(profileImg)
                     titleTv.text = honeyTip.title
                     writerTv.text = honeyTip.writer

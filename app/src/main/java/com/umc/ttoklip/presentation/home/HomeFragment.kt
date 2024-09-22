@@ -41,8 +41,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
     private val newsRVA by lazy {
         NewsRVA(onClick = { news ->
             startActivity(ArticleActivity.newIntent(requireContext(), news.newsletterId))
-        }
-        )
+        })
     }
     private val townRVA by lazy {
         TransactionAdapter(requireContext(), this)
@@ -103,10 +102,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
         }
 
         binding.chatImg.setOnClickListener {
+            //(requireActivity() as MainActivity).goTown()
+            //동내 페이지 점검
             val intent = Intent(requireContext(), CommunicationActivity::class.java)
             startActivity(intent)
         }
         binding.groupButImg.setOnClickListener {
+            //(requireActivity() as MainActivity).goTown()
+            //동내 페이지 점검
             val intent = Intent(requireContext(), TogetherActivity::class.java)
             startActivity(intent)
         }

@@ -34,6 +34,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                     Log.d("profile image", it.profileImgUrl.toString())
                     Glide.with(this@MyPageFragment)
                         .load(it.profileImgUrl)
+                        .placeholder(R.drawable.ic_defeault_logo)
                         .into(binding.profileImg)
                 }
             }

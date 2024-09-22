@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.town.ImageUrl
 import com.umc.ttoklip.databinding.ItemImageReadBinding
 import com.umc.ttoklip.util.setOnSingleClickListener
@@ -27,6 +28,7 @@ class ReadImageRVA(private val context: Context, private var listener: OnReadIma
         fun bind(imageUrl: ImageUrl) {
             Glide.with(binding.iv.context)
                 .load(imageUrl.communityImageUrl)
+                .placeholder(R.drawable.ic_defeault_logo)
                 .into(binding.iv)
 
             binding.iv.setOnSingleClickListener {

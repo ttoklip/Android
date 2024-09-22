@@ -37,7 +37,7 @@ fun AppCompatTextView.setBold(isBold: Boolean) {
 fun ImageView.setUrlImg(imageUrl: String?, placeholder: Drawable?) {
     Glide.with(this.context)
         .load(imageUrl)
-        .placeholder(placeholder)
+        .placeholder(R.drawable.ic_defeault_logo)
         .error(placeholder)
         .into(this)
 }
