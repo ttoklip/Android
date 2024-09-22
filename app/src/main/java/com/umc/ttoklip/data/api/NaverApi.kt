@@ -18,4 +18,11 @@ interface NaverApi {
         @Query("output") output: String,
         @Query("orders") orders: String = "addr",
     ): Response<ReverseGeocodingResponse>
+
+    @GET("map-reversegeocode/v2/gc")
+    suspend fun getAdmcode(
+        @Query("coords") coords: String,
+        @Query("output") output: String = "json",
+        @Query("orders") orders: String = "admcode",
+    ): Response<ReverseGeocodingResponse>
 }

@@ -21,4 +21,8 @@ class NaverRepositoryImpl @Inject constructor(
         return handleApi({api.getReverseGeocodingInfo(coords, output)}) {response: ReverseGeocodingResponse -> response}
     }
 
+    override suspend fun getAdmcode(coords: String): NetworkResult<ReverseGeocodingResponse> {
+        return handleApi({api.getAdmcode(coords)}){response: ReverseGeocodingResponse->response}
+    }
+
 }

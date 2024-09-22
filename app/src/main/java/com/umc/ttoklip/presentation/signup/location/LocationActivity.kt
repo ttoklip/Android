@@ -5,9 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
-import android.location.LocationManager
 import android.os.Build
-import android.util.Log
 import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
@@ -21,7 +19,6 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
-import com.naver.maps.map.NaverMapOptions
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.UiSettings
 import com.naver.maps.map.overlay.CircleOverlay
@@ -120,7 +117,6 @@ class LocationActivity :
             if (locationok) {
                 val bundle = intent.getBundleExtra("userInfo")
                 if (bundle != null) {
-                    viewModel.saveUserStreet(address)
                     val type=bundle.getString("signupType")
                     viewModel.saveUserInfoAt4(
                         bundle.getString("email")?:"",
@@ -241,28 +237,29 @@ class LocationActivity :
     }
 
     private fun getAddress(latitude: Double, longitude: Double) {
-        val geocoder = Geocoder(applicationContext, Locale.KOREAN)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            val addressList: List<Address>? = geocoder.getFromLocation(latitude, longitude, 1)
-            if (addressList != null && addressList.isNotEmpty()) {
-                val address: Address = addressList[0]
-                val spliteAddr = address.getAddressLine(0).split(" ")
-                for(i in 1.. spliteAddr.size-1){
-                    this.address=this.address+spliteAddr[i]+" "
-                }
-            }
-        } else {
-            val addresses = geocoder.getFromLocation(latitude, longitude, 1)
-            if (addresses != null) {
-                val spliteAddr = addresses[0].getAddressLine(0).split(" ")
-                for(i in 1.. spliteAddr.size-1){
-                    this.address = this.address+spliteAddr[i]+" "
-                }
-            }
-        }
-        if (address.isNotEmpty()){
-            binding.locationMytownDetailTv.text = address
-        }
+        viewModel.getAdmcode(LatLng(latitude, longitude))
+//        val geocoder = Geocoder(applicationContext, Locale.KOREAN)
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            val addressList: List<Address>? = geocoder.getFromLocation(latitude, longitude, 1)
+//            if (addressList != null && addressList.isNotEmpty()) {
+//                val address: Address = addressList[0]
+//                val spliteAddr = address.getAddressLine(0).split(" ")
+//                for(i in 1.. spliteAddr.size-1){
+//                    this.address=this.address+spliteAddr[i]+" "
+//                }
+//            }
+//        } else {
+//            val addresses = geocoder.getFromLocation(latitude, longitude, 1)
+//            if (addresses != null) {
+//                val spliteAddr = addresses[0].getAddressLine(0).split(" ")
+//                for(i in 1.. spliteAddr.size-1){
+//                    this.address = this.address+spliteAddr[i]+" "
+//                }
+//            }
+//        }
+//        if (address.isNotEmpty()){
+//            binding.locationMytownDetailTv.text = address
+//        }
     }
 
     private fun startActivity(){
@@ -294,6 +291,13 @@ class LocationActivity :
                         Toast.makeText(this@LocationActivity,"회원가입이 완료되었습니다.",Toast.LENGTH_LONG).show()
                         startActivity()
                     }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED){
+                viewModel.street.collect{
+                    binding.locationMytownDetailTv.text=it
                 }
             }
         }
