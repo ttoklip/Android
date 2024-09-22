@@ -232,18 +232,20 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="visible"/>
 
         <TextView
             android:id="@+id/tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="52dp"
-            android:text="우리동네 기능은 현재 점검중입니다..."
+            android:text="우리동네 기능은 현재 준비중입니다..."
             android:textAppearance="@style/TextAppearance.App.20sp_500"
             app:layout_constraintTop_toBottomOf="@id/iv"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="visible"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

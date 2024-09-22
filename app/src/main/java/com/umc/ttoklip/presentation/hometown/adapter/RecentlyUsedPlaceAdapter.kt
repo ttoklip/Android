@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.databinding.ItemRecentlyUsedPlaceBinding
+import com.umc.ttoklip.util.setOnSingleClickListener
 
 class RecentlyUsedPlaceAdapter(
     private var listener: OnRecentPlaceClickListener
@@ -22,7 +23,7 @@ class RecentlyUsedPlaceAdapter(
             if (pos == itemCount - 1) {
                 binding.divider.isGone = true
             }
-            binding.root.setOnClickListener {
+            binding.root.setOnSingleClickListener {
                 listener.onClick(data)
             }
         }

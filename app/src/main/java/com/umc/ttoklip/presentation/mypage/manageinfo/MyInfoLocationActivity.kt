@@ -22,6 +22,7 @@ import com.naver.maps.map.util.FusedLocationSource
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityMyinfoLocationBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
+import com.umc.ttoklip.util.setOnSingleClickListener
 import java.util.Locale
 
 class MyInfoLocationActivity :
@@ -56,9 +57,9 @@ class MyInfoLocationActivity :
         binding.locationRangeDescTv.text =
             getString(R.string.range_setting_format, range)
 
-        binding.locationRange1Tv.setOnClickListener { setRange500m() }
-        binding.locationRange2Tv.setOnClickListener { setRange1km() }
-        binding.locationRange3Tv.setOnClickListener { setRange15km() }
+        binding.locationRange1Tv.setOnSingleClickListener { setRange500m() }
+        binding.locationRange2Tv.setOnSingleClickListener { setRange1km() }
+        binding.locationRange3Tv.setOnSingleClickListener { setRange15km() }
 
         binding.locationRangeBar.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
@@ -90,7 +91,7 @@ class MyInfoLocationActivity :
             }
         })
 
-        binding.locationBackIb.setOnClickListener {
+        binding.locationBackIb.setOnSingleClickListener {
             sendResult()
             finish()
         }

@@ -76,6 +76,9 @@ class ReadHoneyTipViewModel @Inject constructor(
     private val _isScrap = MutableStateFlow(false)
     val isScrap = _isScrap.asStateFlow()
 
+    private val _linkUrl = MutableStateFlow("")
+    val linkUrl = _linkUrl.asStateFlow()
+
 
     sealed class ReadEvent {
         data class ReadHoneyTipEvent(val inquireHoneyTipResponse: InquireHoneyTipResponse) :
@@ -99,6 +102,7 @@ class ReadHoneyTipViewModel @Inject constructor(
                 repository.inquireHoneyTip(honeyTipId).onSuccess {
                     _honeyTip.emit(it)
                     eventRead(ReadEvent.ReadHoneyTipEvent(_honeyTip.value))
+                    _linkUrl.emit(it.urlResponses.firstOrNull()?.urls ?: "")
                     _isScrap.emit(it.scrapedByCurrentUser)
                     _isLike.emit(it.likedByCurrentUser)
                     _comments.emit(it.commentResponses.sortedBy { comment ->

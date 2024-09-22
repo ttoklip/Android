@@ -25,6 +25,7 @@ interface WriteTogetherViewModel {
     val tradeLocationEvent: SharedFlow<TradeLocationEvent>
     val isEdit: StateFlow<Boolean>
     val isEditDone: SharedFlow<Boolean>
+    val includeSwear: SharedFlow<String>
 
     sealed class TradeLocationEvent{
         data class InputAddressComplete(val isInputComplete: Boolean): TradeLocationEvent()

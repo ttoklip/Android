@@ -28,6 +28,7 @@ import com.naver.maps.map.util.FusedLocationSource
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentMyInfoLocationBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
+import com.umc.ttoklip.util.setOnSingleClickListener
 import java.util.Locale
 
 class MyInfoLocationFragment : BaseFragment<FragmentMyInfoLocationBinding>(R.layout.fragment_my_info_location) ,
@@ -91,9 +92,9 @@ class MyInfoLocationFragment : BaseFragment<FragmentMyInfoLocationBinding>(R.lay
         binding.locationRangeDescTv.text =
             getString(R.string.range_setting_format, range)
 
-        binding.locationRange1Tv.setOnClickListener { setRange500m() }
-        binding.locationRange2Tv.setOnClickListener { setRange1km() }
-        binding.locationRange3Tv.setOnClickListener { setRange15km() }
+        binding.locationRange1Tv.setOnSingleClickListener { setRange500m() }
+        binding.locationRange2Tv.setOnSingleClickListener { setRange1km() }
+        binding.locationRange3Tv.setOnSingleClickListener { setRange15km() }
 
         binding.locationRangeBar.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
@@ -125,7 +126,7 @@ class MyInfoLocationFragment : BaseFragment<FragmentMyInfoLocationBinding>(R.lay
             }
         })
 
-        binding.locationBackIb.setOnClickListener {
+        binding.locationBackIb.setOnSingleClickListener {
             navigator.navigateUp()
         }
     }

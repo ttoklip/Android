@@ -10,6 +10,7 @@ import com.umc.ttoklip.data.repository.naver.NaverRepository
 import com.umc.ttoklip.data.repository.town.WriteTogetherRepository
 import com.umc.ttoklip.module.onError
 import com.umc.ttoklip.module.onException
+import com.umc.ttoklip.module.onFail
 import com.umc.ttoklip.module.onSuccess
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -105,6 +106,11 @@ class WriteTogetherViewModelImpl @Inject constructor(
     override val isEditDone: MutableSharedFlow<Boolean>
         get() = _isEditDone
 
+    private val _includeSwear = MutableSharedFlow<String>()
+    override val includeSwear: SharedFlow<String>
+        get() = _includeSwear
+
+
     override fun setIsEdit(isEdit: Boolean) {
         _isEdit.value = isEdit
     }
@@ -135,7 +141,7 @@ class WriteTogetherViewModelImpl @Inject constructor(
     }
 
     override fun setAddress(address: String) {
-        if (address.isEmpty()){
+        if (address.isEmpty()) {
             return
         }
         _address.value = address
@@ -151,7 +157,7 @@ class WriteTogetherViewModelImpl @Inject constructor(
     }
 
     override fun setAddressDetail(addressDetail: String) {
-        if(addressDetail.isEmpty()){
+        if (addressDetail.isEmpty()) {
             return
         }
         _addressDetail.value = addressDetail
@@ -160,7 +166,11 @@ class WriteTogetherViewModelImpl @Inject constructor(
 
     override fun setIsInputComplete() {
         _isInputComplete.value = _isInputComplete.value.not()
-        eventTradeLocation(WriteTogetherViewModel.TradeLocationEvent.InputAddressComplete(_isInputComplete.value))
+        eventTradeLocation(
+            WriteTogetherViewModel.TradeLocationEvent.InputAddressComplete(
+                _isInputComplete.value
+            )
+        )
     }
 
 
@@ -199,21 +209,27 @@ class WriteTogetherViewModelImpl @Inject constructor(
                 delay(1000)
             }.onError {
                 Log.d("writetogethererror", it.toString())
+            }.onFail { message ->
+                _includeSwear.emit(message)
             }
         }
     }
 
     override fun fetchGeocoding(query: String) {
         viewModelScope.launch {
-            naverRepository.fetchGeocoding(query).onSuccess {response ->
+            naverRepository.fetchGeocoding(query).onSuccess { response ->
                 val result = response.addresses.firstOrNull()
-                if (result == null){
+                if (result == null) {
                     eventTradeLocation(WriteTogetherViewModel.TradeLocationEvent.ToastException("주소를 정확히 입력해주세요."))
                     return@launch
                 } else {
                     with(result) {
                         val latLng = LatLng(y.toDouble(), x.toDouble())
-                        eventTradeLocation(WriteTogetherViewModel.TradeLocationEvent.CheckLocation(latLng))
+                        eventTradeLocation(
+                            WriteTogetherViewModel.TradeLocationEvent.CheckLocation(
+                                latLng
+                            )
+                        )
                         setAddress(query)
                     }
                 }
@@ -231,7 +247,7 @@ class WriteTogetherViewModelImpl @Inject constructor(
     }
 
     override fun patchTogether(images: List<MultipartBody.Part?>) {
-        viewModelScope.launch{
+        viewModelScope.launch {
             repository.patchTogether(
                 title = convertStringToTextPlain(title.value),
                 content = convertStringToTextPlain(content.value),
@@ -242,9 +258,11 @@ class WriteTogetherViewModelImpl @Inject constructor(
                 images = images,
                 itemUrls = convertStringToTextPlain(extraUrl.value),
                 postId = postId.value
-                ).onSuccess {
-                    _isEditDone.emit(true)
-                    Log.d("patch Together", it.toString())
+            ).onSuccess {
+                _isEditDone.emit(true)
+                Log.d("patch Together", it.toString())
+            }.onFail {message ->
+                _includeSwear.emit(message)
             }
         }
     }

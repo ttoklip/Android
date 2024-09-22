@@ -9,6 +9,7 @@ import com.umc.ttoklip.data.model.town.CreateCommunicationsRequest
 import com.umc.ttoklip.data.model.town.EditCommunication
 import com.umc.ttoklip.data.repository.town.WriteCommsRepository
 import com.umc.ttoklip.module.onError
+import com.umc.ttoklip.module.onFail
 import com.umc.ttoklip.module.onSuccess
 import com.umc.ttoklip.presentation.honeytip.adapter.Image
 import com.umc.ttoklip.util.WriteHoneyTipUtil
@@ -62,6 +63,10 @@ class WriteCommunicationViewModelImpl @Inject constructor(
     override val doneButtonActivated: StateFlow<Boolean>
         get() = _doneButtonActivated
 
+    private val _includeSwear = MutableSharedFlow<String>()
+    override val includeSwear: SharedFlow<String>
+        get() = _includeSwear
+
     override fun addImages(images: List<Image>) {
         val combined = _images.value + images
         _images.value = combined
@@ -84,6 +89,8 @@ class WriteCommunicationViewModelImpl @Inject constructor(
                 _closePage.value = it.message.replace(("[^\\d]").toRegex(), "").toLong()
             }.onError {
                 Log.d("writetogethererror", it.toString())
+            }.onFail { message ->
+                _includeSwear.emit(message)
             }
         }
 
@@ -115,6 +122,8 @@ class WriteCommunicationViewModelImpl @Inject constructor(
             )
                 .onSuccess {
                     _isEditDone.emit(true)
+                }.onFail { message ->
+                    _includeSwear.emit(message)
                 }
         }
     }

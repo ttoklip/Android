@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
 import com.umc.ttoklip.databinding.ItemListHoneyTipBinding
+import com.umc.ttoklip.util.setOnSingleClickListener
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -64,7 +65,7 @@ class HoneyTipListRVA(private val context: Context, private var listener: OnItem
             binding.commentCountTv.text = honeyTip.commentCount.toString()
             binding.likeCountTv.text = honeyTip.likeCount.toString()
             binding.scrapCountTv.text = honeyTip.scrapCount.toString()
-            binding.root.setOnClickListener {
+            binding.root.setOnSingleClickListener {
                 listener.onClick(honeyTip)
             }
         }

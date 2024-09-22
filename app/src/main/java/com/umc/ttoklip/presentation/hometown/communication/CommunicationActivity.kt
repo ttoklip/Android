@@ -21,6 +21,7 @@ import com.umc.ttoklip.presentation.hometown.adapter.OnItemClickListener
 import com.umc.ttoklip.presentation.hometown.communication.read.ReadCommunicationActivity
 import com.umc.ttoklip.presentation.hometown.communication.write.WriteCommunicationActivity
 import com.umc.ttoklip.presentation.mypage.SortSpinnerAdapter
+import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -34,7 +35,7 @@ class CommunicationActivity :
     private val viewModel: CommunicationViewModel by viewModels<CommunicationViewModelImpl>()
     override fun initView() {
         binding.vm = viewModel as CommunicationViewModelImpl
-        binding.writeFab.setOnClickListener {
+        binding.writeFab.setOnSingleClickListener {
             val intent = Intent(this, WriteCommunicationActivity::class.java)
             startActivity(intent)
         }
@@ -44,7 +45,7 @@ class CommunicationActivity :
             getString(R.string.sort_most_comments),
             getString(R.string.sort_most_scrap)
         )
-        binding.bellBtn.setOnClickListener {
+        binding.bellBtn.setOnSingleClickListener {
             startActivity(AlarmActivity.newIntent(this))
         }
         binding.honeyTipFilterSpinner.adapter =
@@ -80,7 +81,7 @@ class CommunicationActivity :
         })
 
 
-        binding.backBtn.setOnClickListener {
+        binding.backBtn.setOnSingleClickListener {
             finish()
         }
     }

@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentInputMaxMemberBinding
 import com.umc.ttoklip.presentation.base.BaseBottomSheetDialogFragment
+import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,7 +27,7 @@ class InputMaxMemberDialogFragment(private val btnClickListener: (Int) -> Unit) 
             descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
             selectionDividerHeight = DIVIDER_HEIGHT_ZERO
         }
-        binding.chooseBtn.setOnClickListener {
+        binding.chooseBtn.setOnSingleClickListener {
             btnClickListener(binding.memberSelector.value)
             this@InputMaxMemberDialogFragment.dismiss()
         }

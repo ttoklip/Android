@@ -11,6 +11,7 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.mypage.NoticeDetail
 import com.umc.ttoklip.data.model.mypage.NoticeResponse
 import com.umc.ttoklip.databinding.ItemAnnouncementsBinding
+import com.umc.ttoklip.util.setOnSingleClickListener
 
 class AnnouncementAdapter :
     ListAdapter<NoticeDetail, AnnouncementAdapter.AnnouncementViewHolder>(diff) {
@@ -22,7 +23,7 @@ class AnnouncementAdapter :
             binding.announcementTitleTv.text = data.title
             binding.announcementDetailTv.text=data.content
 
-            binding.announcementVisibilityBtn.setOnClickListener {
+            binding.announcementVisibilityBtn.setOnSingleClickListener {
                 if (data.visibility) {
                     binding.announcementDetailSv.visibility = View.GONE
                     binding.announcementVisibilityBtn.setImageResource(R.drawable.ic_arrow_down_24)

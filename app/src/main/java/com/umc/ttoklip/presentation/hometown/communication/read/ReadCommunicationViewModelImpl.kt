@@ -190,6 +190,8 @@ class ReadCommunicationViewModelImpl @Inject constructor(
                     CreateCommentRequest(commentContent.value, replyCommentParentId.value.toLong())
                 ).onSuccess {
                     readCommunication(postId.value)
+                }.onFail {  message ->
+                    _toast.emit(message)
                 }
             }
         }

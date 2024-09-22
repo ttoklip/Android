@@ -3,6 +3,7 @@ package com.umc.ttoklip.presentation.hometown.dialog
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentTogetherBottomSheetDialogBinding
 import com.umc.ttoklip.presentation.base.BaseBottomSheetDialogFragment
+import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,12 +37,12 @@ class TogetherBottomSheetDialogFragment(private val completeClick: (List<Long>) 
             }
         }
 
-        binding.resetBtn.setOnClickListener {
+        binding.resetBtn.setOnSingleClickListener {
             binding.requiredAmountyChipG.clearCheck()
             binding.maxMemberChipG.clearCheck()
         }
 
-        binding.completeBtn.setOnClickListener {
+        binding.completeBtn.setOnSingleClickListener {
             completeClick(getResult())
             dismiss()
         }

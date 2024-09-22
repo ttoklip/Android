@@ -11,6 +11,7 @@ import com.umc.ttoklip.presentation.mypage.adapter.BlockUserAdapter
 import com.umc.ttoklip.presentation.mypage.adapter.Suspension
 import com.umc.ttoklip.presentation.mypage.adapter.SuspensionAdapter
 import com.umc.ttoklip.presentation.mypage.vm.UsageViewModel
+import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,11 +39,11 @@ class ManageUsageActivity :
         binding.blockUserRv.layoutManager = LinearLayoutManager(this)
         blockAdapter.submitList(viewModel.blockList.value)
 
-        binding.manageUsageBackBtn.setOnClickListener {
+        binding.manageUsageBackBtn.setOnSingleClickListener {
             this.onBackPressedDispatcher.onBackPressed()
         }
 
-        binding.suspensionBtn.setOnClickListener {
+        binding.suspensionBtn.setOnSingleClickListener {
             if (binding.suspensionRv.visibility == View.GONE) {
                 binding.suspensionRv.visibility = View.VISIBLE
                 binding.suspensionBtn.setImageResource(R.drawable.ic_arrow_up_24)
@@ -52,7 +53,7 @@ class ManageUsageActivity :
             }
         }
 
-        binding.blockUserBtn.setOnClickListener {
+        binding.blockUserBtn.setOnSingleClickListener {
             if (binding.blockUserRv.visibility == View.GONE) {
                 binding.blockUserRv.visibility = View.VISIBLE
                 binding.blockUserBtn.setImageResource(R.drawable.ic_arrow_up_24)

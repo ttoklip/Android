@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
@@ -64,7 +65,7 @@ fun String.tabTextToCategory(): String {
     return when (this) {
         "집안일" -> WriteHoneyTipActivity.Category.HOUSEWORK.toString()
         "레시피" -> WriteHoneyTipActivity.Category.RECIPE.toString()
-        "안전한생활" -> WriteHoneyTipActivity.Category.SAFE_LIVING.toString()
+        "안전한 생활" -> WriteHoneyTipActivity.Category.SAFE_LIVING.toString()
         else -> WriteHoneyTipActivity.Category.WELFARE_POLICY.toString()
     }
 }
@@ -91,4 +92,18 @@ fun String.convertStringToTextPlain(): RequestBody {
 fun List<Int>.createRequestBodyFromList(): RequestBody{
     val listString = this.joinToString(",") // List를 쉼표로 구분된 문자열로 변환
     return RequestBody.create("text/plain".toMediaTypeOrNull(), listString)
+}
+
+inline fun View.setOnSingleClickListener(
+    delay: Long = 1000L,
+    crossinline block: (View) -> Unit,
+) {
+    var previousClickedTime = 0L
+    setOnClickListener { view ->
+        val clickedTime = System.currentTimeMillis()
+        if (clickedTime - previousClickedTime >= delay) {
+            block(view)
+            previousClickedTime = clickedTime
+        }
+    }
 }

@@ -17,6 +17,7 @@ import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.honeytip.adapter.HoneyTipAndQuestionVPA
 import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.search.SearchActivity
+import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -36,17 +37,17 @@ class HoneyTipFragment : BaseFragment<FragmentHoneyTipBinding>(R.layout.fragment
     override fun initView() {
         initTabLayout()
         goWriteActivity()
-        binding.searchBtn.setOnClickListener {
+        binding.searchBtn.setOnSingleClickListener {
             startActivity(SearchActivity.newIntent(requireContext()))
         }
 
-        binding.alarmBtn.setOnClickListener {
+        binding.alarmBtn.setOnSingleClickListener {
             startActivity(AlarmActivity.newIntent(requireContext()))
         }
     }
 
     private fun goWriteActivity() {
-        binding.writeFab.setOnClickListener {
+        binding.writeFab.setOnSingleClickListener {
             startActivity(WriteHoneyTipActivity.newIntent(requireContext(), board))
         }
     }

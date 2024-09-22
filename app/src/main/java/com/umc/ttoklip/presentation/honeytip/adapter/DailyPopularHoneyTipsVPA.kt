@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
 import com.umc.ttoklip.databinding.ItemDailyPopularHoneyTipBinding
+import com.umc.ttoklip.util.setOnSingleClickListener
 
 class DailyPopularHoneyTipsVPA(
     private val fragment:Fragment,
@@ -46,7 +47,7 @@ class DailyPopularHoneyTipsVPA(
             binding.starCountTv.text = honeyTip.scrapCount.toString()
             binding.likeCountTv.text = honeyTip.likeCount.toString()
             binding.commentCountTv.text = honeyTip.commentCount.toString()
-            binding.root.setOnClickListener {
+            binding.root.setOnSingleClickListener {
                 onClick(honeyTip)
             }
         }

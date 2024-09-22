@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.umc.ttoklip.data.model.town.Communities
 import com.umc.ttoklip.databinding.ItemCommunicationBinding
+import com.umc.ttoklip.util.setOnSingleClickListener
 
 class CommunicationAdapter(private val context: Context, private var listener: OnItemClickListener) :
     ListAdapter<Communities, CommunicationAdapter.CommunicationViewHolder>(object :
@@ -40,7 +41,7 @@ class CommunicationAdapter(private val context: Context, private var listener: O
             binding.likeCountTv.text = honeyTips.likeCount.toString()
             binding.commentCountTv.text = honeyTips.commentCount.toString()
 
-            binding.root.setOnClickListener {
+            binding.root.setOnSingleClickListener {
                 listener.onClick(honeyTips)
             }
         }

@@ -64,6 +64,14 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
     override val participantsCnt: StateFlow<Int>
         get() = _participantsCnt
 
+    private val _linkUrl = MutableStateFlow("")
+    override val linkUrl: StateFlow<String>
+        get() = _linkUrl
+
+    private val _includeSwear = MutableSharedFlow<String>()
+    override val includeSwear: SharedFlow<String>
+        get() = _includeSwear
+
     private val _postContent: MutableStateFlow<ViewTogetherResponse> =
         MutableStateFlow<ViewTogetherResponse>(
             ViewTogetherResponse(
@@ -82,7 +90,8 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
                 emptyList(),
                 "",
                 false,
-                ""
+                "",
+                emptyList()
             )
         )
     override val postContent: StateFlow<ViewTogetherResponse>
@@ -131,6 +140,7 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
                 _comments.value = it.commentResponses.sortedBy { comment ->
                     comment.parentId ?: comment.commentId
                 }
+                _linkUrl.value = it.itemUrls.firstOrNull()?.itemUrl ?: ""
                 Log.d("response writer", _writer.value)
             }.onError {
 
@@ -181,6 +191,8 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
                     CreateCommentRequest(commentContent.value, replyCommentParentId.value.toLong())
                 ).onSuccess {
                     readTogether(postId.value)
+                }.onFail { message ->
+                    _includeSwear.emit(message)
                 }
             }
         }
