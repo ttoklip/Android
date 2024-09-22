@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.umc.ttoklip.data.model.town.ImageUrl
 import com.umc.ttoklip.databinding.ItemImageReadBinding
+import com.umc.ttoklip.util.setOnSingleClickListener
 
 class ReadImageRVA(private val context: Context, private var listener: OnReadImageClickListener?) :
     ListAdapter<ImageUrl, ReadImageRVA.ImageViewHolder>(object : DiffUtil.ItemCallback<ImageUrl>() {
@@ -28,7 +29,7 @@ class ReadImageRVA(private val context: Context, private var listener: OnReadIma
                 .load(imageUrl.communityImageUrl)
                 .into(binding.iv)
 
-            binding.iv.setOnClickListener {
+            binding.iv.setOnSingleClickListener {
                 listener?.onClick(imageUrl.communityImageUrl, bindingAdapterPosition)
             }
         }

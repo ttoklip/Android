@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.data.model.mypage.ScrapResponse
 import com.umc.ttoklip.databinding.ItemSavedHoneyTipBinding
+import com.umc.ttoklip.util.setOnSingleClickListener
 
 class SavedHoneyTipAdapter(private var listener: OnSpinnerItemClickListener) :
     ListAdapter<ScrapResponse, SavedHoneyTipAdapter.HoneyTipListViewHolder>(object :
@@ -33,7 +34,7 @@ class SavedHoneyTipAdapter(private var listener: OnSpinnerItemClickListener) :
                 binding.itemSeparator.isGone = true
             }
 
-            binding.root.setOnClickListener {
+            binding.root.setOnSingleClickListener {
                 listener.onClick(honeyTips)
             }
         }

@@ -12,6 +12,7 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.honeytip.ImageUrl
 import com.umc.ttoklip.databinding.ItemImageBinding
 import com.umc.ttoklip.databinding.ItemImageReadBinding
+import com.umc.ttoklip.util.setOnSingleClickListener
 import kotlin.String
 
 class ReadImageRVA(private val context: Context, private var listener: OnReadImageClickListener?) :
@@ -32,7 +33,7 @@ class ReadImageRVA(private val context: Context, private var listener: OnReadIma
                 .load(imageUrl.imageUrl)
                 .into(binding.iv)
 
-            binding.iv.setOnClickListener {
+            binding.iv.setOnSingleClickListener {
                 listener?.onClick(imageUrl.imageUrl, bindingAdapterPosition)
             }
         }

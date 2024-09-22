@@ -32,9 +32,15 @@ class CommentRVA(
                 .into(binding.profileImg)
             binding.item = data
             binding.replyBtn.setOnClickListener {
+                if (data.commentContent == "삭제된 댓글입니다."){
+                    return@setOnClickListener
+                }
                 replyComment(data.commentId)
             }
             binding.deleteBtn.setOnClickListener {
+                if (data.commentContent == "삭제된 댓글입니다."){
+                    return@setOnClickListener
+                }
                 ReportOrDelete(
                     data.commentId,
                     data.writer == TtoklipApplication.prefs.getString("nickname", "")

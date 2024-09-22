@@ -8,6 +8,7 @@ import com.umc.ttoklip.presentation.base.BaseActivity
 
 import com.umc.ttoklip.presentation.mypage.adapter.AnnouncementAdapter
 import com.umc.ttoklip.presentation.mypage.vm.NoticeViewModel
+import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,7 +39,7 @@ class SetAnnouncementActivity :
         binding.announcementsRv.adapter = adapter
         binding.announcementsRv.layoutManager = LinearLayoutManager(this)
         adapter.submitList(vm.noticeList.value)
-        binding.setAnnouncementBackBtn.setOnClickListener {
+        binding.setAnnouncementBackBtn.setOnSingleClickListener {
             this.onBackPressedDispatcher.onBackPressed()
         }
     }

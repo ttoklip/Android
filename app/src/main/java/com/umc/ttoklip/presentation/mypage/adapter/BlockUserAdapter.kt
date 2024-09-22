@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.data.model.mypage.BlockedUser
 import com.umc.ttoklip.data.model.mypage.MyBlockUserResponse
 import com.umc.ttoklip.databinding.ItemBlockUserBinding
+import com.umc.ttoklip.util.setOnSingleClickListener
 
 class BlockUserAdapter : ListAdapter<BlockedUser, BlockUserAdapter.BlockUserViewHolder>(diff) {
 
@@ -20,7 +21,7 @@ class BlockUserAdapter : ListAdapter<BlockedUser, BlockUserAdapter.BlockUserView
 //
 //            }
             binding.blockedUserId.text = data.userId
-            binding.unblockBtn.setOnClickListener {
+            binding.unblockBtn.setOnSingleClickListener {
 
             }
         }

@@ -19,6 +19,7 @@ import com.umc.ttoklip.presentation.mypage.vm.HistoryViewModel
 import com.umc.ttoklip.presentation.otheruser.OtherTipActivity
 import com.umc.ttoklip.presentation.otheruser.OtherTipActivity.Companion.OTHERID
 import com.umc.ttoklip.presentation.otheruser.OtherTipActivity.Companion.OTHERNAME
+import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -44,7 +45,7 @@ class TransactionHistoryActivity :
 
         }
 
-        binding.myTransactionHistoryBackBtn.setOnClickListener {
+        binding.myTransactionHistoryBackBtn.setOnSingleClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.ttoklip.databinding.ItemTermBinding
 import com.umc.ttoklip.presentation.signup.fragments.TermViewModel
+import com.umc.ttoklip.util.setOnSingleClickListener
 
 class MyPageTermRVAdapter(
     private val context: Context,
@@ -38,7 +39,7 @@ class MyPageTermRVAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(termList[position])
-        holder.binding.termAgreeServiceBtn.setOnClickListener {
+        holder.binding.termAgreeServiceBtn.setOnSingleClickListener {
             mItemClickListener.onItemClick(termList[position].termId-1)
 //            val intent = Intent(context, WebviewActivity::class.java)
 //            intent.putExtra("url",termList[position].content)

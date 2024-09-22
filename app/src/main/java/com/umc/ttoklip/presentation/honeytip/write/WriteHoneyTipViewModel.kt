@@ -133,6 +133,8 @@ class WriteHoneyTipViewModel @Inject constructor(
                 Log.d("edit honey tip api test", it.message)
             }.onError {
                 Log.d("error", it.stackTraceToString())
+            }.onFail { message ->
+                event(WriteDoneEvent.IncludeSwear(message))
             }
         }
     }

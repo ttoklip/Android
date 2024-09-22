@@ -35,6 +35,7 @@ import com.umc.ttoklip.presentation.dialog.ImageDialogFragment
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.honeytip.read.ReadQuestionActivity
 import com.umc.ttoklip.util.isValidUri
+import com.umc.ttoklip.util.setOnSingleClickListener
 import com.umc.ttoklip.util.showToast
 import com.umc.ttoklip.util.tabTextToCategory
 import com.umc.ttoklip.util.uriToFile
@@ -87,7 +88,7 @@ class WriteHoneyTipActivity :
         showAddImageDialog()
         enableWriteDoneButton()
         writeDone()
-        binding.backBtn.setOnClickListener {
+        binding.backBtn.setOnSingleClickListener {
             finish()
         }
     }
@@ -159,6 +160,8 @@ class WriteHoneyTipActivity :
         } else {
             binding.titleTv.text = "질문하기"
             binding.addLinkBtn.visibility = View.GONE
+            binding.bodyEt.hint = "똑리비들에게 어려운 점을 물어보세요.\n" +
+                    "(최대 1000자) "
         }
     }
 
@@ -187,7 +190,7 @@ class WriteHoneyTipActivity :
 
     // 글 작성완료시 로직
     private fun writeDone() {
-        binding.writeDoneBtn.setOnClickListener {
+        binding.writeDoneBtn.setOnSingleClickListener {
             val imageParts = mutableListOf<MultipartBody.Part?>()
             val images = imageAdapter.currentList.filterIsInstance<Image>().map { it.src }
                 .filter { it.isValidUri() }.toList()
@@ -208,7 +211,7 @@ class WriteHoneyTipActivity :
                     Log.d("용량", "${it.body.contentLength().toDouble() / (1024 * 1024)}")
                     if (it.body.contentLength().toDouble() / (1024 * 1024) > 10) {
                         Toast.makeText(this, "사진 용량은 10MB로 제한되어있습니다.", Toast.LENGTH_SHORT).show()
-                        return@setOnClickListener
+                        return@setOnSingleClickListener
                     }
                 }
             }
@@ -257,6 +260,7 @@ class WriteHoneyTipActivity :
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 category = tab?.text.toString().tabTextToCategory()
+                Log.d("category", category)
                 setSelectedTabTextStyleBold(
                     R.font.pretendard_bold,
                     binding.tabLayout.selectedTabPosition
@@ -300,14 +304,14 @@ class WriteHoneyTipActivity :
     }
 
     private fun addLink() {
-        binding.addLinkBtn.setOnClickListener {
+        binding.addLinkBtn.setOnSingleClickListener {
             binding.addLinkBtn.visibility = View.GONE
             binding.inputUrlBtn.visibility = View.VISIBLE
         }
     }
 
     private fun showAddImageDialog() {
-        binding.addImageBtn.setOnClickListener {
+        binding.addImageBtn.setOnSingleClickListener {
             // 이미지 권한 여부 확인
             val imagePermission = TtoklipApplication.prefs.getString("getImagePermission", "")
             if (imagePermission != "true") {

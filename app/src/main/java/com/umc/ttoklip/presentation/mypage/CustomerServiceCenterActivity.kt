@@ -11,16 +11,17 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityCustomerServiceCenterBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.mypage.dialog.OneOnOneInquiriesDialog
+import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CustomerServiceCenterActivity :
     BaseActivity<ActivityCustomerServiceCenterBinding>(R.layout.activity_customer_service_center) {
     override fun initView() {
-        binding.customerServiceCenterBackBtn.setOnClickListener {
+        binding.customerServiceCenterBackBtn.setOnSingleClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
-        binding.faqSub1Btn.setOnClickListener {
+        binding.faqSub1Btn.setOnSingleClickListener {
             if (binding.faqSub1Content.isGone) {
                 binding.faqSub1Btn.setImageResource(R.drawable.ic_arrow_up_24)
             } else {
@@ -28,7 +29,7 @@ class CustomerServiceCenterActivity :
             }
             binding.faqSub1Content.isGone = binding.faqSub1Content.isGone.not()
         }
-        binding.faqSub2Btn.setOnClickListener {
+        binding.faqSub2Btn.setOnSingleClickListener {
             if (binding.faqSub2Content.isGone) {
                 binding.faqSub2Btn.setImageResource(R.drawable.ic_arrow_up_24)
             } else {
@@ -36,7 +37,7 @@ class CustomerServiceCenterActivity :
             }
             binding.faqSub2Content.isGone = binding.faqSub2Content.isGone.not()
         }
-        binding.oneOnOneInquriesBtn.setOnClickListener {
+        binding.oneOnOneInquriesBtn.setOnSingleClickListener {
             val dialog = OneOnOneInquiriesDialog{content->
                 sendEmail(content)
             }

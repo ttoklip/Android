@@ -18,6 +18,7 @@ import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
 import com.umc.ttoklip.presentation.honeytip.read.ReadQuestionActivity
 import com.umc.ttoklip.presentation.mypage.vm.MyHoneyTipViewModel
+import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -90,7 +91,7 @@ class MyHoneyTipActivity : BaseActivity<ActivityMyHoneyTipBinding>(R.layout.acti
                 }
             }
 
-        binding.myHoneyTipBackBtn.setOnClickListener {
+        binding.myHoneyTipBackBtn.setOnSingleClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
     }

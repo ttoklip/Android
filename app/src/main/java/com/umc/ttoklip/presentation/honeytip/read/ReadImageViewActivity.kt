@@ -7,6 +7,7 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ActivityImageViewBinding
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.ReadImageVPA
+import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,7 +25,7 @@ class ReadImageViewActivity: BaseActivity<ActivityImageViewBinding>(R.layout.act
         binding.currentTv.text = "${index+1}/"
         binding.totalTv.text = images.size.toString()
 
-        binding.closeBtn.setOnClickListener {
+        binding.closeBtn.setOnSingleClickListener {
             finish()
         }
     }

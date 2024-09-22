@@ -3,6 +3,7 @@ package com.umc.ttoklip.presentation.hometown.dialog
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.DialogWriteTogetherBinding
 import com.umc.ttoklip.presentation.base.BaseDialogFragment
+import com.umc.ttoklip.util.setOnSingleClickListener
 
 class TogetherDialog :
     BaseDialogFragment<DialogWriteTogetherBinding>(R.layout.dialog_write_together) {
@@ -12,10 +13,10 @@ class TogetherDialog :
     }
 
     override fun initView() {
-        binding.cancelBtn.setOnClickListener {
+        binding.cancelBtn.setOnSingleClickListener {
             dismiss()
         }
-        binding.acceptBtn.setOnClickListener {
+        binding.acceptBtn.setOnSingleClickListener {
             dialogClickListener.onClick()
             dismiss()
         }
