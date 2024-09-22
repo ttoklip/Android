@@ -59,88 +59,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
-                    android:paddingBottom="24dp"
+                    android:paddingBottom="12dp"
                     android:paddingTop="12dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/bellBtn">
-
-
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/whatTodayDo"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="0dp"
-                        android:layout_marginTop="4dp"
-                        android:visibility="@{vm.haveWork ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/whatDoT"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
-                            android:text="오늘은 무엇을 할까?"
-                            android:textAppearance="@style/TextAppearance.App.18sp_700"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="24dp"
-                            android:layout_marginTop="12dp"
-                            android:background="@drawable/rectangle_corner_10_strok_1"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/whatDoT">
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/delayBtn"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginVertical="8dp"
-                                android:layout_marginEnd="14dp"
-                                android:background="@drawable/rectangle_corner_10_strok_1_black"
-                                android:onClick="@{()-> vm.clickDelayWork()}"
-                                android:paddingHorizontal="15dp"
-                                android:paddingVertical="7dp"
-                                android:text="미루기"
-                                android:textAppearance="@style/TextAppearance.App.12sp_500"
-                                android:textColor="@color/gray80"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:id="@+id/checkBox"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="8dp"
-                                android:onClick="@{()-> vm.clickDoneWork()}"
-                                android:src="@{vm.doneWork ? @drawable/ic_check_on_20 : @drawable/ic_check_off_20 }"
-                                app:layout_constraintBottom_toBottomOf="@id/delayBtn"
-                                app:layout_constraintEnd_toStartOf="@id/delayBtn"
-                                app:layout_constraintTop_toTopOf="@id/delayBtn"
-                                tools:src="@drawable/ic_check_off_20" />
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/whatDoTodayT"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@{vm.mainData.todayToDoList }"
-                                android:textAppearance="@style/TextAppearance.App.12sp_400"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toStartOf="@id/checkBox"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                     <androidx.appcompat.widget.AppCompatImageView
@@ -153,7 +76,7 @@
                         android:src="@drawable/idea_img"
                         app:layout_constraintEnd_toStartOf="@id/chatImg"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/whatTodayDo" />
+                        app:layout_constraintTop_toTopOf="parent"/>
 
 
                     <androidx.appcompat.widget.AppCompatImageView
