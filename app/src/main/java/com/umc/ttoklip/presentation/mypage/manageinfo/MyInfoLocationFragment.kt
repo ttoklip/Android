@@ -88,43 +88,43 @@ class MyInfoLocationFragment : BaseFragment<FragmentMyInfoLocationBinding>(R.lay
         circle = CircleOverlay()
         marker= Marker()
 
-        range = getString(R.string.range_500m)
-        binding.locationRangeDescTv.text =
-            getString(R.string.range_setting_format, range)
-
-        binding.locationRange1Tv.setOnSingleClickListener { setRange500m() }
-        binding.locationRange2Tv.setOnSingleClickListener { setRange1km() }
-        binding.locationRange3Tv.setOnSingleClickListener { setRange15km() }
-
-        binding.locationRangeBar.setOnSeekBarChangeListener(object :
-            SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (progress <= RANGE_500M_PROGRESS) {
-                    setRange500m()
-                } else if (progress <= RANGE_1KM_PROGRESS) {
-                    setRange1km()
-                } else {
-                    setRange15km()
-                }
-                if (locationok) setcircle()
-            }
-            override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                seekBar?.let {
-                    if (it.progress <= RANGE_500M_PROGRESS) {
-                        it.progress = RANGE_500M_PROGRESS
-                        setRange500m()
-                    } else if (it.progress <= RANGE_1KM_PROGRESS) {
-                        it.progress = RANGE_1KM_PROGRESS
-                        setRange1km()
-                    } else {
-                        it.progress = RANGE_15kM_PROGRESS
-                        setRange15km()
-                    }
-                }
-                if (locationok) setcircle()
-            }
-        })
+//        range = getString(R.string.range_500m)
+//        binding.locationRangeDescTv.text =
+//            getString(R.string.range_setting_format, range)
+//
+//        binding.locationRange1Tv.setOnSingleClickListener { setRange500m() }
+//        binding.locationRange2Tv.setOnSingleClickListener { setRange1km() }
+//        binding.locationRange3Tv.setOnSingleClickListener { setRange15km() }
+//
+//        binding.locationRangeBar.setOnSeekBarChangeListener(object :
+//            SeekBar.OnSeekBarChangeListener {
+//            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+//                if (progress <= RANGE_500M_PROGRESS) {
+//                    setRange500m()
+//                } else if (progress <= RANGE_1KM_PROGRESS) {
+//                    setRange1km()
+//                } else {
+//                    setRange15km()
+//                }
+//                if (locationok) setcircle()
+//            }
+//            override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
+//            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+//                seekBar?.let {
+//                    if (it.progress <= RANGE_500M_PROGRESS) {
+//                        it.progress = RANGE_500M_PROGRESS
+//                        setRange500m()
+//                    } else if (it.progress <= RANGE_1KM_PROGRESS) {
+//                        it.progress = RANGE_1KM_PROGRESS
+//                        setRange1km()
+//                    } else {
+//                        it.progress = RANGE_15kM_PROGRESS
+//                        setRange15km()
+//                    }
+//                }
+//                if (locationok) setcircle()
+//            }
+//        })
 
         binding.locationBackIb.setOnSingleClickListener {
             navigator.navigateUp()
@@ -224,32 +224,32 @@ class MyInfoLocationFragment : BaseFragment<FragmentMyInfoLocationBinding>(R.lay
     override fun initObserver() {
     }
 
-    private fun setRange15km() {
-        range = getString(R.string.range_1_5km)
-        binding.locationRangeBar.progress = RANGE_15kM_PROGRESS
-        binding.locationRange1Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
-        binding.locationRange2Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
-        binding.locationRange3Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-        binding.locationRangeDescTv.text = getString(R.string.range_setting_format, range)
-    }
-
-    private fun setRange1km() {
-        range = getString(R.string.range_1km)
-        binding.locationRangeBar.progress = RANGE_1KM_PROGRESS
-        binding.locationRange1Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
-        binding.locationRange2Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-        binding.locationRange3Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
-        binding.locationRangeDescTv.text = getString(R.string.range_setting_format, range)
-    }
-
-    private fun setRange500m() {
-        range = getString(R.string.range_500m)
-        binding.locationRangeBar.progress = RANGE_500M_PROGRESS
-        binding.locationRange1Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-        binding.locationRange2Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
-        binding.locationRange3Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
-        binding.locationRangeDescTv.text = getString(R.string.range_setting_format, range)
-    }
+//    private fun setRange15km() {
+//        range = getString(R.string.range_1_5km)
+//        binding.locationRangeBar.progress = RANGE_15kM_PROGRESS
+//        binding.locationRange1Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
+//        binding.locationRange2Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
+//        binding.locationRange3Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+//        binding.locationRangeDescTv.text = getString(R.string.range_setting_format, range)
+//    }
+//
+//    private fun setRange1km() {
+//        range = getString(R.string.range_1km)
+//        binding.locationRangeBar.progress = RANGE_1KM_PROGRESS
+//        binding.locationRange1Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
+//        binding.locationRange2Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+//        binding.locationRange3Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
+//        binding.locationRangeDescTv.text = getString(R.string.range_setting_format, range)
+//    }
+//
+//    private fun setRange500m() {
+//        range = getString(R.string.range_500m)
+//        binding.locationRangeBar.progress = RANGE_500M_PROGRESS
+//        binding.locationRange1Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+//        binding.locationRange2Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
+//        binding.locationRange3Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
+//        binding.locationRangeDescTv.text = getString(R.string.range_setting_format, range)
+//    }
 
     private fun getLastKnownLocation() {
         if (ContextCompat.checkSelfPermission(

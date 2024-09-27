@@ -48,14 +48,13 @@ class LocationActivity :
     private lateinit var naverMap: NaverMap
     private lateinit var locationSource: FusedLocationSource
     private lateinit var uiSetting: UiSettings
-    private var address: String=""
     private val LOCATION_PERMISSION_REQUEST_CODE: Int = 5000
     private val PERMISSIONS = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION
     )
-    private lateinit var range: String
-    private lateinit var circle: CircleOverlay
+//    private lateinit var range: String
+//    private lateinit var circle: CircleOverlay
     private lateinit var marker: Marker
 
     private var nowlocationOn:Boolean=true
@@ -67,7 +66,7 @@ class LocationActivity :
             ActivityCompat.requestPermissions(this, PERMISSIONS, LOCATION_PERMISSION_REQUEST_CODE)
         }
         initMapView()
-        circle = CircleOverlay()
+//        circle = CircleOverlay()
         marker=Marker()
 
 //        range = getString(R.string.range_500m)
@@ -184,24 +183,23 @@ class LocationActivity :
     }
 
     private fun setlocation(latitude:Double,longitude:Double){
-        this.address=""
         getAddress(latitude, longitude)
-        circle.center = LatLng(latitude, longitude)
+//        circle.center = LatLng(latitude, longitude)
         marker.position=LatLng(latitude,longitude)
         locationok = true
-        setcircle()
+//        setcircle()
         marker.map=null
         marker.map=naverMap
         nextok()
     }
 
-    private fun setcircle() {
-        if (range == "500m") circle.radius = 500.0
-        else if (range == "1km") circle.radius = 1000.0
-        else circle.radius = 1500.0
-        circle.color = ContextCompat.getColor(this, R.color.yellow_trans30)
-        circle.map = naverMap
-    }
+//    private fun setcircle() {
+//        if (range == "500m") circle.radius = 500.0
+//        else if (range == "1km") circle.radius = 1000.0
+//        else circle.radius = 1500.0
+//        circle.color = ContextCompat.getColor(this, R.color.yellow_trans30)
+//        circle.map = naverMap
+//    }
 
     private fun hasPermission(): Boolean {
         for (permission in PERMISSIONS) {
