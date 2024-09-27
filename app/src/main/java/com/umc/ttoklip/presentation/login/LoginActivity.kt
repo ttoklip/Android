@@ -110,42 +110,42 @@ class LoginActivity : BaseActivity<ActivityLogin2Binding>(R.layout.activity_logi
         //네이버 토큰 임시확인용
         //Log.i("NAVER-LOGIN","${NaverIdLoginSDK.getAccessToken()}")
     }
-    private fun kakaoLogin(){
-        viewModel.setIsSocialLogin(true)
-        val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
-            if (error != null) {
-                Log.e("카카오로그인", "카카오계정으로 로그인 실패", error)
-            } else if (token != null) {
-                Log.i("카카오로그인", "카카오계정으로 로그인 성공")
-                val loginRequest = LoginRequest("${token.accessToken}", "kakao")
-                viewModel.postLogin(loginRequest)
-            }
-        }
+//    private fun kakaoLogin(){
+//        viewModel.setIsSocialLogin(true)
+//        val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+//            if (error != null) {
+//                Log.e("카카오로그인", "카카오계정으로 로그인 실패", error)
+//            } else if (token != null) {
+//                Log.i("카카오로그인", "카카오계정으로 로그인 성공")
+//                val loginRequest = LoginRequest("${token.accessToken}", "kakao")
+//                viewModel.postLogin(loginRequest)
+//            }
+//        }
 
         //카톡 연결이 없으면 카카오계정으로 로그인
-        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
-            UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
-                if (error != null) {
-                    Log.e("카카오로그인", "카카오톡으로 로그인 실패", error)
-                    if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                        //디바이스 권한 요청 화면에서 로그인 취소할 경우
-                        //의도적 로그인 취소로 확인 > 로그인 시도 없이 back 처리
-                        return@loginWithKakaoTalk
-                    }
-                    //카톡 연결이 없으면 카카오계정으로 로그인
-                    UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
-                } else if (token != null) {
-                    Log.i("카카오로그인", "카카오톡으로 로그인 성공")
-                    val loginRequest = LoginRequest("${token.accessToken}", "kakao")
-                    //임시 토큰확인용
-                    Log.i("KAKAO-LOGIN","${token.accessToken}")
-                    viewModel.postLogin(loginRequest)
-                }
-            }
-        } else {
-            UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
-        }
-    }
+//        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
+//            UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
+//                if (error != null) {
+//                    Log.e("카카오로그인", "카카오톡으로 로그인 실패", error)
+//                    if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
+//                        //디바이스 권한 요청 화면에서 로그인 취소할 경우
+//                        //의도적 로그인 취소로 확인 > 로그인 시도 없이 back 처리
+//                        return@loginWithKakaoTalk
+//                    }
+//                    //카톡 연결이 없으면 카카오계정으로 로그인
+//                    UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
+//                } else if (token != null) {
+//                    Log.i("카카오로그인", "카카오톡으로 로그인 성공")
+//                    val loginRequest = LoginRequest("${token.accessToken}", "kakao")
+//                    //임시 토큰확인용
+//                    Log.i("KAKAO-LOGIN","${token.accessToken}")
+//                    viewModel.postLogin(loginRequest)
+//                }
+//            }
+//        } else {
+//            UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
+//        }
+//    }
 
     private fun startactivity() {
 //            회원가입 만들기용 임시
