@@ -39,6 +39,7 @@ class CommunicationActivity :
             val intent = Intent(this, WriteCommunicationActivity::class.java)
             startActivity(intent)
         }
+        val
         val sortFilters = listOf(
             getString(R.string.sort_most_recent),
             getString(R.string.sort_popularity),
