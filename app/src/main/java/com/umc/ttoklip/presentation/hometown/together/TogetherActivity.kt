@@ -2,6 +2,7 @@ package com.umc.ttoklip.presentation.hometown.together
 
 import android.content.Intent
 import android.util.Log
+import android.widget.SpinnerAdapter
 import androidx.activity.viewModels
 import androidx.core.view.isGone
 import androidx.lifecycle.Lifecycle
@@ -17,6 +18,7 @@ import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.hometown.dialog.TogetherBottomSheetDialogFragment
 import com.umc.ttoklip.presentation.hometown.together.read.ReadTogetherActivity
 import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherActivity
+import com.umc.ttoklip.presentation.mypage.SortSpinnerAdapter
 import com.umc.ttoklip.presentation.mypage.adapter.OnTogetherItemClickListener
 import com.umc.ttoklip.presentation.mypage.adapter.TransactionAdapter
 import com.umc.ttoklip.util.setOnSingleClickListener
@@ -33,6 +35,13 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
 
     override fun initView() {
         binding.vm = viewModel
+        val streetFilters= listOf(
+            "시",
+            "구",
+            "동"
+        )
+        binding.togetherStreetSpinner.adapter=SortSpinnerAdapter(this,streetFilters)
+        binding.togetherStreetSpinner.setSelection(0)
         binding.writeFab.setOnSingleClickListener {
             val intent = Intent(this, WriteTogetherActivity::class.java)
             startActivity(intent)
