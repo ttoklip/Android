@@ -42,8 +42,8 @@ class MyInfoLocationFragment : BaseFragment<FragmentMyInfoLocationBinding>(R.lay
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION
     )
-    private var range = "500m"
-    private lateinit var circle: CircleOverlay
+//    private var range = "500m"
+//    private lateinit var circle: CircleOverlay
     private lateinit var marker: Marker
     private val navigator by lazy {
         findNavController()
@@ -85,7 +85,7 @@ class MyInfoLocationFragment : BaseFragment<FragmentMyInfoLocationBinding>(R.lay
             getLastKnownLocation()
         }
         initMapView()
-        circle = CircleOverlay()
+//        circle = CircleOverlay()
         marker= Marker()
 
 //        range = getString(R.string.range_500m)
@@ -150,7 +150,7 @@ class MyInfoLocationFragment : BaseFragment<FragmentMyInfoLocationBinding>(R.lay
         locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
         naverMap.locationSource = locationSource
         naverMap.locationTrackingMode = LocationTrackingMode.Follow
-        setcircle()
+//        setcircle()
         locationok = true
 
         /*naverMap.setOnMapClickListener { pointF, latLng ->
@@ -161,21 +161,21 @@ class MyInfoLocationFragment : BaseFragment<FragmentMyInfoLocationBinding>(R.lay
     private fun setlocation(latitude:Double,longitude:Double){
         this.address=""
         getAddress(latitude, longitude)
-        circle.center = LatLng(latitude, longitude)
+//        circle.center = LatLng(latitude, longitude)
         marker.position= LatLng(latitude,longitude)
         locationok = true
-        setcircle()
+//        setcircle()
         marker.map=null
         marker.map=naverMap
     }
 
-    private fun setcircle() {
-        if (range == "500m") circle.radius = 500.0
-        else if (range == "1km") circle.radius = 1000.0
-        else circle.radius = 1500.0
-        circle.color = ContextCompat.getColor(requireContext(), R.color.yellow_trans30)
-        circle.map = naverMap
-    }
+//    private fun setcircle() {
+//        if (range == "500m") circle.radius = 500.0
+//        else if (range == "1km") circle.radius = 1000.0
+//        else circle.radius = 1500.0
+//        circle.color = ContextCompat.getColor(requireContext(), R.color.yellow_trans30)
+//        circle.map = naverMap
+//    }
 
     private fun hasPermission(): Boolean {
         for (permission in PERMISSIONS) {
@@ -264,9 +264,9 @@ class MyInfoLocationFragment : BaseFragment<FragmentMyInfoLocationBinding>(R.lay
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
                     if (location != null) {
-                        val latLng = LatLng(location.latitude, location.longitude)
-                        viewModel.fetchReverseGeocoding(latLng, "json")
-                        circle.center = latLng
+                        viewModel.getAdmcode(LatLng(location.latitude, location.longitude))
+//                        viewModel.fetchReverseGeocoding(latLng, "json")
+//                        circle.center = latLng
                     } else {
                         Log.d("getLastKnownLocation", "Location is null")
                     }
