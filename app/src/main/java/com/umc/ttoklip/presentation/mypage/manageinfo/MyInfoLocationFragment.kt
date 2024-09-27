@@ -197,28 +197,29 @@ class MyInfoLocationFragment : BaseFragment<FragmentMyInfoLocationBinding>(R.lay
     }
 
     private fun getAddress(latitude: Double, longitude: Double) {
-        val geocoder = Geocoder(requireContext(), Locale.KOREAN)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            val addressList: List<Address>? = geocoder.getFromLocation(latitude, longitude, 1)
-            if (addressList != null && addressList.isNotEmpty()) {
-                val address: Address = addressList[0]
-                val spliteAddr = address.getAddressLine(0).split(" ")
-                for(i in 1.. spliteAddr.size-1){
-                    this.address=this.address+spliteAddr[i]+" "
-                }
-            }
-        } else {
-            val addresses = geocoder.getFromLocation(latitude, longitude, 1)
-            if (addresses != null) {
-                val spliteAddr = addresses[0].getAddressLine(0).split(" ")
-                for(i in 1.. spliteAddr.size-1){
-                    this.address=this.address+spliteAddr[i]+" "
-                }
-            }
-        }
-        if (address.isNotEmpty()){
-            binding.locationMytownDetailTv.text = address
-        }
+        viewModel.getAdmcode(LatLng(latitude, longitude))
+//        val geocoder = Geocoder(requireContext(), Locale.KOREAN)
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            val addressList: List<Address>? = geocoder.getFromLocation(latitude, longitude, 1)
+//            if (addressList != null && addressList.isNotEmpty()) {
+//                val address: Address = addressList[0]
+//                val spliteAddr = address.getAddressLine(0).split(" ")
+//                for(i in 1.. spliteAddr.size-1){
+//                    this.address=this.address+spliteAddr[i]+" "
+//                }
+//            }
+//        } else {
+//            val addresses = geocoder.getFromLocation(latitude, longitude, 1)
+//            if (addresses != null) {
+//                val spliteAddr = addresses[0].getAddressLine(0).split(" ")
+//                for(i in 1.. spliteAddr.size-1){
+//                    this.address=this.address+spliteAddr[i]+" "
+//                }
+//            }
+//        }
+//        if (address.isNotEmpty()){
+//            binding.locationMytownDetailTv.text = address
+//        }
     }
 
     override fun initObserver() {
