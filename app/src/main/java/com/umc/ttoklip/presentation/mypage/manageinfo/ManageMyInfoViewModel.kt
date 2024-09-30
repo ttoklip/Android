@@ -202,6 +202,18 @@ class ManageMyInfoViewModel @Inject constructor(
         }
     }
 
+    fun getAdmcode(coord: com.naver.maps.geometry.LatLng){
+        viewModelScope.launch {
+            naverRepository.getAdmcode("${coord.longitude}, ${coord.latitude}")
+                .onSuccess {
+                    val add=it.results.first()
+                    address.value = add.region.area1.name + " " +
+                            (add.region.area2?.name?.let { it + " " } ?: "") +
+                            (add.region.area3?.name?.let { it + " " } ?: "") +
+                            (add.region.area4?.name ?: "")
+                }
+        }
+    }
     fun fetchReverseGeocoding(coords: LatLng, output: String) {
         viewModelScope.launch {
             naverRepository.fetchReverseGeocodingInfo(

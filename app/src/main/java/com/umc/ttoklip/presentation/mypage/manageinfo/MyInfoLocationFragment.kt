@@ -42,8 +42,8 @@ class MyInfoLocationFragment : BaseFragment<FragmentMyInfoLocationBinding>(R.lay
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION
     )
-    private var range = "500m"
-    private lateinit var circle: CircleOverlay
+//    private var range = "500m"
+//    private lateinit var circle: CircleOverlay
     private lateinit var marker: Marker
     private val navigator by lazy {
         findNavController()
@@ -85,46 +85,46 @@ class MyInfoLocationFragment : BaseFragment<FragmentMyInfoLocationBinding>(R.lay
             getLastKnownLocation()
         }
         initMapView()
-        circle = CircleOverlay()
+//        circle = CircleOverlay()
         marker= Marker()
 
-        range = getString(R.string.range_500m)
-        binding.locationRangeDescTv.text =
-            getString(R.string.range_setting_format, range)
-
-        binding.locationRange1Tv.setOnSingleClickListener { setRange500m() }
-        binding.locationRange2Tv.setOnSingleClickListener { setRange1km() }
-        binding.locationRange3Tv.setOnSingleClickListener { setRange15km() }
-
-        binding.locationRangeBar.setOnSeekBarChangeListener(object :
-            SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (progress <= RANGE_500M_PROGRESS) {
-                    setRange500m()
-                } else if (progress <= RANGE_1KM_PROGRESS) {
-                    setRange1km()
-                } else {
-                    setRange15km()
-                }
-                if (locationok) setcircle()
-            }
-            override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                seekBar?.let {
-                    if (it.progress <= RANGE_500M_PROGRESS) {
-                        it.progress = RANGE_500M_PROGRESS
-                        setRange500m()
-                    } else if (it.progress <= RANGE_1KM_PROGRESS) {
-                        it.progress = RANGE_1KM_PROGRESS
-                        setRange1km()
-                    } else {
-                        it.progress = RANGE_15kM_PROGRESS
-                        setRange15km()
-                    }
-                }
-                if (locationok) setcircle()
-            }
-        })
+//        range = getString(R.string.range_500m)
+//        binding.locationRangeDescTv.text =
+//            getString(R.string.range_setting_format, range)
+//
+//        binding.locationRange1Tv.setOnSingleClickListener { setRange500m() }
+//        binding.locationRange2Tv.setOnSingleClickListener { setRange1km() }
+//        binding.locationRange3Tv.setOnSingleClickListener { setRange15km() }
+//
+//        binding.locationRangeBar.setOnSeekBarChangeListener(object :
+//            SeekBar.OnSeekBarChangeListener {
+//            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+//                if (progress <= RANGE_500M_PROGRESS) {
+//                    setRange500m()
+//                } else if (progress <= RANGE_1KM_PROGRESS) {
+//                    setRange1km()
+//                } else {
+//                    setRange15km()
+//                }
+//                if (locationok) setcircle()
+//            }
+//            override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
+//            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+//                seekBar?.let {
+//                    if (it.progress <= RANGE_500M_PROGRESS) {
+//                        it.progress = RANGE_500M_PROGRESS
+//                        setRange500m()
+//                    } else if (it.progress <= RANGE_1KM_PROGRESS) {
+//                        it.progress = RANGE_1KM_PROGRESS
+//                        setRange1km()
+//                    } else {
+//                        it.progress = RANGE_15kM_PROGRESS
+//                        setRange15km()
+//                    }
+//                }
+//                if (locationok) setcircle()
+//            }
+//        })
 
         binding.locationBackIb.setOnSingleClickListener {
             navigator.navigateUp()
@@ -150,7 +150,7 @@ class MyInfoLocationFragment : BaseFragment<FragmentMyInfoLocationBinding>(R.lay
         locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
         naverMap.locationSource = locationSource
         naverMap.locationTrackingMode = LocationTrackingMode.Follow
-        setcircle()
+//        setcircle()
         locationok = true
 
         /*naverMap.setOnMapClickListener { pointF, latLng ->
@@ -161,21 +161,21 @@ class MyInfoLocationFragment : BaseFragment<FragmentMyInfoLocationBinding>(R.lay
     private fun setlocation(latitude:Double,longitude:Double){
         this.address=""
         getAddress(latitude, longitude)
-        circle.center = LatLng(latitude, longitude)
+//        circle.center = LatLng(latitude, longitude)
         marker.position= LatLng(latitude,longitude)
         locationok = true
-        setcircle()
+//        setcircle()
         marker.map=null
         marker.map=naverMap
     }
 
-    private fun setcircle() {
-        if (range == "500m") circle.radius = 500.0
-        else if (range == "1km") circle.radius = 1000.0
-        else circle.radius = 1500.0
-        circle.color = ContextCompat.getColor(requireContext(), R.color.yellow_trans30)
-        circle.map = naverMap
-    }
+//    private fun setcircle() {
+//        if (range == "500m") circle.radius = 500.0
+//        else if (range == "1km") circle.radius = 1000.0
+//        else circle.radius = 1500.0
+//        circle.color = ContextCompat.getColor(requireContext(), R.color.yellow_trans30)
+//        circle.map = naverMap
+//    }
 
     private fun hasPermission(): Boolean {
         for (permission in PERMISSIONS) {
@@ -197,59 +197,60 @@ class MyInfoLocationFragment : BaseFragment<FragmentMyInfoLocationBinding>(R.lay
     }
 
     private fun getAddress(latitude: Double, longitude: Double) {
-        val geocoder = Geocoder(requireContext(), Locale.KOREAN)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            val addressList: List<Address>? = geocoder.getFromLocation(latitude, longitude, 1)
-            if (addressList != null && addressList.isNotEmpty()) {
-                val address: Address = addressList[0]
-                val spliteAddr = address.getAddressLine(0).split(" ")
-                for(i in 1.. spliteAddr.size-1){
-                    this.address=this.address+spliteAddr[i]+" "
-                }
-            }
-        } else {
-            val addresses = geocoder.getFromLocation(latitude, longitude, 1)
-            if (addresses != null) {
-                val spliteAddr = addresses[0].getAddressLine(0).split(" ")
-                for(i in 1.. spliteAddr.size-1){
-                    this.address=this.address+spliteAddr[i]+" "
-                }
-            }
-        }
-        if (address.isNotEmpty()){
-            binding.locationMytownDetailTv.text = address
-        }
+        viewModel.getAdmcode(LatLng(latitude, longitude))
+//        val geocoder = Geocoder(requireContext(), Locale.KOREAN)
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            val addressList: List<Address>? = geocoder.getFromLocation(latitude, longitude, 1)
+//            if (addressList != null && addressList.isNotEmpty()) {
+//                val address: Address = addressList[0]
+//                val spliteAddr = address.getAddressLine(0).split(" ")
+//                for(i in 1.. spliteAddr.size-1){
+//                    this.address=this.address+spliteAddr[i]+" "
+//                }
+//            }
+//        } else {
+//            val addresses = geocoder.getFromLocation(latitude, longitude, 1)
+//            if (addresses != null) {
+//                val spliteAddr = addresses[0].getAddressLine(0).split(" ")
+//                for(i in 1.. spliteAddr.size-1){
+//                    this.address=this.address+spliteAddr[i]+" "
+//                }
+//            }
+//        }
+//        if (address.isNotEmpty()){
+//            binding.locationMytownDetailTv.text = address
+//        }
     }
 
     override fun initObserver() {
     }
 
-    private fun setRange15km() {
-        range = getString(R.string.range_1_5km)
-        binding.locationRangeBar.progress = RANGE_15kM_PROGRESS
-        binding.locationRange1Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
-        binding.locationRange2Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
-        binding.locationRange3Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-        binding.locationRangeDescTv.text = getString(R.string.range_setting_format, range)
-    }
-
-    private fun setRange1km() {
-        range = getString(R.string.range_1km)
-        binding.locationRangeBar.progress = RANGE_1KM_PROGRESS
-        binding.locationRange1Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
-        binding.locationRange2Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-        binding.locationRange3Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
-        binding.locationRangeDescTv.text = getString(R.string.range_setting_format, range)
-    }
-
-    private fun setRange500m() {
-        range = getString(R.string.range_500m)
-        binding.locationRangeBar.progress = RANGE_500M_PROGRESS
-        binding.locationRange1Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-        binding.locationRange2Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
-        binding.locationRange3Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
-        binding.locationRangeDescTv.text = getString(R.string.range_setting_format, range)
-    }
+//    private fun setRange15km() {
+//        range = getString(R.string.range_1_5km)
+//        binding.locationRangeBar.progress = RANGE_15kM_PROGRESS
+//        binding.locationRange1Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
+//        binding.locationRange2Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
+//        binding.locationRange3Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+//        binding.locationRangeDescTv.text = getString(R.string.range_setting_format, range)
+//    }
+//
+//    private fun setRange1km() {
+//        range = getString(R.string.range_1km)
+//        binding.locationRangeBar.progress = RANGE_1KM_PROGRESS
+//        binding.locationRange1Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
+//        binding.locationRange2Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+//        binding.locationRange3Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
+//        binding.locationRangeDescTv.text = getString(R.string.range_setting_format, range)
+//    }
+//
+//    private fun setRange500m() {
+//        range = getString(R.string.range_500m)
+//        binding.locationRangeBar.progress = RANGE_500M_PROGRESS
+//        binding.locationRange1Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+//        binding.locationRange2Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
+//        binding.locationRange3Tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray40))
+//        binding.locationRangeDescTv.text = getString(R.string.range_setting_format, range)
+//    }
 
     private fun getLastKnownLocation() {
         if (ContextCompat.checkSelfPermission(
@@ -263,9 +264,9 @@ class MyInfoLocationFragment : BaseFragment<FragmentMyInfoLocationBinding>(R.lay
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
                     if (location != null) {
-                        val latLng = LatLng(location.latitude, location.longitude)
-                        viewModel.fetchReverseGeocoding(latLng, "json")
-                        circle.center = latLng
+                        viewModel.getAdmcode(LatLng(location.latitude, location.longitude))
+//                        viewModel.fetchReverseGeocoding(latLng, "json")
+//                        circle.center = latLng
                     } else {
                         Log.d("getLastKnownLocation", "Location is null")
                     }

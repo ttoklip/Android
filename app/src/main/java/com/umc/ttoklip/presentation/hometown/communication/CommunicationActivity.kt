@@ -39,6 +39,11 @@ class CommunicationActivity :
             val intent = Intent(this, WriteCommunicationActivity::class.java)
             startActivity(intent)
         }
+        val streetFilters= listOf(
+            "시",
+            "구",
+            "동"
+        )
         val sortFilters = listOf(
             getString(R.string.sort_most_recent),
             getString(R.string.sort_popularity),
@@ -48,6 +53,8 @@ class CommunicationActivity :
         binding.bellBtn.setOnSingleClickListener {
             startActivity(AlarmActivity.newIntent(this))
         }
+        binding.honeyTipStreetSpinner.adapter= SortSpinnerAdapter(this,streetFilters)
+        binding.honeyTipStreetSpinner.setSelection(0)
         binding.honeyTipFilterSpinner.adapter =
             SortSpinnerAdapter(this, sortFilters)
         binding.honeyTipFilterSpinner.setSelection(0)
