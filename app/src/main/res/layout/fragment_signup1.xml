@@ -148,6 +148,7 @@
                 android:backgroundTint="@color/gray20"
                 android:hint="인증코드 입력"
                 android:paddingLeft="10dp"
+                android:inputType="number"
                 android:textColorHint="@color/gray60"
                 android:textAppearance="@style/TextAppearance.App.12sp_400"
                 app:layout_constraintTop_toTopOf="parent"

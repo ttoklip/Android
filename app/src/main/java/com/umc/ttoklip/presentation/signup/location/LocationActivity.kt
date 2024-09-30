@@ -259,33 +259,43 @@ class LocationActivity :
 //        }
     }
 
-    private fun startActivity(){
+    private fun startLogin(){
         val bundle = intent.getBundleExtra("userInfo")
-        if(bundle!!.getString("signupType")=="local"){
-            viewModel.postLocalLogin(LoginLocalRequest(viewModel.email.value,viewModel.pw.value),this)
-            startActivity(Intent(this, MainActivity::class.java))
-            val loginActivity=LoginActivity.loginActivity
-            loginActivity?.finish()
-            val signupActivity= SignupActivity.signupActivity
-            signupActivity?.finish()
-            finish()
+        if(bundle!!.getString("signupType")=="local") {
+            viewModel.postLocalLogin(
+                LoginLocalRequest(viewModel.email.value, viewModel.pw.value),
+                this
+            )
         }else{
-            startActivity(Intent(this, MainActivity::class.java))
-            TtoklipApplication.prefs.setBoolean("isFirstLogin", false)
-            val loginActivity=LoginActivity.loginActivity
-            loginActivity?.finish()
-            val signupActivity= SignupActivity.signupActivity
-            signupActivity?.finish()
-            finish()
+            startActivity()
         }
+    }
+    private fun startActivity(){
+        startActivity(Intent(this, MainActivity::class.java))
+        TtoklipApplication.prefs.setBoolean("isFirstLogin", false)
+        val loginActivity=LoginActivity.loginActivity
+        loginActivity?.finish()
+        val signupActivity= SignupActivity.signupActivity
+        signupActivity?.finish()
+        finish()
     }
 
     override fun initObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.saveok.collect{
+                viewModel.saveok.collect {
+                    if (it) {
+                        Toast.makeText(this@LocationActivity, "회원가입이 완료되었습니다.", Toast.LENGTH_LONG)
+                            .show()
+                        startLogin()
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED){
+                viewModel.loginok.collect{
                     if(it){
-                        Toast.makeText(this@LocationActivity,"회원가입이 완료되었습니다.",Toast.LENGTH_LONG).show()
                         startActivity()
                     }
                 }
