@@ -2,6 +2,9 @@ package com.umc.ttoklip.presentation.hometown.together
 
 import android.content.Intent
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.SpinnerAdapter
 import androidx.activity.viewModels
 import androidx.core.view.isGone
@@ -35,11 +38,6 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
 
     override fun initView() {
         binding.vm = viewModel
-        val streetFilters= listOf(
-            "시",
-            "구",
-            "동"
-        )
         binding.togetherStreetSpinner.adapter=SortSpinnerAdapter(this,streetFilters)
         binding.togetherStreetSpinner.setSelection(0)
         binding.writeFab.setOnSingleClickListener {
@@ -72,6 +70,22 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
                 }
             }
         })
+
+        binding.togetherStreetSpinner.onItemSelectedListener = object: OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                viewModel.setCriteria(streetFilters[position])
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+        }
     }
 
     override fun onStart() {
@@ -81,7 +95,6 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
     override fun onResume() {
         super.onResume()
         Log.d("resume", "resume")
-        viewModel.getTogether()
     }
 
     override fun initObserver() {
@@ -189,6 +202,14 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
         val intent = Intent(this, ReadTogetherActivity::class.java)
         intent.putExtra("postId", together.id)
         startActivity(intent)
+    }
+
+    companion object {
+        val streetFilters= listOf(
+            "시",
+            "구",
+            "동"
+        )
     }
 
 }

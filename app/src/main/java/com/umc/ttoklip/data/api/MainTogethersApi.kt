@@ -1,6 +1,7 @@
 package com.umc.ttoklip.data.api
 
 import com.umc.ttoklip.data.model.ResponseBody
+import com.umc.ttoklip.data.model.town.MemberStreetInfoResponse
 import com.umc.ttoklip.data.model.town.TogethersResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -13,6 +14,10 @@ interface MainTogethersApi {
         @Query("startMoney") startMoney: Long?,
         @Query("lastMoney") lastMoney: Long?,
         @Query("startParty") startParty: Long?,
-        @Query("lastParty") lastParty: Long?
+        @Query("lastParty") lastParty: Long?,
+        @Query("criteria") criteria: String
     ): Response<ResponseBody<TogethersResponse>>
+
+    @GET("/api/v1/member/street")
+    suspend fun getMemberStreetInfo(): Response<ResponseBody<MemberStreetInfoResponse>>
 }

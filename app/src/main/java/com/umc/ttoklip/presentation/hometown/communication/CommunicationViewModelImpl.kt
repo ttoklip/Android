@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,6 +23,25 @@ class CommunicationViewModelImpl @Inject constructor(private val repository: Mai
     private val _communities = MutableStateFlow<List<Communities>>(emptyList())
     override val communities: StateFlow<List<Communities>>
         get() = _communities
+
+    private val _criteria = MutableStateFlow("CITY")
+    override val criteria: StateFlow<String>
+        get() = _criteria
+
+    override fun setCriteria(criteria: String) {
+        _criteria.value = when(criteria){
+            "시" -> "CITY"
+            "구" -> "DISTRICT"
+            "동" -> "TOWN"
+            else -> throw IllegalArgumentException()
+        }
+        if(_criteria.value.isNotEmpty()){
+            _communities.value = listOf()
+            page.value = 0
+            isEnd.value = false
+            getCommunities()
+        }
+    }
 
 
     private val isEnd = MutableStateFlow<Boolean>(false)
@@ -32,7 +52,7 @@ class CommunicationViewModelImpl @Inject constructor(private val repository: Mai
         if (!isEnd.value) {
             viewModelScope.launch(Dispatchers.IO) {
                 try {
-                    repository.getComms(page = page.value)
+                    repository.getComms(page = page.value, criteria.value)
                         .onSuccess {
                             _communities.value = communities.value + it.communities
                             page.value += 1
