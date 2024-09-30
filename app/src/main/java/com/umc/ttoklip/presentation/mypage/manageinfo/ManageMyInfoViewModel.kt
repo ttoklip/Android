@@ -209,18 +209,20 @@ class ManageMyInfoViewModel @Inject constructor(
                 output
             ).onSuccess {
                 Log.d("gc", it.toString())
-                val location = it.results.first()
-                address.value = if (location.land.number2.isNullOrEmpty()) {
-                    with(location) {
-                        region.area1.name + " " + region.area2.name +
-                                " " + region.area3.name + " " + region.area4.name +
-                                " " + land.number1
-                    }
-                } else {
-                    with(location) {
-                        region.area1.name + " " + region.area2.name +
-                                " " + region.area3.name + " " + region.area4.name +
-                                " " + land.number1 + "-" + land.number2
+                if(it.results.isNotEmpty()) {
+                    val location = it.results.first()
+                    address.value = if (location.land.number2.isNullOrEmpty()) {
+                        with(location) {
+                            region.area1.name + " " + region.area2.name +
+                                    " " + region.area3.name + " " + region.area4.name +
+                                    " " + land.number1
+                        }
+                    } else {
+                        with(location) {
+                            region.area1.name + " " + region.area2.name +
+                                    " " + region.area3.name + " " + region.area4.name +
+                                    " " + land.number1 + "-" + land.number2
+                        }
                     }
                 }
                 _myPageInfo.value = _myPageInfo.value.copy().apply { street = address.value }
