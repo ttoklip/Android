@@ -35,5 +35,8 @@ class AddressDetailFragment: BaseFragment<FragmentAddresDetailBinding>(R.layout.
         binding.gpsBaseSettingFrame.setOnSingleClickListener {
             navigator.navigateUp()
         }
+        binding.backBtn.setOnSingleClickListener {
+            navigator.navigateUp()
+        }
     }
 }

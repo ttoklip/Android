@@ -129,7 +129,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="24dp"
-            app:layout_constraintTop_toBottomOf="@id/set_trade_location_frame">
+            app:layout_constraintTop_toBottomOf="@id/set_trade_location_frame"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/recently_used_place_title"
