@@ -67,4 +67,6 @@ interface WriteTogetherViewModel {
     fun eventTradeLocation(event: TradeLocationEvent)
 
     fun patchTogether(images: List<MultipartBody.Part?>)
+
+    fun fetchReverseGeocoding(latLng: LatLng)
 }

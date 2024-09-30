@@ -52,7 +52,7 @@ class WriteTogetherActivity :
         val editTogether = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getSerializableExtra("edit", EditTogether::class.java)
         } else {
-            intent.getSerializableExtra("edit") as EditTogether
+            intent.getSerializableExtra("edit") as? EditTogether
         }
 
         if(editTogether != null){

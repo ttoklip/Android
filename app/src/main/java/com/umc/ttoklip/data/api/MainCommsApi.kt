@@ -9,6 +9,7 @@ import retrofit2.http.Query
 interface MainCommsApi {
     @GET("/api/v1/town/main/community")
     suspend fun commsList(
-        @Query("page") page :Int
+        @Query("page") page :Int,
+        @Query("criteria") criteria: String
     ): Response<ResponseBody<CommsResponse>>
 }

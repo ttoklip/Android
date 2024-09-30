@@ -230,7 +230,7 @@ class WriteTogetherViewModelImpl @Inject constructor(
                                 latLng
                             )
                         )
-                        setAddress(query)
+                        setAddress(result.jibunAddress)
                     }
                 }
                 Log.d("naver", response.toString())
@@ -239,7 +239,6 @@ class WriteTogetherViewModelImpl @Inject constructor(
             }
         }
     }
-
     override fun eventTradeLocation(event: WriteTogetherViewModel.TradeLocationEvent) {
         viewModelScope.launch {
             _tradeLocationEvent.emit(event)
@@ -263,6 +262,22 @@ class WriteTogetherViewModelImpl @Inject constructor(
                 Log.d("patch Together", it.toString())
             }.onFail {message ->
                 _includeSwear.emit(message)
+            }
+        }
+    }
+
+    override fun fetchReverseGeocoding(latLng: LatLng) {
+        viewModelScope.launch {
+            naverRepository.fetchReverseGeocodingInfo("${latLng.longitude},${latLng.latitude}", "json").onSuccess {
+                val address = it.results.first()
+                with(address.region){
+                    _address.value = area1.name +
+                            (if(area2.name.isNotEmpty()) " " + area2.name else "") +
+                            (if(area3.name.isNotEmpty()) " " + area3.name else "") +
+                            (if(area4.name.isNotEmpty()) " " + area4.name else "") +
+                            (if(address.land.number1.isNotEmpty()) " " + address.land.number1 else "") +
+                            (if(address.land.number2.isEmpty()) "" else "-${address.land.number2}")
+                }
             }
         }
     }

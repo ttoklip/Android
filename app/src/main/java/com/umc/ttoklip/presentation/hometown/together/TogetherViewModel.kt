@@ -11,6 +11,9 @@ interface TogetherViewModel {
     val showDialog: SharedFlow<Boolean>
     val togethers: StateFlow<List<Togethers>>
     val mainData : SharedFlow<TogethersResponse>
+    val criteria: StateFlow<String>
+
+    fun setCriteria(criteria: String)
 
     fun onFilterClick()
 
