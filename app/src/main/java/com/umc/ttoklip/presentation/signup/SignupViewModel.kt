@@ -183,10 +183,10 @@ class SignupViewModel @Inject constructor(
             naverRepository.getAdmcode("${coord.longitude}, ${coord.latitude}")
                 .onSuccess {
                     val address=it.results.first()
-                    street.value=address.region.area1.name+" "+
-                            address.region.area2.name+" "+
-                            address.region.area3.name+" "+
-                            address.region.area4.name
+                    street.value = address.region.area1.name + " " +
+                            (address.region.area2?.name?.let { it + " " } ?: "") +
+                            (address.region.area3?.name?.let { it + " " } ?: "") +
+                            (address.region.area4?.name ?: "")
                 }
         }
     }

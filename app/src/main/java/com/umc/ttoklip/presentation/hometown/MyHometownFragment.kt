@@ -92,6 +92,7 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
         }
         binding.myHometownFilterTv.setOnSingleClickListener {
             val intent = Intent(requireContext(), MyHometownAddressActivity::class.java)
+            intent.putExtra("location", binding.myHometownFilterTv.text)
             activityResultLauncher.launch(intent)
         }
         binding.writeTogetherBtn.setOnSingleClickListener {
