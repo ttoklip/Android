@@ -8,6 +8,8 @@ interface MyHometownViewModel {
 
     val mainData : StateFlow<UiState<TownMainResponse>>
     val errorData: StateFlow<String>
+    val streetInfo: StateFlow<String>
 
     fun getM()
+    fun getMemberStreetInfo()
 }
