@@ -25,6 +25,7 @@ import com.umc.ttoklip.presentation.hometown.together.TogetherActivity
 import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherActivity
 import com.umc.ttoklip.presentation.mypage.manageinfo.MyHometownAddressActivity
 import com.umc.ttoklip.presentation.search.SearchActivity
+import com.umc.ttoklip.presentation.search2.SearchActivity2
 import com.umc.ttoklip.util.UiState
 import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint

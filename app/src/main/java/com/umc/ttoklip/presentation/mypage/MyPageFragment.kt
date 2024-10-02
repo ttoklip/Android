@@ -1,6 +1,7 @@
 package com.umc.ttoklip.presentation.mypage
 
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -78,8 +79,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
 
         binding.noticeFrame.setOnSingleClickListener {//알림 설정-알림이 되어야함
-            val intent = Intent(requireContext(), NoticeSettingActivity::class.java)
-            startActivity(intent)
+            goNotificationIntent()
+            //release
+//            val intent = Intent(requireContext(), NoticeSettingActivity::class.java)
+//            startActivity(intent)
         }
 
         binding.termsPolicesFrame.setOnSingleClickListener {//약관 및 정책
@@ -110,5 +113,18 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             val intent = Intent(requireContext(), MyHoneyTipActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun goNotificationIntent() {
+        val notificationIntent = Intent()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationIntent.action = android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS
+            notificationIntent.putExtra(android.provider.Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+        } else {
+            notificationIntent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
+            notificationIntent.putExtra("app_package", requireContext().packageName)
+            notificationIntent.putExtra("app_uid", requireContext().applicationInfo.uid)
+        }
+        startActivity(notificationIntent)
     }
 }

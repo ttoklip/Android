@@ -1,6 +1,7 @@
 package com.umc.ttoklip.data.repository.search
 
 import com.umc.ttoklip.data.model.CommonResponse
+import com.umc.ttoklip.data.model.mypage.UserStreetResponse
 import com.umc.ttoklip.data.model.news.MainNewsResponse
 import com.umc.ttoklip.data.model.news.comment.NewsCommentRequest
 import com.umc.ttoklip.data.model.news.detail.NewsDetailResponse
@@ -17,4 +18,6 @@ interface Search2Repository {
     suspend fun getTipSearch(title : String, sort: String, page: Int): NetworkResult<TipSearchResponse>
 
     suspend fun getTownSearch(title : String, sort: String, page: Int): NetworkResult<TownSearchResponse>
+
+    suspend fun getUserStreet() : NetworkResult<UserStreetResponse>
 }

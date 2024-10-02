@@ -47,6 +47,14 @@ class HomeViewModelImpl @Inject constructor(
     override val mainData: StateFlow<HomeResponse>
         get() = _mainData
 
+    private val _isTownTarget = MutableStateFlow(false)
+    override val isTownTarget: StateFlow<Boolean>
+        get() = _isTownTarget
+
+    init {
+        getUserStreet()
+    }
+
     override fun clickDelayWork() {
         viewModelScope.launch {
             _haveWork.emit(haveWork.value.not())
@@ -125,4 +133,22 @@ class HomeViewModelImpl @Inject constructor(
             }
         }
     }
+
+    private fun getUserStreet() {
+        try {
+            viewModelScope.launch {
+                homeRepository.getUserStreet().onSuccess {
+                    _isTownTarget.value = it.writerLiveInSeoul
+                }.onFail {
+
+                }.onException {
+                    throw it
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("예외", "$e")
+        }
+    }
+
 }

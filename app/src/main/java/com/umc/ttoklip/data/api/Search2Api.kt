@@ -1,6 +1,7 @@
 package com.umc.ttoklip.data.api
 
 import com.umc.ttoklip.data.model.ResponseBody
+import com.umc.ttoklip.data.model.mypage.UserStreetResponse
 import com.umc.ttoklip.data.model.news.detail.NewsDetailResponse
 import com.umc.ttoklip.data.model.search.NewsSearchResponse
 import com.umc.ttoklip.data.model.search.TipSearchResponse
@@ -32,5 +33,9 @@ interface Search2Api {
         @Query("sort") sort: String,
         @Query("page") page: Int
     ): Response<ResponseBody<TownSearchResponse>>
+
+    @GET("/api/v1/member/street")
+    suspend fun getStreet(): Response<ResponseBody<UserStreetResponse>>
+
 
 }

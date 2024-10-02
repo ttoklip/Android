@@ -2,6 +2,8 @@ package com.umc.ttoklip.presentation.search2.fragment
 
 import android.view.View
 import android.widget.AdapterView
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -38,13 +40,21 @@ class SearchTownFragment() :
                 1 -> {
                     startActivity(ArticleActivity.newIntent(requireContext(), id))
                 }
+
                 2 -> {}
                 3 -> {
                 }
+
                 4 -> {}
                 5 -> {
-                    startActivity(ReadCommunicationActivity.newIntent(requireContext(), id.toLong()))
+                    startActivity(
+                        ReadCommunicationActivity.newIntent(
+                            requireContext(),
+                            id.toLong()
+                        )
+                    )
                 }
+
                 else -> {}
             }
         }
@@ -53,8 +63,22 @@ class SearchTownFragment() :
     override fun initObserver() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.searchTourList.collect{
+                viewModel.searchTourList.collect {
                     searchRVA.submitList(it)
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isTownTarget.collect {
+                    if (it) {
+                        binding.userStreetT.visibility = View.GONE
+                        binding.communicationRv.visibility = View.VISIBLE
+                    } else {
+                        binding.userStreetT.visibility = View.VISIBLE
+                        binding.communicationRv.visibility = View.GONE
+                    }
                 }
             }
         }
@@ -67,9 +91,9 @@ class SearchTownFragment() :
         binding.filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 viewModel.reset(1)
-                if (binding.filterSpinner.selectedItem == "최신순"){
+                if (binding.filterSpinner.selectedItem == "최신순") {
                     viewModel.getTourSearch("latest")
-                } else{
+                } else {
                     viewModel.getTourSearch("popularity")
                 }
             }
@@ -90,9 +114,9 @@ class SearchTownFragment() :
                 if (newState == 2 && !recyclerView.canScrollVertically(1)
                     && lastVisibleItemPosition == totalItemViewCount
                 ) {
-                    if (binding.filterSpinner.selectedItem == "최신순"){
+                    if (binding.filterSpinner.selectedItem == "최신순") {
                         viewModel.getTourSearch("latest")
-                    } else{
+                    } else {
                         viewModel.getTourSearch("popularity")
                     }
                 }
