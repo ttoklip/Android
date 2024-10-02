@@ -17,7 +17,7 @@ interface HomeViewModel {
     fun clickMoreGroupBuy()
     fun clickAlarm()
     fun clickSearch()
-    fun getMain()
+    fun getMain(expirationToken: ()->Unit)
     fun patchFCM(token: String)
 
 

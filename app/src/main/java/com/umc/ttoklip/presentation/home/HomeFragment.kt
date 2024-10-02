@@ -21,6 +21,7 @@ import com.umc.ttoklip.presentation.hometown.together.read.ReadTogetherActivity
 import com.umc.ttoklip.presentation.hometown.together.TogetherActivity
 import com.umc.ttoklip.presentation.honeytip.adapter.OnItemClickListener
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipActivity
+import com.umc.ttoklip.presentation.login.LoginActivity
 import com.umc.ttoklip.presentation.mypage.adapter.OnTogetherItemClickListener
 import com.umc.ttoklip.presentation.mypage.adapter.TransactionAdapter
 import com.umc.ttoklip.presentation.news.adapter.NewsRVA
@@ -94,7 +95,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
     override fun initView() {
         binding.vm = viewModel
         binding.tipRV.adapter = tipRVA
-        viewModel.getMain()
+        viewModel.getMain(::expirationToken)
         Log.d("엑세스", "${TtoklipApplication.prefs.getString("jwt", "")}")
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -131,5 +132,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
         val intent = Intent(requireContext(), ReadTogetherActivity::class.java)
         intent.putExtra("postId", together.id)
         startActivity(intent)
+    }
+
+    fun expirationToken(){
+        TtoklipApplication.prefs.removeString("jwt")
+        startActivity(Intent(requireContext(),LoginActivity::class.java))
+        activity?.finish()
     }
 }

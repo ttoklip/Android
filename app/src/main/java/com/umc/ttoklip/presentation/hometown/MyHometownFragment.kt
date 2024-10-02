@@ -2,6 +2,7 @@ package com.umc.ttoklip.presentation.hometown
 
 import android.content.Intent
 import android.util.Log
+import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
@@ -24,7 +25,7 @@ import com.umc.ttoklip.presentation.hometown.together.TogetherActivity
 import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherActivity
 import com.umc.ttoklip.presentation.mypage.manageinfo.MyHometownAddressActivity
 import com.umc.ttoklip.presentation.search.SearchActivity
-import com.umc.ttoklip.presentation.search2.SearchActivity2
+import com.umc.ttoklip.util.UiState
 import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -60,22 +61,51 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
     override fun initObserver() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.mainData.collect { re ->
-                    re.communityRecent3.forEach {
-                        if(it.street.isNullOrEmpty()){
-                            it.street = "수도권"
+                viewModel.mainData.collect { state ->
+                    when(state){
+                        is UiState.Success -> {
+                            with(state.data){
+                                binding.errorLayout.visibility = View.GONE
+                                binding.sv.visibility = View.VISIBLE
+                                communityRecent3.forEach {
+                                    if(it.street.isNullOrEmpty()){
+                                        it.street = "수도권"
+                                    }
+                                }
+                                togetherAdapter.submitList(cartRecent3.map { it.toModel() })
+                                communicationAdapter.submitList(communityRecent3.map { it.toModel() })
+                            }
                         }
+                        else -> Unit
                     }
-                    togetherAdapter.submitList(re.cartRecent3.map { it.toModel() })
-                    communicationAdapter.submitList(re.communityRecent3.map { it.toModel() })
-                    binding.myHometownFilterTv.text = re.street
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.errorData.collect { message ->
+                    if(message.isNotEmpty()){
+                        binding.errorLayout.visibility = View.VISIBLE
+                        binding.sv.visibility = View.GONE
+                    }
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.streetInfo.collect { info ->
+                    if (info.isNotEmpty()) {
+                        binding.myHometownFilterTv.text = info
+                    }
                 }
             }
         }
     }
 
     override fun initView() {
-//        Log.d("jwt", TtoklipApplication.prefs.getString("jwt", ""))
+        viewModel.getMemberStreetInfo()
         binding.seeDetailTogetherBtn.setOnSingleClickListener {
             val intent = Intent(requireContext(), TogetherActivity::class.java)
             startActivity(intent)
@@ -90,10 +120,6 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
         }
         binding.searchBtn.setOnSingleClickListener {
             startActivity(SearchActivity2.newIntent(requireContext()))
-        }
-        binding.myHometownFilterTv.setOnSingleClickListener {
-            val intent = Intent(requireContext(), MyHometownAddressActivity::class.java)
-            activityResultLauncher.launch(intent)
         }
         binding.writeTogetherBtn.setOnSingleClickListener {
             val intent = Intent(requireContext(), WriteTogetherActivity::class.java)

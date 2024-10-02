@@ -74,6 +74,22 @@
                     android:tint="@color/gray80" />
             </com.google.android.material.card.MaterialCardView>
 
+            <Spinner
+                android:id="@+id/together_street_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rectangle_corner_10_strok_1"
+                android:dropDownWidth="wrap_content"
+                android:dropDownVerticalOffset="32dp"
+                android:paddingVertical="7dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="6dp"
+                android:popupBackground="@drawable/sort_spinner_dropdown"
+                android:spinnerMode="dropdown"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/settingBtn"
+                app:layout_constraintBottom_toBottomOf="@id/settingBtn"/>
+
             <HorizontalScrollView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

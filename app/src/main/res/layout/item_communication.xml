@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp">
+        android:layout_marginBottom="12dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
@@ -127,9 +127,10 @@
             android:id="@+id/item_separator"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="20dp"
             android:background="@color/gray20"
-            app:layout_constraintTop_toBottomOf="@id/content_stat_frame" />
+            app:layout_constraintTop_toBottomOf="@id/content_stat_frame"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

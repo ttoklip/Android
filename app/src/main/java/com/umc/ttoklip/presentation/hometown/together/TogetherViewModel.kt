@@ -11,6 +11,10 @@ interface TogetherViewModel {
     val showDialog: SharedFlow<Boolean>
     val togethers: StateFlow<List<Togethers>>
     val mainData : SharedFlow<TogethersResponse>
+    val criteria: StateFlow<String>
+    val streetInfo: StateFlow<String>
+
+    fun setCriteria(position: Int)
 
     fun onFilterClick()
 
@@ -18,4 +22,6 @@ interface TogetherViewModel {
 
 
     fun getFilters(requiredAmount: Long, maxMember: Long)
+
+    fun getMemberStreetInfo()
 }

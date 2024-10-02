@@ -164,7 +164,6 @@ class PlaceFragment : BaseFragment<FragmentPlaceBinding>(R.layout.fragment_place
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(requireActivity(), PERMISSIONS, LOCATION_PERMISSION_REQUEST_CODE)
-            getLastKnownLocation()
             return
         }
         fusedLocationClient.lastLocation
@@ -173,7 +172,8 @@ class PlaceFragment : BaseFragment<FragmentPlaceBinding>(R.layout.fragment_place
                     val latLng = LatLng(location.latitude, location.longitude)
                     naverMap.locationOverlay.position = latLng
                     naverMap.moveCamera(CameraUpdate.scrollTo(latLng))
-                    getAddress(location.latitude, location.longitude)
+                    viewModel.fetchReverseGeocoding(latLng)
+                    //getAddress(location.latitude, location.longitude)
                 } else {
                 }
             }

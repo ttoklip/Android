@@ -4,6 +4,7 @@ import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
+import android.widget.AdapterView
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -20,6 +21,7 @@ import com.umc.ttoklip.presentation.hometown.adapter.CommunicationAdapter
 import com.umc.ttoklip.presentation.hometown.adapter.OnItemClickListener
 import com.umc.ttoklip.presentation.hometown.communication.read.ReadCommunicationActivity
 import com.umc.ttoklip.presentation.hometown.communication.write.WriteCommunicationActivity
+import com.umc.ttoklip.presentation.hometown.together.TogetherActivity
 import com.umc.ttoklip.presentation.mypage.SortSpinnerAdapter
 import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,6 +35,7 @@ class CommunicationActivity :
         CommunicationAdapter(this,this)
     }
     private val viewModel: CommunicationViewModel by viewModels<CommunicationViewModelImpl>()
+    private var streetFilters = listOf<String>()
     override fun initView() {
         binding.vm = viewModel as CommunicationViewModelImpl
         binding.writeFab.setOnSingleClickListener {
@@ -48,6 +51,8 @@ class CommunicationActivity :
         binding.bellBtn.setOnSingleClickListener {
             startActivity(AlarmActivity.newIntent(this))
         }
+        binding.honeyTipStreetSpinner.adapter= SortSpinnerAdapter(this,streetFilters)
+        binding.honeyTipStreetSpinner.setSelection(0)
         binding.honeyTipFilterSpinner.adapter =
             SortSpinnerAdapter(this, sortFilters)
         binding.honeyTipFilterSpinner.setSelection(0)
@@ -57,12 +62,6 @@ class CommunicationActivity :
             adapter = adapter
             layoutManager = LinearLayoutManager(this@CommunicationActivity)
             adapter = rva
-            addItemDecoration(
-                DividerItemDecoration(
-                    this@CommunicationActivity,
-                    LinearLayoutManager.VERTICAL
-                )
-            )
         }
         binding.communicationRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -80,6 +79,24 @@ class CommunicationActivity :
             }
         })
 
+        binding.honeyTipStreetSpinner.onItemSelectedListener = object:
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                viewModel.setCriteria(position)
+                Log.d("fil", streetFilters[position])
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+        }
+
 
         binding.backBtn.setOnSingleClickListener {
             finish()
@@ -88,7 +105,27 @@ class CommunicationActivity :
 
     override fun onResume() {
         super.onResume()
-        viewModel.getCommunities()
+        viewModel.getMemberStreetInfo()
+    }
+
+    private fun initSpinner(list: List<String>){
+        binding.honeyTipStreetSpinner.adapter=SortSpinnerAdapter(this, list)
+        binding.honeyTipStreetSpinner.setSelection(0)
+        binding.honeyTipStreetSpinner.onItemSelectedListener = object:
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                viewModel.setCriteria(position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
     }
 
 
@@ -101,6 +138,15 @@ class CommunicationActivity :
                     }
                 }
             }
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.streetInfo.collect{ info ->
+                        info.ifEmpty { return@collect }
+                        streetFilters = info.split(" ")
+                        initSpinner(streetFilters)
+                    }
+                }
+            }
         }
     }
 
@@ -109,5 +155,4 @@ class CommunicationActivity :
         intent.putExtra("postId", communication.id)
         startActivity(intent)
     }
-
 }

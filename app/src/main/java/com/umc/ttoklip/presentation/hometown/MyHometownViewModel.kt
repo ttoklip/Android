@@ -1,12 +1,15 @@
 package com.umc.ttoklip.presentation.hometown
 
-import com.umc.ttoklip.R
-import com.umc.ttoklip.data.model.town.townMainResponse
+import com.umc.ttoklip.data.model.town.TownMainResponse
+import com.umc.ttoklip.util.UiState
 import kotlinx.coroutines.flow.StateFlow
 
 interface MyHometownViewModel {
 
-    val mainData : StateFlow<townMainResponse>
+    val mainData : StateFlow<UiState<TownMainResponse>>
+    val errorData: StateFlow<String>
+    val streetInfo: StateFlow<String>
 
     fun getM()
+    fun getMemberStreetInfo()
 }

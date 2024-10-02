@@ -48,14 +48,13 @@ class LocationActivity :
     private lateinit var naverMap: NaverMap
     private lateinit var locationSource: FusedLocationSource
     private lateinit var uiSetting: UiSettings
-    private var address: String=""
     private val LOCATION_PERMISSION_REQUEST_CODE: Int = 5000
     private val PERMISSIONS = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION
     )
-    private lateinit var range: String
-    private lateinit var circle: CircleOverlay
+//    private lateinit var range: String
+//    private lateinit var circle: CircleOverlay
     private lateinit var marker: Marker
 
     private var nowlocationOn:Boolean=true
@@ -67,47 +66,46 @@ class LocationActivity :
             ActivityCompat.requestPermissions(this, PERMISSIONS, LOCATION_PERMISSION_REQUEST_CODE)
         }
         initMapView()
-        circle = CircleOverlay()
+//        circle = CircleOverlay()
         marker=Marker()
 
-        range = getString(R.string.range_500m)
-        binding.locationRangeDescTv.text =
-            getString(R.string.range_setting_format, range)
-
-        binding.locationRange1Tv.setOnClickListener { setRange500m() }
-        binding.locationRange2Tv.setOnClickListener { setRange1km() }
-        binding.locationRange3Tv.setOnClickListener { setRange15km() }
-
-        binding.locationRangeBar.setOnSeekBarChangeListener(object :
-            SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (progress <= RANGE_500M_PROGRESS) {
-                    setRange500m()
-                } else if (progress <= RANGE_1KM_PROGRESS) {
-                    setRange1km()
-                } else {
-                    setRange15km()
-                }
-                if (locationok) setcircle()
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                seekBar?.let {
-                    if (it.progress <= RANGE_500M_PROGRESS) {
-                        it.progress = RANGE_500M_PROGRESS
-                        setRange500m()
-                    } else if (it.progress <= RANGE_1KM_PROGRESS) {
-                        it.progress = RANGE_1KM_PROGRESS
-                        setRange1km()
-                    } else {
-                        it.progress = RANGE_15kM_PROGRESS
-                        setRange15km()
-                    }
-                }
-                if (locationok) setcircle()
-            }
-        })
+//        range = getString(R.string.range_500m)
+//        binding.locationRangeDescTv.text =
+//            getString(R.string.range_setting_format, range)
+//
+//        binding.locationRange1Tv.setOnClickListener { setRange500m() }
+//        binding.locationRange2Tv.setOnClickListener { setRange1km() }
+//        binding.locationRange3Tv.setOnClickListener { setRange15km() }
+//        binding.locationRangeBar.setOnSeekBarChangeListener(object :
+//            SeekBar.OnSeekBarChangeListener {
+//            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+//                if (progress <= RANGE_500M_PROGRESS) {
+//                    setRange500m()
+//                } else if (progress <= RANGE_1KM_PROGRESS) {
+//                    setRange1km()
+//                } else {
+//                    setRange15km()
+//                }
+//                if (locationok) setcircle()
+//            }
+//
+//            override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
+//            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+//                seekBar?.let {
+//                    if (it.progress <= RANGE_500M_PROGRESS) {
+//                        it.progress = RANGE_500M_PROGRESS
+//                        setRange500m()
+//                    } else if (it.progress <= RANGE_1KM_PROGRESS) {
+//                        it.progress = RANGE_1KM_PROGRESS
+//                        setRange1km()
+//                    } else {
+//                        it.progress = RANGE_15kM_PROGRESS
+//                        setRange15km()
+//                    }
+//                }
+//                if (locationok) setcircle()
+//            }
+//        })
 
         binding.locationBackIb.setOnClickListener {
             finish()
@@ -185,24 +183,23 @@ class LocationActivity :
     }
 
     private fun setlocation(latitude:Double,longitude:Double){
-        this.address=""
         getAddress(latitude, longitude)
-        circle.center = LatLng(latitude, longitude)
+//        circle.center = LatLng(latitude, longitude)
         marker.position=LatLng(latitude,longitude)
         locationok = true
-        setcircle()
+//        setcircle()
         marker.map=null
         marker.map=naverMap
         nextok()
     }
 
-    private fun setcircle() {
-        if (range == "500m") circle.radius = 500.0
-        else if (range == "1km") circle.radius = 1000.0
-        else circle.radius = 1500.0
-        circle.color = ContextCompat.getColor(this, R.color.yellow_trans30)
-        circle.map = naverMap
-    }
+//    private fun setcircle() {
+//        if (range == "500m") circle.radius = 500.0
+//        else if (range == "1km") circle.radius = 1000.0
+//        else circle.radius = 1500.0
+//        circle.color = ContextCompat.getColor(this, R.color.yellow_trans30)
+//        circle.map = naverMap
+//    }
 
     private fun hasPermission(): Boolean {
         for (permission in PERMISSIONS) {
@@ -262,33 +259,43 @@ class LocationActivity :
 //        }
     }
 
-    private fun startActivity(){
+    private fun startLogin(){
         val bundle = intent.getBundleExtra("userInfo")
-        if(bundle!!.getString("signupType")=="local"){
-            viewModel.postLocalLogin(LoginLocalRequest(viewModel.email.value,viewModel.pw.value),this)
-            startActivity(Intent(this, MainActivity::class.java))
-            val loginActivity=LoginActivity.loginActivity
-            loginActivity?.finish()
-            val signupActivity= SignupActivity.signupActivity
-            signupActivity?.finish()
-            finish()
+        if(bundle!!.getString("signupType")=="local") {
+            viewModel.postLocalLogin(
+                LoginLocalRequest(viewModel.email.value, viewModel.pw.value),
+                this
+            )
         }else{
-            startActivity(Intent(this, MainActivity::class.java))
-            TtoklipApplication.prefs.setBoolean("isFirstLogin", false)
-            val loginActivity=LoginActivity.loginActivity
-            loginActivity?.finish()
-            val signupActivity= SignupActivity.signupActivity
-            signupActivity?.finish()
-            finish()
+            startActivity()
         }
+    }
+    private fun startActivity(){
+        startActivity(Intent(this, MainActivity::class.java))
+        TtoklipApplication.prefs.setBoolean("isFirstLogin", false)
+        val loginActivity=LoginActivity.loginActivity
+        loginActivity?.finish()
+        val signupActivity= SignupActivity.signupActivity
+        signupActivity?.finish()
+        finish()
     }
 
     override fun initObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.saveok.collect{
+                viewModel.saveok.collect {
+                    if (it) {
+                        Toast.makeText(this@LocationActivity, "회원가입이 완료되었습니다.", Toast.LENGTH_LONG)
+                            .show()
+                        startLogin()
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED){
+                viewModel.loginok.collect{
                     if(it){
-                        Toast.makeText(this@LocationActivity,"회원가입이 완료되었습니다.",Toast.LENGTH_LONG).show()
                         startActivity()
                     }
                 }
@@ -303,36 +310,36 @@ class LocationActivity :
         }
     }
 
-    private fun setRange15km() {
-        range = getString(R.string.range_1_5km)
-        binding.locationRangeBar.progress = RANGE_15kM_PROGRESS
-        binding.locationRange1Tv.setTextColor(ContextCompat.getColor(this, R.color.gray40))
-        binding.locationRange2Tv.setTextColor(ContextCompat.getColor(this, R.color.gray40))
-        binding.locationRange3Tv.setTextColor(ContextCompat.getColor(this, R.color.black))
-        binding.locationRangeDescTv.text = getString(R.string.range_setting_format, range)
-    }
-
-    private fun setRange1km() {
-        range = getString(R.string.range_1km)
-        binding.locationRangeBar.progress = RANGE_1KM_PROGRESS
-        binding.locationRange1Tv.setTextColor(ContextCompat.getColor(this, R.color.gray40))
-        binding.locationRange2Tv.setTextColor(ContextCompat.getColor(this, R.color.black))
-        binding.locationRange3Tv.setTextColor(ContextCompat.getColor(this, R.color.gray40))
-        binding.locationRangeDescTv.text = getString(R.string.range_setting_format, range)
-    }
-
-    private fun setRange500m() {
-        range = getString(R.string.range_500m)
-        binding.locationRangeBar.progress = RANGE_500M_PROGRESS
-        binding.locationRange1Tv.setTextColor(ContextCompat.getColor(this, R.color.black))
-        binding.locationRange2Tv.setTextColor(ContextCompat.getColor(this, R.color.gray40))
-        binding.locationRange3Tv.setTextColor(ContextCompat.getColor(this, R.color.gray40))
-        binding.locationRangeDescTv.text = getString(R.string.range_setting_format, range)
-    }
-
-    companion object {
-        private const val RANGE_500M_PROGRESS = 33
-        private const val RANGE_1KM_PROGRESS = 67
-        private const val RANGE_15kM_PROGRESS = 100
-    }
+//    private fun setRange15km() {
+//        range = getString(R.string.range_1_5km)
+//        binding.locationRangeBar.progress = RANGE_15kM_PROGRESS
+//        binding.locationRange1Tv.setTextColor(ContextCompat.getColor(this, R.color.gray40))
+//        binding.locationRange2Tv.setTextColor(ContextCompat.getColor(this, R.color.gray40))
+//        binding.locationRange3Tv.setTextColor(ContextCompat.getColor(this, R.color.black))
+//        binding.locationRangeDescTv.text = getString(R.string.range_setting_format, range)
+//    }
+//
+//    private fun setRange1km() {
+//        range = getString(R.string.range_1km)
+//        binding.locationRangeBar.progress = RANGE_1KM_PROGRESS
+//        binding.locationRange1Tv.setTextColor(ContextCompat.getColor(this, R.color.gray40))
+//        binding.locationRange2Tv.setTextColor(ContextCompat.getColor(this, R.color.black))
+//        binding.locationRange3Tv.setTextColor(ContextCompat.getColor(this, R.color.gray40))
+//        binding.locationRangeDescTv.text = getString(R.string.range_setting_format, range)
+//    }
+//
+//    private fun setRange500m() {
+//        range = getString(R.string.range_500m)
+//        binding.locationRangeBar.progress = RANGE_500M_PROGRESS
+//        binding.locationRange1Tv.setTextColor(ContextCompat.getColor(this, R.color.black))
+//        binding.locationRange2Tv.setTextColor(ContextCompat.getColor(this, R.color.gray40))
+//        binding.locationRange3Tv.setTextColor(ContextCompat.getColor(this, R.color.gray40))
+//        binding.locationRangeDescTv.text = getString(R.string.range_setting_format, range)
+//    }
+//
+//    companion object {
+//        private const val RANGE_500M_PROGRESS = 33
+//        private const val RANGE_1KM_PROGRESS = 67
+//        private const val RANGE_15kM_PROGRESS = 100
+//    }
 }

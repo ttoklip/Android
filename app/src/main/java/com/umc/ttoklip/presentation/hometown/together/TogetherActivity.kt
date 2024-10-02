@@ -2,6 +2,10 @@ package com.umc.ttoklip.presentation.hometown.together
 
 import android.content.Intent
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.SpinnerAdapter
 import androidx.activity.viewModels
 import androidx.core.view.isGone
 import androidx.lifecycle.Lifecycle
@@ -17,6 +21,7 @@ import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.hometown.dialog.TogetherBottomSheetDialogFragment
 import com.umc.ttoklip.presentation.hometown.together.read.ReadTogetherActivity
 import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherActivity
+import com.umc.ttoklip.presentation.mypage.SortSpinnerAdapter
 import com.umc.ttoklip.presentation.mypage.adapter.OnTogetherItemClickListener
 import com.umc.ttoklip.presentation.mypage.adapter.TransactionAdapter
 import com.umc.ttoklip.util.setOnSingleClickListener
@@ -30,6 +35,7 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
     private val adapter by lazy {
         TransactionAdapter(this, this)
     }
+    private var streetFilters = listOf<String>()
 
     override fun initView() {
         binding.vm = viewModel
@@ -65,14 +71,33 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
         })
     }
 
+    private fun initSpinner(list: List<String>){
+        binding.togetherStreetSpinner.adapter=SortSpinnerAdapter(this@TogetherActivity, list)
+        binding.togetherStreetSpinner.setSelection(0)
+        binding.togetherStreetSpinner.onItemSelectedListener = object: OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                viewModel.setCriteria(position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         Log.d("start", "start")
     }
     override fun onResume() {
         super.onResume()
+        viewModel.getMemberStreetInfo()
         Log.d("resume", "resume")
-        viewModel.getTogether()
     }
 
     override fun initObserver() {
@@ -93,6 +118,16 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.mainData.collect {
                         adapter.submitList(it.carts)
+                    }
+                }
+            }
+
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.streetInfo.collect{ info ->
+                        info.ifEmpty { return@collect }
+                        streetFilters = info.split(" ")
+                        initSpinner(streetFilters)
                     }
                 }
             }
