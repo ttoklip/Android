@@ -177,6 +177,7 @@ class SignupViewModel @Inject constructor(
     ///////////////////////////////fragment 5
     var street=MutableStateFlow<String>("")
     val saveok=MutableStateFlow<Boolean>(false)
+    val loginok=MutableStateFlow<Boolean>(false)
 
     fun getAdmcode(coord: com.naver.maps.geometry.LatLng){
         viewModelScope.launch {
@@ -259,6 +260,7 @@ class SignupViewModel @Inject constructor(
                 .onSuccess {
                     TtoklipApplication.prefs.setString("jwt",it.jwtToken)
                     TtoklipApplication.prefs.setBoolean("isFirstLogin",it.ifFirstLogin)
+                    loginok.value=true
                 }.onFail {
                     Toast.makeText(context,"회원가입 실패", Toast.LENGTH_LONG).show()
                     Log.d("LOGIN-API", "local login 실패")

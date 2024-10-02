@@ -89,7 +89,7 @@ class HomeViewModelImpl @Inject constructor(
         }
     }
 
-    override fun getMain() {
+    override fun getMain(expirationToken:()->Unit) {
         viewModelScope.launch {
             try {
                 homeRepository.getHomeMain()
@@ -97,7 +97,7 @@ class HomeViewModelImpl @Inject constructor(
                         _mainData.emit(it)
                         TtoklipApplication.prefs.setString("nickname", it.currentMemberNickname)
                     }.onFail {
-
+                        expirationToken()
                     }.onException {
                         throw it
                     }
