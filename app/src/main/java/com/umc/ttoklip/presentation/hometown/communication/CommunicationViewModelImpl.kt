@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.data.model.town.Communities
 import com.umc.ttoklip.data.repository.town.MainCommsRepository
+import com.umc.ttoklip.data.repository.town.MainTogethersRepository
 import com.umc.ttoklip.module.onError
 import com.umc.ttoklip.module.onException
 import com.umc.ttoklip.module.onFail
@@ -18,7 +19,10 @@ import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 @HiltViewModel
-class CommunicationViewModelImpl @Inject constructor(private val repository: MainCommsRepository) :
+class CommunicationViewModelImpl @Inject constructor(
+    private val repository: MainCommsRepository,
+    private val mainTogethersRepository: MainTogethersRepository
+) :
     ViewModel(), CommunicationViewModel {
     private val _communities = MutableStateFlow<List<Communities>>(emptyList())
     override val communities: StateFlow<List<Communities>>
@@ -28,14 +32,18 @@ class CommunicationViewModelImpl @Inject constructor(private val repository: Mai
     override val criteria: StateFlow<String>
         get() = _criteria
 
-    override fun setCriteria(criteria: String) {
-        _criteria.value = when(criteria){
-            "시" -> "CITY"
-            "구" -> "DISTRICT"
-            "동" -> "TOWN"
+    private val _streetInfo = MutableStateFlow("")
+    override val streetInfo: StateFlow<String>
+        get() = _streetInfo
+
+    override fun setCriteria(position: Int) {
+        _criteria.value = when (position) {
+            0 -> "CITY"
+            1 -> "DISTRICT"
+            2 -> "TOWN"
             else -> throw IllegalArgumentException()
         }
-        if(_criteria.value.isNotEmpty()){
+        if (_criteria.value.isNotEmpty()) {
             _communities.value = listOf()
             page.value = 0
             isEnd.value = false
@@ -47,6 +55,15 @@ class CommunicationViewModelImpl @Inject constructor(private val repository: Mai
     private val isEnd = MutableStateFlow<Boolean>(false)
 
     private val page = MutableStateFlow<Int>(0)
+
+    override fun getMemberStreetInfo() {
+        viewModelScope.launch {
+            mainTogethersRepository.getMemberStreetInfo().onSuccess {
+                _streetInfo.value = it.street
+                Log.d("street INfo", it.street)
+            }
+        }
+    }
 
     override fun getCommunities() {
         if (!isEnd.value) {

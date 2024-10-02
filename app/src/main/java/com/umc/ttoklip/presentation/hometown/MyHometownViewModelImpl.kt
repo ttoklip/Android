@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.ttoklip.data.model.town.TownMainResponse
+import com.umc.ttoklip.data.repository.town.MainTogethersRepository
 import com.umc.ttoklip.data.repository.town.TownMainRepository
 import com.umc.ttoklip.module.onException
 import com.umc.ttoklip.module.onFail
@@ -17,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MyHometownViewModelImpl @Inject constructor(
-    private val repository: TownMainRepository
+    private val repository: TownMainRepository,
+    private val mainTogethersRepository: MainTogethersRepository
 ) : ViewModel(), MyHometownViewModel {
 
     private val _mainData = MutableStateFlow<UiState<TownMainResponse>>(UiState.Empty)
@@ -27,6 +29,10 @@ class MyHometownViewModelImpl @Inject constructor(
     private val _errorData = MutableStateFlow("")
     override val errorData: StateFlow<String>
         get() = _errorData
+
+    private val _streetInfo = MutableStateFlow("")
+    override val streetInfo: StateFlow<String>
+        get() = _streetInfo
 
     override fun getM() {
         viewModelScope.launch {
@@ -49,4 +55,12 @@ class MyHometownViewModelImpl @Inject constructor(
 
     }
 
+    override fun getMemberStreetInfo() {
+        viewModelScope.launch {
+            mainTogethersRepository.getMemberStreetInfo().onSuccess {
+                _streetInfo.value = it.street
+                Log.d("street INfo", it.street)
+            }
+        }
+    }
 }

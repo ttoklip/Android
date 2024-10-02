@@ -21,7 +21,10 @@ import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 @HiltViewModel
-class TogetherViewModelImpl @Inject constructor(private val repository: MainTogethersRepository) :
+class TogetherViewModelImpl @Inject constructor(
+    private val repository: MainTogethersRepository,
+    private val mainTogethersRepository: MainTogethersRepository
+) :
     ViewModel(), TogetherViewModel {
     private val _filterRequiredAmount = MutableStateFlow(0L)
     override val filterRequiredAmount: StateFlow<Long>
@@ -48,14 +51,19 @@ class TogetherViewModelImpl @Inject constructor(private val repository: MainToge
     override val criteria: StateFlow<String>
         get() = _criteria
 
-    override fun setCriteria(criteria: String) {
-        _criteria.value = when(criteria){
-            "시" -> "CITY"
-            "구" -> "DISTRICT"
-            "동" -> "TOWN"
+    private val _streetInfo = MutableStateFlow("")
+    override val streetInfo: StateFlow<String>
+        get() = _streetInfo
+
+    override fun setCriteria(position: Int) {
+        _criteria.value = when (position) {
+            0 -> "CITY"
+            1 -> "DISTRICT"
+            2 -> "TOWN"
             else -> throw IllegalArgumentException()
         }
-        if(_criteria.value.isNotEmpty()){
+
+        if (_criteria.value.isNotEmpty()) {
             _togethers.value = listOf()
             page.value = 0
             isEnd.value = false
@@ -82,6 +90,15 @@ class TogetherViewModelImpl @Inject constructor(private val repository: MainToge
             page.value = 0
             isEnd.value = false
             getTogether()
+        }
+    }
+
+    override fun getMemberStreetInfo() {
+        viewModelScope.launch {
+            mainTogethersRepository.getMemberStreetInfo().onSuccess {
+                _streetInfo.value = it.street
+                Log.d("street INfo", it.street)
+            }
         }
     }
 
@@ -164,14 +181,21 @@ class TogetherViewModelImpl @Inject constructor(private val repository: MainToge
             if (!isEnd.value) {
                 viewModelScope.launch(Dispatchers.IO) {
                     try {
-                        repository.getTogethers(page.value, minAmount, maxAmount, min, max, criteria.value)
+                        repository.getTogethers(
+                            page.value,
+                            minAmount,
+                            maxAmount,
+                            min,
+                            max,
+                            criteria.value
+                        )
                             .onSuccess {
                                 _togethers.value = togethers.value + it.carts
                                 page.value += 1
                                 isEnd.value = it.isLast
                             }.onError {
-                            Log.d("error", it.printStackTrace().toString())
-                        }
+                                Log.d("error", it.printStackTrace().toString())
+                            }
                     } catch (e: Exception) {
                         e.printStackTrace()
                         Log.d("예외", "$e")

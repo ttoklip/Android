@@ -74,7 +74,6 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
                                 }
                                 togetherAdapter.submitList(cartRecent3.map { it.toModel() })
                                 communicationAdapter.submitList(communityRecent3.map { it.toModel() })
-                                binding.myHometownFilterTv.text = street
                             }
                         }
                         else -> Unit
@@ -93,9 +92,20 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.streetInfo.collect { info ->
+                    if (info.isNotEmpty()) {
+                        binding.myHometownFilterTv.text = info
+                    }
+                }
+            }
+        }
     }
 
     override fun initView() {
+        viewModel.getMemberStreetInfo()
         binding.seeDetailTogetherBtn.setOnSingleClickListener {
             val intent = Intent(requireContext(), TogetherActivity::class.java)
             startActivity(intent)
@@ -110,11 +120,6 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
         }
         binding.searchBtn.setOnSingleClickListener {
             startActivity(SearchActivity.newIntent(requireContext()))
-        }
-        binding.myHometownFilterTv.setOnSingleClickListener {
-            val intent = Intent(requireContext(), MyHometownAddressActivity::class.java)
-            intent.putExtra("location", binding.myHometownFilterTv.text)
-            activityResultLauncher.launch(intent)
         }
         binding.writeTogetherBtn.setOnSingleClickListener {
             val intent = Intent(requireContext(), WriteTogetherActivity::class.java)
