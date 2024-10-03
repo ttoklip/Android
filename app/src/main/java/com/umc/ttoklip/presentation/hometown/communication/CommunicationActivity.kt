@@ -35,6 +35,7 @@ class CommunicationActivity :
         CommunicationAdapter(this,this)
     }
     private val viewModel: CommunicationViewModel by viewModels<CommunicationViewModelImpl>()
+    private var streetFilters = listOf<String>()
     override fun initView() {
         binding.vm = viewModel as CommunicationViewModelImpl
         binding.writeFab.setOnSingleClickListener {
@@ -86,8 +87,8 @@ class CommunicationActivity :
                 position: Int,
                 id: Long
             ) {
-                viewModel.setCriteria(TogetherActivity.streetFilters[position])
-                Log.d("fil", TogetherActivity.streetFilters[position])
+                viewModel.setCriteria(position)
+                Log.d("fil", streetFilters[position])
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -104,6 +105,27 @@ class CommunicationActivity :
 
     override fun onResume() {
         super.onResume()
+        viewModel.getMemberStreetInfo()
+    }
+
+    private fun initSpinner(list: List<String>){
+        binding.honeyTipStreetSpinner.adapter=SortSpinnerAdapter(this, list)
+        binding.honeyTipStreetSpinner.setSelection(0)
+        binding.honeyTipStreetSpinner.onItemSelectedListener = object:
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                viewModel.setCriteria(position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
     }
 
 
@@ -116,6 +138,15 @@ class CommunicationActivity :
                     }
                 }
             }
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.streetInfo.collect{ info ->
+                        info.ifEmpty { return@collect }
+                        streetFilters = info.split(" ")
+                        initSpinner(streetFilters)
+                    }
+                }
+            }
         }
     }
 
@@ -123,13 +154,5 @@ class CommunicationActivity :
         val intent = Intent(this, ReadCommunicationActivity::class.java)
         intent.putExtra("postId", communication.id)
         startActivity(intent)
-    }
-
-    companion object {
-        val streetFilters= listOf(
-            "시",
-            "구",
-            "동"
-        )
     }
 }

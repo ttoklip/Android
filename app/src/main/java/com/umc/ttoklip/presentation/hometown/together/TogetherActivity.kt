@@ -35,11 +35,10 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
     private val adapter by lazy {
         TransactionAdapter(this, this)
     }
+    private var streetFilters = listOf<String>()
 
     override fun initView() {
         binding.vm = viewModel
-        binding.togetherStreetSpinner.adapter=SortSpinnerAdapter(this,streetFilters)
-        binding.togetherStreetSpinner.setSelection(0)
         binding.writeFab.setOnSingleClickListener {
             val intent = Intent(this, WriteTogetherActivity::class.java)
             startActivity(intent)
@@ -70,7 +69,11 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
                 }
             }
         })
+    }
 
+    private fun initSpinner(list: List<String>){
+        binding.togetherStreetSpinner.adapter=SortSpinnerAdapter(this@TogetherActivity, list)
+        binding.togetherStreetSpinner.setSelection(0)
         binding.togetherStreetSpinner.onItemSelectedListener = object: OnItemSelectedListener{
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -78,13 +81,12 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
                 position: Int,
                 id: Long
             ) {
-                viewModel.setCriteria(streetFilters[position])
+                viewModel.setCriteria(position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
-
         }
     }
 
@@ -94,6 +96,7 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
     }
     override fun onResume() {
         super.onResume()
+        viewModel.getMemberStreetInfo()
         Log.d("resume", "resume")
     }
 
@@ -115,6 +118,16 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.mainData.collect {
                         adapter.submitList(it.carts)
+                    }
+                }
+            }
+
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.streetInfo.collect{ info ->
+                        info.ifEmpty { return@collect }
+                        streetFilters = info.split(" ")
+                        initSpinner(streetFilters)
                     }
                 }
             }
@@ -202,14 +215,6 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
         val intent = Intent(this, ReadTogetherActivity::class.java)
         intent.putExtra("postId", together.id)
         startActivity(intent)
-    }
-
-    companion object {
-        val streetFilters= listOf(
-            "시",
-            "구",
-            "동"
-        )
     }
 
 }
