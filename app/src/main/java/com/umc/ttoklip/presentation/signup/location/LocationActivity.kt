@@ -3,11 +3,7 @@ package com.umc.ttoklip.presentation.signup.location
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Address
-import android.location.Geocoder
-import android.os.Build
 import android.view.View
-import android.widget.SeekBar
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
@@ -21,7 +17,6 @@ import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.UiSettings
-import com.naver.maps.map.overlay.CircleOverlay
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
 import com.umc.ttoklip.R
@@ -34,9 +29,7 @@ import com.umc.ttoklip.presentation.login.LoginActivity
 import com.umc.ttoklip.presentation.signup.SignupActivity
 import com.umc.ttoklip.presentation.signup.SignupViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 @AndroidEntryPoint
 class LocationActivity :
@@ -234,7 +227,7 @@ class LocationActivity :
     }
 
     private fun getAddress(latitude: Double, longitude: Double) {
-        viewModel.getAdmcode(LatLng(latitude, longitude))
+        viewModel.getLegalcode(LatLng(latitude, longitude))
 //        val geocoder = Geocoder(applicationContext, Locale.KOREAN)
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 //            val addressList: List<Address>? = geocoder.getFromLocation(latitude, longitude, 1)

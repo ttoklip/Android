@@ -1,16 +1,10 @@
 package com.umc.ttoklip.presentation.mypage.manageinfo
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Address
-import android.location.Geocoder
-import android.os.Build
 import android.util.Log
-import android.widget.SeekBar
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -22,14 +16,12 @@ import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.UiSettings
-import com.naver.maps.map.overlay.CircleOverlay
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentMyInfoLocationBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.util.setOnSingleClickListener
-import java.util.Locale
 
 class MyInfoLocationFragment : BaseFragment<FragmentMyInfoLocationBinding>(R.layout.fragment_my_info_location) ,
     OnMapReadyCallback {
@@ -197,7 +189,7 @@ class MyInfoLocationFragment : BaseFragment<FragmentMyInfoLocationBinding>(R.lay
     }
 
     private fun getAddress(latitude: Double, longitude: Double) {
-        viewModel.getAdmcode(LatLng(latitude, longitude))
+        viewModel.getLegalcode(LatLng(latitude, longitude))
 //        val geocoder = Geocoder(requireContext(), Locale.KOREAN)
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 //            val addressList: List<Address>? = geocoder.getFromLocation(latitude, longitude, 1)
@@ -264,7 +256,7 @@ class MyInfoLocationFragment : BaseFragment<FragmentMyInfoLocationBinding>(R.lay
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
                     if (location != null) {
-                        viewModel.getAdmcode(LatLng(location.latitude, location.longitude))
+                        viewModel.getLegalcode(LatLng(location.latitude, location.longitude))
 //                        viewModel.fetchReverseGeocoding(latLng, "json")
 //                        circle.center = latLng
                     } else {

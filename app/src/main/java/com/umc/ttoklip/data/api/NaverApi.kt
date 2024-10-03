@@ -23,6 +23,6 @@ interface NaverApi {
     suspend fun getAdmcode(
         @Query("coords") coords: String,
         @Query("output") output: String = "json",
-        @Query("orders") orders: String = "admcode",
+        @Query("orders") orders: String = "legalcode",
     ): Response<ReverseGeocodingResponse>
 }
