@@ -81,9 +81,6 @@ class SearchViewModelImpl2 @Inject constructor(
     override val searchTourList: StateFlow<List<SearchModel>>
         get() = _searchTourList
 
-    init {
-        getUserStreet()
-    }
 
 
     override fun getTourSearch(sort: String) {
@@ -171,23 +168,6 @@ class SearchViewModelImpl2 @Inject constructor(
                     Log.d("예외", "$e")
                 }
             }
-        }
-    }
-
-    private fun getUserStreet() {
-        try {
-            viewModelScope.launch {
-                searchRepository.getUserStreet().onSuccess {
-                    _isTownTarget.value = it.writerLiveInSeoul
-                }.onFail {
-
-                }.onException {
-                    throw it
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Log.d("예외", "$e")
         }
     }
 

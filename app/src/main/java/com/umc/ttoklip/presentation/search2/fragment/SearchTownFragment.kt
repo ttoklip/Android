@@ -69,19 +69,6 @@ class SearchTownFragment() :
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.isTownTarget.collect {
-                    if (it) {
-                        binding.userStreetT.visibility = View.GONE
-                        binding.communicationRv.visibility = View.VISIBLE
-                    } else {
-                        binding.userStreetT.visibility = View.VISIBLE
-                        binding.communicationRv.visibility = View.GONE
-                    }
-                }
-            }
-        }
     }
 
     override fun initView() {
