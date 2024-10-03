@@ -257,14 +257,6 @@
                     tools:itemCount="3"
                     tools:listitem="@layout/item_news" />
 
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/townGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="@{vm.isTownTarget ? View.VISIBLE : View.GONE}"
-                    app:constraint_referenced_ids="groupBuyTitleT, groupBuyMoreBtn, groupBuyRV" />
-
-
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/groupBuyTitleT"
                     android:layout_width="0dp"

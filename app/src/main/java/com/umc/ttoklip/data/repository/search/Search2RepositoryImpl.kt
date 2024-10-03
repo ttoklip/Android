@@ -3,7 +3,6 @@ package com.umc.ttoklip.data.repository.search
 import com.umc.ttoklip.data.api.Search2Api
 import com.umc.ttoklip.data.api.SearchApi
 import com.umc.ttoklip.data.model.ResponseBody
-import com.umc.ttoklip.data.model.mypage.UserStreetResponse
 import com.umc.ttoklip.data.model.search.NewsSearchResponse
 import com.umc.ttoklip.data.model.search.SearchModel
 import com.umc.ttoklip.data.model.search.TipSearchResponse
@@ -65,10 +64,6 @@ class Search2RepositoryImpl @Inject constructor(
             response.result
         }
 
-    }
-
-    override suspend fun getUserStreet(): NetworkResult<UserStreetResponse> {
-        return handleApi({api.getStreet()}) {response: ResponseBody<UserStreetResponse> -> response.result}
     }
 
 }
