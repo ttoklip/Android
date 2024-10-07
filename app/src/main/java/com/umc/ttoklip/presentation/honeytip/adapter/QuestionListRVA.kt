@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
 import com.umc.ttoklip.databinding.ItemQuestionListBinding
 import com.umc.ttoklip.util.setOnSingleClickListener
@@ -52,6 +53,7 @@ class QuestionListRVA(private val fragment: Fragment, private var listener: OnQu
         fun bind(honeyTip: HoneyTipMain) {
             Glide.with(fragment)
                 .load(honeyTip.writerProfileImageUrl)
+                .placeholder(R.drawable.ic_defeault_logo)
                 .into(binding.writerIv)
             binding.titleTv.text = honeyTip.title
             binding.writerTv.text = honeyTip.writer

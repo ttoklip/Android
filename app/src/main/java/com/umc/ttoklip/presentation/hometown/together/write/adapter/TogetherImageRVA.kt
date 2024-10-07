@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.ItemImageBinding
 import com.umc.ttoklip.databinding.ItemTogetherImageBinding
 import com.umc.ttoklip.util.isValidUri
@@ -28,10 +29,12 @@ class TogetherImageRVA(private val context: Context, private var listener: OnIma
             if (image.src.isValidUri()){
                 Glide.with(context)
                     .load(Uri.parse(image.src))
+                    .placeholder(R.drawable.ic_defeault_logo)
                     .into(binding.iv)
             } else {
                 Glide.with(context)
                     .load(image.src)
+                    .placeholder(R.drawable.ic_defeault_logo)
                     .into(binding.iv)
             }
 

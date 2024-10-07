@@ -60,6 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:maxLines="3"
         android:text="집에 가끔씩이지만 나타나는 바퀴벌레, 잘못 처리하면 알깐다고도..."
         android:textAppearance="@style/TextAppearance.App.12sp_400"
         app:layout_constraintStart_toStartOf="@id/cardView"

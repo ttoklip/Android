@@ -32,6 +32,7 @@ class QuestionCommentRVA (val context: Context, val replyComment: (Int) -> Unit,
             binding.item = data
             Glide.with(context)
                 .load(data.writerProfileImageUrl)
+                .placeholder(R.drawable.ic_defeault_logo)
                 .into(binding.writerIv)
 
             binding.replyBtn.setOnSingleClickListener {
@@ -57,6 +58,7 @@ class QuestionCommentRVA (val context: Context, val replyComment: (Int) -> Unit,
             binding.item = data
             Glide.with(context)
                 .load(data.writerProfileImageUrl)
+                .placeholder(R.drawable.ic_defeault_logo)
                 .into(binding.profileImg)
 
             binding.deleteBtn.setOnSingleClickListener {

@@ -32,6 +32,7 @@ class TransactionAdapter(
 
                 Glide.with(context)
                     .load(data.writerProfileImageUrl)
+                    .placeholder(R.drawable.ic_defeault_logo)
                     .into(binding.transactionOwnerIcon)
 
                 root.setOnSingleClickListener {

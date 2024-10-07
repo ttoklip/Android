@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
 import com.umc.ttoklip.databinding.ItemCommentBinding
@@ -29,6 +30,7 @@ class CommentRVA(
         fun bind(data: NewsCommentResponse) {
             Glide.with(activity)
                 .load(data.writerProfileImageUrl)
+                .placeholder(R.drawable.ic_defeault_logo)
                 .into(binding.profileImg)
             binding.item = data
             binding.replyBtn.setOnClickListener {
@@ -60,6 +62,7 @@ class CommentRVA(
         fun bind(data: NewsCommentResponse) {
             Glide.with(activity)
                 .load(data.writerProfileImageUrl)
+                .placeholder(R.drawable.ic_defeault_logo)
                 .into(binding.profileImg)
             binding.item = data
             Log.d("item", data.toString())

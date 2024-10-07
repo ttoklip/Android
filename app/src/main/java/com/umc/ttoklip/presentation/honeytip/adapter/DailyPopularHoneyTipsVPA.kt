@@ -40,6 +40,7 @@ class DailyPopularHoneyTipsVPA(
         fun bind(honeyTip: HoneyTipMain) {
             Glide.with(fragment.requireContext())
                 .load(honeyTip.writerProfileImageUrl)
+                .placeholder(R.drawable.ic_defeault_logo)
                 .into(binding.profilePictureIv)
             binding.writerTv.text = honeyTip.writer
             binding.honeyTipTitleTv.text = honeyTip.title
