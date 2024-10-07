@@ -25,6 +25,7 @@ import com.umc.ttoklip.presentation.hometown.together.TogetherActivity
 import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherActivity
 import com.umc.ttoklip.presentation.mypage.manageinfo.MyHometownAddressActivity
 import com.umc.ttoklip.presentation.search.SearchActivity
+import com.umc.ttoklip.presentation.search2.SearchActivity2
 import com.umc.ttoklip.util.UiState
 import com.umc.ttoklip.util.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -119,7 +120,7 @@ class MyHometownFragment : BaseFragment<FragmentMyHometownBinding>(R.layout.frag
             startActivity(AlarmActivity.newIntent(requireContext()))
         }
         binding.searchBtn.setOnSingleClickListener {
-            startActivity(SearchActivity.newIntent(requireContext()))
+            startActivity(SearchActivity2.newIntent(requireContext()))
         }
         binding.writeTogetherBtn.setOnSingleClickListener {
             val intent = Intent(requireContext(), WriteTogetherActivity::class.java)

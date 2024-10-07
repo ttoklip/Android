@@ -15,6 +15,7 @@ interface SearchViewModel2 {
     val showDialog : SharedFlow<Boolean>
     val searchList : StateFlow<List<SearchModel>>
     val historyList : StateFlow<List<HistoryEntity>>
+    val isTownTarget : StateFlow<Boolean>
 
 
     //--------new---//

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.umc.ttoklip.R
 import com.umc.ttoklip.data.model.town.Communities
 import com.umc.ttoklip.databinding.ItemCommunicationBinding
 import com.umc.ttoklip.util.setOnSingleClickListener
@@ -32,6 +33,7 @@ class CommunicationAdapter(private val context: Context, private var listener: O
             }
             Glide.with(context)
                 .load(honeyTips.writerProfileImageUrl)
+                .placeholder(R.drawable.ic_defeault_logo)
                 .into(binding.writerIv)
             binding.titleTv.text = honeyTips.title
             binding.writerTv.text = honeyTips.writer

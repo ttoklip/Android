@@ -128,6 +128,7 @@ class ReadQuestionActivity :
                 with(binding) {
                     Glide.with(this@ReadQuestionActivity)
                         .load(question.writerProfileImageUrl)
+                        .placeholder(R.drawable.ic_defeault_logo)
                         .into(profileImg)
                     titleTv.text = question.title
                     writerTv.text = question.writer

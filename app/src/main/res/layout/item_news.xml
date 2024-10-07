@@ -55,6 +55,7 @@
                 android:layout_width="0dp"
                 android:lines="1"
                 android:ellipsize="end"
+                android:textAppearance="@style/TextAppearance.App.12sp_500"
                 app:layout_constraintStart_toStartOf="@id/newsTitleT"
                 app:layout_constraintTop_toBottomOf="@id/newsTitleT"
                 android:layout_marginTop="6dp"

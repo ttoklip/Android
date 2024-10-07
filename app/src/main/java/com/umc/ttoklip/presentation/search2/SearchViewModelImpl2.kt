@@ -51,6 +51,10 @@ class SearchViewModelImpl2 @Inject constructor(
     override val historyList: StateFlow<List<HistoryEntity>>
         get() = _historyList
 
+    private val _isTownTarget = MutableStateFlow(false)
+    override val isTownTarget: StateFlow<Boolean>
+        get() = _isTownTarget
+
     private val fSearchList = MutableStateFlow(mutableListOf<SearchModel>())
 
     //-------refact ---------
@@ -76,6 +80,7 @@ class SearchViewModelImpl2 @Inject constructor(
 
     override val searchTourList: StateFlow<List<SearchModel>>
         get() = _searchTourList
+
 
 
     override fun getTourSearch(sort: String) {
