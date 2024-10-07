@@ -202,15 +202,21 @@ class ManageMyInfoViewModel @Inject constructor(
         }
     }
 
-    fun getAdmcode(coord: com.naver.maps.geometry.LatLng){
+    fun getLegalcode(coord: com.naver.maps.geometry.LatLng){
         viewModelScope.launch {
             naverRepository.getAdmcode("${coord.longitude}, ${coord.latitude}")
                 .onSuccess {
-                    val add=it.results.first()
-                    address.value = add.region.area1.name + " " +
-                            (add.region.area2?.name?.let { it + " " } ?: "") +
-                            (add.region.area3?.name?.let { it + " " } ?: "") +
-                            (add.region.area4?.name ?: "")
+                    if(it.results.isNotEmpty()) {
+                        val location = it.results.first()
+                        address.value = with(location) {
+                            listOf(
+                                region.area1.name.plus(" "),
+                                region.area2.name.takeIf { it.isNotEmpty() }?.plus(" "),
+                                region.area3.name.takeIf { it.isNotEmpty() }?.plus(" "),
+                                region.area4.name.takeIf { it.isNotEmpty() }?.plus(" "),
+                            ).filterNotNull().joinToString("")
+                        }
+                    }
                 }
         }
     }

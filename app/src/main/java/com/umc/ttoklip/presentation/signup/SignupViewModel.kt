@@ -176,18 +176,35 @@ class SignupViewModel @Inject constructor(
 
     ///////////////////////////////fragment 5
     var street=MutableStateFlow<String>("")
+//    var streetVisible=MutableStateFlow<String>("")
     val saveok=MutableStateFlow<Boolean>(false)
     val loginok=MutableStateFlow<Boolean>(false)
 
-    fun getAdmcode(coord: com.naver.maps.geometry.LatLng){
+    fun getLegalcode(coord: com.naver.maps.geometry.LatLng){
         viewModelScope.launch {
-            naverRepository.getAdmcode("${coord.longitude}, ${coord.latitude}")
+            naverRepository.fetchReverseGeocodingInfo("${coord.longitude}, ${coord.latitude}","json")
                 .onSuccess {
-                    val address=it.results.first()
-                    street.value = address.region.area1.name + " " +
-                            (address.region.area2?.name?.let { it + " " } ?: "") +
-                            (address.region.area3?.name?.let { it + " " } ?: "") +
-                            (address.region.area4?.name ?: "")
+                    if(it.results.isNotEmpty()) {
+                        val location = it.results.first()
+                        street.value = with(location) {
+                            listOf(
+                                region.area1.name.plus(" "),
+                                region.area2.name.takeIf { it.isNotEmpty() }?.plus(" "),
+                                region.area3.name.takeIf { it.isNotEmpty() }?.plus(" "),
+                                region.area4.name.takeIf { it.isNotEmpty() }?.plus(" "),
+//                                land.number1,
+//                                land.number2.takeIf { it.isNotEmpty() }?.let { "-$it" }
+                            ).filterNotNull().joinToString("")
+                        }
+//                        streetVisible.value=with(location) {
+//                            listOf(
+//                                region.area1.name.plus(" "),
+//                                region.area2.name.takeIf { it.isNotEmpty() }?.plus(" "),
+//                                region.area3.name.takeIf { it.isNotEmpty() }?.plus(" "),
+//                                region.area4.name.takeIf { it.isNotEmpty() }
+//                            ).filterNotNull().joinToString("")
+//                        }
+                    }
                 }
         }
     }
