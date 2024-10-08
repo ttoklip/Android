@@ -17,7 +17,7 @@ interface ReadTogetherViewModel {
     val writer: StateFlow<String>
     val toast: SharedFlow<String>
     val postContent: StateFlow<ViewTogetherResponse>
-    val replyCommentParentId : MutableStateFlow<Int>
+    val replyCommentParentId : MutableStateFlow<Pair<Int, String>>
     val comments: StateFlow<List<com.umc.ttoklip.data.model.town.CommentResponse>>
     val commentContent: MutableStateFlow<String>
     val participants: StateFlow<ParticipantsResponse>

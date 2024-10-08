@@ -53,7 +53,7 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
     override val comments: StateFlow<List<CommentResponse>>
         get() = _comments
 
-    override val replyCommentParentId = MutableStateFlow(0)
+    override val replyCommentParentId = MutableStateFlow(Pair(0, ""))
     override val commentContent = MutableStateFlow("")
 
     private val _participants = MutableStateFlow(ParticipantsResponse(emptyList()))
@@ -188,7 +188,7 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
             if (postId.value != 0L) {
                 repository.createTogetherComment(
                     postId.value,
-                    CreateCommentRequest(commentContent.value, replyCommentParentId.value.toLong())
+                    CreateCommentRequest(commentContent.value, replyCommentParentId.value.first.toLong())
                 ).onSuccess {
                     readTogether(postId.value)
                 }.onFail { message ->

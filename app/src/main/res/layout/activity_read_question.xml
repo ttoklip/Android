@@ -245,6 +245,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="4dp"
+                android:visibility="gone"
                 android:textAppearance="@style/TextAppearance.App.12sp_400"
                 android:textColor="@color/blue"
                 app:layout_constraintBottom_toBottomOf="@id/comment_et"
