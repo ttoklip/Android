@@ -13,7 +13,7 @@ interface ArticleViewModel {
     val newsDetail: StateFlow<NewsDetailResponse>
     val comments: StateFlow<List<NewsCommentResponse>>
     val imageUrls: StateFlow<List<ImageUrl>>
-    val replyCommentParentId :MutableStateFlow<Int>
+    val replyCommentParentId :MutableStateFlow<Pair<Int,String>>
     val commentContent: MutableStateFlow<String>
     val toast:MutableStateFlow<String>
     val isLike :MutableStateFlow<Boolean>
