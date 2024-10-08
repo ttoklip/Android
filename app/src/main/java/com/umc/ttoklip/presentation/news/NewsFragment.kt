@@ -17,6 +17,7 @@ import com.umc.ttoklip.presentation.news.adapter.NewsCardRVA
 import com.umc.ttoklip.presentation.news.adapter.NewsTabAdapter
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
 import com.umc.ttoklip.presentation.search.SearchActivity
+import com.umc.ttoklip.presentation.search2.SearchActivity2
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -73,10 +74,10 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(R.layout.fragment_news) {
         })
 
         binding.searchBtn.setOnClickListener {
-            startActivity(SearchActivity.newIntent(requireContext()))
+            startActivity(SearchActivity2.newIntent(requireContext()))
         }
         binding.expandSearchBtn.setOnClickListener {
-            startActivity(SearchActivity.newIntent(requireContext()))
+            startActivity(SearchActivity2.newIntent(requireContext()))
         }
         binding.bellBtn.setOnClickListener {
             startActivity(AlarmActivity.newIntent(requireContext()))

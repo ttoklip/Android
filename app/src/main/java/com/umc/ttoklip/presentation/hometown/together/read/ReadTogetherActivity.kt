@@ -50,7 +50,7 @@ class ReadTogetherActivity :
     private val commentRVA by lazy {
         CommentRVA(
             this,
-            { id ->
+            { id, name ->
             viewModel.replyCommentParentId.value = id
         }, { id, myComment ->
             Log.d("mycomment", myComment.toString())
