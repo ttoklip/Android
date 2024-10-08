@@ -36,7 +36,7 @@ class ArticleViewModelImpl @Inject constructor(
     override val imageUrls: StateFlow<List<ImageUrl>>
         get() = _imageUrls
 
-    override val replyCommentParentId = MutableStateFlow(0)
+    override val replyCommentParentId = MutableStateFlow(Pair(0,""))
     override val commentContent = MutableStateFlow("")
 
     private val _toast = MutableStateFlow("")
@@ -81,7 +81,7 @@ class ArticleViewModelImpl @Inject constructor(
             try {
                 newsRepository.postCommentNews(
                     id,
-                    NewsCommentRequest(commentContent.value, replyCommentParentId.value)
+                    NewsCommentRequest(commentContent.value, replyCommentParentId.value.first)
                 ).onSuccess {
                     getDetail(id)
                 }.onFail {

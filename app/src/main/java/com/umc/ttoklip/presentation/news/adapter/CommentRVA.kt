@@ -17,7 +17,7 @@ import com.umc.ttoklip.databinding.ItemReplyBinding
 
 class CommentRVA(
     val activity: Activity,
-    val replyComment: (Int) -> Unit,
+    val replyComment: (Int, String) -> Unit,
     val ReportOrDelete: (Int, Boolean) -> Unit,
     val strangerOnClick: (String) -> Unit
 ) :
@@ -37,7 +37,7 @@ class CommentRVA(
                 if (data.commentContent == "삭제된 댓글입니다."){
                     return@setOnClickListener
                 }
-                replyComment(data.commentId)
+                replyComment(data.commentId, data.writer ?: "")
             }
             binding.deleteBtn.setOnClickListener {
                 if (data.commentContent == "삭제된 댓글입니다."){

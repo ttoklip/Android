@@ -40,7 +40,7 @@ class ReadCommunicationActivity :
     private val commentRVA by lazy {
         CommentRVA(
             this,
-            { id ->
+            { id, name ->
             viewModel.replyCommentParentId.value = id
         }, { id, myComment ->
             if (myComment) {

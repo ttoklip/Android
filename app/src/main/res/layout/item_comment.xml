@@ -42,15 +42,15 @@
             app:layout_constraintStart_toEndOf="@id/cardView"
             app:layout_constraintTop_toTopOf="@id/cardView" />
 
-        <TextView
-            android:id="@+id/level_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/writer_tv"
-            android:textAppearance="@style/TextAppearance.App.8sp_400"
-            app:layout_constraintBaseline_toBaselineOf="@id/writer_tv"
-            android:layout_marginStart="8dp"
-            android:text="LV.새싹이" />
+<!--        <TextView-->
+<!--            android:id="@+id/level_tv"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintStart_toEndOf="@id/writer_tv"-->
+<!--            android:textAppearance="@style/TextAppearance.App.8sp_400"-->
+<!--            app:layout_constraintBaseline_toBaselineOf="@id/writer_tv"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:text="LV.새싹이" />-->
 
         <LinearLayout
             android:layout_marginTop="8dp"
