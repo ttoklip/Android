@@ -107,3 +107,5 @@ inline fun View.setOnSingleClickListener(
         }
     }
 }
+
+fun String.toReplyNicknameFormat() = "@$this "

@@ -58,7 +58,7 @@ class ReadCommunicationViewModelImpl @Inject constructor(
     override val scrap: StateFlow<Boolean>
         get() = _scrap
 
-    override val replyCommentParentId = MutableStateFlow(0)
+    override val replyCommentParentId = MutableStateFlow(Pair(0, ""))
     override val commentContent = MutableStateFlow("")
 
     private val _comments = MutableStateFlow(listOf<CommentResponse>())
@@ -187,7 +187,7 @@ class ReadCommunicationViewModelImpl @Inject constructor(
             if (postId.value != 0L) {
                 repository.createCommsComment(
                     postId.value,
-                    CreateCommentRequest(commentContent.value, replyCommentParentId.value.toLong())
+                    CreateCommentRequest(commentContent.value, replyCommentParentId.value.first.toLong())
                 ).onSuccess {
                     readCommunication(postId.value)
                 }.onFail {  message ->
