@@ -15,6 +15,7 @@ import com.umc.ttoklip.module.onError
 import com.umc.ttoklip.module.onException
 import com.umc.ttoklip.module.onFail
 import com.umc.ttoklip.module.onSuccess
+import com.umc.ttoklip.util.toReplyNicknameFormat
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -63,7 +64,7 @@ class ReadHoneyTipViewModel @Inject constructor(
     private val _questionComments = MutableStateFlow(listOf<QuestionCommentResponse>())
     val questionComments: StateFlow<List<QuestionCommentResponse>> get() = _questionComments
 
-    val replyCommentParentId = MutableStateFlow(0)
+    val replyCommentParentId = MutableStateFlow(Pair(0, ""))
     val honeyTipCommentContent = MutableStateFlow("")
     val questionCommentContent = MutableStateFlow("")
 
@@ -87,7 +88,7 @@ class ReadHoneyTipViewModel @Inject constructor(
         data class ReadQuestionEvent(val inquireQuestionResponse: InquireQuestionResponse) :
             ReadEvent()
 
-        data class IncludeSwear(val message: String): ReadEvent()
+        data class IncludeSwear(val message: String) : ReadEvent()
     }
 
     private fun eventRead(event: ReadEvent) {
@@ -185,9 +186,18 @@ class ReadHoneyTipViewModel @Inject constructor(
 
     fun postHoneyTipComment(postId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
+            val commentContent = honeyTipCommentContent.value.replace(
+                replyCommentParentId.value.second,
+                ""
+            ).trim()
+            if(commentContent.isEmpty()){
+                return@launch
+            }
             repository.postCommentHoneyTip(
                 postId,
-                HoneyTipCommentRequest(honeyTipCommentContent.value, replyCommentParentId.value)
+                HoneyTipCommentRequest(
+                    commentContent, replyCommentParentId.value.first
+                )
             ).onSuccess {
                 inquireHoneyTip(postId)
             }.onError {
@@ -219,7 +229,10 @@ class ReadHoneyTipViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.postCommentQuestion(
                 postId,
-                HoneyTipCommentRequest(questionCommentContent.value, replyCommentParentId.value)
+                HoneyTipCommentRequest(
+                    questionCommentContent.value,
+                    replyCommentParentId.value.first
+                )
             ).onSuccess {
                 inquireQuestion(postId)
             }.onFail { message ->
@@ -256,7 +269,7 @@ class ReadHoneyTipViewModel @Inject constructor(
                     _isCommentLike.emit(it.likedByCurrentUser)
                 }
             }
-        } catch (e: Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
             Log.d("예외", "$e")
         }
@@ -271,7 +284,7 @@ class ReadHoneyTipViewModel @Inject constructor(
         }
     }
 
-    fun likeQuestionComment(postId: Int, commentId: Int){
+    fun likeQuestionComment(postId: Int, commentId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.postLikeAtQuestionComment(commentId).onSuccess {
                 Log.d("it", it.toString())
@@ -280,7 +293,8 @@ class ReadHoneyTipViewModel @Inject constructor(
             }
         }
     }
-    fun disLikeQuestionComment(postId: Int, commentId: Int){
+
+    fun disLikeQuestionComment(postId: Int, commentId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteLikeAtQuestionComment(commentId).onSuccess {
                 _isCommentLike.emit(false)
