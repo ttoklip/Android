@@ -1,4 +1,6 @@
-package kr.ac.tukorea.whereareu.data.model.naver
+package com.umc.ttoklip.data.model.naver.reversegeocoding
+
+import kr.ac.tukorea.whereareu.data.model.naver.Land
 
 data class ReverseGeoCodingResult(
     val region: RegionInfo,

@@ -1,4 +1,4 @@
-package kr.ac.tukorea.whereareu.data.model.naver
+package com.umc.ttoklip.data.model.naver.reversegeocoding
 
 data class LandInfo(
     val type: String,

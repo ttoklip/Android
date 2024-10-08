@@ -35,7 +35,6 @@ class CommunicationActivity :
         CommunicationAdapter(this,this)
     }
     private val viewModel: CommunicationViewModel by viewModels<CommunicationViewModelImpl>()
-    private var streetFilters = listOf<String>()
     override fun initView() {
         binding.vm = viewModel as CommunicationViewModelImpl
         binding.writeFab.setOnSingleClickListener {
@@ -51,8 +50,7 @@ class CommunicationActivity :
         binding.bellBtn.setOnSingleClickListener {
             startActivity(AlarmActivity.newIntent(this))
         }
-        binding.honeyTipStreetSpinner.adapter= SortSpinnerAdapter(this,streetFilters)
-        binding.honeyTipStreetSpinner.setSelection(0)
+
         binding.honeyTipFilterSpinner.adapter =
             SortSpinnerAdapter(this, sortFilters)
         binding.honeyTipFilterSpinner.setSelection(0)
@@ -78,25 +76,6 @@ class CommunicationActivity :
                 }
             }
         })
-
-        binding.honeyTipStreetSpinner.onItemSelectedListener = object:
-            AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                viewModel.setCriteria(position)
-                Log.d("fil", streetFilters[position])
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-
-        }
-
 
         binding.backBtn.setOnSingleClickListener {
             finish()
@@ -141,9 +120,10 @@ class CommunicationActivity :
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.streetInfo.collect{ info ->
-                        info.ifEmpty { return@collect }
-                        streetFilters = info.split(" ")
-                        initSpinner(streetFilters)
+                        if (info.isNotEmpty()){
+                            initSpinner(info)
+                            Log.d("streetFilters", info.toString())
+                        }
                     }
                 }
             }

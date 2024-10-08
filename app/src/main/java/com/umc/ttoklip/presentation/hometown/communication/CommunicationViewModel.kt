@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 interface CommunicationViewModel {
     val communities: StateFlow<List<Communities>>
     val criteria: StateFlow<String>
-    val streetInfo: StateFlow<String>
+    val streetInfo: StateFlow<List<String>>
 
     fun setCriteria(position: Int)
     fun getCommunities()
