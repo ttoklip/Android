@@ -229,6 +229,7 @@ class WriteTogetherFragment: BaseFragment<FragmentWriteTogetherBinding>(R.layout
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.dealPlace.collect {
+                        Log.d("dealPlace", it)
                         viewModel.checkDone()
                     }
                 }

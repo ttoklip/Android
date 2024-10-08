@@ -16,7 +16,7 @@ interface NaverApi {
     suspend fun getReverseGeocodingInfo(
         @Query("coords") coords: String,
         @Query("output") output: String,
-        @Query("orders") orders: String = "addr",
+        @Query("orders") orders: String = "legalcode",
     ): Response<ReverseGeocodingResponse>
 
     @GET("map-reversegeocode/v2/gc")

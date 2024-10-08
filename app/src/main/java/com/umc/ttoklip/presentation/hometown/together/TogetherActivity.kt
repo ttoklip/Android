@@ -35,7 +35,6 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
     private val adapter by lazy {
         TransactionAdapter(this, this)
     }
-    private var streetFilters = listOf<String>()
 
     override fun initView() {
         binding.vm = viewModel
@@ -125,9 +124,10 @@ class TogetherActivity : BaseActivity<ActivityTogetherBinding>(R.layout.activity
             launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.streetInfo.collect{ info ->
-                        info.ifEmpty { return@collect }
-                        streetFilters = info.split(" ")
-                        initSpinner(streetFilters)
+                        if (info.isNotEmpty()){
+                            initSpinner(info)
+                            Log.d("streetFilters", info.toString())
+                        }
                     }
                 }
             }

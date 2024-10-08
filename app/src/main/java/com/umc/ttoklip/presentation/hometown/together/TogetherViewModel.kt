@@ -12,7 +12,7 @@ interface TogetherViewModel {
     val togethers: StateFlow<List<Togethers>>
     val mainData : SharedFlow<TogethersResponse>
     val criteria: StateFlow<String>
-    val streetInfo: StateFlow<String>
+    val streetInfo: StateFlow<List<String>>
 
     fun setCriteria(position: Int)
 
