@@ -3,15 +3,20 @@ package com.umc.ttoklip.presentation.signup.location
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
@@ -26,6 +31,7 @@ import com.umc.ttoklip.databinding.ActivityLocationBinding
 import com.umc.ttoklip.presentation.MainActivity
 import com.umc.ttoklip.presentation.base.BaseActivity
 import com.umc.ttoklip.presentation.login.LoginActivity
+import com.umc.ttoklip.presentation.mypage.manageinfo.MyHomeTownAddressFragment
 import com.umc.ttoklip.presentation.signup.SignupActivity
 import com.umc.ttoklip.presentation.signup.SignupViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,59 +52,39 @@ class LocationActivity :
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION
     )
-//    private lateinit var range: String
-//    private lateinit var circle: CircleOverlay
-    private lateinit var marker: Marker
 
-    private var nowlocationOn:Boolean=true
     private var locationok: Boolean = false
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        permissions.entries.forEach { (permission, isGranted) ->
+            when {
+                isGranted -> {
+                    getLastKnownLocation()
+                    locationok = true
+                }
+                else -> {
+                    // 권한이 거부된 경우에 대한 처리
+                    Log.d("PermissionDenied", "Permission $permission was denied")
+                }
+            }
+        }
+    }
 
 
     override fun initView() {
-        if (!hasPermission()) {
-            ActivityCompat.requestPermissions(this, PERMISSIONS, LOCATION_PERMISSION_REQUEST_CODE)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        val requestList = PERMISSIONS.filter { permission ->
+            ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED
+        }
+        if (requestList.isNotEmpty()) {
+            requestPermissionLauncher.launch(requestList.toTypedArray())
+        } else {
+            getLastKnownLocation()
+            locationok = true
         }
         initMapView()
-//        circle = CircleOverlay()
-        marker=Marker()
-
-//        range = getString(R.string.range_500m)
-//        binding.locationRangeDescTv.text =
-//            getString(R.string.range_setting_format, range)
-//
-//        binding.locationRange1Tv.setOnClickListener { setRange500m() }
-//        binding.locationRange2Tv.setOnClickListener { setRange1km() }
-//        binding.locationRange3Tv.setOnClickListener { setRange15km() }
-//        binding.locationRangeBar.setOnSeekBarChangeListener(object :
-//            SeekBar.OnSeekBarChangeListener {
-//            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-//                if (progress <= RANGE_500M_PROGRESS) {
-//                    setRange500m()
-//                } else if (progress <= RANGE_1KM_PROGRESS) {
-//                    setRange1km()
-//                } else {
-//                    setRange15km()
-//                }
-//                if (locationok) setcircle()
-//            }
-//
-//            override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
-//            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-//                seekBar?.let {
-//                    if (it.progress <= RANGE_500M_PROGRESS) {
-//                        it.progress = RANGE_500M_PROGRESS
-//                        setRange500m()
-//                    } else if (it.progress <= RANGE_1KM_PROGRESS) {
-//                        it.progress = RANGE_1KM_PROGRESS
-//                        setRange1km()
-//                    } else {
-//                        it.progress = RANGE_15kM_PROGRESS
-//                        setRange15km()
-//                    }
-//                }
-//                if (locationok) setcircle()
-//            }
-//        })
 
         binding.locationBackIb.setOnClickListener {
             finish()
@@ -158,51 +144,38 @@ class LocationActivity :
         locationSource =FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
         naverMap.locationSource = locationSource
         naverMap.locationTrackingMode = LocationTrackingMode.Follow
+    }
 
-//        binding.locationNowLocation.setOnClickListener {
-//            nowlocationOn=true
-//        }
-        naverMap.addOnLocationChangeListener {
-            if(nowlocationOn){
-                setlocation(it.latitude,it.longitude)
-                Toast.makeText(this,"장소를 눌러 정확한 위치를 설정하세요.",Toast.LENGTH_SHORT).show()
-                nowlocationOn=false
-            }
-        }
-        naverMap.setOnMapClickListener { pointF, latLng ->
-            setlocation(latLng.latitude,latLng.longitude)
-            nowlocationOn=false
+    private fun getLastKnownLocation() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location ->
+                    if (location != null) {
+                        viewModel.getLegalcode(LatLng(location.latitude, location.longitude))
+                        updateMapWithLocation(location.latitude,location.longitude)
+                    } else {
+                        Log.d("getLastKnownLocation", "Location is null")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.d("getLastKnownLocation", exception.message.toString())
+                }
+        } else {
+            // 권한이 여전히 부여되지 않은 경우
+            Log.d("getLastKnownLocation", "Location permission not granted")
         }
     }
 
-    private fun setlocation(latitude:Double,longitude:Double){
-        getAddress(latitude, longitude)
-//        circle.center = LatLng(latitude, longitude)
-        marker.position=LatLng(latitude,longitude)
-        locationok = true
-//        setcircle()
-        marker.map=null
-        marker.map=naverMap
-        nextok()
-    }
-
-//    private fun setcircle() {
-//        if (range == "500m") circle.radius = 500.0
-//        else if (range == "1km") circle.radius = 1000.0
-//        else circle.radius = 1500.0
-//        circle.color = ContextCompat.getColor(this, R.color.yellow_trans30)
-//        circle.map = naverMap
-//    }
-
-    private fun hasPermission(): Boolean {
-        for (permission in PERMISSIONS) {
-            if (ContextCompat.checkSelfPermission(this, permission)
-                != PackageManager.PERMISSION_GRANTED
-            ) {
-                return false
-            }
-        }
-        return true
+    private fun updateMapWithLocation(latitude: Double,longitude: Double) {
+        val cameraUpdate = CameraUpdate.scrollTo(LatLng(latitude, longitude))
+        naverMap.moveCamera(cameraUpdate)
+        naverMap.locationOverlay.isVisible = true
+        naverMap.locationOverlay.position = LatLng(latitude,longitude)
     }
 
     private fun nextok() {
@@ -228,28 +201,6 @@ class LocationActivity :
 
     private fun getAddress(latitude: Double, longitude: Double) {
         viewModel.getLegalcode(LatLng(latitude, longitude))
-//        val geocoder = Geocoder(applicationContext, Locale.KOREAN)
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-//            val addressList: List<Address>? = geocoder.getFromLocation(latitude, longitude, 1)
-//            if (addressList != null && addressList.isNotEmpty()) {
-//                val address: Address = addressList[0]
-//                val spliteAddr = address.getAddressLine(0).split(" ")
-//                for(i in 1.. spliteAddr.size-1){
-//                    this.address=this.address+spliteAddr[i]+" "
-//                }
-//            }
-//        } else {
-//            val addresses = geocoder.getFromLocation(latitude, longitude, 1)
-//            if (addresses != null) {
-//                val spliteAddr = addresses[0].getAddressLine(0).split(" ")
-//                for(i in 1.. spliteAddr.size-1){
-//                    this.address = this.address+spliteAddr[i]+" "
-//                }
-//            }
-//        }
-//        if (address.isNotEmpty()){
-//            binding.locationMytownDetailTv.text = address
-//        }
     }
 
     private fun startLogin(){
@@ -302,37 +253,4 @@ class LocationActivity :
             }
         }
     }
-
-//    private fun setRange15km() {
-//        range = getString(R.string.range_1_5km)
-//        binding.locationRangeBar.progress = RANGE_15kM_PROGRESS
-//        binding.locationRange1Tv.setTextColor(ContextCompat.getColor(this, R.color.gray40))
-//        binding.locationRange2Tv.setTextColor(ContextCompat.getColor(this, R.color.gray40))
-//        binding.locationRange3Tv.setTextColor(ContextCompat.getColor(this, R.color.black))
-//        binding.locationRangeDescTv.text = getString(R.string.range_setting_format, range)
-//    }
-//
-//    private fun setRange1km() {
-//        range = getString(R.string.range_1km)
-//        binding.locationRangeBar.progress = RANGE_1KM_PROGRESS
-//        binding.locationRange1Tv.setTextColor(ContextCompat.getColor(this, R.color.gray40))
-//        binding.locationRange2Tv.setTextColor(ContextCompat.getColor(this, R.color.black))
-//        binding.locationRange3Tv.setTextColor(ContextCompat.getColor(this, R.color.gray40))
-//        binding.locationRangeDescTv.text = getString(R.string.range_setting_format, range)
-//    }
-//
-//    private fun setRange500m() {
-//        range = getString(R.string.range_500m)
-//        binding.locationRangeBar.progress = RANGE_500M_PROGRESS
-//        binding.locationRange1Tv.setTextColor(ContextCompat.getColor(this, R.color.black))
-//        binding.locationRange2Tv.setTextColor(ContextCompat.getColor(this, R.color.gray40))
-//        binding.locationRange3Tv.setTextColor(ContextCompat.getColor(this, R.color.gray40))
-//        binding.locationRangeDescTv.text = getString(R.string.range_setting_format, range)
-//    }
-//
-//    companion object {
-//        private const val RANGE_500M_PROGRESS = 33
-//        private const val RANGE_1KM_PROGRESS = 67
-//        private const val RANGE_15kM_PROGRESS = 100
-//    }
 }
