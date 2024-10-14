@@ -3,6 +3,8 @@ package com.umc.ttoklip.presentation.hometown.communication.read
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.town.CommentResponse
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
 import com.umc.ttoklip.data.model.town.ReportRequest
@@ -101,7 +103,7 @@ class ReadCommunicationViewModelImpl @Inject constructor(
     override fun deleteCommunication() {
         viewModelScope.launch {
             repository.deleteComms(_postId.value).onSuccess {
-                _toast.emit("게시글 삭제가 완료되었습니다.")
+                _toast.emit(TtoklipApplication.getString(R.string.delete_post))
             }
         }
     }
@@ -116,6 +118,7 @@ class ReadCommunicationViewModelImpl @Inject constructor(
                     _postContent.emit(_postContent.value.copy().also {
                         it.scrapCount += 1
                     })
+                    _toast.emit(TtoklipApplication.getString(R.string.scrap))
                 }
             } else {
                 repository.cancelCommsScrap(postId.value).onSuccess {
@@ -137,6 +140,7 @@ class ReadCommunicationViewModelImpl @Inject constructor(
                     _postContent.emit(_postContent.value.copy().also {
                         it.likeCount += 1
                     })
+                    _toast.emit(TtoklipApplication.getString(R.string.like))
                 }
             } else {
                 repository.cancelCommsLike(postId.value).onSuccess {
@@ -153,9 +157,9 @@ class ReadCommunicationViewModelImpl @Inject constructor(
             if (postId.value != 0L) {
                 repository.reportComms(postId.value, reportRequest).onSuccess {
                     Log.d("report", it.toString())
-                    _toast.emit("게시글 신고가 완료되었습니다.")
+                    _toast.emit(TtoklipApplication.getString(R.string.report_post))
                 }.onFail {
-                    _toast.emit("게시글 신고 타입을 설정해주세요.")
+                    _toast.emit(TtoklipApplication.getString(R.string.report_post_fail))
                 }
             }
         }
@@ -167,9 +171,9 @@ class ReadCommunicationViewModelImpl @Inject constructor(
     ) {
         viewModelScope.launch {
             repository.reportCommsComment(commentId, reportRequest).onSuccess {
-                _toast.emit("댓글 신고가 완료되었습니다.")
+                _toast.emit(TtoklipApplication.getString(R.string.report_comment))
             }.onFail {
-                _toast.emit("댓글 신고 타입을 설정해주세요.")
+                _toast.emit(TtoklipApplication.getString(R.string.report_comment_fail))
             }
         }
     }
@@ -178,6 +182,7 @@ class ReadCommunicationViewModelImpl @Inject constructor(
         viewModelScope.launch {
             repository.deleteCommsComment(commentId).onSuccess {
                 readCommunication(postId.value)
+                _toast.emit(TtoklipApplication.getString(R.string.delete_comment))
             }
         }
     }

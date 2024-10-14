@@ -3,6 +3,8 @@ package com.umc.ttoklip.presentation.hometown.together.read
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.town.CommentResponse
 import com.umc.ttoklip.data.model.town.CreateCommentRequest
 import com.umc.ttoklip.data.model.town.ParticipantsResponse
@@ -152,9 +154,9 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
         viewModelScope.launch {
             if (postId.value != 0L) {
                 repository.reportTogether(postId.value, reportRequest).onSuccess {
-                    _toast.emit("게시글 신고가 완료되었습니다.")
+                    _toast.emit(TtoklipApplication.getString(R.string.report_post))
                 }.onFail {
-                    _toast.emit("게시글 신고 타입을 설정해주세요.")
+                    _toast.emit(TtoklipApplication.getString(R.string.report_post_fail))
                 }
             }
         }
@@ -166,11 +168,11 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
     ) {
         viewModelScope.launch {
             repository.reportTogetherComment(commentId, reportRequest).onSuccess {
-                _toast.emit("댓글 신고가 완료되었습니다.")
+                _toast.emit(TtoklipApplication.getString(R.string.report_comment))
             }.onError {
                 Log.d("error", it.toString())
             }.onFail {
-                _toast.emit("댓글 신고 타입을 설정해주세요.")
+                _toast.emit(TtoklipApplication.getString(R.string.report_comment_fail))
             }
         }
     }
@@ -179,6 +181,7 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
         viewModelScope.launch {
             repository.deleteTogetherComment(commentId).onSuccess {
                 readTogether(postId.value)
+                _toast.emit(TtoklipApplication.getString(R.string.delete_comment))
             }
         }
     }

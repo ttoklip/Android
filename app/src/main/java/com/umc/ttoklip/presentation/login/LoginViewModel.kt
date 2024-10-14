@@ -47,7 +47,7 @@ class LoginViewModel @Inject constructor(
                     _isFirstLogin.emit(it.ifFirstLogin)
                     _isLogin.emit(true)
                 }.onFail {
-                    Toast.makeText(context,"로그인 실패", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context,"이메일 또는 비밀번호가 알맞지 않아요.", Toast.LENGTH_LONG).show()
                     Log.d("LOGIN-API", "local login 실패")
                 }
         }
