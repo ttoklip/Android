@@ -3,6 +3,8 @@ package com.umc.ttoklip.presentation.news.detail
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.news.ReportRequest
 import com.umc.ttoklip.data.model.news.comment.NewsCommentRequest
 import com.umc.ttoklip.data.model.news.comment.NewsCommentResponse
@@ -85,7 +87,7 @@ class ArticleViewModelImpl @Inject constructor(
                 ).onSuccess {
                     getDetail(id)
                 }.onFail {
-                    _toast.emit("욕설이 포함되어 있거나 통신이 불안정합니다..")
+                    _toast.emit(TtoklipApplication.getString(R.string.post_fail))
                 }.onException {
                     throw it
                 }
@@ -104,7 +106,7 @@ class ArticleViewModelImpl @Inject constructor(
                     id
                 ).onSuccess {
                     getDetail(postId)
-                    _toast.emit("댓글을 삭제했습니다.")
+                    _toast.emit(TtoklipApplication.getString(R.string.delete_comment))
                 }.onFail {
 
                 }.onException {
@@ -127,7 +129,7 @@ class ArticleViewModelImpl @Inject constructor(
                     _newsDetail.emit(newsDetail.value.copy().also {
                         it.likeCount += 1
                     })
-                    _toast.emit("뉴스 좋아요")
+                    _toast.emit(TtoklipApplication.getString(R.string.like))
                 }.onFail {
 
                 }.onException {
@@ -150,7 +152,7 @@ class ArticleViewModelImpl @Inject constructor(
                     _newsDetail.emit(newsDetail.value.copy().also {
                         it.likeCount -= 1
                     })
-                    _toast.emit("뉴스 좋아요 취소")
+//                    _toast.emit("뉴스 좋아요 취소")
                 }.onFail {
 
                 }.onException {
@@ -173,7 +175,7 @@ class ArticleViewModelImpl @Inject constructor(
                     _newsDetail.emit(newsDetail.value.copy().also {
                         it.scrapCount += 1
                     })
-                    _toast.emit("뉴스 스크랩")
+                    _toast.emit(TtoklipApplication.getString(R.string.scrap))
                 }.onFail {
 
                 }.onException {
@@ -196,7 +198,7 @@ class ArticleViewModelImpl @Inject constructor(
                     _newsDetail.emit(newsDetail.value.copy().also {
                         it.scrapCount -= 1
                     })
-                    _toast.emit("뉴스 스크랩 취소")
+//                    _toast.emit("뉴스 스크랩 취소")
                 }.onFail {
 
                 }.onException {
@@ -216,7 +218,7 @@ class ArticleViewModelImpl @Inject constructor(
                     id,
                     request
                 ).onSuccess {
-                    _toast.emit("게시글을 신고했습니다.")
+                    _toast.emit(TtoklipApplication.getString(R.string.report_post))
                 }.onFail {
 
                 }.onException {
@@ -236,7 +238,7 @@ class ArticleViewModelImpl @Inject constructor(
                     id,
                     request
                 ).onSuccess {
-                    _toast.emit("댓글을 신고했습니다.")
+                    _toast.emit(TtoklipApplication.getString(R.string.report_comment))
                 }.onFail {
 
                 }.onException {

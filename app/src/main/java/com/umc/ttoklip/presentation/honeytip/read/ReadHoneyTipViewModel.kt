@@ -3,6 +3,8 @@ package com.umc.ttoklip.presentation.honeytip.read
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.honeytip.CommentResponse
 import com.umc.ttoklip.data.model.honeytip.InquireHoneyTipResponse
 import com.umc.ttoklip.data.model.honeytip.InquireQuestionResponse
@@ -125,7 +127,7 @@ class ReadHoneyTipViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.reportHoneyTip(honeyTipId, request).onSuccess {
                 Log.d("report HoneyTip", it.toString())
-                _toastEvent.emit("해당 게시글에 대한 신고가 접수되었습니다.")
+                _toastEvent.emit(TtoklipApplication.getString(R.string.report_post))
 
             }
         }
@@ -135,7 +137,7 @@ class ReadHoneyTipViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteHoneyTip(honeyTipId).onSuccess {
                 Log.d("delete honeyTip", it.toString())
-                _toastEvent.emit("해당 게시글이 삭제되었습니다.")
+                _toastEvent.emit(TtoklipApplication.getString(R.string.delete_post))
             }
         }
     }
@@ -147,6 +149,7 @@ class ReadHoneyTipViewModel @Inject constructor(
                 _honeyTip.emit(honeyTip.value.copy().also {
                     it.scrapCount += 1
                 })
+                _toastEvent.emit(TtoklipApplication.getString(R.string.scrap))
             }
         }
     }
@@ -169,6 +172,7 @@ class ReadHoneyTipViewModel @Inject constructor(
                 _honeyTip.emit(honeyTip.value.copy().also {
                     it.likeCount += 1
                 })
+                _toastEvent.emit(TtoklipApplication.getString(R.string.like))
             }
         }
     }
@@ -212,7 +216,7 @@ class ReadHoneyTipViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteCommentHoneyTip(commentId).onSuccess {
                 inquireHoneyTip(postId)
-                _toastEvent.emit("댓글이 삭제되었습니다.")
+                _toastEvent.emit(TtoklipApplication.getString(R.string.delete_comment))
             }
         }
     }
@@ -220,7 +224,7 @@ class ReadHoneyTipViewModel @Inject constructor(
     fun postReportHoneyTipComment(commentId: Int, request: ReportRequest) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.postReportCommentHoneyTip(commentId, request).onSuccess {
-                _toastEvent.emit("해당 댓글에 대한 신고가 접수되었습니다.")
+                _toastEvent.emit(TtoklipApplication.getString(R.string.report_comment))
             }
         }
     }
@@ -245,7 +249,7 @@ class ReadHoneyTipViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteCommentQuestion(commentId).onSuccess {
                 inquireQuestion(postId)
-                _toastEvent.emit("댓글이 삭제되었습니다.")
+                _toastEvent.emit(TtoklipApplication.getString(R.string.delete_comment))
             }
         }
     }
@@ -253,7 +257,7 @@ class ReadHoneyTipViewModel @Inject constructor(
     fun postReportQuestionComment(commentId: Int, request: ReportRequest) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.postReportCommentQuestion(commentId, request).onSuccess {
-                _toastEvent.emit("해당 댓글에 대한 신고가 접수되었습니다.")
+                _toastEvent.emit(TtoklipApplication.getString(R.string.report_comment))
             }
         }
     }
@@ -279,7 +283,7 @@ class ReadHoneyTipViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.reportQuestion(questionId, request).onSuccess {
                 Log.d("report Question", it.toString())
-                _toastEvent.emit("해당 게시글에 대한 신고가 접수되었습니다.")
+                _toastEvent.emit(TtoklipApplication.getString(R.string.report_post))
             }
         }
     }

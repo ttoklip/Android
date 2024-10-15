@@ -1,7 +1,12 @@
 package com.umc.ttoklip.presentation
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.umc.ttoklip.R
@@ -29,6 +34,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNav.setupWithNavController(navController)
 
+        if(TtoklipApplication.prefs.getBoolean("notification_first_setting",true)){
+            checkNotificationPermission() //알림 설정 permission
+        }
     }
 
     fun goNews() {
@@ -39,5 +47,15 @@ class MainActivity : AppCompatActivity() {
     }
     fun goTown() {
         binding.bottomNav.selectedItemId = R.id.townFragment
+    }
+
+    private fun checkNotificationPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // 권한이 없으면 요청
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
+            }
+            TtoklipApplication.prefs.setBoolean("notification_first_setting",false)
+        }
     }
 }

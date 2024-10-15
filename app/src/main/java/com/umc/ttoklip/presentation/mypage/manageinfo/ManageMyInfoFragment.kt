@@ -33,6 +33,7 @@ import com.umc.ttoklip.util.setOnSingleClickListener
 import com.umc.ttoklip.util.tabTextToCategory
 import com.umc.ttoklip.util.uriToFile
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -107,7 +108,7 @@ class ManageMyInfoFragment :
         }
 
         binding.findAddressBtn.setOnSingleClickListener {
-            navigator.navigate(R.id.action_manageMyInfoFragment_to_myHomeTownAddressFragment)
+            navigator.navigate(R.id.action_manageMyInfoFragment_to_myInfoLocationFragment)
         }
 
         binding.checkDuplicationBtn.setOnSingleClickListener {

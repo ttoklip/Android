@@ -210,10 +210,10 @@ class ManageMyInfoViewModel @Inject constructor(
                         val location = it.results.first()
                         address.value = with(location) {
                             listOf(
-                                region.area1.name.plus(" "),
-                                region.area2.name.takeIf { it.isNotEmpty() }?.plus(" "),
-                                region.area3.name.takeIf { it.isNotEmpty() }?.plus(" "),
-                                region.area4.name.takeIf { it.isNotEmpty() }?.plus(" "),
+                                region.area1.name.takeIf { !it.endsWith("도") },
+                                region.area2.name.takeIf { it.isNotEmpty() }?.let { " $it" },
+                                region.area3.name.takeIf { it.isNotEmpty() }?.let { " $it" },
+                                region.area4.name.takeIf { it.isNotEmpty()&&!it.endsWith("리") }?.let { " $it" },
                             ).filterNotNull().joinToString("")
                         }
                     }
