@@ -161,9 +161,7 @@ class ReadTogetherActivity :
 
 
         binding.SendCardView.setOnSingleClickListener {
-            if (binding.commentEt.text.toString().isNotBlank()) {
-                viewModel.createComment()
-            }
+            viewModel.createComment()
             binding.commentEt.setText("")
             viewModel.replyCommentParentId.value = Pair(0, "")
         }

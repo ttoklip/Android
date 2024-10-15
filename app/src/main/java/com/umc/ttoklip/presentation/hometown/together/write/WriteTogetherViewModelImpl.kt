@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.naver.maps.geometry.LatLng
+import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.town.CreateTogethersRequest
 import com.umc.ttoklip.data.repository.naver.NaverRepository
 import com.umc.ttoklip.data.repository.town.WriteTogetherRepository
@@ -212,7 +214,8 @@ class WriteTogetherViewModelImpl @Inject constructor(
             }.onError {
                 Log.d("writetogethererror", it.toString())
             }.onFail { message ->
-                _includeSwear.emit(message)
+//                _includeSwear.emit(message)
+                _includeSwear.emit(TtoklipApplication.getString(R.string.post_fail))
             }
         }
     }

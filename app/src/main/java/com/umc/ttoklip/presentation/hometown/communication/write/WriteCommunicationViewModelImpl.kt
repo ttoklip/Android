@@ -5,6 +5,8 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.ttoklip.R
+import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.town.CreateCommunicationsRequest
 import com.umc.ttoklip.data.model.town.EditCommunication
 import com.umc.ttoklip.data.repository.town.WriteCommsRepository
@@ -90,7 +92,8 @@ class WriteCommunicationViewModelImpl @Inject constructor(
             }.onError {
                 Log.d("writetogethererror", it.toString())
             }.onFail { message ->
-                _includeSwear.emit(message)
+//                _includeSwear.emit(message)
+                _includeSwear.emit(TtoklipApplication.getString(R.string.post_fail))
             }
         }
 

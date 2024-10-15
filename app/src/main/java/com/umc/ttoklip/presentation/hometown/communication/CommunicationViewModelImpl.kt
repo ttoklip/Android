@@ -59,7 +59,7 @@ class CommunicationViewModelImpl @Inject constructor(
     override fun getMemberStreetInfo() {
         viewModelScope.launch {
             mainTogethersRepository.getMemberStreetInfo().onSuccess {
-                _streetInfo.value = it.street.split(" ").take(3)
+                _streetInfo.value = it.street.split(" ")
                 Log.d("street INfo", it.street)
             }
         }

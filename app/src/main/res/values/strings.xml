@@ -137,13 +137,17 @@
     <string name="delete_post">게시물이 삭제되었어요.</string>
     <string name="delete_comment">댓글이 삭제되었어요.</string>
     <string name="like">해당 게시물에 좋아요를 남겼어요.</string>
+    <string name="like_comment">해당 댓글에 좋아요를 남겼어요.</string>
     <string name="scrap">해당 게시물을 스크랩 했어요.</string>
+    <string name="dislike">좋아요를 취소했어요.</string>
+    <string name="disscrap">스크랩을 취소했어요.</string>
     <string name="report_post">해당 글에 대한 신고가 접수되었어요.</string>
-    <string name="report_post_fail">게시글 신고 타입을 설정해주세요.</string>
+    <string name="report_post_fail">게시글 신고 사유를 설정해주세요.</string>
     <string name="report_comment">해당 댓글에 대한 신고가 접수되었어요.</string>
-    <string name="report_comment_fail">댓글 신고 타입을 설정해주세요.</string>
-    <string name="together_together">해당 게시물에 함께했어요.</string>
+    <string name="report_comment_fail">댓글 신고 사유를 설정해주세요.</string>
+    <string name="together_join">해당 게시물에 함께했어요.</string>
     <string name="together_timeout">마감했어요.</string>
-    <string name="post_fail">욕설이 포함되어 있거나 통신이 불안정합니다..</string>
+    <string name="post_fail">욕설이 포함되어 있거나 통신이 불안정합니다.</string>
+    <string name="blank_comment">내용을 입력해주세요.</string>
 
 </resources>
