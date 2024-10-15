@@ -18,8 +18,8 @@ android {
         applicationId "com.umc.ttoklip"
         minSdk 24
         targetSdk 34
-        versionCode 9
-        versionName "1.0.8"
+        versionCode 10
+        versionName "1.0.9"
 
         buildConfigField("String","kakaoNativeKey",properties.getProperty("kakao.native.key"))
         buildConfigField("String","naverClientId",properties.getProperty("naver.client.id"))
