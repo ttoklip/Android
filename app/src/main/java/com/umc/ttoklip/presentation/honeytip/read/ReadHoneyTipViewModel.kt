@@ -128,7 +128,8 @@ class ReadHoneyTipViewModel @Inject constructor(
             repository.reportHoneyTip(honeyTipId, request).onSuccess {
                 Log.d("report HoneyTip", it.toString())
                 _toastEvent.emit(TtoklipApplication.getString(R.string.report_post))
-
+            }.onFail {
+                _toastEvent.emit(TtoklipApplication.getString(R.string.report_post_fail))
             }
         }
     }
@@ -161,6 +162,7 @@ class ReadHoneyTipViewModel @Inject constructor(
                 _honeyTip.emit(honeyTip.value.copy().also {
                     it.scrapCount -= 1
                 })
+                _toastEvent.emit(TtoklipApplication.getString(R.string.disscrap))
             }
         }
     }
@@ -184,6 +186,7 @@ class ReadHoneyTipViewModel @Inject constructor(
                 _honeyTip.emit(honeyTip.value.copy().also {
                     it.likeCount -= 1
                 })
+                _toastEvent.emit(TtoklipApplication.getString(R.string.dislike))
             }
         }
     }
@@ -195,6 +198,7 @@ class ReadHoneyTipViewModel @Inject constructor(
                 ""
             ).trim()
             if(commentContent.isEmpty()){
+                _toastEvent.emit(TtoklipApplication.getString(R.string.blank_comment))
                 return@launch
             }
             repository.postCommentHoneyTip(
@@ -207,7 +211,8 @@ class ReadHoneyTipViewModel @Inject constructor(
             }.onError {
                 it.printStackTrace()
             }.onFail { message ->
-                eventRead(ReadEvent.IncludeSwear(message))
+//                eventRead(ReadEvent.IncludeSwear(message))
+                _toastEvent.emit(TtoklipApplication.getString(R.string.post_fail))
             }
         }
     }
@@ -225,12 +230,23 @@ class ReadHoneyTipViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.postReportCommentHoneyTip(commentId, request).onSuccess {
                 _toastEvent.emit(TtoklipApplication.getString(R.string.report_comment))
+            }.onFail {
+                _toastEvent.emit(TtoklipApplication.getString(R.string.report_comment_fail))
             }
         }
     }
 
     fun postQuestionComment(postId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
+            val commentContent = questionCommentContent.value.replace(
+                replyCommentParentId.value.second,
+                ""
+            ).trim()
+            if(commentContent.isEmpty()){
+                _toastEvent.emit(TtoklipApplication.getString(R.string.blank_comment))
+                return@launch
+            }
+
             repository.postCommentQuestion(
                 postId,
                 HoneyTipCommentRequest(
@@ -240,7 +256,8 @@ class ReadHoneyTipViewModel @Inject constructor(
             ).onSuccess {
                 inquireQuestion(postId)
             }.onFail { message ->
-                eventRead(ReadEvent.IncludeSwear(message))
+//                eventRead(ReadEvent.IncludeSwear(message))
+                _toastEvent.emit(TtoklipApplication.getString(R.string.post_fail))
             }
         }
     }
@@ -258,6 +275,8 @@ class ReadHoneyTipViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.postReportCommentQuestion(commentId, request).onSuccess {
                 _toastEvent.emit(TtoklipApplication.getString(R.string.report_comment))
+            }.onFail {
+                _toastEvent.emit(TtoklipApplication.getString(R.string.report_comment_fail))
             }
         }
     }
@@ -284,6 +303,8 @@ class ReadHoneyTipViewModel @Inject constructor(
             repository.reportQuestion(questionId, request).onSuccess {
                 Log.d("report Question", it.toString())
                 _toastEvent.emit(TtoklipApplication.getString(R.string.report_post))
+            }.onFail {
+                _toastEvent.emit(TtoklipApplication.getString(R.string.report_post_fail))
             }
         }
     }
@@ -294,6 +315,7 @@ class ReadHoneyTipViewModel @Inject constructor(
                 Log.d("it", it.toString())
                 _isCommentLike.emit(true)
                 inquireQuestion(postId)
+                _toastEvent.emit(TtoklipApplication.getString(R.string.like_comment))
             }
         }
     }
@@ -303,6 +325,7 @@ class ReadHoneyTipViewModel @Inject constructor(
             repository.deleteLikeAtQuestionComment(commentId).onSuccess {
                 _isCommentLike.emit(false)
                 inquireQuestion(postId)
+                _toastEvent.emit(TtoklipApplication.getString(R.string.dislike))
             }
         }
     }

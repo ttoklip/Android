@@ -126,6 +126,7 @@ class ReadCommunicationViewModelImpl @Inject constructor(
                     _postContent.emit(_postContent.value.copy().also {
                         it.scrapCount -= 1
                     })
+                    _toast.emit(TtoklipApplication.getString(R.string.disscrap))
                 }
             }
         }
@@ -147,6 +148,7 @@ class ReadCommunicationViewModelImpl @Inject constructor(
                     _postContent.emit(_postContent.value.copy().also {
                         it.likeCount -= 1
                     })
+                    _toast.emit(TtoklipApplication.getString(R.string.dislike))
                 }
             }
         }
@@ -190,13 +192,22 @@ class ReadCommunicationViewModelImpl @Inject constructor(
     override fun createComment() {
         viewModelScope.launch {
             if (postId.value != 0L) {
+                val c = commentContent.value.replace(
+                    replyCommentParentId.value.second,
+                    ""
+                ).trim()
+                if(c.isEmpty()){
+                    _toast.emit(TtoklipApplication.getString(R.string.blank_comment))
+                    return@launch
+                }
                 repository.createCommsComment(
                     postId.value,
                     CreateCommentRequest(commentContent.value, replyCommentParentId.value.first.toLong())
                 ).onSuccess {
                     readCommunication(postId.value)
                 }.onFail {  message ->
-                    _toast.emit(message)
+//                    _toast.emit(message)
+                    _toast.emit(TtoklipApplication.getString(R.string.post_fail))
                 }
             }
         }

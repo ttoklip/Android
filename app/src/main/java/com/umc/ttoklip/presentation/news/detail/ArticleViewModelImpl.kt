@@ -80,6 +80,15 @@ class ArticleViewModelImpl @Inject constructor(
 
     override fun postComment(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
+            val c = commentContent.value.replace(
+                replyCommentParentId.value.second,
+                ""
+            ).trim()
+            if(c.isEmpty()){
+                _toast.emit(TtoklipApplication.getString(R.string.blank_comment))
+                return@launch
+            }
+
             try {
                 newsRepository.postCommentNews(
                     id,
@@ -131,7 +140,7 @@ class ArticleViewModelImpl @Inject constructor(
                     })
                     _toast.emit(TtoklipApplication.getString(R.string.like))
                 }.onFail {
-
+                    _toast.emit(TtoklipApplication.getString(R.string.dislike))
                 }.onException {
                     throw it
                 }
@@ -177,7 +186,7 @@ class ArticleViewModelImpl @Inject constructor(
                     })
                     _toast.emit(TtoklipApplication.getString(R.string.scrap))
                 }.onFail {
-
+                    _toast.emit(TtoklipApplication.getString(R.string.disscrap))
                 }.onException {
                     throw it
                 }
@@ -240,7 +249,7 @@ class ArticleViewModelImpl @Inject constructor(
                 ).onSuccess {
                     _toast.emit(TtoklipApplication.getString(R.string.report_comment))
                 }.onFail {
-
+                    _toast.emit(TtoklipApplication.getString(R.string.report_comment_fail))
                 }.onException {
                     throw it
                 }

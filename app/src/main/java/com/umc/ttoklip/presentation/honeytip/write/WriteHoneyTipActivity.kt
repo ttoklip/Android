@@ -116,7 +116,10 @@ class WriteHoneyTipActivity :
                 finish()
             }
 
-            is WriteHoneyTipViewModel.WriteDoneEvent.IncludeSwear -> showToast(event.message)
+            is WriteHoneyTipViewModel.WriteDoneEvent.IncludeSwear -> showToast(
+//                event.message
+                getString(R.string.post_fail)
+            )
         }
     }
 

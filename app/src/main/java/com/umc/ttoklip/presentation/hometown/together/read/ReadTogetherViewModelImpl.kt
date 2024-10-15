@@ -117,6 +117,11 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
 
     override fun setJoinState(joinState: Boolean) {
         _joinState.value = joinState
+        viewModelScope.launch {
+            if(joinState){
+                _toast.emit(TtoklipApplication.getString(R.string.together_join))
+            }
+        }
     }
 
     override fun savePostId(postId: Long) {
@@ -188,6 +193,14 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
 
     override fun createComment() {
         viewModelScope.launch {
+            val c = commentContent.value.replace(
+                replyCommentParentId.value.second,
+                ""
+            ).trim()
+            if(c.isEmpty()){
+                _toast.emit(TtoklipApplication.getString(R.string.blank_comment))
+                return@launch
+            }
             if (postId.value != 0L) {
                 repository.createTogetherComment(
                     postId.value,
@@ -195,7 +208,8 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
                 ).onSuccess {
                     readTogether(postId.value)
                 }.onFail { message ->
-                    _includeSwear.emit(message)
+//                    _includeSwear.emit(message)
+                    _toast.emit(TtoklipApplication.getString(R.string.post_fail))
                 }
             }
         }
@@ -241,6 +255,7 @@ class ReadTogetherViewModelImpl @Inject constructor(private val repository: Read
                     _deadlineState.value = true
                     readTogether(postId.value)
                     Log.d("patchPostStatus", it.toString())
+                    _toast.emit(TtoklipApplication.getString(R.string.together_timeout))
                 }
             }
         }
