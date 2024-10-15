@@ -2,11 +2,16 @@ package com.umc.ttoklip.presentation.honeytip.read
 
 import android.content.Context
 import android.content.Intent
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.util.Log
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -24,7 +29,9 @@ import com.umc.ttoklip.presentation.dialog.DeleteDialogFragment
 import com.umc.ttoklip.presentation.dialog.ReportDialogFragment
 import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
 import com.umc.ttoklip.util.setOnSingleClickListener
+import com.umc.ttoklip.util.showKeyboard
 import com.umc.ttoklip.util.showToast
+import com.umc.ttoklip.util.toReplyNicknameFormat
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -35,8 +42,12 @@ class ReadQuestionActivity :
     private val viewModel: ReadHoneyTipViewModel by viewModels()
 
     private val commentRVA by lazy {
-        QuestionCommentRVA(this, { id ->
-            viewModel.replyCommentParentId.value = id
+        QuestionCommentRVA(this, { id, name ->
+            viewModel.replyCommentParentId.value = Pair(id, name.toReplyNicknameFormat())
+            binding.commentEt.showKeyboard()
+            binding.scrollV.viewTreeObserver.addOnGlobalLayoutListener {
+                binding.scrollV.smoothScrollTo(0, binding.scrollV.getChildAt(0).bottom)
+            }
         }, { id, myComment ->
             if (myComment) {
                 val deleteDialog = DeleteDialogFragment()
@@ -110,11 +121,23 @@ class ReadQuestionActivity :
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.replyCommentParentId.collect { id ->
+                viewModel.replyCommentParentId.collect { (id, name) ->
                     if (id == 0) {
-                        binding.replyT.text = ""
+                        binding.commentEt.setText("")
                     } else {
-                        binding.replyT.text = "@${id}"
+                        val spannableString = SpannableString(name).apply {
+                            setSpan(
+                                ForegroundColorSpan(
+                                    ContextCompat.getColor(
+                                        this@ReadQuestionActivity,
+                                        R.color.blue
+                                    )
+                                ),
+                                0, name.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                            )
+                        }
+                        binding.commentEt.setText(spannableString)
+                        binding.commentEt.setSelection(name.length)
                     }
                 }
             }
@@ -158,7 +181,16 @@ class ReadQuestionActivity :
         postId = intent.getIntExtra("postId", 0)
         Log.d("read postid", postId.toString())
         binding.replyT.setOnSingleClickListener {
-            viewModel.replyCommentParentId.value = 0
+            viewModel.replyCommentParentId.value = Pair(0, "")
+        }
+
+        binding.commentEt.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN && binding.commentEt.text.isEmpty()) {
+                viewModel.replyCommentParentId.value = Pair(0, "")
+                true
+            } else {
+                false
+            }
         }
 
         binding.profileImg.setOnSingleClickListener {
@@ -171,7 +203,7 @@ class ReadQuestionActivity :
         binding.SendCardView.setOnSingleClickListener {
             viewModel.postQuestionComment(postId)
             binding.commentEt.setText("")
-            viewModel.replyCommentParentId.value = 0
+            viewModel.replyCommentParentId.value = Pair(0, "")
         }
         viewModel.inquireQuestion(postId)
 

@@ -3,10 +3,15 @@ package com.umc.ttoklip.presentation.honeytip.read
 import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.util.Log
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -28,7 +33,9 @@ import com.umc.ttoklip.presentation.honeytip.write.WriteHoneyTipActivity
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
 import com.umc.ttoklip.util.setOnSingleClickListener
+import com.umc.ttoklip.util.showKeyboard
 import com.umc.ttoklip.util.showToast
+import com.umc.ttoklip.util.toReplyNicknameFormat
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -41,42 +48,45 @@ class ReadHoneyTipActivity :
 
     private val commentRVA by lazy {
         CommentRVA(
-            this
-            ,{ id, name ->
-            viewModel.replyCommentParentId.value = id
-        }, { id, myComment ->
-            Log.d("mycomment", myComment.toString())
-            if (myComment) {
-                val deleteDialog = DeleteDialogFragment()
-                deleteDialog.setDialogClickListener(object :
-                    DeleteDialogFragment.DialogClickListener {
-                    override fun onClick() {
-                        viewModel.deleteHoneyTipComment(
-                            id,
-                            postId
-                        )
-                    }
-                })
-                deleteDialog.show(supportFragmentManager, deleteDialog.tag)
-            } else {
-                val reportDialog = ReportDialogFragment()
-                reportDialog.setDialogClickListener(object :
-                    ReportDialogFragment.DialogClickListener {
-                    override fun onClick(type: String, content: String) {
-                        viewModel.postReportHoneyTipComment(
-                            id,
-                            ReportRequest(
-                                content = content,
-                                reportType = type
+            this, { id, name ->
+                viewModel.replyCommentParentId.value = Pair(id, name.toReplyNicknameFormat())
+                binding.commentEt.showKeyboard()
+                binding.scrollV.viewTreeObserver.addOnGlobalLayoutListener {
+                    binding.scrollV.smoothScrollTo(0, binding.scrollV.getChildAt(0).bottom)
+                }
+            }, { id, myComment ->
+                Log.d("mycomment", myComment.toString())
+                if (myComment) {
+                    val deleteDialog = DeleteDialogFragment()
+                    deleteDialog.setDialogClickListener(object :
+                        DeleteDialogFragment.DialogClickListener {
+                        override fun onClick() {
+                            viewModel.deleteHoneyTipComment(
+                                id,
+                                postId
                             )
-                        )
-                    }
-                })
-                reportDialog.show(supportFragmentManager, reportDialog.tag)
-            }
-        }, { nick ->
-            startActivity(OtherUserActivity.newIntent(this, nick))
-        })
+                        }
+                    })
+                    deleteDialog.show(supportFragmentManager, deleteDialog.tag)
+                } else {
+                    val reportDialog = ReportDialogFragment()
+                    reportDialog.setDialogClickListener(object :
+                        ReportDialogFragment.DialogClickListener {
+                        override fun onClick(type: String, content: String) {
+                            viewModel.postReportHoneyTipComment(
+                                id,
+                                ReportRequest(
+                                    content = content,
+                                    reportType = type
+                                )
+                            )
+                        }
+                    })
+                    reportDialog.show(supportFragmentManager, reportDialog.tag)
+                }
+            }, { nick ->
+                startActivity(OtherUserActivity.newIntent(this, nick))
+            })
     }
 
     private val imageAdapter: ReadImageRVA by lazy {
@@ -87,6 +97,7 @@ class ReadHoneyTipActivity :
     // 꿀팁 수정 시 필요
     private var postId = 0
     private var category = ""
+    private var replyNickname = ""
 
     override fun initObserver() {
         lifecycleScope.launch {
@@ -125,11 +136,23 @@ class ReadHoneyTipActivity :
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.replyCommentParentId.collect { id ->
+                viewModel.replyCommentParentId.collect { (id, name) ->
                     if (id == 0) {
-                        binding.replyT.text = ""
+                        binding.commentEt.setText("")
                     } else {
-                        binding.replyT.text = "@${id}"
+                        val spannableString = SpannableString(name).apply {
+                            setSpan(
+                                ForegroundColorSpan(
+                                    ContextCompat.getColor(
+                                        this@ReadHoneyTipActivity,
+                                        R.color.blue
+                                    )
+                                ),
+                                0, name.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                            )
+                        }
+                        binding.commentEt.setText(spannableString)
+                        binding.commentEt.setSelection(name.length)
                     }
                 }
             }
@@ -169,6 +192,7 @@ class ReadHoneyTipActivity :
                     showReportBtn()
                 }
             }
+
             is ReadHoneyTipViewModel.ReadEvent.IncludeSwear -> {
                 showToast(event.message)
             }
@@ -180,11 +204,26 @@ class ReadHoneyTipActivity :
     override fun initView() {
         binding.vm = viewModel
         binding.replyT.setOnSingleClickListener {
-            viewModel.replyCommentParentId.value = 0
+            viewModel.replyCommentParentId.value = Pair(0, "")
         }
 
         binding.profileImg.setOnSingleClickListener {
-            startActivity(OtherUserActivity.newIntent(this,viewModel.honeyTip.value.writer.toString()))
+            startActivity(
+                OtherUserActivity.newIntent(
+                    this,
+                    viewModel.honeyTip.value.writer.toString()
+                )
+            )
+        }
+
+        binding.commentEt.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN && binding.commentEt.text.toString().length ==
+                viewModel.replyCommentParentId.value.second.length) {
+                viewModel.replyCommentParentId.value = Pair(0, "")
+                true
+            } else {
+                false
+            }
         }
 
         postId = intent.getIntExtra("postId", 0)
@@ -194,7 +233,7 @@ class ReadHoneyTipActivity :
         binding.SendCardView.setOnSingleClickListener {
             viewModel.postHoneyTipComment(postId)
             binding.commentEt.setText("")
-            viewModel.replyCommentParentId.value = 0
+            viewModel.replyCommentParentId.value = Pair(0, "")
         }
         viewModel.inquireHoneyTip(postId)
 
@@ -293,11 +332,11 @@ class ReadHoneyTipActivity :
             binding.honeyTipMenu.getGlobalVisibleRect(writerMenuRect)
 
             if (isShowMenu && !dotBtnRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
-                if(!reportBtnRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
+                if (!reportBtnRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
                     binding.reportBtn.visibility = View.GONE
                 }
 
-                if(!writerMenuRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
+                if (!writerMenuRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
                     binding.honeyTipMenu.visibility = View.GONE
                 }
                 isShowMenu = false

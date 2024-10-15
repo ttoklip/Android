@@ -119,6 +119,12 @@ class MyInfoLocationFragment : BaseFragment<FragmentMyInfoLocationBinding>(R.lay
 //        })
 
         binding.locationBackIb.setOnSingleClickListener {
+            val inputDirectText = binding.locationMytownDetailTv.text.toString()
+            if(inputDirectText.isNotEmpty()){
+                viewModel.setAddress(inputDirectText, true)
+            }
+            viewModel.setIsAddressEdit(true)
+//            navigator.popBackStack(R.id.manageMyInfoFragment, false)
             navigator.navigateUp()
         }
     }

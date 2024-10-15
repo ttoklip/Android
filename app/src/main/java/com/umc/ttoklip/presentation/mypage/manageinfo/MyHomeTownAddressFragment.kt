@@ -60,7 +60,7 @@ class MyHomeTownAddressFragment :
         }
 
         binding.gpsBtn.setOnSingleClickListener {
-            navigator.navigate(R.id.action_myHomeTownAddressFragment_to_myInfoLocationFragment)
+//            navigator.navigate(R.id.action_myHomeTownAddressFragment_to_myInfoLocationFragment)
         }
 
         binding.myHometownAddressBackBtn.setOnSingleClickListener {

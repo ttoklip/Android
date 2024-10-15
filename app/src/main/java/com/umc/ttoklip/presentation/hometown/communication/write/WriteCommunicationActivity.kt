@@ -71,7 +71,7 @@ OnImageClickListener{
         val editCommunication = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getSerializableExtra("edit", EditCommunication::class.java)
         } else {
-            intent.getSerializableExtra("edit") as EditCommunication
+            intent.getSerializableExtra("edit") as? EditCommunication
         }
 
         Log.d("edit", editCommunication.toString())

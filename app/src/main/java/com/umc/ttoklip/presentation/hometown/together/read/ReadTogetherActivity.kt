@@ -5,13 +5,16 @@ import android.content.Intent
 import android.graphics.Rect
 import android.icu.text.DecimalFormat
 import android.text.SpannableString
+import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.util.Log
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -35,7 +38,9 @@ import com.umc.ttoklip.presentation.hometown.together.write.WriteTogetherActivit
 import com.umc.ttoklip.presentation.news.adapter.CommentRVA
 import com.umc.ttoklip.presentation.otheruser.OtherUserActivity
 import com.umc.ttoklip.util.setOnSingleClickListener
+import com.umc.ttoklip.util.showKeyboard
 import com.umc.ttoklip.util.showToast
+import com.umc.ttoklip.util.toReplyNicknameFormat
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -51,7 +56,11 @@ class ReadTogetherActivity :
         CommentRVA(
             this,
             { id, name ->
-            viewModel.replyCommentParentId.value = id
+                viewModel.replyCommentParentId.value = Pair(id, name.toReplyNicknameFormat())
+                binding.commentEt.showKeyboard()
+                binding.scrollV.viewTreeObserver.addOnGlobalLayoutListener {
+                    binding.scrollV.smoothScrollTo(0, binding.scrollV.getChildAt(0).bottom)
+                }
         }, { id, myComment ->
             Log.d("mycomment", myComment.toString())
             if (myComment) {
@@ -92,7 +101,7 @@ class ReadTogetherActivity :
         }
         binding.commentRv.adapter = commentRVA
         binding.replyT.setOnSingleClickListener {
-            viewModel.replyCommentParentId.value = 0
+            viewModel.replyCommentParentId.value = Pair(0, "")
         }
         binding.vm = viewModel
         postId = intent.getLongExtra("postId", 0)
@@ -141,13 +150,22 @@ class ReadTogetherActivity :
             finish()
         }
 
+        binding.commentEt.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN && binding.commentEt.text.isEmpty()) {
+                viewModel.replyCommentParentId.value = Pair(0, "")
+                true
+            } else {
+                false
+            }
+        }
+
 
         binding.SendCardView.setOnSingleClickListener {
             if (binding.commentEt.text.toString().isNotBlank()) {
                 viewModel.createComment()
             }
             binding.commentEt.setText("")
-            viewModel.replyCommentParentId.value = 0
+            viewModel.replyCommentParentId.value = Pair(0, "")
         }
 
         binding.ownerCheckBtn.setOnSingleClickListener {
@@ -291,11 +309,23 @@ class ReadTogetherActivity :
         }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.replyCommentParentId.collect { id ->
+                viewModel.replyCommentParentId.collect { (id, name) ->
                     if (id == 0) {
-                        binding.replyT.text = ""
+                        binding.commentEt.setText("")
                     } else {
-                        binding.replyT.text = "@${id}"
+                        val spannableString = SpannableString(name).apply {
+                            setSpan(
+                                ForegroundColorSpan(
+                                    ContextCompat.getColor(
+                                        this@ReadTogetherActivity,
+                                        R.color.blue
+                                    )
+                                ),
+                                0, name.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                            )
+                        }
+                        binding.commentEt.setText(spannableString)
+                        binding.commentEt.setSelection(name.length)
                     }
                 }
             }

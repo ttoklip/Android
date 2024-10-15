@@ -22,7 +22,7 @@ import com.umc.ttoklip.databinding.ItemReplyBinding
 import com.umc.ttoklip.presentation.honeytip.read.ReadHoneyTipViewModel
 import com.umc.ttoklip.util.setOnSingleClickListener
 
-class QuestionCommentRVA (val context: Context, val replyComment: (Int) -> Unit, val ReportOrDelete: (Int, Boolean) -> Unit, val like: (Int, Boolean) -> Unit) :
+class QuestionCommentRVA (val context: Context, val replyComment: (Int, String) -> Unit, val ReportOrDelete: (Int, Boolean) -> Unit, val like: (Int, Boolean) -> Unit) :
     ListAdapter<QuestionCommentResponse, RecyclerView.ViewHolder>(differ) {
     inner class ItemViewHolder(
         private val binding: ItemQuestionCommentBinding
@@ -36,7 +36,7 @@ class QuestionCommentRVA (val context: Context, val replyComment: (Int) -> Unit,
                 .into(binding.writerIv)
 
             binding.replyBtn.setOnSingleClickListener {
-                replyComment(data.commentId)
+                replyComment(data.commentId, data.writer ?: "")
             }
             binding.deleteBtn.setOnSingleClickListener {
                 ReportOrDelete(

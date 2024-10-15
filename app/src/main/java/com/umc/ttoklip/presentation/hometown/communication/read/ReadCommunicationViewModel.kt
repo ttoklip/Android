@@ -11,7 +11,7 @@ interface ReadCommunicationViewModel {
     val postContent: StateFlow<ViewCommunicationResponse>
     val like: StateFlow<Boolean>
     val scrap: StateFlow<Boolean>
-    val replyCommentParentId : MutableStateFlow<Int>
+    val replyCommentParentId : MutableStateFlow<Pair<Int, String>>
     val commentContent: MutableStateFlow<String>
     val comments: StateFlow<List<com.umc.ttoklip.data.model.town.CommentResponse>>
     val toast: SharedFlow<String>

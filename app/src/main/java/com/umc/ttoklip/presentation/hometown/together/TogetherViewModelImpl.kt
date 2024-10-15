@@ -51,8 +51,8 @@ class TogetherViewModelImpl @Inject constructor(
     override val criteria: StateFlow<String>
         get() = _criteria
 
-    private val _streetInfo = MutableStateFlow("")
-    override val streetInfo: StateFlow<String>
+    private val _streetInfo = MutableStateFlow<List<String>>(emptyList())
+    override val streetInfo: StateFlow<List<String>>
         get() = _streetInfo
 
     override fun setCriteria(position: Int) {
@@ -96,7 +96,7 @@ class TogetherViewModelImpl @Inject constructor(
     override fun getMemberStreetInfo() {
         viewModelScope.launch {
             mainTogethersRepository.getMemberStreetInfo().onSuccess {
-                _streetInfo.value = it.street
+                _streetInfo.value = it.street.split(" ").take(3)
                 Log.d("street INfo", it.street)
             }
         }

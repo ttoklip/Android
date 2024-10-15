@@ -146,6 +146,7 @@ class WriteTogetherViewModelImpl @Inject constructor(
         }
         _address.value = address
         _dealPlace.value = address
+        Log.d("setAddress", _dealPlace.value.toString())
     }
 
     override fun setPostId(postId: Long) {
@@ -162,6 +163,7 @@ class WriteTogetherViewModelImpl @Inject constructor(
         }
         _addressDetail.value = addressDetail
         _dealPlace.value += "($addressDetail)"
+        Log.d("setAddressDetail", addressDetail)
     }
 
     override fun setIsInputComplete() {
@@ -271,12 +273,15 @@ class WriteTogetherViewModelImpl @Inject constructor(
             naverRepository.fetchReverseGeocodingInfo("${latLng.longitude},${latLng.latitude}", "json").onSuccess {
                 val address = it.results.first()
                 with(address.region){
-                    _address.value = area1.name +
+                    /*setAddress(area1.name +
                             (if(area2.name.isNotEmpty()) " " + area2.name else "") +
                             (if(area3.name.isNotEmpty()) " " + area3.name else "") +
-                            (if(area4.name.isNotEmpty()) " " + area4.name else "") +
-                            (if(address.land.number1.isNotEmpty()) " " + address.land.number1 else "") +
-                            (if(address.land.number2.isEmpty()) "" else "-${address.land.number2}")
+                            (if(area4.name.isNotEmpty()) " " + area4.name else ""))*/
+
+                    setAddress(area1.name +
+                            (if(area2.name.isNullOrEmpty()) "" else " " + area2.name) +
+                            (if(area3.name.isNullOrEmpty()) "" else " " + area3.name) +
+                            (if(area4.name.isNullOrEmpty()) "" else " " + area4.name ))
                 }
             }
         }
